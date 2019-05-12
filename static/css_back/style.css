@@ -1,0 +1,343 @@
+.wrapper {
+            height: 100%;
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: auto;
+            background-color: #ecf0f5;
+        }
+        .content-wrapper {
+            background-color: #f8f8f8;
+        }
+        .app_wrapper {
+            display: block;
+            height: 4.5rem;
+            position: fixed;
+            left: 0;
+            top: 0;
+            right: 0;
+            z-index: 15;
+        }
+
+        .navbar {
+            height: 4.5rem;
+            min-height: 4.5rem;
+            margin-bottom: unset;
+        }
+
+        .navbar-toggle-menu {
+            color: #fff;
+            font-size: 1.9rem;
+            margin-right: 0;
+            float: left !important;
+            padding: 0.0rem 1.55rem !important;
+        }
+        .navbar-toggle-login {
+            color: #fff;
+            font-size: 1.5rem;
+            float: right !important;
+            padding: .3rem !important;
+            margin-right: 1rem;
+        }
+
+        .navbar-toggle-category {
+            font-size: 2rem;
+            margin: -.1rem .5rem 0px 0px;
+            color: #fff;
+        }
+
+
+
+        .navbar-search-input {
+            background-color: #fff;
+            height: 30px;
+            width: 72%;
+            margin: .7rem auto;
+            border-radius: 20px;
+        }
+        .navbar-search-input > i {
+            color: #d0d0d0;
+            font-size: 1.8rem;
+            margin: .555rem auto;
+            margin-left: 1 rem;
+        }
+
+
+        .navbar-search-input > span {
+            color: #d0d0d0;
+            font-size: 1.6rem;
+            margin-left: 0.85rem;
+        }
+
+        .navbar-search-control > p {
+            text-align: center;
+            font-size: 1.6rem;
+            color: #777;
+            line-height: 4.3rem;
+        }
+
+
+        .swiper-container {
+            width: 100%;
+            position: unset !important;
+            overflow: unset !important;
+        }
+
+        .swiper-slide > img {
+            width: 100%;
+        }
+
+        .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {
+            bottom: unset !important;
+            margin-top: -35px !important;
+        }
+
+        .box-widget {
+            border: none;
+            position: relative;
+            margin-top: -15px;
+            z-index: 1;
+            border-radius: 5px 5px 0 0;
+            background: #fff;
+            padding-top: 1.5rem;
+        }
+
+
+        ul, ol {
+            padding: 0;
+            list-style: none;
+            margin: 0px -90px 0px 0px;
+        }
+
+
+
+        ul > li {
+            width: 20%;
+            float: left;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+
+
+        ul > li img {
+            width: 60%;
+        }
+
+        ul > li span {
+            display: block;
+            margin-top: .4rem;
+            font-size: 1rem;
+            color: #666;
+        }
+
+
+
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+        .swiper-slide {
+            /* border: 1px solid #f8f8f8; */
+            display: -ms-flexbox;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .swiper-slide-text {
+            overflow: hidden;
+        }
+
+        a, p {
+            color: #232326;
+            text-decoration: none;
+            font-size: .9rem;
+        }
+        .new-title > .a-title {
+            height: 22px;
+            overflow: hidden;
+            line-height: .9rem;
+        }
+        .new-title {
+            overflow: hidden;
+            padding-left: .3rem;
+            line-height: .9rem;
+        }
+        .new-img, .new-img img {
+            width: 100%;
+            padding: .25rem;
+            margin: -.05rem auto;
+        }
+
+        .new-title > .price {
+            margin-top: .35rem;
+            color: red;
+        }
+
+        .box-swiper-new {
+            background-image: url('/static/m/images/index/new.png');
+            height: 3rem;
+            background-repeat: no-repeat;
+            background-size: 70%;
+            -moz-background-size: 70%;
+            background-position: center;
+            text-align: center;
+            margin-bottom: .5rem;
+        }
+        .box-swiper-new > span {
+            color: #ff4e4e;
+            font-weight: bold;
+            text-align: center;
+            line-height: 3.38rem;
+        }
+        .box-swiper-new > .box-swiper-ns {
+            border-bottom: 1px solid #f8f8f8;
+            margin-bottom: .2rem;
+            margin-top: .1rem;
+        }
+        .box-widget-top {
+            margin: 0rem;
+            margin-top: 1rem;
+            border-radius: .9rem;
+        }
+        .box-widget-hidden {
+            /* background: #fff; */
+            overflow: hidden;
+            margin-top: -1rem;
+            padding: 0rem 2rem 0 2rem;
+        }
+
+        .box-plate {
+            height: 17.5rem;
+            border: 1px solid #fbfbfb;
+        }
+
+        .app_wrapper-success {
+            background: #4cd6ff;
+        }
+
+        .fool-back {
+            font-size: 2.5rem;
+            position: fixed;
+            color: #999;
+            bottom: 5.8rem;
+            right: 1rem;
+            z-index: 10;
+            background: #ffffff;
+            border: 1px solid #999;
+            padding-left: 1rem;
+            margin: 0px auto;
+            line-height: 4.5rem;
+            width: 4.5rem;
+            height: 4.5rem;
+            border-radius: 3rem;
+            display: none;
+        }
+
+
+        /* 搜索 */
+        .navbar-search > .navbar-search-input > input.form-control {
+            top: -4rem;
+            border-radius: 2rem;
+            position: relative;
+        }
+        .navbar-search > .navbar-search-input > input.form-control {
+            top: 0rem;
+
+
+            width: 225px;
+            height: 3rem;
+            float: right;
+            position: relative;
+            border-radius: 0 15px 15px 0;
+        }
+        .form-control {
+            border: 1px solid #fff;
+        }
+        .form-control:focus {
+            outline: 0;
+            box-shadow: unset;
+            border-color: #fff;
+            -webkit-box-shadow: unset;
+        }
+
+        .navbar-static-top, .content-wrapper-display-none {
+            display: none;
+        }
+        .navbar-search-control {
+            display: block !important;
+        }
+
+        .new-box {
+            background: #fff;
+            height: 55px;
+            width: 55px;
+            border-radius: 3rem;
+            margin: 0 auto;
+        }
+        .new-box-icon {
+            background-repeat: no-repeat;
+            background-size: 100%;
+            -moz-background-size: 100%;
+            background-position: center;
+            text-align: center;
+        }
+        .new-box-icon-01 {
+            background-image: url('/static/m/images/index/icon-01.png');
+        }
+        .new-box-icon-02 {
+            background-image: url('/static/m/images/index/icon-02.png');
+        }
+        .new-box-icon-03 {
+            background-image: url('/static/m/images/index/icon-03.png');
+        }
+        .new-box-icon-04 {
+            background-image: url('/static/m/images/index/icon-04.png');
+        }
+
+        .new-box i {
+            color: #fff;
+            padding: 8px;
+            font-size: 35px;
+            margin: 2px 0 0 2px;
+        }
+
+        /* ZYCG icon */
+
+        @font-face {
+            font-family: 'zycg'; /* 给你的自定义WebFont命名 */
+            src:url('/static/m/font/zycg/zycg.eot');
+            src:url('/static/m/font/zycg/zycg.eot?#iefix') format('embedded-opentype'),
+                url('/static/m/font/zycg/zycg.woff') format('woff'),
+                url('/static/m/font/zycg/zycg.ttf') format('truetype'),
+                url('/static/m/font/zycg/zycg.svg#micon') format('svg');
+        }
+
+        .icon{
+            display: inline-block;
+            font: normal normal normal 14px/1 zycg;
+            font-size: inherit;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .icon-zycg:before{
+             content:"\07E2"; /* 相应图标的编码 */
+        }
+
+        i.icon {
+            font-size: 5rem;
+            margin-left: 0;
+            margin-top: -.2rem;
+        }
+
+
+
+.display-hidden {
+        display: none;
+    }

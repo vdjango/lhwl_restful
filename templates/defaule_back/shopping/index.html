@@ -1,0 +1,1208 @@
+{% extends 'defaule/temp/top-nav.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% load cache %}
+{% load tags %}
+
+{% cache 84600 index_seo %}
+    {% block title %}
+        <title>订单完成页 - {{ site_name }}</title>
+    {% endblock title %}
+
+    <!-- SEO优化 -->
+    {% block seo %}
+        <meta name="description" content="{{ site_name }} - {{ site_tags }}"/>
+        <meta name="keywords"
+              content="{{ site_name }} - {{ site_tags }}，多功能一体机，碎纸机，投影仪，办公文具，办公耗材，办公设备，办公文具，数码设备，网络产品，电脑及配件，外设产品，办公电器，劳保用品，配件服务，员工福利，维修服务，企业团购，礼品定制，设备租赁，以旧换新"/>
+    {% endblock seo %}
+    <!-- CSS样式 -->
+
+    {% block css %}
+        <link rel="stylesheet" href="{% static 'slider/css/edslider.css' %}">
+        <link rel="stylesheet" href="{% static 'slider/css/animate-custom.css' %}">
+        <style type="text/css">
+            .skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side, .content-wrapper {
+                background-color: #ffffff !important;
+            }
+            body {
+                font: 12px/150% tahoma,arial,Microsoft YaHei,Hiragino Sans GB,"\u5b8b\u4f53",sans-serif;
+                -webkit-font-smoothing: antialiased;
+                color: #666;
+                background: #fff;
+            }
+
+            /* x下单页面 */
+            .navber-place {
+                margin:35px auto;
+            }
+
+            .navber-place > .row > .col-shallow {
+                border-top: 5px solid #a1ebfd;
+            }
+            .navber-place > .row > .col-shallow > .col-text {
+                color: #a1ebfd;
+            }
+            .navber-place > .row > .col-shallow > .col-first {
+                background-color: #a1ebfd;
+            }
+            .navber-place > .row > .col-shallow > .col-context {
+                background-color: #a1ebfd;
+            }
+
+            .navber-place > .row > .col-place {
+                border-top: 5px solid #00c0ef;
+            }
+            .navber-place > .row > .col-place > .col-text {
+                color: #00c0ef;
+            }
+            .navber-place > .row > .col-place > .col-first {
+                background-color: #00c0ef;
+            }
+            .navber-place > .row > .col-place > .col-ender {
+                background-color: #00c0ef;
+            }
+            .navber-place > .row > .col-place > .col-context {
+                width: 22px !important;
+                height: 22px !important;
+                background-color: #00c0ef;
+            }
+            .navber-place > .row > .col-place > .col-context > span {
+                margin: 1px 0 0 6.5px;
+            }
+
+            .navber-place > .row > .col-not {
+                border-top: 5px solid #d0d0d0;
+            }
+            .navber-place > .row > .col-not > .col-text {
+                color: #d0d0d0;
+            }
+            .navber-place > .row > .col-not > .col-ender {
+                background-color: #d0d0d0;
+            }
+            .navber-place > .row > .col-not > .col-context {
+                background-color: #d0d0d0;
+            }
+
+            .navber-place > .row > .col-xs-4 .col-first {
+                width: 8px;
+                height: 8px;
+                z-index: 1;
+                border-radius: 2px;
+                margin: -5px 0 -3px -15px;
+            }
+
+            .navber-place > .row > .col-xs-4 .col-context {
+                left: 0;
+                right: 0;
+                top: -12px;
+                width: 18px;
+                height: 18px;
+                margin: 0 auto;
+                position: absolute;
+                border-radius: 15px;
+            }
+
+            .navber-place > .row > .col-xs-4 .col-ender {
+                width: 8px;
+                height: 8px;
+                z-index: 1;
+                float: right;
+                border-radius: 2px;
+                margin: -5px -14.5px 0px 0px;
+            }
+
+            .col-context > span {
+                top: 0px;
+                color: #fff;
+                font-weight: 700;
+                position: absolute;
+                margin: 0px 0px 0px 4.5px;
+                -webkit-font-smoothing: antialiased;
+                font: 12px/150% tahoma,arial,Microsoft YaHei,Hiragino Sans GB,"\u5b8b\u4f53",sans-serif;
+            }
+            .col-text {
+                margin: 0 auto;
+                font-size: 12px;
+                margin-top: 10px;
+                text-align: center;
+                margin-bottom: -1px;
+                -webkit-font-smoothing: antialiased;
+                font: 12px/150% tahoma,arial,Microsoft YaHei,Hiragino Sans GB,"\u5b8b\u4f53",sans-serif;
+            }
+        </style>
+
+        <style>
+        #logos {
+            z-index: 30;
+            left: 0;
+            width: 211px;
+            height: 170px;
+            margin-top: -46px;
+        }
+
+        .wrapper>.content-wrapper {
+            background-color: #fff;
+        }
+
+        .item-li {
+            float: left;
+            min-height: 65px;
+            height: 100%;
+        }
+
+        .cart-checkbox {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            margin-left: 20px;
+            margin-top: 20px;
+        }
+
+        .td-item {
+            //min-height: 119px;
+            _height: 119px;
+            overflow: hidden;
+            _overflow: visible;
+            _zoom: 1;
+        }
+
+        .td-inner {
+            padding-top: 20px;
+            _zoom: 1;
+        }
+
+        .item-info {
+            margin: -3px 0 0 91px;
+            padding-right: 25px;
+        }
+
+        .item-pic {
+            width: 80px;
+            height: 80px;
+            border: 1px solid #eee;
+            float: left;
+            overflow: hidden;
+            background: #fff url(//gtd.alicdn.com/tps/i3/T1b1m3XkVpXXXXXXXX-32-32.gif) no-repeat 50% 50%;
+        }
+
+        .item-logos {
+            _clear: left;
+            zoom: 1;
+            overflow: hidden;
+            min-height: 26px;
+        }
+
+        .item-basic-info {
+            min-height: 40px;
+            float: left;
+        }
+
+        .item-title {
+            color: #000;
+            font-size: 12px;
+            display: block;
+            max-height: 36px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            _height: expression(this.scrollHeight > 36 ? "36px": "auto");
+        }
+
+        .sku {
+            margin: 0 5px 0 15px;
+            color: #9c9c9c;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .btn-edit-sku {
+            display: block;
+            position: absolute;
+            right: -1px;
+            top: -1px;
+            color: #fff;
+            cursor: pointer;
+            background: #f60;
+            padding: 2px 4px 0;
+            height: 16px;
+            line-height: 1;
+        }
+
+        .item-props-can-hover {
+            border-color: #f60;
+            background: #fff;
+        }
+
+        .item-props {
+            padding: 16px 0;
+            min-height: 84px;
+            _height: 84px;
+            border: 1px dashed transparent;
+            position: relative;
+            _border-color: #EEF6FF;
+            height: 128px;
+        }
+
+        .item-amount {
+            height: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .item-amount .no-left {
+            border-right-color: transparent;
+            left: 9px;
+        }
+
+        .item-amount .no-right {
+            border-right-color: transparent;
+            right: -9px;
+        }
+
+        .item-amount a {
+            display: block;
+            height: 23px;
+            width: 17px;
+            border: 1px solid #e5e5e5;
+            background: #f0f0f0;
+            text-align: center;
+            line-height: 23px;
+            color: #444;
+            position: absolute;
+            top: 0;
+        }
+
+        .td-sum {
+            color: #ca141d;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+
+        .td-sumdis {
+            color: #a9a9a9;
+            font-weight: 700;
+            margin-bottom: 0;
+            margin-top: -16px;
+            text-align: center;
+            text-decoration: line-through;
+        }
+
+        .text-left {
+            margin-left: 30px;
+        }
+
+        .showlist {
+            border: 1px solid #5bc0de47;
+            height: 120px;
+            //background: #fcfcfc;
+            margin-bottom: 15px;
+        }
+
+
+
+        .fixed-bottom {
+            bottom: -1px;
+            z-index: 9999;
+        }
+
+        .float-bar-wrapper {
+            /* width: 1200px; */
+            height: 50px;
+            overflow: hidden;
+            background: #e5e5e5;
+        }
+        .box-wareapp {
+            margin-top: 50px;
+            margin-left: 350px;
+        }
+
+
+
+        .select-all {
+            float: left;
+            line-height: 50px;
+            height: 50px;
+
+            margin-left: 20px;
+        }
+
+
+        .operations {
+            float: left;
+            line-height: 50px;
+            height: 50px;
+        }
+
+        .oper-text {
+            margin-left: 30px;
+        }
+
+        .float-bar-right {
+            float: right;
+            /* position: absolute; */
+            right: 0;
+            top: 0;
+            z-index: 4;
+            padding-left: 20px;
+        }
+
+        .amount-sum {
+            cursor: pointer;
+            float: left;
+            height: 48px;
+            color: #3c3c3c;
+        }
+
+
+        .price-sum strong,
+        .amount-sum em,
+        .price-sum .txt,
+        .amount-sum .txt {
+            float: left;
+        }
+
+        .amount-sum em,
+        .price-sum .price em {
+            color: #5bc0de;
+            font-weight: 700;
+            font-size: 18px;
+            font-family: tohoma, arial;
+            font-style: normal;
+        }
+
+        .arrow-box {
+            float: left;
+        }
+
+        .price-sum {
+            float: left;
+            height: 48px;
+            color: #3c3c3c;
+        }
+
+
+        .price-sum .price em {
+            font-weight: 700;
+            font-size: 22px;
+            padding: 0 3px;
+        }
+
+        .total-symbol {
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+        .submit-btn {
+            color: #fff;
+            display: inline-block;
+            width: 120px;
+            height: 50px;
+            background: #5bc0de;
+            text-align: center;
+            font-family: 'Lantinghei SC', 'Microsoft Yahei';
+            font-size: 20px;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            -ms-border-radius: 2px;
+            border-radius: 2px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover, .submit-btn:active {
+            color: #fff;
+            display: inline-block;
+            width: 120px;
+            height: 50px;
+            background: #5bc0dec7;
+            text-align: center;
+            font-family: 'Lantinghei SC', 'Microsoft Yahei';
+            font-size: 20px;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            -ms-border-radius: 2px;
+            border-radius: 2px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .submit-btn a:hover,
+        .submit-btn a:link {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        a:hover,
+        a:link {
+            text-decoration: none;
+        }
+
+        .submit-btn-disabled:link,
+        .submit-btn-disabled:hover {
+            background: #B0B0B0;
+            color: #fff;
+            border-left: 1px solid #e7e7e7;
+            width: 119px;
+            cursor: not-allowed;
+            text-decoration: none;
+        }
+
+
+        .wrapper {
+            background-color: #fff;
+        }
+
+        .skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side {
+            background-color: #fff !important;
+        }
+
+        .logo-text {
+            position: absolute;
+            top: 133px;
+            margin-left: 188px;
+            font-size: 36px;
+            font-family: "Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑,STHeiti,MingLiu;
+        }
+
+        /*不可用的确定按钮*/
+        .disabled-button{
+            border-color: #D4D4D4;
+            background-color: #D4D4D4;
+            color: #fff;
+            cursor:auto;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+        input[type="number"]{
+            -moz-appearance: textfield;
+        }
+
+        .box {
+            border-top: unset;
+        }
+
+
+        .btn-cart {
+            font-weight: 550;
+            border: 1px solid #5bc0de;
+        }
+
+        .btn-cart:hover {
+            font-weight: 550;
+            border: 1px solid #5bc0de;
+            background-color: #5bc0de;
+        }
+
+        .btn-cart:active:hover {
+            font-weight: 550;
+            border: 1px solid #5bc0de;
+            background-color: #5bc0de;
+        }
+
+
+        .row > div > ul > li.li{
+            float: left;
+        }
+
+
+    </style>
+    {% endblock css %}
+{% endcache %}
+
+{% block nav-top %}
+    <div class="container" style="overflow: hidden;">
+        <div class="col-xs-3 col-3">
+            <div class="logo-left">
+                <a href={% url "app:index" %}>
+                    <img alt="{{site_name}}" style="width: 200px; height: 100px;" src="/static/images/logo/logo-left-1600x800.png">
+                </a>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-6 pull-right navber-place container" style="margin-right: -15px;">
+            <div class="row">
+                <div class="col-xs-4 col-4 col-place">
+                    <p class="col-first"></p>
+                    <p class="col-context"><span>1</span></p>
+                    <p class="col-ender"></p>
+                    <p class="col-text">1.我的购物车</p>
+                </div>
+                <div class="col-xs-4 col-4 col-not">
+                    <p class="col-context"><span>2</span></p>
+                    <p class="col-ender"></p>
+                    <p class="col-text">2.填写核对订单信息</p>
+                </div>
+                <div class="col-xs-4 col-4 col-not">
+                    <p class="col-context"><span>3</span></p>
+                    <p class="col-ender"></p>
+                    <p class="col-text">3.成功提交订单</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock nav-top %}
+
+{% block content_nav %}
+{% endblock content_nav %}
+
+{% block content_wrapper %}
+<div class="content m-auto container">
+    <div class="row">
+        {% if Cart %}
+        <div style="height: 50px; width: 100%;">
+            <ul style="margin: 0; padding: 0; background-color: #f5f5f5; height: 49px;">
+                <li class="li" style="width: 13%; margin: -5px auto;">
+                    <div class="cart-checkbox">
+                        <input type="checkbox" name="" class="minimal checkbox-toggle">&nbsp;&nbsp;全选
+                    </div>
+                </li>
+                <li class="li td-item" style="width: 47%; margin: -5px auto;">
+                    <div class="td-inner">商品信息</div>
+                </li>
+                <li class="li" style="width: 10%; margin: -5px auto;">
+                    <div class="td-inner text-center">单价</div>
+                </li>
+                <li class="li" style="width: 10%; margin: -5px auto;">
+                    <div class="td-inner text-center" style="width: 76px;">数量</div>
+                </li>
+                <li class="li" style="width: 10%; margin: -5px auto;">
+                    <div class="td-inner text-center">金额</div>
+                </li>
+                <li class="li" style="width: 10%; margin: -5px auto;">
+                    <div class="td-inner text-left">操作</div>
+                </li>
+            </ul>
+        </div>
+        {% endif %}
+
+        <form action="{% url 'shop:PlaceOrderView' %}" method="GET" accept-charset="utf-8" style="width: 100%;">
+            {% for var1 in Cart %}
+            <div id="box-{{var1.id}}" class="showlist">
+                <ul>
+                    <li class="item-li" style="width: 5%;">
+                        <div class="cart-checkbox">
+
+                            {% if var1.cart_ %}
+                            <input type="checkbox" disabled uid="{{var1.id}}" value="{{var1.id}}" price="{{var1.price}}" class=" minimal">
+                            {% else %}
+                            <input type="checkbox" id="check-{{var1.id}}" name="cartlist" uid="{{var1.id}}" value="{{var1.id}}" price="{{var1.price}}" class="number minimal">
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="item-li td-item" style="width: 35%;">
+                        <div class="td-inner">
+                            <div class="item-pic">
+                                <a href="" target="_blank">
+                                    <img style="width: 80px; height: 80px;" src="{{var1.image}}">
+                                </a>
+                            </div>
+                            <div class="item-info">
+                                <div class="item-basic-info">
+                                    <a href="{% url 'app:details' var1.key.id %}" target="_blank" class="item-title">
+                                    {{var1.name}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="item-li" style="width: 20%;">
+                        <div class="item-props"> <!-- item-props-can-hover -->
+                            <p class="sku">套餐类型： {{var1.meal}}</p>
+                            <span class="btn-edit-sku">修改</span>
+                        </div>
+                    </li>
+                    <li class="item-li" style="width: 10%;">
+                        <div class="td-inner text-center">
+                            ￥<span id="price-{{var1.id}}">{{var1.price}}</span>
+                        </div>
+                    </li>
+                    <li class="item-li" style="width: 10%;">
+                        <div class="td-inner text-center" style="width: 76px;">
+                                <div class="item-amount">
+                                    <a href="javascript:void(0)" class="no-left" value="{{var1.id}}">-</a>
+                                    <input type="number" id="amount-{{var1.id}}" uid="{{var1.id}}" value="{{var1.numb}}" values="{{var1.numb}}" class="text text-amount" style="width: 40px; height: 23px;margin-left: 18px;">
+                                    <a href="javascript:void(0)" class="no-right" value="{{var1.id}}">+</a>
+                                </div>
+                        </div>
+                    </li>
+                    <li class="item-li" style="width: 10%;">
+                        <div class="td-inner text-center">
+
+                            {% if user.usercode %}
+                                <p class="td-sumdis"><del>原价  ￥<span id="money-{{var1.id}}">{{var1.money}}</span></del></p>
+                                <p class="td-sum">售价 ￥<span class="totalset-{{var1.id}}" id="total-{{var1.id}}">{{var1.total}}</span></p>
+                                <p class="td-sum">优惠 <span id="dis-{{var1.id}}" class="discon-{{var1.theress_id}} dis" value="{{var1.id}}">{{var1.discon}}%</span></p>
+                            {% else %}
+                                <p class="td-sum">￥<span id="money-{{var1.id}}">{{var1.money}}</span></p>
+                            {% endif %}
+
+                        </div>
+                    </li>
+                    <li class="item-li" style="width: 10%;">
+                        <div class="td-inner text-left">
+                            <a href="javascript: ;" value="{{var1.id}}" class="wareCratListDeleteOne">删除</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            {% endfor %}
+
+            {% if not Cart %}
+            <div class=" box-body" style="height: 200px;">
+                <div class="box-wareapp">
+                    <div class="pull-left">
+                        <div class="small-box bg-aqua">
+                            <div class="icon">
+                              <i class="ion ion-bag"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pull-left" style="margin-left: 30px;">
+                        <p style="line-height: 26px; font-size: 18px;">您的购物车没有东西，去其他地方看看吧！</p>
+                        <p><a href="{% url 'app:index' %}" style="font-size: 14px; color: #005ea7;">去购物！</a></p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+
+
+            <div id="end" class="fixed-bottom" style="width: 100%;">
+            </div>
+
+            <div id="bs3c" style="position: fixed; bottom: 0;">
+            </div>
+
+            {% if Cart %}
+            <div id="" class="" style="">
+                <div class="float-bar-wrapper">
+                    <div class="select-all">
+                        <input type="checkbox" name="" class="minimal checkbox-toggle">&nbsp;&nbsp;全选
+                    </div>
+
+                    <div class="operations select-all">
+                        <a href="javascript:void(0)" class="oper-text wareCratListDelete">删除</a>
+                    </div>
+
+                    <div class="float-bar-right">
+                        <div class="select-all amount-sum">
+                            <span class="txt">已选商品</span>
+                            <em class="text-number">0</em>
+                            <span class="txt">件</span>
+                        </div>
+
+                        <div class="select-all" style="display: block;">
+                            货到付款
+                        </div>
+
+                        <div class="select-all price-sum">
+                            <span class="txt">合计（免运费）：</span>
+                            <strong class="price">
+                                <em><span class="total-symbol">&nbsp;￥</span><span id="tote">0.00</span></em>
+                            </strong>
+                        </div>
+
+                        <input type="hidden" id="flo-money" name="" value="0">
+
+                        <div class="select-all">
+                            <!-- submit-btn-disabled -->
+                            <button type="submit" disabled href="javascript:void(0)" class="price-button submit-btn-disabled btn btn-block btn-info btn-cart submit-btn">
+                                <span>结&nbsp;算</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                <div id="stop"></div>
+            {% endif %}
+        </form>
+    </div>
+
+</div>
+
+<!-- <div class="content">
+    <div class="row row-top">
+
+        <div class="box box-solid" style="margin: 30px auto; box-shadow: 0 0px 1px rgba(0,0,0,0.1);">
+            <div class="box-body">
+                <div class="col-md-6" style="float: unset; margin: 0 auto;">
+                    <div class="box-content text-center">
+                        <span style="font-size: 64px; color: #00c0ef; margin: 0 auto;">
+                            <i class="fa fa-check-circle-o"></i>
+                        </span>
+                    </div>
+                    <div class="box-content text-center">
+                        <span class="info-box-number" style="color: #00c0ef;">感谢您，订单提交成功！ 我们将尽快安排为您发货！</span>
+                        <span class="info-box-text" style="line-height: 35px; color: #999;">
+                            订单号： {{ orderId }} &nbsp;&nbsp;|&nbsp;&nbsp; 金额： <span style="color: #00c0ef;">￥{{ money }}</span>
+                        </span>
+                    </div>
+                </div>
+
+                <p class="shopping-context"></p>
+
+                <div class="col-md-6" style="float: unset; margin: 0 auto;">
+                    <div class="box-content text-center">
+                        <span class="info-box-text"  style="color: #5bc0de;">
+                            <a href="{% url 'home:index' %}" style="color: #5bc0de;">查看订单</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{% url 'app:index' %}" style="color: #5bc0de;">返回首页</a>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div> -->
+
+{% endblock content_wrapper %}
+
+{% block script %}
+    <script src="{% static 'iCheck/icheck.min.js' %}"></script>
+    <script src="{% static 'js/csrf_token.js' %}"></script>
+
+    <script>
+        var csrftoken = getCookie('csrftoken');
+        function removeByValue(arr, val) {
+            for(var i=0; i<arr.length; i++) {
+                console.log('arr '+ arr[i]);
+                if(arr[i] == val) {
+                     arr.splice(i, 1);
+                     break;
+                }
+            }
+        }
+
+        $(function () {
+            //勾选状态
+            var num = 1;
+            var list = new Array();
+            $('.inp').on('ifChecked', function(event){
+                //ifCreated 事件应该在插件初始化之前绑定
+                $(".alertwindow").show(1000);
+                $.ajax({
+                    type: "get",
+                    url: "{% url 'api:getWare' %}",
+                    dataType: "json",
+                    data:{
+                        'id': event.target.value
+                    },
+                    success: function (data) {
+                        var str=data.data;
+                        console.log(str);
+                        $('.addgoods').append(
+                            '<li class="addgoods-li" id="'+ str.id +'">'+
+                              '<div style="float: left;">'+
+                                    '<div style="float: left;margin-left: 4px;margin-top:10px;">'+
+                                      '<img src="'+str.image+'" width="100px"height="80px" />'+
+                                    '</div>'+
+                                    '<div style="float: left;margin-top: 20px;">'+
+                                      '<p style="width: 129px; height: 33px;overflow: hidden;margin-bottom: 0px;">'+str.name+'</p>'+
+                                      '<p style="margin-top:5px !important;color: red;">￥ '+str.money+'</p>'+
+                                   '</div>'+
+                               '</div>'+
+                               '<input type="hidden" name="waid_' + str.id + '" id="waid_' + str.id + '" value="' + str.id + '" />' +
+                            '</li>'
+                        );
+                        num += 1;
+                        if (num >=5) {
+                            $('.inp').attr({
+                                disabled: 'disabled'
+                            });
+                        }else{
+                            $('.inp').removeAttr("disabled");
+                        };
+                        //获取li里的id
+                        $(".contrastbtn").on("click",function(){
+                            var idd =[];
+                            $(".addgoods-li").each(function(i,item){
+                                idd.push($(item).attr("id"));
+                            });
+                            $(".biography").val(idd);
+                        })
+                    }
+                });
+            });
+            //非勾选状态
+            $('.inp').on('ifUnchecked', function(event){
+                var list = event.target.value;
+                $("#" + list).remove();
+                num = num - 1;
+            });
+           //清空所有对比栏li
+            $(".clearall").on("click",function(){
+                $(".addgoods-li").hide();
+                $(".alertwindow").hide(1000);
+                $(".addgoods-li").hide();
+                window.location.reload();
+            });
+
+            //隐藏按钮
+            $('.hidewindow').on('click', function(event){
+                $(".alertwindow").hide(1000);
+                $(".addgoods-li").hide();
+            });
+
+            $('input').iCheck({
+              checkboxClass: 'icheckbox_square-blue',
+              radioClass: 'iradio_square-blue',
+              increaseArea: '20%' /* optional */
+            });
+
+            //改变边框
+             $(".after").mouseover(function(){
+                $(this).parents(".boxborder").css({"border":"1px solid #2489c5"})
+            })
+
+             $(".after").mouseout(function(){
+                $(this).parents(".boxborder").css({"border":"1px solid #d3cfc8"})
+            })
+             $(".iCheck-helper").mouseover(function(){
+                $(this).parents(".boxborder").css({"border":"1px solid #2489c5"})
+            })
+
+             $(".iCheck-helper").mouseout(function(){
+                $(this).parents(".boxborder").css({"border":"1px solid #d3cfc8"})
+            })
+        });
+
+        /* 取消全选 */
+        $('.checkbox-toggle').on('ifUnchecked', function(event) {
+            event.preventDefault();
+            $("input[type='checkbox']").iCheck("uncheck");
+            /* Act on the event */
+        });
+        /* 全选 */
+        $('.checkbox-toggle').on('ifChecked', function(event) {
+            event.preventDefault();
+            $("input[type='checkbox']").iCheck("check");
+            /* Act on the event */
+        });
+
+        /* 选择商品 */
+        $('.number').on('ifChecked', function(event) {
+            event.preventDefault();
+            var uid = $(this).attr('uid');
+
+            $('.text-number').text($(".number[type='checkbox']:checked").length);
+            $(this).attr('price');
+
+            if ($('#total-' + uid).text() != '') {
+
+                var money = parseFloat($('#flo-money').val()) + parseFloat($('#total-' + uid).text()) + parseFloat($('#tote').text());
+            } else{
+                var money = parseFloat($('#flo-money').val()) + parseFloat($('#money-' + uid).text()) + parseFloat($('#tote').text());
+            };
+
+            console.log(money);
+
+            $('#tote').text(money.toFixed(2));
+
+            if (parseFloat($('#tote').text()) < 0) {
+                console.log("money  < 0");
+                $('#tote').text('0.00');
+            };
+
+            console.log("money  " + money);
+            /* Act on the event */
+        });
+
+        /* 取消选择商品 */
+        $('.number').on('ifUnchecked', function(event) {
+            event.preventDefault();
+            var uid = $(this).attr('uid');
+            console.log($(".number[type='checkbox']:checked").length);
+
+
+            $('.text-number').text($(".number[type='checkbox']:checked").length);
+
+            var money = parseFloat($('#tote').text()) - (parseFloat($('#flo-money').val()) + parseFloat($('#money-' + uid).text()));
+
+            if ($('#total-' + uid).text() != '') {
+                console.log("money  ! null" );
+                var money = parseFloat($('#tote').text()) - (parseFloat($('#flo-money').val()) + parseFloat($('#total-' + uid).text()));
+            } else{
+                var money = parseFloat($('#tote').text()) - (parseFloat($('#flo-money').val()) + parseFloat($('#money-' + uid).text()));
+            };
+
+            $('#tote').text(money.toFixed(2));
+
+            console.log("money  " + money);
+
+            if (parseFloat($('#tote').text()) < 0) {
+                console.log("money  < 0");
+                $('#tote').text('0.00');
+            };
+            /* Act on the event */
+            /*  */
+            if (parseInt($('.text-number').text()) < 1) {
+                $('.price-button').addClass('submit-btn-disabled');
+                $('.price-button').attr('disabled', 'disabled');
+            };
+        });
+
+        $(function(){
+            /* 商品数量减少 */
+            $('.no-left').on('click', function(event) {
+                event.preventDefault();
+                var uid = $(this).attr('value');
+                var idv = $('#amount-'+uid);
+
+                console.log('this ' + $(this).attr('value'));
+                if (idv.val() > 1) {
+                    $.ajax({
+                        url: '{% url "shop:CartToolp" %}',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            'id': uid,
+                            'type': '-'
+                        },
+                    })
+                    .done(function(data) {
+                        idv.attr('values', Number(idv.val())-1);
+                        idv.val(Number(idv.val())-1);
+
+                        $('#money-' + uid).text(parseFloat($('#price-' + uid).text() * idv.val()).toFixed(2));
+                        /* 判断是否勾选本项商品 */
+                        if ($("#check-" + uid + "[type='checkbox']:checked").length > 0) {
+                            if (data.data.discon != '') {
+                                var money = parseFloat($('#tote').text()) - (
+                                    parseFloat($('#price-' + uid).text()) - (
+                                        parseFloat(
+                                            data.data.discon/100*parseFloat($('#price-' + uid).text())
+                                        )
+                                    )
+                                );
+                            } else{
+                                var money = parseFloat($('#tote').text()) - parseFloat($('#price-' + uid).text());
+                                console.log('aasddad');
+                            };
+                            $('#tote').text(money.toFixed(2));
+                        };
+
+                        /* 设置优惠率 */
+                        $('.discon-' + data.data.theress_id).text(data.data.discon + '%');
+                        $('#total-' + data.data.id).text(data.data.total);
+
+                    })
+                    .fail(function() {
+                        console.log("error");
+                    })
+                    .always(function() {
+                        console.log("complete");
+                    });
+                };
+            });
+
+            /* 商品数量增加 */
+            $('.no-right').on('click', function(event) {
+                event.preventDefault();
+                var uid = $(this).attr('value');
+                var idv = $('#amount-'+uid);
+                console.log('this ' + $(this).attr('value'));
+
+                $.ajax({
+                        url: '{% url "shop:CartToolp" %}',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            'id': uid,
+                            'type': '+'
+                        },
+                    })
+                    .done(function(data) {
+                        idv.attr('values', Number(idv.val())+1);
+                        idv.val(Number(idv.val())+1);
+                        $('#money-' + uid).text(parseFloat($('#price-' + uid).text() * idv.val()).toFixed(2));
+
+                        if ($("#check-" + uid + "[type='checkbox']:checked").length > 0) {
+                            $("#check-" + uid + "[type='checkbox']").iCheck("uncheck");
+                        };
+
+                        /* 设置优惠率 */
+                        $('.discon-' + data.data.theress_id).text(data.data.discon + '%');
+                        $('#total-' + data.data.id).text(data.data.total);
+
+                    })
+                    .fail(function() {
+                        console.log("error");
+                    })
+                    .always(function() {
+                        console.log("complete");
+                });
+            });
+
+            /* 输入框值的变化 */
+            $(".text-amount").bind('input porpertychange',function(){
+                var id = $(this).val();
+                var uid = $(this).attr('uid');
+                if ($(this).val() != '') {
+                    $(this).val($(this).attr('values'));
+                };
+            });
+
+            /* 央采用户优惠率变化时价格变动 */
+            $(".dis").bind('DOMNodeInserted', function(e) {
+                var ms = parseFloat($('#money-' + $(e.target).attr('value')).text()) - (
+                    parseFloat(
+                        $(e.target).text().split('%')[0]/100*parseFloat($('#money-' + $(e.target).attr('value')).text())
+                    )
+                );
+
+                if ($("#check-" + $(e.target).attr('value') + "[type='checkbox']:checked").length > 0) {
+                    $("#check-" + $(e.target).attr('value') + "[type='checkbox']").iCheck("uncheck");
+                };
+
+                $('.totalset-' + $(e.target).attr('value')).text(ms);
+            });
+        });
+
+        $(".text-number").bind('DOMNodeInserted', function(e) {
+            if (parseInt($('.text-number').text()) >= 1) {
+                console.log("parseInt($(e.target).text())" + parseInt($('.text-number').text()));
+                $('.price-button').removeClass('submit-btn-disabled');
+                $('.price-button').removeAttr('disabled');
+            };
+        });
+
+        /* 批量删除商品 */
+        $('.wareCratListDelete').on('click', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            var student = $(".number[name='cartlist']:checked").serialize();
+            if (student != '') {
+                $.ajax({
+                    url: '{% url "shop:CartToolp" %}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'id': student,
+                        'type': 'del'
+                    },
+                })
+                .done(function(data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        $("#check-" + data.data[i] + "[type='checkbox']").iCheck("uncheck");
+                        $("#box-" + data.data[i]).remove();
+                    };
+                    console.log("success");
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+
+                console.log("student  " + student);
+            };
+        });
+
+        /*单个删除商品*/
+        $('.wareCratListDeleteOne').on('click', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            var student = $(this).attr('value');
+            console.log("student  " + student);
+            if (student != '') {
+                $.ajax({
+                    url: '{% url "shop:CartToolp" %}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'id': student,
+                        'type': 'del'
+                    },
+                })
+                .done(function(data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        $("#check-" + data.data[i] + "[type='checkbox']").iCheck("uncheck");
+                        $("#box-" + data.data[i]).remove();
+                    };
+                    console.log("success");
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+
+                console.log("student  " + student);
+            };
+        });
+
+        //根据参数名获得该参数  pname等于想要的参数名
+        function getParam(pname) {
+
+            var params = location.search.substr(1); //  获取参数 平且去掉？
+            var ArrParam = params.split('&');
+            if (ArrParam.length == 1) {
+                //只有一个参数的情况
+                return params.split('=')[1];
+            } else {
+                //多个参数参数的情况
+                for (var i = 0; i < ArrParam.length; i++) {
+                    if (ArrParam[i].split('=')[0] == pname) {
+                        return ArrParam[i].split('=')[1];
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- <script type="text/javascript">
+            function scroll(mnu){
+                var hx = document.getElementById('stop');
+                // console.log("开始滚动！");
+                var mao1 = $("#bs3c"); //获得锚点
+                var pos1 = mao1.offset().top;
+                var poshigh = mao1.height();
+
+                var mao2 = $("#end"); //获得锚点
+                var pos2 = mao2.offset().top;
+
+                if ((Number(pos1)+Number(50)-Number(mnu)) > pos2) {
+                    hx.style.cssText  = 'position: relative; width: 100%;';
+                } else{
+                    hx.style.cssText  = 'position: fixed; width: 100%; ';
+                };
+            }
+
+            var scrollFunc = function (e) {
+                e = e || window.event;
+                if (e.wheelDelta) {  //第一步：先判断浏览器IE，谷歌滑轮事件
+                    if (e.wheelDelta > 0) { //当滑轮向上滚动时
+                        // console.log("滑轮向上滚动");
+                        scroll(100);
+                    }
+                    if (e.wheelDelta < 0) { //当滑轮向下滚动时
+                        // console.log("滑轮向下滚动");
+                        scroll(0);
+                    }
+                } else if (e.detail) {  //Firefox滑轮事件
+                    if (e.detail> 0) { //当滑轮向上滚动时
+                        // console.log("滑轮向上滚动");
+                        scroll(100);
+                    }
+                    if (e.detail< 0) { //当滑轮向下滚动时
+                        // console.log("滑轮向下滚动");
+                        scroll(0);
+                    }
+                }
+            }
+            //给页面绑定滑轮滚动事件
+            if (document.addEventListener) {//firefox
+                document.addEventListener('DOMMouseScroll', scrollFunc, false);
+            }
+            //滚动滑轮触发scrollFunc方法  //ie 谷歌
+            window.onmousewheel = document.onmousewheel = scrollFunc;
+    </script> -->
+{% endblock script %}
+

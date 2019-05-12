@@ -1,0 +1,202 @@
+{% extends 'defaule/temp/top-nav.ht' %}
+{% load staticfiles %}
+{% load tags %}
+
+{% block title %}
+    {% if site_name %}
+        {% if site_tags %}
+            <title>{{site_name}} - {{site_tags}}</title>
+        {% else %}
+            <title>{{site_name}}</title>
+        {% endif %}
+    {% else %}
+        {% if site_tags %}
+            <title>{{site_tags}}</title>
+        {% else %}
+            <title>你好粗心，怎么没有设置标题呢？</title>
+        {% endif %}
+    {% endif %}
+{% endblock title %}
+
+<!-- SEO优化 -->
+{% block seo %}
+{% endblock seo %}
+
+<!-- CSS样式 -->
+
+{% block css %}
+    {% include 'defaule/temp/css.ht' %}
+    <link rel="stylesheet" href="{% static 'iCheck/square/blue.css' %}">
+{% endblock css %}
+
+<!-- 导航栏 -->
+{% block navbar %}
+    <div class="container">
+        <div class="navbar-header">
+            <a href="{% url 'app:index' %}" class="navbar-brand"><b>{{site_name}}</b></a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <li class="active"><a href="{% url 'app:index' %}">首页</a></li>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock navbar %}
+
+{% block content_wrapper %}
+
+
+<div class="box-body">
+    <div class="box box-info" style="margin-top: 70px;">
+
+
+        <div class="col-md-offset-7" style="width: 360px; margin-top: 80px;">
+            <!-- /.login-logo -->
+            <div class="login-box-body">
+                <p class="login-box-msg">设置您的用户名和密码</p>
+                <form action={% url 'auth:setthispass' usercode %} method="POST">
+                    <input type="hidden" name="code" value="{{code}}">
+                    <input type="hidden" name="email" value="{{email}}">
+                    <input type="hidden" name="phone" value="{{phone}}">
+                    <input type="hidden" name="usercode" value="{{usercode}}">
+
+                    {% csrf_token %}
+                    <div class="form-group has-feedback">
+                        <input type="text" name="username" class="form-control" placeholder="用户名" value="{{username}}">
+                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="password" name="password" class="form-control" placeholder="输入密码" value="{{password}}">
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="password" name="password1" class="form-control" placeholder="确认密码" value="{{password}}">
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="checkbox icheck">
+                                <a href="{% url 'auth:login' %}">以有账号？</a>
+                            </div>
+                        </div>
+
+                        {% if error %}
+                            <div class="col-xs-12" style="margin-top:10px;">
+                                <p>{{error}}</p>
+                            </div>
+                        {% endif %}
+
+                        <div class="col-xs-12" style="margin-top:10px;">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat">完成</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <p style="margin-bottom: 70px;"></p>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<!--div class="login-box">
+    <h3 class="title">登录商城</h3>
+    <div class="clear"></div>
+    <form action={% url 'auth:login' %} method="POST">
+        {% csrf_token %}
+        <div class="user-name">
+            <label for="user"><i class="am-icon-user"></i></label>
+            <input type="text" name="email" id="username" placeholder="邮箱/手机/用户名" value="{{email}}">
+        </div>
+        <div class="user-pass">
+            <label for="password"><i class="am-icon-lock"></i></label>
+            <input type="password" name="password" id="password" placeholder="请输入密码" value="{{password}}">
+        </div>
+        {% if error %}
+        <div class="callout alert alert-warning alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h5><i class="icon fa fa-warning"></i>{{error}}</h5>
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="checkbox icheck" style="margin-top: 10;">
+                    <input id="keep" type="checkbox"> 保持登录状态
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div class="checkbox icheck" style="margin-top: 10;">
+                    <a class="pull-right icheck" href="{% url 'auth:retrieve' %}">忘记密码？</a>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 10;">
+            <div class="col-xs-12">
+                <button id="login-button icheck" class="btn btn-primary btn-block btn-flat ajax">
+                    登录
+                </button>
+            </div>
+        </div>
+    </form>
+    <br>
+    <div class="col-xs-6">
+        <a class="text-center icheck pull-left" href="{% url 'auth:register' %}" style="margin-top: -20px;">
+                    注册新账号
+                    </a>
+    </div>
+    <div class="partner">
+        <h4>合作账号</h4>
+        <div class="am-btn-group">
+            <li><a href="{% url 'social:begin' 'qq' %}"><i class="am-icon-qq am-icon-sm"></i><span>QQ登录</span></a></li>
+            <li><a href="{% url 'social:begin' 'weixin' %}"><i class="am-icon-weixin am-icon-sm"></i><span>微信登录</span> </a></li>
+        </div>
+    </div>
+</div-->
+
+
+
+{% endblock content_wrapper %}
+
+
+{% block site_icp %}
+    {{site_icp}}
+{% endblock site_icp %}
+
+{% block top_script %}
+{% endblock top_script %}
+
+
+{% block script %}
+    {% include 'defaule/temp/script.ht' %}
+    <script src="{% static 'iCheck/icheck.min.js' %}"></script>
+    <script>
+      $(function () {
+        $('input').iCheck({
+          checkboxClass: 'icheckbox_square-blue',
+          radioClass: 'iradio_square-blue',
+          increaseArea: '20%' /* optional */
+        });
+      });
+    </script>
+{% endblock script %}
+
+
+
+
+
+
+
+

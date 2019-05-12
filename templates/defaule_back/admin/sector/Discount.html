@@ -1,0 +1,630 @@
+{% extends 'defaule/admin/temp/index.ht' %}
+{% load staticfiles %}
+{% load tags %}
+
+<!--网站标题-->
+{% block main_title %}
+   <title>后台管理 | 预设 - 优惠率</title>
+{% endblock main_title %}
+
+<!--CSS样式-->
+{% block main_css %}
+    {% include 'defaule/admin/temp/css/select2.min.ht' %}
+    {% include 'defaule/admin/temp/css.ht' %}
+    <link rel="stylesheet" href="{% static 'iCheck/all.css' %}">
+
+    <style type="text/css">
+        .text-default {
+            margin: 2.2px;
+            margin-left: 5px;
+        }
+    </style>
+{% endblock main_css %}
+
+<!--网站头部导航栏-->
+{% block main_header %}
+    <a href="" class="logo">
+        <span class="logo-mini"><b>管理</b>Admin</span>
+        <span class="logo-lg"><b>后台管理</b>Admin</span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Admin</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'admins:index' %}">常用 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">创始人</a></li>
+                <li><a href="{% url 'admins:complete' %}">全局</a></li>
+                <li><a href="{% url 'admins:user' %}">用户</a></li>
+                <li><a href="{% url 'admins:commodity' %}">商品</a></li>
+                <li><a href="{% url 'admins:order' %}">订单</a></li>
+                <li class="active"><a href="{% url 'admins:sector' %}">板块</a></li>
+                <li><a href="{% url 'admins:AdmPlate' %}">导航</a></li>
+                <li><a href="#">移动APP</a></li>
+            </ul>
+
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src={% static "images/user/user2-160x160.jpg" %} class="user-image" alt="User Image">
+                        <span class="hidden-xs">
+                        {{username}}
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                Alexander Pierce - Web Developer
+                                <small>Member since Nov. 2012</small>
+                            </p>
+                        </li>
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endblock main_header %}
+
+<!--网站左侧项目栏-->
+{% block main_aside %}
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>{{username}}</p>
+            {% if username %}
+                <a href="#">
+                    <i class="fa fa-circle text-success"></i>
+                    管理员
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="你想知道什么...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header"></li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-laptop"></i>
+                <span>首页管理</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href='{% url "admins:sector" %}'><i class="fa fa-circle-o"></i> 板块管理</a></li>
+                <li><a href='{% url "admins:classify" %}'><i class="fa fa-circle-o"></i> 全部分类</a></li>
+                <li><a href='{% url "admins:navigation" %}'><i class="fa fa-circle-o"></i> 导航管理</a></li>
+                <li><a href='{% url "admins:broadcast" %}'><i class="fa fa-circle-o"></i> 轮播/横幅</a></li>
+            </ul>
+        </li>
+        <li class="treeview active">
+            <a href="#">
+                <i class="fa fa-laptop"></i>
+                <span>预设管理</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href='{% url "admins:setupsearch" %}'><i class="fa fa-circle-o"></i> 商品筛选器</a></li>
+                <li><a href='{% url "admins:setupparameter" %}'><i class="fa fa-circle-o"></i> 品牌预设</a></li>
+                <li class="active"><a href='{% url "admins:discount" %}'><i class="fa fa-circle-o"></i> 优惠率</a></li>
+            </ul>
+        </li>
+    </ul>
+{% endblock main_aside %}
+
+<!--正文微标题，位置导航-->
+{% block main_content_header %}
+    <h1>优惠率<small>您可以在这里管理或设置相关分类优惠率</small></h1>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'admins:index' %}"><i class="fa fa-dashboard"></i> 后台首页</a></li>
+        <li><a href="{% url 'admins:sector' %}">板块</a></li>
+        <li><a href="{% url 'admins:discount' %}">优惠率</a></li>
+        <li class="active">当前位置</li>
+    </ol>
+{% endblock main_content_header %}
+
+<!--正文开始部分-->
+{% block main_content %}
+
+    <div class="row">
+        <div id="error"></div>
+
+        {% if page.object_list %}
+        <div class="col-md-12">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">存在异常优惠率 <small>存在一部分商品未设置优惠率，请及时设置以免影响交易</small></h3>
+                    <div class="clearfix pull-right">
+                        共{{paginator.count}}件商品 {{page.number}}/{{paginator.num_pages}}
+                        <a {% if page.has_previous %} href="?q={{ search }}&amp;page={{ page.previous_page_number  }}" {% else %} disabled {% endif %} class="btn btn-sm btn-default btn-flat">&lt;</a>
+                        <a {% if page.has_next %} href="?q={{ search }}&amp;page={{ page.next_page_number }}"{% else %} disabled {% endif %} class="btn btn-sm btn-default btn-flat">&gt;</a>
+                    </div>
+                </div>
+
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin">
+                            <thead>
+                                <tr>
+                                    <th style="width: 20px;">ID</th>
+                                    <th>名称</th>
+                                    <th>商品分类</th>
+                                    <th>子分类</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for var1 in page.object_list %}
+                                <tr class="rate-del-{{ var1.id }} rate-del-color">
+                                    <td><a href="{% url "admins:ware" var1.wareApp_key.id var1.wareApp_key.unix %}" target="admin-editor">{{ var1.id }}</a></td>
+                                    <td><a href="{% url "app:details" var1.wareApp_key.id %}" target="admin-details">{{ var1.wareApp_key.name }}</a></td>
+                                    <td>{{ var1.classify_key }}</td>
+                                    <td>{{ var1.classifythere_key }}</td>
+                                    <td>
+                                        <a href="javascript:void(0)" data-toggle="modal" data-target="#admin-editor" class="label btn-sm btn-info rate-ware-editor" value-id="{{ var1.id }}">编辑</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="col-md-3">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">全局导航器</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="with-border">
+                        <p class="text-muted">
+                            <span class="label label-default">+</span>
+                            <span class="text-default">10万元（含）以下</span>
+                        </p>
+                    </div>
+                    <div class="with-border">
+                        <p>
+                            <span class="label label-info">+</span>
+                            <span class="text-default">10万元至30万元（含）</span>
+                        </p>
+                    </div>
+                    <div class="with-border">
+                        <p>
+                            <span class="label label-warning">+</span>
+                            <span class="text-default">30万元至60万元（含）</span>
+                        </p>
+                    </div>
+                    <div class="with-border">
+                        <p>
+                            <span class="label label-danger">+</span>
+                            <span class="text-default">60万元至100万元（含）</span>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">优惠率</h3>
+                </div>
+
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin">
+                            <thead>
+                                <tr>
+                                    <th style="width: 20px;">ID</th>
+                                    <th>名称</th>
+                                    <th>优惠率</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for var1 in rate %}
+                                <tr>
+                                    <td>{{ var1.uid }}</td>
+                                    <td>{{ var1.get_uid_display }}</td>
+                                    <td>
+                                        <span class="label label-default">{{ var1.a1 }}%</span>
+                                        <span class="label label-info">{{ var1.a2 }}%</span>
+                                        <span class="label label-warning">{{ var1.a3 }}%</span>
+                                        <span class="label label-danger">{{ var1.a4 }}%</span>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0)" data-toggle="modal" data-target="#modal-editor" class="label btn-sm btn-info">编辑</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="box-footer clearfix">
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#modal-create" class="btn btn-sm btn-info btn-flat pull-left">创建</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modal-create">
+        <div class="modal-dialog" style="width: 1200px;">
+            <div class="modal-content">
+                <form action="." method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="create_id" name="create_id" value=''>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="h4-te">创建分类 <small>央采优惠率</small></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="form-group col-md-3">
+                                    <label>10W以下</label>
+                                    <input type="text" class="form-control"  name="a1" placeholder="优惠百分比，不加%">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>10W-30W~</label>
+                                    <input type="text" class="form-control"  name="a2" placeholder="优惠百分比，不加%">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>30W-60W~</label>
+                                    <input type="text" class="form-control"  name="a3" placeholder="优惠百分比，不加%">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>60W-100W~</label>
+                                    <input type="text" class="form-control"  name="a4" placeholder="优惠百分比，不加%">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>商品目录ID</label>
+                                <select class="form-control select2" name="uid" style="width: 100%;">
+                                    <option selected="selected">---- ----</option>
+                                    {% for v, k in uid_choices %}
+                                        <option value={{ v }}>{{ k }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                国采优惠率拥有最高优先级，不单独享受全网优惠率。国采优惠对普通用户不可见
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" name="r1" class="minimal" value="0" checked>
+                                    国采优惠率
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" name="r1" class="minimal" value="1">
+                                    全网优惠率
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="admin-editor">
+        <div class="modal-dialog" style="margin-top: 200px;">
+            <div class="modal-content">
+                <input type="hidden" id="warePrefix-rate">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="h4-te">设置央采分类 <small>18类商品目录详细</small></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label>商品目录ID</label>
+                            <select class="form-control select2 warePrefix-rate-select2" style="width: 100%;">
+                                <option selected="selected">---- ----</option>
+                                {% for var1 in rate %}
+                                    <option value={{ var1.id }}>{{ var1.get_uid_display }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            国采优惠率拥有最高优先级，不单独享受全网优惠率。国采优惠对普通用户不可见
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info warePrefix-rate-button" data-dismiss="modal">保存</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="modal fade" id="modal-create">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="setAdddiscount">
+                    {% csrf_token %}
+                    <input type="hidden" id="create_id" name="create_id" value=''>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="h4-te">优惠率设置</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label>10W以下</label>
+                                <input type="text" class="form-control"  name="a1" placeholder="优惠百分比，不加%">
+                            </div>
+                            <div class="form-group">
+                                <label>10W-30W~</label>
+                                <input type="text" class="form-control"  name="a2" placeholder="优惠百分比，不加%">
+                            </div>
+                            <div class="form-group">
+                                <label>30W-60W~</label>
+                                <input type="text" class="form-control"  name="a3" placeholder="优惠百分比，不加%">
+                            </div>
+                            <div class="form-group">
+                                <label>60W-100W~</label>
+                                <input type="text" class="form-control"  name="a4" placeholder="优惠百分比，不加%">
+                            </div>
+                            <div class="form-group">
+                                <label>商品目录ID</label>&nbsp;<small>参照商品目录ID对照表</small>
+                                <input type="text" class="form-control"  name="guid" placeholder="商品目录ID">
+                            </div>
+
+                            <div class="form-group">
+                                国采优惠率拥有最高优先级，不单独享受全网优惠率。国采优惠对普通用户不可见
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" name="r1" class="minimal" value="0" checked>
+                                    国采优惠率
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" name="r1" class="minimal" value="1">
+                                    全网优惠率
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> -->
+{% endblock main_content %}
+
+<!--位置底部Footer信息-->
+{% block main_footer %}
+    {% include 'defaule/admin/temp/footer.ht' %}
+{% endblock main_footer %}
+
+<!--网站Script脚本-->
+{% block main_script %}
+    {% include 'defaule/admin/temp/script.ht' %}
+    {% include 'defaule/admin/temp/js/select2.full.min.ht' %}
+    <script src="{% static 'iCheck/icheck.min.js' %}"></script>
+    <script src="{% static 'js/csrf_token.js' %}"></script>
+
+    <script type="text/javascript">
+        $(function(){
+            /* 存在异常优惠率-编辑 设置其ID */
+            $('.rate-ware-editor').on('click', function(){
+                $('#warePrefix-rate').val($(this).attr('value-id'));
+                $("button.warePrefix-rate-button").addClass('on');
+
+                $('.rate-del-color').css({
+                    "background": "unset"
+                });
+                $('.rate-del-' + $(this).attr('value-id')).css({
+                    "background": "#f9cc86"
+                });
+            });
+
+            /* 编辑-保存 提交数据到接口 */
+            $('button.warePrefix-rate-button').on('click', function(event){
+                event.preventDefault();
+
+                $("button.warePrefix-rate-button.on").removeClass('on');
+
+                $.ajax({
+                    url: '/api/v1/goodsPrefix/' + $('#warePrefix-rate').val() + '/',
+                    type: 'PATCH',
+                    dataType: 'json',
+                    data: {
+                        "rate_classg_key": $('.warePrefix-rate-select2').val()
+                    },
+                })
+                .done(function(data) {
+                    $('.rate-del-' + data.id).remove();
+                    toastr.success('央采分类以设置');
+                })
+                .fail(function(data) {
+                    toastr.error(data);
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+          checkboxClass: 'icheckbox_minimal-blue',
+          radioClass   : 'iradio_minimal-blue'
+        })
+
+        $('.select2').select2()
+
+        $("select#classify_id").change(function(){
+            var id = $(this).val();
+            $.ajax({
+                url: '{% url "admins:get_classifytwo" %}',
+                type: 'GET',
+                dataType: 'json',
+                data: { 'id': id },
+            })
+            .done(function(data) {
+                var dat = data['data'];
+                setASD('classifyTwo', dat);
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+            console.log(id);
+        });
+
+        $("select#classifyTwo").change(function(){
+            var id = $(this).val();
+            $.ajax({
+                url: '{% url "admins:get_classifythere" %}',
+                type: 'GET',
+                dataType: 'json',
+                data: { 'id': id },
+            })
+            .done(function(data) {
+                var dat = data['data'];
+                var html = '<tr><th>三级分类</th><th>类型</th><th>10W以下</th><th>10W-30W~</th><th>30W-60W~</th><th>60W-100W~</th><th>上次更改</th><th>操作</th></tr>'
+
+
+                for (var i = dat.length - 1; i >= 0; i--) {
+                    var fields = dat[i]['name'];
+                    var fields_id = dat[i]['id'];
+
+                    var a1 = dat[i]['a1'];
+                    var a2 = dat[i]['a2'];
+                    var a3 = dat[i]['a3'];
+                    var a4 = dat[i]['a4'];
+                    var defaule = dat[i]['defaule'];
+
+                    if (a1 == null) {
+                        a1 = '0'
+                    };
+                    if (a2 == null) {
+                        a2 = '0'
+                    };
+                    if (a3 == null) {
+                        a3 = '0'
+                    };
+                    if (a4== null) {
+                        a4 = '0'
+                    };
+
+                    if (defaule == true) {
+                        console.log("国采defaule: " + defaule);
+                        defaule = '国采';
+                    }else{
+                        console.log("全网defaule: " + defaule);
+                        defaule = '全网';
+                    };
+
+                    html += '<tr>' +
+                    '<td>' + dat[i]['name'] + '</td>' +
+                    '<th>' + defaule + '</th>' +
+                    '<td>'+ a1 + '%</td>' +
+                    '<td>'+ a2 + '%</td>' +
+                    '<td>'+ a3 + '%</td>' +
+                    '<td>'+ a4 + '%</td>' +
+                    '<td>'+ dat[i]['time'] + '%</td>' +
+                    '<td><a href="" onclick="setDataup('+dat[i]['id']+');" data-toggle="modal" data-target="#modal-create" class="label label-success">快速编辑</a>' +
+                    '<span class="label label-warning">重置优惠</span></td></tr>'
+                    console.log(fields);
+                };
+                var brand_set = document.getElementById('table-discount')
+                brand_set.innerHTML = html;
+
+                document.getElementById("create_id").value = id;
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+            console.log(id);
+        });
+    </script>
+{% endblock main_script %}
+

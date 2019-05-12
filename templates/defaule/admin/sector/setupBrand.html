@@ -1,0 +1,231 @@
+{% extends 'defaule/admin/temp/index.ht' %}
+{% load staticfiles %}
+{% load tags %}
+
+<!--网站标题-->
+{% block main_title %}
+   <title>后台管理 | 板块 - 品牌预设</title>
+{% endblock main_title %}
+
+<!--CSS样式-->
+{% block main_css %}
+    <link rel="stylesheet" href="{% static 'select2/dist/css/select2.min.css' %}">
+    {% include 'defaule/admin/temp/css.ht' %}
+{% endblock main_css %}
+
+<!--网站头部导航栏-->
+{% block main_header %}
+    <a href="" class="logo">
+        <span class="logo-mini"><b>管理</b>Admin</span>
+        <span class="logo-lg"><b>后台管理</b>Admin</span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Admin</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'admins:index' %}">常用 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">创始人</a></li>
+                <li><a href="{% url 'admins:complete' %}">全局</a></li>
+                <li><a href="{% url 'admins:user' %}">用户</a></li>
+                <li><a href="{% url 'admins:commodity' %}">商品</a></li>
+                <li><a href="{% url 'admins:order' %}">订单</a></li>
+                <li class="active"><a href="{% url 'admins:sector' %}">板块</a></li>
+                <li><a href="{% url 'admins:AdmPlate' %}">导航</a></li>
+                <li><a href="#">移动APP</a></li>
+            </ul>
+
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src={% static "images/user/user2-160x160.jpg" %} class="user-image" alt="User Image">
+                        <span class="hidden-xs">
+                        {{username}}
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                Alexander Pierce - Web Developer
+                                <small>Member since Nov. 2012</small>
+                            </p>
+                        </li>
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endblock main_header %}
+
+<!--网站左侧项目栏-->
+{% block main_aside %}
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>{{username}}</p>
+            {% if username %}
+                <a href="#">
+                    <i class="fa fa-circle text-success"></i>
+                    管理员
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="你想知道什么...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header"></li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-laptop"></i>
+                <span>首页管理</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href='{% url "admins:sector" %}'><i class="fa fa-circle-o"></i> 板块管理</a></li>
+                <li><a href='{% url "admins:classify" %}'><i class="fa fa-circle-o"></i> 全部分类</a></li>
+                <li><a href='{% url "admins:navigation" %}'><i class="fa fa-circle-o"></i> 导航管理</a></li>
+                <li><a href='{% url "admins:broadcast" %}'><i class="fa fa-circle-o"></i> 轮播/横幅</a></li>
+            </ul>
+        </li>
+        <li class="treeview active">
+            <a href="#">
+                <i class="fa fa-laptop"></i>
+                <span>预设管理</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href='{% url "admins:setupsearch" %}'><i class="fa fa-circle-o"></i> 商品筛选器</a></li>
+                <li class="active"><a href='{% url "admins:setupparameter" %}'><i class="fa fa-circle-o"></i> 品牌预设</a></li>
+                <li><a href='{% url "admins:discount" %}'><i class="fa fa-circle-o"></i> 优惠率</a></li>
+            </ul>
+        </li>
+    </ul>
+{% endblock main_aside %}
+
+<!--正文微标题，位置导航-->
+{% block main_content_header %}
+    <h1>品牌预设<small>您可以在这里管理或添加相关的品牌预设</small></h1>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'admins:index' %}"><i class="fa fa-dashboard"></i> 后台首页</a></li>
+        <li><a href="{% url 'admins:sector' %}">板块</a></li>
+        <li><a href="{% url 'admins:setupbrand' %}">品牌预设</a></li>
+        <li class="active">当前位置</li>
+    </ol>
+{% endblock main_content_header %}
+
+<!--正文开始部分-->
+{% block main_content %}
+
+    <div class="row">
+        <div id="error"></div>
+        <div class="col-md-4">
+            <div class="box box-info">
+                <div class="box-header">
+                    <h4 class="box-title">添加品牌分类</h4>
+                </div>
+                <div class="box-body">
+                    <form id="from_add_filter">
+                        <div class="form-group">
+                            <label>品牌名称</label>
+                            <input type="text" class="form-control" name="name" placeholder="品牌名称">
+                        </div>
+                        <div class="form-group">
+                            <label>归类于一级分类</label>
+                            <select name="filter_id" class="form-control select2" style="width: 100%;">
+                                {% for var1 in classify %}
+                                    <option value="{{var1.id}}">{{var1.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div id="error_filter"></div>
+                        <div class="box-footer pull-right">
+                            <button type="submit" class="btn btn-info">创建</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock main_content %}
+
+<!--位置底部Footer信息-->
+{% block main_footer %}
+    {% include 'defaule/admin/temp/footer.ht' %}
+{% endblock main_footer %}
+
+<!--网站Script脚本-->
+{% block main_script %}
+
+    {% include 'defaule/admin/temp/script.ht' %}
+    <script src="{% static 'select2/dist/js/select2.full.min.js' %}"></script>
+    <script src="{% static 'js/csrf_token.js' %}"></script>
+    <script>
+        $('.select2').select2()
+
+        var from_add_filter = document.getElementById("from_add_filter") //添加筛选器
+
+        function submitFormAddFilter(urls, froms){
+            var Dat = new FormData(froms)
+            var url = urls;
+            var D = {
+                "name": Dat.get('name'),
+                "classify_id": Dat.get('filter_id')
+            }
+            setPOST(url, D, 'error_filter');
+            console.log(D);
+        }
+
+        from_add_filter.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormAddFilter("{% url 'admins:add_brand' %}", from_add_filter);         //启动监听提交按钮
+        });
+    </script>
+
+
+{% endblock main_script %}
+

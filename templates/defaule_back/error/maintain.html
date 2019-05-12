@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{{code}} - {{title}}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'error/main.css' %}">
+
+
+        <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="{% static 'Ionicons/css/ionicons.min.css' %}">
+        <link rel="stylesheet" href="{% static 'dist/css/AdminLTE.min.css' %}">
+        <link rel="stylesheet" href="{% static 'dist/css/skins/_all-skins.min.css' %}">
+        <link rel="stylesheet" href="{% static 'pace_/pace.min.css' %}">
+
+    <style>
+        .footer {
+    background: #fff;
+    padding: 15px;
+    color: #444;
+    border-top: 1px solid #d2d6de;
+}
+    </style>
+
+    <!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+</head>
+
+<body>
+    <div id="main">
+        <header id="header">
+            <h1><span class="icon">!</span>{{code}}<span class="sub">{{page}}</span></h1>
+        </header>
+        <div id="content">
+            <h2>{{title}}</h2>
+            <p>{{content}}</p>
+            <br>
+            <br>
+        </div>
+        <div id="footer">
+            <ul>
+                <li><a href="{% url 'app:index' %}">网站首页</a></li>
+            </ul>
+        </div>
+
+
+    </div>
+
+    <footer class="footer" id="gtco-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 gtco-widget">
+                        <h3>关注我们</h3>
+                        <p>客服热线： 80734326</p>
+                        <p><a href="#"></a></p>
+                    </div>
+                    <div class="col-md-2 col-md-push-1">
+                        <ul class="gtco-footer-links">
+                            <li>支付方式</li>
+                            <li><small><a href="#">货到付款</a></small></li>
+                            <li><small><a href="#">在线支付</a></small></li>
+                            <li><small><a href="#">邮局汇款</a></small></li>
+                            <li><small><a href="#">公司转账</a></small></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2 col-md-push-1">
+                        <ul class="gtco-footer-links">
+                            <li>配送方式</li>
+                            <li><small><a href="#">上门自提</a></small></li>
+                            <li><small><a href="#">配送服务查询</a></small></li>
+                            <li><small><a href="#">配送费收取标准</a></small></li>
+                            <li><small><a href="#">海外配送</a></small></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2 col-md-push-1">
+                        <ul class="gtco-footer-links">
+                            <li>售后服务</li>
+                            <li><small><a href="#">售后政策</a></small></li>
+                            <li><small><a href="#">退款说明</a></small></li>
+                            <li><small><a href="#">返修/退换货</a></small></li>
+                            <li><small><a href="#">取消订单</a></small></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row copyright">
+                    <div class="col-md-12">
+                        <p class="pull-left">
+                            <small class="block">{{site_icp}}&nbsp;|&nbsp;经营许可证：京B2-20171428</small><br>
+                            <small class="block">
+                                <strong>Copyright © 2018 - 2019  领航未来<a href="http://www.lhwill.com">lhwill.com</a></strong> 版权所有&nbsp;|&nbsp;<a href="{% static 'images/yyzz.jpg' %}">经营证照</a>
+                            </small>
+                        </p>
+                        <p class="pull-right">
+                            <ul class="gtco-social-icons pull-right">
+                                <li><a href="#"><i class="icon-twitter"></i></a></li>
+                                <li><a href="#"><i class="icon-facebook"></i></a></li>
+                                <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                                <li><a href="#"><i class="icon-dribbble"></i></a></li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+</body>
+
+</html>

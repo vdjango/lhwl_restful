@@ -1,0 +1,501 @@
+{% extends 'defaule/admin/temp/index.ht' %}
+{% load staticfiles %}
+
+<!--网站标题-->
+{% block main_title %}
+   <title>后台管理 | 商品 - 商品管理 [添加套餐信息]</title>
+{% endblock main_title %}
+
+<!--CSS样式-->
+{% block main_css %}
+    <link rel="stylesheet" href="{% static 'css/admin/select2.min.css' %}">
+    {% include 'defaule/admin/temp/css.ht' %}
+{% endblock main_css %}
+
+<!--网站头部导航栏-->
+{% block main_header %}
+    <a href="" class="logo">
+        <span class="logo-mini"><b>管理</b>Admin</span>
+        <span class="logo-lg"><b>后台管理</b>Admin</span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Admin</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'admins:complete' %}">全局</a></li>
+                <li><a href="{% url 'admins:user' %}">用户</a></li>
+                <li class="active"><a href="{% url 'admins:commodity' %}">商品</a></li>
+                <li><a href="{% url 'admins:order' %}">订单</a></li>
+                <li><a href="{% url 'admins:sector' %}">板块</a></li>
+                <li><a href="{% url 'admins:AdmPlate' %}">导航</a></li>
+            </ul>
+
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src={% static "images/user/user2-160x160.jpg" %} class="user-image" alt="User Image">
+                        <span class="hidden-xs">
+                        {{username}}
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                Alexander Pierce - Web Developer
+                                <small>Member since Nov. 2012</small>
+                            </p>
+                        </li>
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endblock main_header %}
+
+<!--网站左侧项目栏-->
+{% block main_aside %}
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>{{username}}</p>
+            {% if username %}
+                <a href="#">
+                    <i class="fa fa-circle text-success"></i>
+                    Online
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="你想知道什么...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header"></li>
+        <li class="active">
+            <a href={% url "admins:commodity" %}>
+                <i class="fa fa-clone"></i>
+                <span>商品管理</span> <!-- 包含增删查改-->
+            </a>
+        </li>
+        <li>
+            <a href={% url "admins:stay" %}>
+                <i class="fa fa-hourglass-2"></i>
+                <span>待发布</span>
+            </a>
+        </li>
+        <li>
+            <a href={% url "admins:import" %}>
+                <i class="fa fa-hourglass-2"></i>
+                <span>批量导入</span>
+            </a>
+        </li>
+        <li>
+            <a href={% url "admins:ClassZycg" %}>
+                <i class="fa fa-hourglass-2"></i>
+                <span>央采分类</span>
+            </a>
+        </li>
+    </ul>
+{% endblock main_aside %}
+
+<!--正文微标题，位置导航-->
+{% block main_content_header %}
+    <h1>套餐信息管理<small>您可以在这里设置添加商品套餐信息</small></h1>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'admins:commodity' %}">商品</a></li>
+        <li><a href="{% url 'admins:commodity' %}">商品管理</a></li>
+        <li class="active">当前位置</li>
+    </ol>
+{% endblock main_content_header %}
+
+<!--正文开始部分-->
+{% block main_content %}
+
+    <div class="row">
+        <!--添加商品-->
+        {% if error %}
+        <div class="alert alert-warning alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <i class="icon fa fa-info"></i> 还有其他地方没有填写哦！
+        </div>
+        {% endif %}
+        <!--添加商品-->
+        <div class="col-md-5">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        套餐信息管理
+                        <small>Add Online</small>
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <form id="from_onlines" accept-charset="utf-8">
+                        <div class="form-group">
+                            <label>选择方式 </label><small>不支持在此添加租赁项目</small>
+                            <select name="action" class="form-control select2" style="width: 100%;">
+                                {% for var1 in lease_default %}
+                                    <option value="{{var1.id}}">{{var1.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>添加套餐</label>
+                            <input name="name" type="text" class="form-control" placeholder="添加选项">
+                        </div>
+                        <div class="form-group">
+                            <label>套餐价</label>
+                            <input name="money" type="text" class="form-control" placeholder="套餐价">
+                        </div>
+                        <div class="form-group">
+                            <label>默认展示</label>
+                            <input name="defaule" type="checkbox" value="0">
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-primary">添加套餐</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">套餐</h3>
+                </div>
+
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tr>
+                              <th>名称</th>
+                              <th>状态</th>
+                              <th>价钱</th>
+                              <th>操作</th>
+                        </tr>
+
+                        {% for var1 in purchase %}
+                            <tr>
+                                <td><a data-toggle="modal" data-target="#Set-meal-editor" href="javascript:;" value="{{var1.id}}" value-defaule="{{var1.defaule}}" value-ware-key="{{var1.ware_key.id}}" class="text plate-models-key Set-meal-editor-click">{{var1.name}}</a></td>
+                                <td>
+                                    {% if var1.defaule %}
+                                    <span class="label label-success">默认</span>
+                                    {% else %}
+                                        <a href="javascript:;" class="Set-meal-default label label-info" data-id="{{var1.id}}" data-name="{{var1.name}}" data-money="{{var1.money}}" data-ware-key="{{var1.ware_key.id}}">设为默认</a>
+                                    {% endif %}
+                                </td>
+                                <td>￥{{var1.money}}</td>
+                                <td><a class="Set-meal-delete" data-id="{{var1.id}}" href="javascript:;">删除</a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="modal fade" id="Set-meal-editor">
+        <div class="modal-dialog">
+            <div class="nav-tabs-custom">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">套餐修改</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="Set-meal-editor-id">
+                        <input type="hidden" id="Set-meal-editor-defaule">
+                        <input type="hidden" id="Set-meal-editor-ware_key">
+                        <div class="form-group">
+                            <label for="name">套餐名称</label>
+                            <input type="text" class="form-control" name="name" id="Set-meal-editor-name" placeholder="套餐名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">套餐金额</label>
+                            <input type="text" class="form-control" name="name" id="Set-meal-editor-money" placeholder="套餐金额">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary Set-meal-editor-submit">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock main_content %}
+
+<!--位置底部Footer信息-->
+{% block main_footer %}
+    {% include 'defaule/admin/temp/footer.ht' %}
+{% endblock main_footer %}
+
+<!--网站Script脚本-->
+{% block main_script %}
+
+    {% include 'defaule/admin/temp/script.ht' %}
+    <script src="{% static 'js/admin/select2.full.min.js' %}"></script>
+    <script src="{% static 'js/csrf_token.js' %}"></script>
+
+    <script type="text/javascript">
+        $(function(){
+            /* 删除套餐 */
+            $('.Set-meal-delete').on('click', function(event){
+                event.preventDefault();
+                $.ajax({
+                    url: '/api/v1/LeaseViewSet/' + $(this).attr('data-id') + '/',
+                    type: 'DELETE',
+                    dataType: 'json',
+                    data: {},
+                })
+                .done(function() {
+                    console.log("success");
+                    location.reload();
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+            });
+
+            /* 设置套餐默认 */
+            $('.Set-meal-default').on('click', function(event){
+                event.preventDefault();
+                console.log({
+                        "id": $(this).attr('data-id'),
+                        "name": $(this).attr('data-name'),
+                        "money": $(this).attr('data-money'),
+                        "defaule": true,
+                        "ware_key": $(this).attr('data-ware-key')
+                    })
+
+                $.ajax({
+                    url: '/api/v1/LeaseViewSet/' + $(this).attr('data-id') + '/',
+                    type: 'PUT',
+                    dataType: 'json',
+                    data: {
+                        "id": $(this).attr('data-id'),
+                        "name": $(this).attr('data-name'),
+                        "money": $(this).attr('data-money'),
+                        "defaule": true,
+                        "ware_key": $(this).attr('data-ware-key')
+                    }
+                })
+                .done(function() {
+                    console.log("success");
+                    location.reload();
+
+                })
+                .fail(function() {
+                    console.log("error");
+
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+            });
+
+
+
+            /* 修改套餐 */
+            $('.Set-meal-editor-click').on('click', function(event){
+                $('#Set-meal-editor-id').val($(this).attr('value'));
+                $('#Set-meal-editor-defaule').val($(this).attr('value-defaule'));
+                $('#Set-meal-editor-ware_key').val($(this).attr('value-ware-key'));
+            });
+            $('.Set-meal-editor-submit').on('click', function(event) {
+                event.preventDefault();
+                /* Act on the event */
+                var id = $('#Set-meal-editor-id').val();
+                var name = $('#Set-meal-editor-name').val();
+                var money = $('#Set-meal-editor-money').val();
+                var defaule = $('#Set-meal-editor-defaule').val();
+                var ware_key = $('#Set-meal-editor-ware_key').val();
+
+                if (defaule == 'True') {
+                    defaule = true
+                } else {
+                    defaule = false
+                }
+                console.log('defaule', {
+                        "id": id,
+                        "name": name,
+                        "money": money,
+                        "defaule": defaule,
+                        "ware_key": ware_key
+                    })
+                $.ajax({
+                    url: '/api/v1/LeaseViewSet/' + id + '/',
+                    type: 'PUT',
+                    dataType: 'json',
+                    data: {
+                        "id": id,
+                        "name": name,
+                        "money": money,
+                        "defaule": defaule,
+                        "ware_key": ware_key
+                    }
+                })
+                .done(function() {
+                    console.log("success");
+                    location.reload();
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+
+
+
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        function emailu(vid){
+            document.getElementById('email_email').value=document.getElementById(vid).getAttribute("value");
+            document.getElementById('email_username').value=document.getElementById(vid).getAttribute("user");
+        }
+
+        function GotuTheCreate(){
+
+        }
+    </script>
+
+    <script type="text/javascript">
+        var csrftoken = getCookie('csrftoken');
+        var from_onlines = document.getElementById("from_onlines") /*套餐*/
+        var from_addmode = document.getElementById("from_addmode") /*时长*/
+
+
+        function SetEmail(url, data, ids){
+            $.ajax({
+                url: url,
+                type:'POST',
+                dataType:'json',
+                token: csrftoken,
+                data: data,
+                success: function(callback){
+                    if (callback['code'] == 200) {
+                        console.log(callback['code']);
+                        location.reload();
+                    } else{
+                        console.log(callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i>' + callback[callback['state']] + '</h4>' +
+                                    '</div> ';
+                        console.log(callback.data);
+
+                    };
+                },
+                error: function (callback) {
+                    console.log(callback);
+                    console.log(callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i> 啊偶，提交内容失败了！</h4>' +
+                                    '</div> ';
+
+                    console.log(callback);
+
+                }
+            })
+        }
+
+        // function submitFormAddmode(){
+        //     var Dat = new FormData(from_addmode)
+        //     var url = "{% url 'admins:addmode' %}"
+        //     var D = {
+        //         "name": Dat.get('name'),
+        //         "money": Dat.get('money'),
+        //         "defaule": Dat.get('defaule'),
+        //         "unix": "{{unix}}",
+        //         "id": "{{id}}"
+        //     }
+        //     SetEmail(url, D, 1);
+        //     console.log('修改邮箱'); //修改邮箱
+
+        //     console.log(D);
+        // }
+        // from_addmode.addEventListener("submit", function (event) {
+        //     event.preventDefault();   // 取消按键的原始提交行为
+        //     submitFormAddmode();         //启动监听提交按钮
+        // });
+
+
+        function submitFormOnlines(){
+            var Dat = new FormData(from_onlines)
+            var url = "{% url 'admins:add_choice' %}"
+            var D = {
+                "action": Dat.get('action'),
+                "name": Dat.get('name'),
+                "money": Dat.get('money'),
+                "defaule": Dat.get('defaule'),
+                "unix": "{{unix}}",
+                "id": "{{id}}"
+            }
+            SetEmail(url, D, 2);
+            console.log(D);
+        }
+        from_onlines.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormOnlines();         //启动监听提交按钮
+        });
+
+
+        $(function () {
+            $('.select2').select2()
+        })
+
+    </script>
+{% endblock main_script %}
+

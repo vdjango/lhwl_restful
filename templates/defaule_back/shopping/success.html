@@ -1,0 +1,267 @@
+{% extends 'defaule/temp/top-nav.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% load cache %}
+{% load tags %}
+
+{% block title %}
+    <title>{{订单完成页}} - {{ site_name }}</title>
+    {% if error %}
+        <meta http-equiv="refresh" content="3;URL={% url 'app:index' %}">
+    {% endif %}
+{% endblock title %}
+
+{% cache 84600 index_seo %}
+    <!-- SEO优化 -->
+    {% block seo %}
+        <meta name="description" content="{{ site_name }} - {{ site_tags }}"/>
+        <meta name="keywords"
+              content="{{ site_name }} - {{ site_tags }}，多功能一体机，碎纸机，投影仪，办公文具，办公耗材，办公设备，办公文具，数码设备，网络产品，电脑及配件，外设产品，办公电器，劳保用品，配件服务，员工福利，维修服务，企业团购，礼品定制，设备租赁，以旧换新"/>
+    {% endblock seo %}
+    <!-- CSS样式 -->
+
+    {% block css %}
+        <link rel="stylesheet" href="{% static 'slider/css/edslider.css' %}">
+        <link rel="stylesheet" href="{% static 'slider/css/animate-custom.css' %}">
+        <style type="text/css">
+            .skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side, .content-wrapper {
+                background-color: #ffffff !important;
+            }
+            body {
+                font: 12px/150% tahoma,arial,Microsoft YaHei,Hiragino Sans GB,"\u5b8b\u4f53",sans-serif;
+                -webkit-font-smoothing: antialiased;
+                color: #666;
+                background: #fff;
+            }
+
+            /* x下单页面 */
+            .navber-place {
+                margin:35px auto;
+            }
+
+            .navber-place > .row > .col-shallow {
+                border-top: 5px solid #a1ebfd;
+            }
+            .navber-place > .row > .col-shallow > .col-text {
+                color: #a1ebfd;
+            }
+            .navber-place > .row > .col-shallow > .col-first {
+                background-color: #a1ebfd;
+            }
+            .navber-place > .row > .col-shallow > .col-context {
+                background-color: #a1ebfd;
+            }
+
+            .navber-place > .row > .col-place {
+                border-top: 5px solid #00c0ef;
+            }
+            .navber-place > .row > .col-place > .col-text {
+                color: #00c0ef;
+            }
+            .navber-place > .row > .col-place > .col-first {
+                background-color: #00c0ef;
+            }
+            .navber-place > .row > .col-place > .col-ender {
+                background-color: #00c0ef;
+            }
+            .navber-place > .row > .col-place > .col-context {
+                width: 22px !important;
+                height: 22px !important;
+                background-color: #00c0ef;
+            }
+            .navber-place > .row > .col-place > .col-context > span {
+                margin: 1px 0 0 6.5px;
+            }
+
+            .navber-place > .row > .col-not {
+                border-top: 5px solid #d0d0d0;
+            }
+            .navber-place > .row > .col-not > .col-text {
+                color: #d0d0d0;
+            }
+            .navber-place > .row > .col-not > .col-ender {
+                background-color: #d0d0d0;
+            }
+            .navber-place > .row > .col-not > .col-context {
+                background-color: #d0d0d0;
+            }
+
+            .navber-place > .row > .col-xs-4 .col-first {
+                width: 8px;
+                height: 8px;
+                z-index: 1;
+                border-radius: 2px;
+                margin: -5px 0 -3px -15px;
+            }
+
+            .navber-place > .row > .col-xs-4 .col-context {
+                left: 0;
+                right: 0;
+                top: -12px;
+                width: 18px;
+                height: 18px;
+                margin: 0 auto;
+                position: absolute;
+                border-radius: 15px;
+            }
+
+            .navber-place > .row > .col-xs-4 .col-ender {
+                width: 8px;
+                height: 8px;
+                z-index: 1;
+                float: right;
+                border-radius: 2px;
+                margin: -5px -14.5px 0px 0px;
+            }
+
+            .col-context > span {
+                top: 0px;
+                color: #fff;
+                font-weight: 700;
+                position: absolute;
+                margin: 0px 0px 0px 4.5px;
+                -webkit-font-smoothing: antialiased;
+                font: 12px/150% tahoma,arial,Microsoft YaHei,Hiragino Sans GB,"\u5b8b\u4f53",sans-serif;
+            }
+            .col-text {
+                margin: 0 auto;
+                font-size: 12px;
+                margin-top: 10px;
+                text-align: center;
+                margin-bottom: -1px;
+                -webkit-font-smoothing: antialiased;
+                font: 12px/150% tahoma,arial,Microsoft YaHei,Hiragino Sans GB,"\u5b8b\u4f53",sans-serif;
+            }
+
+            .row-top {
+                margin-top: -15px;
+            }
+
+            .row-top  .box-title {
+                font-size: 16px;
+            }
+
+            .box-content {
+                //float: left;
+                padding: 10px 0px;
+            }
+
+            /* 分割线 */
+            .shopping-context {
+                border-top: 1px solid #ccc;
+                width: 380px;
+                text-align: center;
+                margin: 0 auto;
+            }
+
+            .content-wrapper {
+                min-height: unset;
+            }
+        </style>
+    {% endblock css %}
+{% endcache %}
+
+{% block nav-top %}
+    <div class="col-xs-3">
+        <div class="logo-left">
+            <a href={% url "app:index" %}>
+                <img alt="{{site_name}}" style="width: 200px; height: 100px;" src="/static/images/logo/logo-left-1600x800.png">
+            </a>
+        </div>
+    </div>
+
+    <div class="col-xs-6 pull-right navber-place">
+        <div class="row">
+            <div class="col-xs-4 col-shallow">
+                <p class="col-first"></p>
+                <p class="col-context"><span>1</span></p>
+                <p class="col-text">1.我的购物车</p>
+            </div>
+            <div class="col-xs-4 col-shallow">
+                <p class="col-first"></p>
+                <p class="col-context"><span>2</span></p>
+                <p class="col-text">2.填写核对订单信息</p>
+            </div>
+            <div class="col-xs-4 col-place">
+                <p class="col-first"></p>
+                <p class="col-context"><span>3</span></p>
+                <p class="col-ender"></p>
+                <p class="col-text">3.成功提交订单</p>
+            </div>
+        </div>
+    </div>
+{% endblock nav-top %}
+
+{% block content_nav %}
+{% endblock content_nav %}
+
+{% block content_wrapper %}
+
+<div class="content">
+    <div class="row row-top">
+
+        <div class="box box-solid" style="margin: 30px auto; box-shadow: 0 0px 1px rgba(0,0,0,0.1);">
+            <div class="box-body">
+                {% if error %}
+                    <div class="col-md-6" style="float: unset; margin: 0 auto;">
+                        <div class="box-content text-center">
+                            <span style="font-size: 64px; color: #dd4b39; margin: 0 auto;">
+                                <i class="fa fa-times-circle-o"></i>
+                            </span>
+                        </div>
+                        <div class="box-content text-center">
+                            <span class="info-box-number" style="color: #dd4b39bd;">{{ error }}</span>
+                            <span class="info-box-text" style="line-height: 35px; color: #999;">
+                                如果您看到这个错误，表示订单号不存在。
+                            </span>
+                        </div>
+                    </div>
+
+                    <p class="shopping-context"></p>
+
+                    <div class="col-md-6" style="float: unset; margin: 0 auto;">
+                        <div class="box-content text-center">
+                            <span class="info-box-text"  style="color: #5bc0de;">
+                                <a href="{% url 'app:index' %}" style="color: #5bc0de;">返回首页</a>
+                            </span>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-md-6" style="float: unset; margin: 0 auto;">
+                        <div class="box-content text-center">
+                            <span style="font-size: 64px; color: #00c0ef; margin: 0 auto;">
+                                <i class="fa fa-check-circle-o"></i>
+                            </span>
+                        </div>
+                        <div class="box-content text-center">
+                            <span class="info-box-number" style="color: #00c0ef;">感谢您，订单提交成功！ 我们将尽快安排为您发货！</span>
+                            <span class="info-box-text" style="line-height: 35px; color: #999;">
+                                订单号： {{ orderId }} &nbsp;&nbsp;|&nbsp;&nbsp; 金额： <span style="color: #00c0ef;">￥{{ money }}</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <p class="shopping-context"></p>
+
+                    <div class="col-md-6" style="float: unset; margin: 0 auto;">
+                        <div class="box-content text-center">
+                            <span class="info-box-text"  style="color: #5bc0de;">
+                                <a href="{% url 'home:index' %}" style="color: #5bc0de;">查看订单</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{% url 'app:index' %}" style="color: #5bc0de;">返回首页</a>
+                            </span>
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock content_wrapper %}
+
+{% block script %}
+
+{% endblock script %}
+

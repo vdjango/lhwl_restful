@@ -1,0 +1,157 @@
+{% extends 'defaule/m/temp/top-nav.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% load tags %}
+
+{% block title %}
+<title>{{ site_name }} - {{ site_tags }}</title>
+{% endblock title %}
+
+
+
+<!-- SEO优化 -->
+
+
+<!-- CSS样式 -->
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/assortmentSearch.css' %}">
+    <style type="text/css">
+        .app_wrapper {
+            background: white;
+            position: unset;
+        }
+        .wrapper {
+            background-color: #f8f8f8;
+        }
+    </style>
+{% endblock css %}
+
+    <!-- 板块专区 -->
+    <!-- <div class="content pl">
+        <div class="row">
+            <div class="box-filter">
+                <div class="box-filter-header clearfix">
+                    <ul class="box-filter-header-ul ">
+                        <li><a href="{% url 'app:index' %}">首页</a></li>
+                        <li style="margin: 0 2px 0 0;"> &gt;</li>
+                        <li><a href="{% url 'app:index' %}">导航</a></li>
+                        <li style="margin: 0 2px 0 0;"> &gt;</li>
+                        <li>{{ search }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        {% for var1 in Content %}
+        <div class="plate plate-ant">
+
+            <div class="box-header box-with-plate">
+                <h3 class="box-title">{{var1.models.name}}</h3>
+                <div class="pull-right"><a target="plate" href="{% url 'app:assortment' 3 %}?search={{ var1.models.name }}">更多 &nbsp;<i class="fa fa-caret-right text-info"></i></a></div>
+            </div>
+
+            {% for ware in var1.content %}
+
+            <div class="subplate-ant antx">
+                <a target="wareApp" href="{% url 'app:details' ware.wareApp_key.id %}" title="">
+                    {% thumbnail ware.wareApp_key.get_image_url "220x220" as im %}
+                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
+                             style="border-radius: 5px; margin-top: 15px !important;">
+                    {% endthumbnail %}
+                </a>
+                <div class="text-price">￥{{ware.wareApp_key.money}}</div>
+                <div class="text-name">
+                    <a target="wareApp" href="{% url 'app:details' ware.wareApp_key.id %}" title="">
+                        {{ware.wareApp_key.name}}
+                    </a>
+                </div>
+
+                <div class="ware-box">
+                    <div class="ware-box-main">
+                        <a target="wareApp" href="{% url 'app:details' ware.wareApp_key.id %}"  title="">查看商品</a>
+                    </div>
+                    <div class="ware-box-bout warecart" id="{{ ware.wareApp_key.id }}">
+                        <a href="" title=""><i class="fa fa-cart-plus"></i>加入购物车</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% endfor %}
+    </div> -->
+{% block header %}
+    <header class="main-header app_wrapper">
+        <nav class="navbar navbar-static-top navbar-control-1 navbar-search-control">
+            <a href="javascript:;" class="navbar-toggle collapsed navbar-toggle-menu menu" style="color: #777;" onclick="goTuThisBack();"><i class="fa fa-chevron-left"></i></a>
+            <a href="javascript:;" class="navbar-toggle collapsed navbar-toggle-login" style="color: #777;"><i class="fa fa-ellipsis-h"></i></a>
+            <p style="line-height: 4.3rem;">{{ Models.name }}</p>
+            <!-- /.container-fluid -->
+        </nav>
+    </header>
+{% endblock header %}
+
+
+{% block wrapper %}
+    <div class="content-wrapper">
+
+                <!-- 其他板块 -->
+        {% for var1 in Content %}
+        <div class="box box-widget box-widget-top">
+            <div class="box-widget-hidden">
+                <div class="box-swiper-new">
+                    <span>{{ var1.name }}</span>
+                </div>
+                <div class="box-body">
+                    {% for ware in var1.get_wareappprefix_set %}
+                    <div class="col-xs-6 box-plate">
+                        <div class="new-img">
+                            <a href="{% url 'app:details' ware.wareApp_key.id %}" title="{{ ware.wareApp_key.name }}">
+                                {% thumbnail ware.wareApp_key.get_image_url "220x220" as im %}
+                                <img alt="{{ app.name }}" src="{{ im.url }}" class="swiper-slide-img">
+                                {% endthumbnail %}
+                            </a>
+                        </div>
+                        <div class="new-title">
+                            <div class="a-title">
+                                <a href="{% url 'app:details' ware.wareApp_key.id %}" title="{{ ware.wareApp_key.name }}" title="">{{ ware.wareApp_key.name }}</a>
+                            </div>
+                            <p class="price">{{ ware.wareApp_key.money }}元</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock wrapper %}
+
+
+{% block fool-botton %}
+{% endblock fool-botton %}
+
+
+
+
+{% block javascript %}
+    <script>
+        function goTuThisBack(){
+            /*
+             返回上一级
+             如果上一级页面不存在，则返回首页
+             */
+            if(document.referrer){
+                console.log(document.referrer);
+                history.go(-1);
+            } else {
+                location.href = '/'
+            }
+        }
+
+    </script>
+{% endblock javascript %}
+
+
+

@@ -1,0 +1,516 @@
+{% extends 'defaule/admin/temp/index.ht' %}
+{% load staticfiles %}
+
+<!--网站标题-->
+{% block main_title %}
+   <title>{{site_name}} | 我的</title>
+{% endblock main_title %}
+
+<!--CSS样式-->
+{% block main_css %}
+    {% include 'defaule/admin/temp/css.ht' %}
+    <style type="text/css" media="screen">
+        .box-body > .dl-horizontal > dt {
+            width: 80px;
+        }
+        .box-body > .dl-horizontal > dd {
+            width: auto;
+            margin-left: 100px;
+        }
+    </style>
+{% endblock main_css %}
+
+<!--网站头部导航栏-->
+{% block main_header %}
+    <a href="" class="logo">
+        <span class="logo-mini"><b></b>Home</span>
+        <span class="logo-lg"><b>我的商城</b></span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Home</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/">首页</a></li>
+                {% for var1 in navigation %}
+                    <li><a href="{{var1.url}}">{{var1.name}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    {% if user %}
+                        <a href="{% url 'auth:logout' %}" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="{% static 'images/user/user2-160x160.jpg' %}" class="user-image" alt="User Image">
+                            <span class="hidden-xs"> {{user.username}} </span>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'auth:login' %}" class="dropdown-toggle">
+                            <img src="{% static 'images/user/user2-160x160.jpg' %}" class="user-image" alt="User Image">
+                            <span class="hidden-xs">请登陆</span>
+                        </a>
+                    {% endif %}
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                <small>{{site_name}} 欢迎您 </small>
+                            </p>
+                        </li>
+                        <!-- <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li> -->
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="{% url 'home:index' %}" class="btn btn-default btn-flat">我的订单</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="{% url 'auth:logout' %}" class="btn btn-default btn-flat">退出登录</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endblock main_header %}
+
+<!--网站左侧项目栏-->
+{% block main_aside %}
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>{{username}}</p>
+            {% if username %}
+                <a href="#">
+                    <i class="fa fa-circle text-success"></i>
+                    Online
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="你想知道什么...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">
+            <!--快捷菜单-->
+        </li>
+        <li>
+            <a href={% url "home:index" %}>
+                <i class="fa fa-circle-o"></i>
+                <span>我的订单</span>
+            </a>
+        </li>
+        {% if user.usercode %}
+        <li>
+            <a href={% url "home:contract" %}>
+                <i class="fa fa-circle-o"></i>
+                <span>电子合同</span>
+            </a>
+        </li>
+        {% endif %}
+        <!--li class="treeview">
+            <a href="#">
+                <i class="fa fa-circle-o"></i>
+                <span>客户服务</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href=""><i class="fa fa-circle-o"></i>返修退换货</a></li>
+                <li><a href=""><i class="fa fa-circle-o"></i>意见建议</a></li>
+                <li><a href=""><i class="fa fa-circle-o"></i>购买咨询</a></li>
+                <li><a href=""><i class="fa fa-circle-o"></i>上门预约服务</a></li>
+                <li><a href=""><i class="fa fa-circle-o"></i>我的发票</a></li>
+                <li><a href=""><i class="fa fa-circle-o"></i>举报中心</a></li>
+            </ul>
+        </li-->
+        <li class="treeview active">
+            <a href="#">
+                <i class="fa fa-files-o"></i>
+                <span>设置</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <!-- <li><a href=""><i class="fa fa-circle-o"></i>个人信息</a></li> -->
+                <li class="active"><a href="{% url 'home:address' %}"><i class="fa fa-circle-o"></i>收货地址</a></li>
+            </ul>
+        </li>
+    </ul>
+{% endblock main_aside %}
+
+<!--正文微标题，位置导航-->
+{% block main_content_header %}
+    <h1>收货地址<small>添加修改您的收货地址</small></h1>
+    <ol class="breadcrumb">
+        <li><a href={% url "home:index" %}><i class="fa fa-dashboard"></i> 个人中心</a></li>
+        <li><a href={% url "home:address" %}> 收货地址</a></li>
+        <li class="active">当前位置</li>
+    </ol>
+{% endblock main_content_header %}
+
+<!--正文开始部分-->
+{% block main_content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="callout callout-info">
+                <div class="pull-left" style="margin-top: 5px;">
+                    <button type="button" class="btn btn-default btn-flat btn-sm" data-toggle="modal" data-target="#modal-create">新增收货地址</button>
+                </div>
+                <div class="pull-left box-header">
+                    <p style="color: #fff;">您的默认收货地址将会作为默认的订单收货地址 &nbsp;&nbsp;
+                    {% if error %}
+                        {{error}}
+                    {% endif %}
+                    </p>
+
+                </div>
+                <br><br>
+            </div>
+
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">收货地址</h3>
+                </div>
+                <div class="box-body">
+                    {% for var1 in address %}
+                    <div class="col-md-6">
+                        <div class="callout" style="background-color: #ecf0f563;">
+                            <p class="pull-left" style="padding: 10px; height: 10px; font-size: 18px;"> {{var1.consigneeName}}</p>
+                            <div class="tools pull-right" style="margin-top: 10px;">
+                                <a onclick="setdelete('{{var1.id}}');" style="color: #333;" href=""><i class="fa fa-trash-o"></i></a>
+                            </div>
+
+                            <p class="pull-right" style="padding: 10px; height: 10px; width: 60px; font-size: 18px;">
+                                <a data-toggle="modal" data-target="#modal-create" style="color: #333;" href="#" onclick="getAddress('{{var1.id}}');">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                            </p>
+                            {% if var1.defaule %}
+                                <p class="pull-right" style="padding: 10px; height: 10px; width: 150px; font-size: 18px;">
+                                    <span class="pull-right-container">
+                                        <small class="label pull-left bg-green">默认地址</small>
+                                    </span>
+                                </p>
+                            {% else %}
+                                <p class="pull-right" style="padding: 10px; height: 10px; width: 100px; font-size: 18px;">
+                                    <a style="color: #333;" href="" onclick="setdefaule('{{var1.id}}');">设为默认</a>
+                                </p>
+                            {% endif %}
+
+                            <hr style="margin-top: 35px; margin-bottom: 0px;">
+                            <div class="box-body" style="margin-bottom: 0px; margin-top: 0px;">
+                                <dl class="dl-horizontal">
+                                    <dt>收货人</dt>
+                                    <dd>{{var1.consigneeName}}</dd>
+                                    <dt>所在地区</dt>
+                                    <dd>
+                                        {% if var1.province %}
+                                            {{var1.province}}
+                                        {% endif %}
+
+                                        {% if var1.city %}
+                                            /{{var1.city}}
+                                        {% endif %}
+
+                                        {% if var1.area %}
+                                            /{{var1.area}}
+                                        {% endif %}
+                                    </dd>
+                                    <dt>地址</dt>
+                                    <dd>{{var1.consigneeAddress}}</dd>
+                                    <dt>手机</dt>
+                                    <dd>{{var1.consigneeMobile}}</dd>
+                                    <dt>电子邮箱</dt>
+                                    <dd>{{var1.email}}</dd>
+                                </dl>
+                            </div>
+                            <hr style="margin-bottom: 0px; margin-top: 0px;">
+                            <br>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modal-create">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{% url 'home:address' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="edit_id" name="edit_id" value=''>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="h4-te">新增收货地址</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="consigneeName">*收货人</label>
+                                <input name="consigneeName" type="text" class="form-control" id="consigneeName" placeholder="收货人">
+                            </div>
+                            <div class="form-group box-body">
+                                <label for="city_china_val">*所在地区</label>
+                                <div id="city_china_val">
+                                    <div class="col-xs-4">
+                                        <select id="province" name="province" class="province other form-control select2" data-first-title="选择省">
+                                            <option value="北京市" selected>北京市</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <select id="city" name="city" class="city form-control select2 col-xs-4" data-first-title="选择市">
+                                            <option value="选择市" selected>选择市</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <select id="area" name="area" class="area form-control select2 col-xs-4" data-first-title="选择地区">
+                                            <option value="选择区" selected>选择区</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="consigneeAddress">*详细地址</label>
+                                <input name="consigneeAddress" type="text" class="form-control" id="consigneeAddress" placeholder="详细地址">
+                            </div>
+                            <div class="form-group">
+                                <label for="consigneeMobile">*手机号码</label>
+                                <input name="consigneeMobile" type="consigneeMobile" class="form-control" id="consigneeMobile" placeholder="手机号码">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">邮箱</label>
+                                <input name="email" type="email" class="form-control" id="email" placeholder="邮箱">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">添加</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock main_content %}
+
+<!--位置底部Footer信息-->
+{% block main_footer %}
+    {% include 'defaule/admin/temp/footer.ht' %}
+{% endblock main_footer %}
+
+<!--网站Script脚本-->
+{% block main_script %}
+    {% include 'defaule/admin/temp/script.ht' %}
+    <script src="{% static 'js/jquery.cxselect.min.js' %}"></script>
+    <script>
+        $(function() {
+            var urlChina = "{% static 'js/cityData.min.json' %}";
+            var urlGlobal = "{% static 'js/globalData.min.json' %}";
+            $.cxSelect.defaults.url = urlChina;
+
+            // 设置默认值及选项标题
+            $('#city_china_val').cxSelect({
+                selects: ['province', 'city', 'area'],
+                emptyStyle: 'none'
+            });
+
+            // API 接口
+            var apiBox = $('#api_data');
+            var cxSelectApi;
+
+            apiBox.cxSelect({
+                selects: ['province', 'city', 'area']
+            }, function(api) {
+                cxSelectApi = api;
+            });
+
+            $('body').on('click', 'button', function() {
+                var _name = this.name;
+                var _value = this.value;
+
+                switch (_name) {
+                    case 'attach':
+                        cxSelectApi.attach();
+                        break;
+                    case 'detach':
+                        cxSelectApi.detach();
+                        break;
+                    case 'clear':
+                        cxSelectApi.clear();
+                        break;
+                    case 'required':
+                        cxSelectApi.setOptions({
+                            required: _value == 1 ? false : true
+                        });
+                        this.value = _value == 1 ? 0 : 1;
+                        break;
+                    case 'emptyStyle':
+                        if (_value === 'none') {
+                            _value = 'hidden';
+                        } else if (_value === 'hidden') {
+                            _value = '';
+                        } else {
+                            _value = 'none';
+                        };
+                        cxSelectApi.setOptions({
+                            emptyStyle: _value
+                        });
+                        this.value = _value;
+                        break;
+                    case 'firstTitle':
+                        _value = _value === '请选择' ? '选择吧' : '请选择';
+                        cxSelectApi.setOptions({
+                            firstTitle: _value
+                        });
+                        this.value = _value;
+                        break;
+                    case 'setSelect':
+                        cxSelectApi.setOptions({
+                            selects: _value === 'a' ? ['province', 'city', 'area'] : ['first', 'second', 'third', 'fourth', 'fifth']
+                        });
+                        this.value = _value === 'a' ? 'b' : 'a';
+                        break;
+                    case 'setData':
+                        if (_value === 'china' || _value === 'global') {
+                            cxSelectApi.setOptions({
+                                url: this.value === 'china' ? urlChina : urlGlobal,
+                            });
+                        } else if (this.value === 'custom') {
+                            cxSelectApi.setOptions({
+                                data: dataCustom
+                            });
+                        };
+                        break;
+                };
+            });
+
+
+        })();
+    </script>
+
+    <script type="text/javascript">
+        function setASD(ById, srt){
+            console.log(srt);
+            var brand_set = document.getElementById(ById)
+            var html = '<option value="">请选择</option>'
+            for (var i = srt.length - 1; i >= 0; i--) {
+                var fields = srt[i]['name'];
+                var fields_id = srt[i]['id'];
+                html += '<option value="' + fields_id + '">' + fields + '</option>';
+                console.log(fields);
+            };
+            brand_set.innerHTML = html;
+        }
+
+
+        function getAddress(ids){
+            document.getElementById('h4-te').innerHTML = '修改收货地址';
+            $.ajax({
+                url: '{% url "home:getaddress" %}',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'id': ids
+                },
+            })
+            .done(function(data) {
+                var consigneeName = data['data'][0]['consigneeName']
+
+                var province = data['data'][0]['province']
+                var city = data['data'][0]['city']
+                var area = data['data'][0]['area']
+
+                var consigneeAddress = data['data'][0]['consigneeAddress']
+                var consigneeMobile = data['data'][0]['consigneeMobile']
+                var email = data['data'][0]['email']
+                console.log(email);
+
+                document.getElementById('consigneeName').value = consigneeName;
+                document.getElementById('consigneeAddress').value = consigneeAddress;
+                document.getElementById('consigneeMobile').value = consigneeMobile;
+                document.getElementById('email').value = email;
+                document.getElementById('edit_id').value = ids;
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+        }
+
+
+        function setdefaule(ids){
+            $.ajax({
+                url: '{% url "home:setaddress" %}',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'id': ids
+                },
+            })
+            .done(function() {
+                location.reload();
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+        }
+        function setdelete(ids){
+            $.ajax({
+                url: '{% url "home:deladdress" %}',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'id': ids
+                },
+            })
+            .done(function() {
+                location.reload();
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+        }
+    </script>
+{% endblock main_script %}
+

@@ -1,0 +1,1043 @@
+{% extends 'defaule/temp/top-nav.ht' %}
+{% load staticfiles %}
+{% load tags %}
+
+{% block title %}
+    {% if site_name %}
+        {% if site_tags %}
+            <title>{{site_name}} - {{site_tags}}</title>
+        {% else %}
+            <title>{{site_name}}</title>
+        {% endif %}
+    {% else %}
+        {% if site_tags %}
+            <title>{{site_tags}}</title>
+        {% else %}
+            <title>你好粗心，怎么没有设置标题呢？</title>
+        {% endif %}
+    {% endif %}
+{% endblock title %}
+
+<!-- SEO优化 -->
+{% block seo %}
+    <meta name="description" content="{{site_name}} - {{site_tags}}" />
+    <meta name="keywords" content="{{site_name}} - {{site_tags}}，多功能一体机，碎纸机，投影仪，办公文具，办公耗材，办公设备，办公文具，数码设备，网络产品，电脑及配件，外设产品，办公电器，劳保用品，配件服务，员工福利，维修服务，企业团购，礼品定制，设备租赁，以旧换新" />
+    <!--必填-->
+    <meta property="og:type" content="product"/>
+    <meta property="og:image" content="{{wareapp.image}}"/>
+    <!--选填-->
+    <meta property="og:title" content="{{wareapp.name}}"/>
+    <meta property="og:description" content="商品描述"/>
+    <meta property="og:product:price" content="{{wareapp.price}}"/>
+    <meta property="og:product:orgprice" content="{{wareapp.price}}"/>
+    <meta property="og:product:currency" content="CNY"/>
+    <meta property="og:product:score" content="9"/>
+    <meta property="og:product:base_score" content="10"/>
+    <meta property="og:product:brand" content="品牌"/>
+    <meta property="og:product:category" content="分类"/>
+    <meta property="og:product:nick" content="name={{site_name}}; url= https://www.lhwill.com "/>
+
+{% endblock seo %}
+
+<!-- CSS样式 -->
+
+{% block css %}
+    {% include 'defaule/temp/css.ht' %}
+    <link href="{% static 'css/common.css' %}" rel="stylesheet" type="text/css" />
+    <style type="text/css" media="screen">
+        a:hover {
+            color: #3c8dbc;
+        }
+
+        .breadcrumbs {
+            padding: 8px 15px;
+            list-style: none;
+            background-color: #f5f5f5;
+            //border-radius: 6px;
+        }
+
+        .box-height {
+            height: 100px;
+        }
+
+        .breadcrumbs > ol > li {
+            display: inline-block;
+        }
+
+        .breadcrumbs > ol > li+li:before {
+            padding: 0 5px;
+            color: #ccc;
+            content: "/\00a0";
+        }
+
+        .box_nav {
+            z-index: 2;
+            width: 100%;
+            height: 3px;
+            border-bottom: 2px solid #312b30;
+            position: relative;
+            margin-top:40px;
+        }
+
+        .hr {
+            width: 100%;
+            height: 1px;
+            position: relative;
+        }
+
+        .hr-black {
+            background-color: #eceff4;
+            border-bottom: 2px solid #312b30;
+        }
+
+        .hr-gray {
+            background-color: #eceff4;
+        }
+
+        .hr-defaule {
+            height: 3px;
+        }
+        .hr-xs {
+            height: 2px;
+        }
+
+        .summary-line {
+            height: 0;
+            overflow: hidden;
+            border-bottom: 1px dotted #dfdfdf;
+            margin-bottom: 15px;
+        }
+
+        .box_nav2 {
+            width: 100%;
+            height: 10px;
+            background-color: #ffffff;
+            border-bottom: 20px solid #ffffff;
+            margin-top:40px;
+        }
+
+
+        .box-property-info {
+            padding-top: 10px;
+        }
+
+        .box-property-left {
+            margin-left: 16px;
+            margin-top: 5px;
+        }
+
+
+        .box-margin-tops {
+            margin-top: 17px;
+            color: #727284;
+        }
+        .box-property-info > .box-price > .box-price > .box-price-info > .f14 {
+            color: #727284;
+        }
+
+        .box-property-left> .box-price > .box-price > .box-price-info > .f14 {
+            color: #727284;
+        }
+
+
+        .box-price > .box-price {
+            margin-left: 90px;
+        }
+
+
+        .box-price label {
+            float: left;
+            width: 85px;
+            color: #999;
+            text-indent: 10px;
+            line-height: 30px;
+        }
+
+        .box-price .box-price-info{
+            width: auto;
+            font-size: 18px;
+            line-height: 30px;
+        }
+
+        .box-property-list {
+            padding-bottom: 8px;
+        }
+
+
+        .box-price .box-price-info span {
+            color: #ca141d;
+            padding-right: 3px;
+        }
+
+        .box-price-top {
+            margin-top: 4px;
+            margin-bottom: 22px;
+        }
+
+        .f24 {
+            font-size: 22px;
+        }
+
+        .f14 {
+            font-size: 14px;
+            margin-top: 10px;
+            color: #666;
+            line-height: 18px;
+        }
+
+        .box-price-info > .pull-left {
+            margin-right: 5px;
+        }
+
+        .btns {
+            border: 1px solid #ccc;
+            color: #666;
+            background-color: #FFF;
+            margin-right: 7px;
+            margin-bottom: 4px;
+        }
+
+        .box-price > .box-price-info > .active {
+            border: 1px solid #ca141d;
+            border-radius: 1px;
+
+            color: #666;
+            background-color: #FFF;
+            margin-right: 7px;
+            margin-bottom: 4px;
+
+
+
+        }
+
+        .box-price-top > label {
+            margin-top: 5px;
+            margin-bottom: 3px;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        del {
+            text-decoration: line-through;
+            color: #a3a3a3;
+            font-size: 16px;
+            margin-left: 15px;
+            padding: 0;
+        }
+
+        .sku-name {
+            font: 700 16px Arial,"microsoft yahei";
+            color: #666;
+            padding-top: 10px;
+            line-height: 28px;
+            margin-bottom: 5px;
+        }
+
+        .money {
+            font-size: 16px;
+            color: #E4393C;
+            font-family: "microsoft yahei";
+        }
+
+        .label {
+            margin-left: 10px;
+            font-size: 12px;
+        }
+
+        .zxr_navs {
+                z-index: 1;
+                width: 100%;
+                height: 40px;
+                background-color: #eceff4;
+                position: relative;
+            }
+        .btn-ware {
+            color: #5bc0de;
+            font-weight: 550;
+            border: 1.5px solid #5bc0de;
+            background-color: #5bc0de14;
+        }
+        .btn-ware:hover {
+            color: #5bc0de;
+            font-weight: 550;
+            border: 1.5px solid #5bc0de;
+            background-color: #5bc0de14;
+        }
+
+        .btn-ware:active:hover {
+            color: #5bc0de;
+            font-weight: 550;
+            border: 1.5px solid #5bc0de;
+            background-color: #5bc0de14;
+        }
+
+        .btn-cart {
+            color: #3c8dbc;
+            font-weight: 550;
+            border: 1px solid #5bc0de;
+        }
+
+        .btn-cart:hover {
+            color: #3c8dbc;
+            font-weight: 550;
+            border: 1px solid #5bc0de;
+            background-color: #fff;
+        }
+
+        .btn-cart:active:hover {
+            color: #3c8dbc;
+            font-weight: 550;
+            border: 1px solid #5bc0de;
+            background-color: #fff;
+        }
+
+
+        .btn-cart-count {
+            position: absolute;
+            top: 8px;
+            left: 136px;
+            right: auto;
+            display: inline-block;
+            padding: 1px;
+            font-size: 12px;
+            line-height: 14px;
+            color: #fff;
+            background-color: #5bc0de;
+            -moz-border-radius: 7px;
+            border-radius: 7px;
+            min-width: 12px;
+            text-align: center;
+            font-style: normal;
+        }
+
+
+        .juz {
+            margin: auto;
+            left: 0;
+            right: 0;
+            margin-top: 24px;
+            position: absolute;
+        }
+
+
+        .cart {
+            right: 200px;
+            width: 200px;
+            margin-top: 24px;
+            position: absolute;
+        }
+
+        .box-cart {
+            width: 300px;
+            height:auto;
+            z-index: 5;
+            margin-left: -100px;
+            border-top: unset;
+        }
+
+        .box-cart-dis {
+            display: none;
+        }
+
+
+        .box-icon {
+            border-top-left-radius: 2px;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 2px;
+            margin-left: 0px;
+            display: block;
+            height: 40px;
+            width: 40px;
+            text-align: center;
+            font-size: 45px;
+        }
+
+        .box-cart-text {
+            width: 115px;
+            position: absolute;
+            margin-top: 2px;
+            margin-left: 45px;
+            font-size: 9px;
+        }
+
+        .box-cart-price {
+            margin-top: 2px;
+            margin-bottom: 10px;
+        }
+
+        .box-cart-price p{
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+        .box-list {
+            margin-bottom: 5px;
+        }
+
+        .font-line-3 {
+            line-height: 13px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        .box-left-1 {
+            margin-left: 10%;
+        }
+
+        p {
+            margin: 0 !important;
+        }
+    </style>
+{% endblock css %}
+
+<!-- 导航栏-->
+{% block navbar %}
+    <div class="container">
+        <div class="navbar-header">
+            <a href="{% url 'app:index' %}" class="navbar-brand"><b>{{site_name}}</b></a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="{% url 'app:index' %}">首页</a></li>
+                {% for var1 in navigation %}
+                    <li><a href="{{var1.url}}">{{var1.name}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    {% if user %}
+                        <a href="{% url 'home:index' %}">
+                            <span class="hidden-xs"> 我的订单 </span>
+                        </a>
+                    {% endif %}
+                </li>
+
+                {% if not user %}
+                <li class="dropdown user user-menu">
+                    <a href="{% url 'auth:oauth2:login_zycg' %}" class="dropdown-toggle">
+                        <img src="http://mall.zycg.gov.cn/home/images/yc.png" class="user-image" alt="User Image">
+                        <span class="hidden-xs">央采登录</span>
+                    </a>
+                </li>
+                {% endif %}
+                <li class="dropdown user user-menu">
+                    {% if user %}
+                        <a href="{% url 'auth:logout' %}" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="{% static 'images/user/user2-160x160.jpg' %}" class="user-image" alt="User Image">
+                            <span class="hidden-xs"> {{user.username}} </span>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'auth:login' %}" class="dropdown-toggle">
+                            <span class="hidden-xs">请登陆</span>
+                        </a>
+                    {% endif %}
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                <small>{{site_name}} 欢迎您 </small>
+                            </p>
+                        </li>
+                        <!-- <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li> -->
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="{% url 'home:index' %}" class="btn btn-default btn-flat">我的订单</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="{% url 'auth:logout' %}" class="btn btn-default btn-flat">退出登录</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+
+                {% if not user %}
+                <li class="dropdown user user-menu">
+                    <a href="{% url 'auth:register' %}" class="dropdown-toggle">
+                        <span class="hidden-xs">立即注册</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock navbar %}
+
+{% block content_wrapper %}
+
+        <div class="row">
+
+            <div class="container box-body" style="margin-top: 20px;">
+                <div class="col-md-4 juz">
+                    <form action="{% url 'app:search' %}" method="GET">
+                        <div class="input-group">
+                            <input name="search" type="text" class="form-control" style="border-radius: 0px;">
+                            <span class="input-group-btn">
+                                <button type="" class="btn btn-info btn-flat">搜索</button>
+                            </span>
+                        </div>
+                    </form>
+                    <div id="hotwords" class="haveline" style="margin-top: 2px;display: none;">
+                        {% for var1 in statistics %}
+                            <a >{{var1.name}}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="cart">
+                    <a href="{% url 'shop:shopping' %}" class="btn btn-block btn-default btn-cart" style="border-radius: 0px;">购物车<i class="btn-cart-count shopping">{{cart.number}}</i></a>
+
+                    <div class="box box-body  box-cart box-cart-dis">
+
+                            <div class="col-md-12" style="margin-bottom: -16px;">
+                                <P>最新加入的商品</P>
+                            </div>
+                            <div id="CartList">
+                                <div class="pull-left box-left-1">
+                                    <div class="pull-left">
+                                        <span class="box-icon"><i class="ion ion-ios-cart-outline"></i></span>
+                                    </div>
+                                    <div class="box-cart-text">
+                                        <p>购物车中还没有商品，赶紧选购吧！</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" style="">
+                                <a href="{% url 'shop:shopping' %}" class="btn btn-info btn-sm btn-flat col-md-12">查看繁多</a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="zxr_nav" style="margin-top: 65px;">
+                <div class="nav_ten">
+                    <div id="logo" class="logo">
+                        <div class="logo_extend" clstag="h|keycount|head|logo_02" style="display: block;">
+                            <a href="" style="display: block; width: auto; height: 170px; background: #fff;" target="_blank">
+                                <img src="/static/Logosc_2000x1500.png" style="margin: auto; display: block; width: 190px; height: 170px;">
+                            </a>
+                        </div>
+                    </div>
+
+
+                    <div class="quanbu_zxr">
+                        <!--div class="quanbu_zxr1"> 全部商品分类</div-->
+
+                        <ul class="ul" style="margin-bottom: 0px; margin-left: 205px;">
+                            {% for var1 in navigation_two %}
+                                {% if var1.url %}
+                                    <li><a href="{{var1.url}}">{{var1.name}}</a></li>
+                                {% else %}
+                                    <li><a href="{{var1.url}}">{{var1.name}}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="breadcrumbs" style="margin-top: 45px; height: 35px;">
+            <ol class="col-md-offset-1">
+                <li><a href="{% url 'app:index' %}"><i class="fa fa-firefox"></i> 首页</a></li>
+                <li><a href="{% url 'app:search' %}?search={{classify.classify_key.name}}">{{classify.classify_key.name}}</a></li>
+
+                <!--{% if classify.classifytwos %}
+                    <li><a href="{% url 'app:search' %}?search={{varx.title}}">{{classify.classifytwos}}</a></li>
+                {% endif %}-->
+
+                <li><a href="{% url 'app:search' %}?search={{classify.classifythere_key.name}}">{{classify.classifythere_key}}</a></li>
+                <li><a href="{% url 'app:details' classify.wareApp_key.id %}">{{classify.wareApp_key.name}} - {{classify.brands}}</a></li>
+            </ol>
+        </div>
+                </div>
+                <!--轮播图开始-->
+                <div class="box">
+                    <div class="indexBox_content_lunBo" id="main">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    <section style="margin-top: 45px;">
+
+
+
+        <div class="content">
+            <div class="container">
+                <div class="box box-body" style="margin-top: 15px;">
+
+                    <div class="col-md-6">
+                        <div class="box-body">
+                            <div class="preview">
+                                <!--
+                                页面必要代码,img标签上请务必带上图片真实尺寸px
+                                图片标签上请务必注意width和height的值，这是必要的值，图片随意形状，随意大小，但必须填写该两个值，图片个数大于1就行，数量不固定
+                                -->
+                                <div id="showbox">
+                                    {% for var1 in image %}
+                                        <img src="{{var1.get_absolute_url}}" width="450" height="450" />
+                                    {% endfor %}
+                                </div>
+                                <!--展示图片盒子-->
+                                <div id="showsum"></div>
+                                <!--展示图片里边-->
+                                <div class="showpage">
+                                    <a href="javascript:void(0);" id="showlast">
+                                        <
+                                    </a>
+                                    <a href="javascript:void(0);" id="shownext">
+                                        >
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="box-body">
+                            <div class="box-header">
+                                <div class="sku-name">{{wareapp.name}}</div>
+                            </div>
+                            <div class="breadcrumbs">
+                                <div class="box-property-info ">
+
+
+                                    <div class="box-price">
+                                        {% if defaule %}
+                                            <label>央采折扣</label>
+                                        {% else %}
+                                            <label>价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格</label>
+                                        {% endif %}
+                                        <div class="box-price">
+                                            <div class="box-price-info">
+                                                <span class="f24">
+                                                    <span id="setmoney_wareApp">
+                                                    {% if not defaule_money == 0 %}
+                                                        <span class="money">￥</span>
+                                                         {{defaule_money}}&nbsp; <del>原价￥ {{money}}</del>
+                                                    {% else %}
+                                                        {{money}}
+                                                    {% endif %}
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if defaule %}
+                                <div class="box-property-info">
+                                    <div class="box-price">
+                                        <label>央采优惠</label>
+                                        <div class="box-price">
+                                            <div class="box-price-info">
+                                                <span class="f24">
+                                                    <span id="setmoney_wareApp">
+                                                        <span>{{dismoney}}%</span> <small style="font-size: 12px; color: #8e8d8e;">
+                                                        <a tabindex="3"
+                                                        class="fa fa-question-circle"
+                                                        role="button"
+                                                        data-toggle="popover"
+                                                        data-trigger="focus"
+                                                        data-content="尊敬的国采用户，这是您的优惠率">
+                                                        </a>
+                                                        </small>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                <div class="box-property-info">
+                                    <div class="box-price">
+                                        <label>促&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;销</label>
+                                        <div class="box-price">
+                                            <div class="box-price-info">
+                                                <span class="f14">
+                                                {% if wareapp.commodity_description %}
+                                                    {{wareapp.commodity_description }}
+                                                {% else %}
+                                                    根据采购额度，享受不同的折扣政策
+                                                {% endif %}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <div class="box-property-left" style="clear:both;">
+                                <div class="box-price">
+                                    <label>服务说明</label>
+                                    <div class="box-price">
+                                        <div class="box-price-info">
+                                            <!-- <p class="f14">购买商品，即刻起可享受本产品一年免费服务</p> -->
+                                            <p class="f14">由 领航 发货, 并提供售后服务. 23:00前下单,成功订货后预计次日送达</p>
+                                            <p class="f14">只限北京地区，成功订货后次日送达</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="summary-line"></div>
+                            <!--div class="box-property-left"  style="clear:both;">
+                                <div class="box-price">
+                                    <label>选择颜色</label>
+                                    <div class="box-price">
+                                        <div class="box-price-info">
+                                            <span class="f14">购买本产品，可享受终身服务</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div-->
+                            <div class="box-property-left" style="height: auto;">
+                                {% if lease %}
+                                <div class="box-price box-price-top">
+                                    <label>选择方式</label>
+                                    <div class="box-price">
+                                        <div class="box-price-info">
+                                            {% if purchase %}
+                                            <button href="#tab_2" id="Lease_1" onclick="setLock_Purchase('Lease_', '1', ['0'], 0);" data-toggle="tab" class="btns btn-default btn-flat btn-sm">购买</button>
+                                            {% endif %}
+                                            <button href="#tab_1" id="Lease_0" onclick="setLock_Lease('Lease_', '0', ['1'], 0);" data-toggle="tab" class="active btns btn-default btn-flat btn-sm">租赁</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div class="box-price box-price-top">
+                                    {% if purchase %}
+                                    <label>选择配置</label>
+                                    {% endif %}
+                                    <div class="box-price">
+
+<div class="box-price-info">
+    {% for var1 in purchase %} {% if var1.defaule %}
+    <button id="purchase_{{var1.id}}" data-toggle="tab" class="active btns btn-default btn-flat btn-sm boxsize"
+    onclick=" setMoney_Lease('{% url "app:setPlus" %}', '{{var1.money}}', '{{thereid}}'); setLock_Purchase('purchase_', '{{var1.id}}', [{% for js in purchase %}{% if var1.id != js.id %}'{{js.id}}',{% endif %}{% endfor %}], 0);" >{{var1.name}}</button>
+    {% else %}
+    <button id="purchase_{{var1.id}}" data-toggle="tab" class="btns btn-default btn-flat btn-sm boxsize"
+    onclick="setMoney_Lease('{% url "app:setPlus" %}', '{{var1.money}}', '{{thereid}}'); setLock_Purchase('purchase_', '{{var1.id}}', [{% for js in purchase %}{% if var1.id != js.id %}'{{js.id}}',{% endif %}{% endfor %}], 0);">{{var1.name}}</button>
+    {% endif %} {% endfor %}
+</div>
+
+
+                                    </div>
+                                </div>
+                                {% endif %}
+
+
+                                <div class="tab-content tab-left">
+                                    <!--这里是租赁选择-->
+                                    <div class="tab-pane active" id="tab_1">
+                                        <!--这里是配置选择-->
+                                        <div class="box-price box-price-top">
+                                            {% if lease %}
+                                                <label>选择配置</label>
+                                            {% endif %}
+                                            <div class="box-price">
+                                                <div class="box-price-info">
+                                                    {% for var1 in lease %}
+                                                    {% if var1.defaule %}
+                                                        <button href="#tab_{{var1.id}}" id="deploy_{{var1.id}}" data-toggle="tab" class="active btns btn-default btn-flat btn-sm boxsize" onclick="setMoney_Lease('{% url "app:setPlus" %}', '{{var1.money}}'); setLock_Lease('deploy_', '{{var1.id}}', [{% for js in lease %}{% if var1.id != js.id %}'{{js.id}}',{% endif %}{% endfor %}], 0);" >{{var1.name}}</button>
+                                                    {% else %}
+                                                        <button href="#tab_{{var1.id}}" id="deploy_{{var1.id}}" data-toggle="tab" class="btns btn-default btn-flat btn-sm boxsize" onclick="setMoney_Lease('{% url "app:setPlus" %}', '{{var1.money}}'); setLock_Lease('deploy_', '{{var1.id}}', [{% for js in lease %}{% if var1.id != js.id %}'{{js.id}}',{% endif %}{% endfor %}], 0);" >{{var1.name}}</button>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--这里是时间选择-->
+                                        <div class="tab-content tab-left">
+                                            <div class="tab-pane active" id="tab_{{var1.id}}">
+                                                <!--这里是时间选择-->
+                                                <div class="box-price box-price-top">
+                                                    {% if duration %}
+                                                        <label>选择时间</label>
+                                                    {% endif %}
+                                                    <div class="box-price">
+                                                        <div class="box-price-info">
+                                                            {% for var2 in duration %}
+                                                            {% if var2.defaule %}
+                                                                <button href="" id="hour_{{var2.id}}" onclick="setMoney_Hour('{% url "app:setPlus" %}', '{{var2.money}}'); setLock_Lease('hour_', '{{var2.id}}', [{% for js in duration %}{% if var2.id != js.id %}'{{js.id}}',{% endif %}{% endfor %}], 0);" class="active btns btn-default btn-flat btn-sm">{{var2.name}}</button>
+                                                            {% else %}
+                                                                <button href="" id="hour_{{var2.id}}" onclick="setMoney_Hour('{% url "app:setPlus" %}', '{{var2.money}}'); setLock_Lease('hour_', '{{var2.id}}', [{% for js in duration %}{% if var2.id != js.id %}'{{js.id}}',{% endif %}{% endfor %}], 0);" class="btns btn-default btn-flat btn-sm">{{var2.name}}</button>
+                                                            {% endif %}
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--这里是购买选择-->
+                                    <div class="tab-pane" id="tab_2">
+                                        <!--这里是配置选择-->
+                                        <div class="box-price box-price-top">
+                                            {% if purchase %}
+                                                <label>选择配置</label>
+                                            {% endif %}
+                                            <div class="box-price">
+                                                <div class="box-price-info">
+                                                    {% for var1 in purchase %}
+                                                    {% if var1.defaule %}
+                                                        <button href="" id="purchase_{{var1.id}}" data-toggle="tab" class="active btns btn-default btn-flat btn-sm boxsize" onclick="setMoney_Lease('{% url "app:setPlus" %}', '{{var1.money}}'); setLock_Purchase('purchase_', '{{var1.id}}', [{% for js in purchase %}{% if var1.id != js.id %}'{{js.id}}',{% endif %}{% endfor %}], 0);" >{{var1.name}}</button>
+                                                    {% else %}
+                                                        <button href="" id="purchase_{{var1.id}}" data-toggle="tab" class="btns btn-default btn-flat btn-sm boxsize" onclick="setMoney_Lease('{% url "app:setPlus" %}', '{{var1.money}}'); setLock_Purchase('purchase_', '{{var1.id}}', [{% for js in purchase %}{% if var1.id != js.id %}'{{js.id}}',{% endif %}{% endfor %}], 0);" >{{var1.name}}</button>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="summary-line"></div>
+
+
+
+
+                            <div class="box-body">
+                                <form id="wareapp-cart" method="GET" action="{% url 'shop:PlaceOrderView' classify.wareApp_key.id %}">
+                                    <!-- 购买 -->
+                                    <!--选择配置[id为 models.Lease.objects.get(id=purchase).id]-->
+                                    <input type="hidden" id="purchase_" name="purchase" value="{{DefaultSetMeal.id}}">
+                                    <!-- 购买 -->
+
+                                    <!--MONEY 商品价格计算-->
+                                    <input type="hidden" id="purchase_deploy_money" name="purchase_deploy_money" value="0">
+                                    <input type="hidden" id="hour_money" name="hour_money" value="0">
+
+
+                                    <input type="hidden" id="wareapp-cart-id" name="id" value="{{id}}"> <!--商品ID-->
+                                    <input type="hidden" name="cartlist" value="{{id}}"> <!--商品ID-->
+
+                                    <input type="hidden" id="Lease_" name="Lease"> <!--商品ID-->
+                                    <div class="col-xs-3" style="width: 100px;">
+                                        <input name="number" id="wareapp-cart-number" type="number" class="form-control" value="1" min="0">
+                                    </div>
+                                </form>
+
+                                <div class="col-xs-4" style="margin-left: 20px;">
+                                    <!-- <a type="submit" href="{% url 'shop:PlaceOrderView' classify.wareApp_key.id %}" class="btn btn-block btn-default btn-ware btn-flat">立即购买</a> -->
+                                </div>
+                                <div class="col-xs-4">
+                                    <button type="button" class="btn btn-block btn-info warecart btn-flat">加入购物车</button>
+                                </div>
+                            </div>
+
+
+                            <!-- <form>
+
+                            <form action="{% url 'shop:BuyGoods' classify.wareApp_key.id %}" method="GET" accept-charset="utf-8">
+
+                                <input type="hidden" name="cartlist" value="{{id}}">
+
+                                <div class="box-body">
+                                    <div class="col-xs-3" style="width: 100px;">
+                                        <input name="number" type="number" class="form-control" value="1" min="0">
+                                    </div>
+
+                                    <div class="col-xs-4" style="margin-left: 20px;">
+                                        <button type="submit" class="btn btn-block btn-default btn-ware btn-flat">立即购买</button>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <button type="button" class="btn btn-block btn-info warecart btn-flat">加入购物车</button>
+                                    </div>
+                                </div>
+                            </form> -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="content">
+            <div class="container">
+
+                <div class="nav-tabs-custom">
+
+                    <ul class="nav nav-tabs text-center">
+                        <li class="active"><a href="#wareapptab_1" data-toggle="tab">商品介绍</a></li>
+                        <li><a href="#wareapptab_2" data-toggle="tab">评论</a></li>
+                        <li><a href="#wareapptab_3" data-toggle="tab">规格包装</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="wareapptab_1">
+                            <div class="box-body">
+                                {% autoescape off %}
+                                    {{wareapp.connet}}
+                                {% endautoescape %}
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="wareapptab_2">
+                        </div>
+
+                        <div class="tab-pane" id="wareapptab_3">
+<div class="box">
+    <div class="box-header with-border">
+        <h3 class="box-title">商品规格</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table class="table table-bordered">
+            <tr>
+                <th style="width: 100px">商品型号</th>
+                <th>参数信息</th>
+            </tr>
+
+            {% for v1 in param %}
+                {% if v1.k %}
+                    <tr>
+                        <td>{{ v1.v }}</td>
+                        <td>{{ v1.k }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+</div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+{% endblock content_wrapper %}
+
+
+{% block top_script %}
+{% endblock top_script %}
+
+
+{% block script %}
+    {% include 'defaule/temp/script.ht' %}
+    <script src="{% static 'js/details/wareapp_filter.js' %}"></script>
+    <script src="{% static '/js/cart.js' %}"></script>
+    <script type="text/javascript">
+
+        //toastr.options.positionClass = 'toast-top-right';
+        toastr.options = {
+          "closeButton": false,
+          "debug": false,
+          "positionClass": "toast-top-right",
+          "onclick": null,
+          "showDuration": "300",
+          "hideDuration": "1000",
+          "timeOut": "5000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        }
+
+        function goLogin(){
+            window.location.href='{% url "auth:login" %}'
+        }
+
+        $('.warecart').on('click', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+
+            var Dat = new FormData(document.getElementById("wareapp-cart"))
+
+            console.log($('#wareapp-cart-id').val());
+
+
+            console.log($('#wareapp-cart-number').val());
+            console.log($('#purchase_').val());
+
+
+
+            var data = {
+                "id": $('#wareapp-cart-id').val(),
+                "number": $('#wareapp-cart-number').val(),
+                "purchase": $('#purchase_').val()
+            }
+
+            $.ajax({
+                url: "{% url 'shop:shopping' %}",
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+            })
+            .done(function(data) {
+                toastr.success("以添加到购物车");
+                console.log("id  " + data.data.id);
+                console.log("leas  " + data.data.leas);
+                console.log("number  " + data.data.number);
+                console.log("money  " + data.data.money);
+            })
+            .fail(function(data) {
+                if (String(data.responseText).split(' - ')[1].split('</title>')[0] == '登录') {
+                    goLogin();
+                } else{
+                    toastr.error('啊呀，发生错误了。请截图联系客服哦')
+                    toastr.error(data.responseText)
+                };
+            })
+            .always(function() {
+                console.log("complete");
+            });
+        });
+
+        function goShop(){
+            window.location.href='{% url "shop:shopping" %}'
+        }
+
+        $(function () {
+          $('[data-toggle="popover"]').popover()
+        })
+
+        $(document).ready(function() {
+            var showproduct = {
+                "boxid": "showbox",
+                "sumid": "showsum",
+                "boxw": 500, //宽度,该版本中请把宽高填写成一样
+                "boxh": 500, //高度,该版本中请把宽高填写成一样
+                "sumw": 60, //列表每个宽度,该版本中请把宽高填写成一样
+                "sumh": 60, //列表每个高度,该版本中请把宽高填写成一样
+                "sumi": 2, //列表间隔
+                "sums": 6, //列表显示个数
+                "sumsel": "sel",
+                "sumborder": 0, //列表边框，没有边框填写0，边框在css中修改
+                "lastid": "showlast",
+                "nextid": "shownext"
+            }; //参数定义
+            $.ljsGlasses.pcGlasses(showproduct); //方法调用，务必在加载完后执行
+        });
+		$(".boxsize").on("click",function(){
+			$(".boxsize").addClass("btn-sm");
+		})
+        // setWon("{% url 'api:choice' %}", "{{wareapp.id}}");
+    </script>
+{% endblock script %}
+

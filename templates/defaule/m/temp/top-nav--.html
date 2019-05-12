@@ -1,0 +1,329 @@
+{% load staticfiles %}
+{% load thumbnail %}
+{% load cache %}
+{% load tags %}
+
+<!-- 产品可靠 服务便捷 真折实扣 -->
+
+<!DOCTYPE>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <!--360浏览器极速模式-->
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+
+    <meta name="viewport" content="initial-scale=1">
+
+    {% block title %}
+        <title></title>
+    {% endblock title %}
+
+    {% block seo %}
+    <meta name="description" content="{{site_name}} - {{site_tags}}" />
+    <meta name="keywords" content="{{site_name}} - {{site_tags}}，多功能一体机，碎纸机，投影仪，办公文具，办公耗材，办公设备，办公文具，数码设备，网络产品，电脑及配件，外设产品，办公电器，劳保用品，配件服务，员工福利，维修服务，企业团购，礼品定制，设备租赁，以旧换新" />
+    {% endblock seo %}
+
+    {% cache 84600 key_css %} <!--缓存一天-->
+
+    <link rel="stylesheet" href='//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.css'>
+    <link rel="stylesheet" href='//cdn.bootcss.com/admin-lte/2.4.3/css/AdminLTE.min.css'>
+
+    <link rel="stylesheet" href='//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css'>
+    <link href="https://cdn.bootcss.com/toastr.js/latest/css/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'Ionicons/css/ionicons.min.css' %}">
+    <!--link rel="stylesheet" href="{% static 'css/main.css' %}"-->
+
+    <link rel="stylesheet" type="text/css" href={% static "css/stype.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "iCheck/square/blue.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "css/crat.css" %}>
+
+    <!--[if lt IE 9]>
+    　 <script src="https://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+       <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.js"></script>
+    <![endif]-->
+
+    <!-- <script>
+    /*@cc_on window.location.href="http://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); @*/
+    </script> -->
+    {% endcache %}
+
+    {% block css %}
+    {% endblock css %}
+
+</head>
+
+<body class="hold-transition skin-blue layout-top-nav" scroll="no">
+    <div class="wrapper">
+
+        <div class="navs-top">
+            <div class="nav-top">
+                <ul class="pull-left">
+                    <li><a href={% url "app:index" %}>首页</a></li>
+                </ul>
+                <ul class="pull-right">
+                    {% if user %}
+                    <li><a href={% url "home:index" %}>您好，{{user.username}}</a></li>
+                    <li><a href={% url "auth:logout" %}>退出</a></li>
+                    <li><span class="sep">|</span></li>
+                    <li><a href={% url "home:index" %}>我的订单</a></li>
+                    {% else %}
+                    <li><a href={% url "auth:oauth2:login_zycg" %}>央采登录</a></li>
+                    <li><a href={% url "auth:login" %}>请登录</a></li>
+                    <li><a href={% url "auth:register" %}>免费注册</a></li>
+                    {% endif %} {% if user.is_staff %}
+                    <li><span class="sep">|</span></li>
+                    <li><a target="lhwillAdmin" href={% url "admins:index" %}>管理后台</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="row white">
+                <div class="nav-top nav-main ">
+                    <div class="col-xs-3">
+                        <div class="logo-left">
+                            <a href={% url "app:index" %}>
+                                <img alt="{{site_name}}" style="width: 200px; height: 100px;" src="/static/images/logo/logo-left-1600x800.png">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <form action={% url 'app_search' %} method="GET">
+                            <div class="input-group">
+                                <input name="q" type="text" class="form-control" value="{{search}}" style="border-radius: 0px;">
+                                <span class="input-group-btn">
+                                    <button type="" class="btn btn-info btn-flat">搜索</button>
+                                </span>
+                            </div>
+                        </form>
+                        <div id="hotwords" class="haveline" style="margin-top: 2px;display: none;">
+                            {% for var1 in statistics %}
+                            <a title="{{var1.name}}">{{var1.name}}</a> {% endfor %}
+                        </div>
+                    </div>
+
+
+                    <div class="col-xs-3">
+                        <div class="cart">
+                            <a href={% url 'shop:shopping' %} class="btn btn-block btn-default btn-cart" style="border-radius: 0px;">购物车<i class="btn-cart-count shopping">{{cart.number}}</i></a>
+                            <div class="box box-body  box-cart box-cart-dis">
+                                <div class="col-md-12">
+                                    <P>最新加入的商品</P>
+                                </div>
+                                <div id="CartList" class="col-md-12">
+                                    <div class="pull-left box-left-1">
+                                        <div class="pull-left">
+                                            <span class="box-icon"><i class="fa fa-shopping-cart fa-cart"></i></span>
+                                        </div>
+                                        <div class="box-cart-text">
+                                            <p>购物车中还没有商品，赶紧选购吧！</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12" style="margin-top: 10px;">
+                                    <a href={% url 'shop:shopping' %} class="btn btn-info btn-sm btn-flat col-md-12">查看繁多</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                {% block content_nav %}
+                    {% cache 84600 key_content_nav %}
+                    <div class="nav">
+                        <!-- 全部分类 -->
+                        <p class="classify-top"></p>
+                        <div class="nav_ten" style="margin-top: 26px;">
+                            <div class="quanbu_zxr">
+                                <ul class="ul" style="margin-left: 165px;">
+                                    {% for var1 in navigation_two %}
+                                        <li><a target="subnavigation" title="{{ var1.name }}" href="{{ var1.key.get_absolute_url }}">{{ var1.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                <!-- 全部分类 -->
+                                <div class="focus">
+                                    <div class="font-item-title" style="color: #fff;">
+                                        <h3>全部商品分类</h3>
+                                    </div>
+                                    <div class="dd-inner hide">
+                                        {% for var1 in classify_assortment %}
+                                        <div class="font-item">
+                                            <div class="item fore1">
+                                                <h3><a title="{{var1.name}}" href="javascript:;">{{var1.title}}</a></h3>
+                                                <img src="{% static 'images/right.png' %}" class="rightimg"/>
+                                            </div>
+
+                                            <div class="font-item1">
+                                                <div class="font-left">
+                                                    <div class="one">
+                                                        <a title="{{varx.title}}" href="{% url 'app:assortment' 3 %}?search={{varx.title}}">{{varx.title}}<i></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                {% if setclassify.radio == '2' %}
+                                                <div class="font-lefty font-lefte">
+                                                    {% for var2 in var1.connets %}
+                                                    <div class="col-md-3 pull-left setclassify">
+                                                        <a {% if 'http' in var2.url %} href={{var3.url}} {% else %} href="{% url 'app:assortment' 3 %}?search={{var2.title}}" {% endif %}>
+                                                            {% thumbnail var2.image "40x40" as im %}
+                                                                <img class="thumb" src="{{ im.url }}" style="border-radius: 5px;">
+                                                            {% endthumbnail %}
+                                                        {{var2.title}}</a>
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                                {% else %}
+                                                <div class="font-lefty">
+                                                    {% for var2 in var1.connets %}
+                                                    <dl class="fore1">
+                                                        <dt><a title="{{var2.subtitle}}" href="{{var2.url}}">{{var2.subtitle}}<i>></i></a></dt>
+                                                        <dd>
+                                                            {% for var3 in var2.connets_list %} {% if 'http' in var3.url %}
+                                                            <a title="{{var3.title}}" href={{var3.url}}>{{var3.title}}</a> {% else %}
+                                                            <a title="{{var3.title}}" href="{% url 'app:assortment' 3 %}?search={{var3.title}}">{{var3.title}}</a> {% endif %} {% endfor %}
+                                                        </dd>
+                                                    </dl>
+                                                    {% endfor %}
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endcache %}
+                {% endblock content_nav %}
+
+                {% block content_wrapper %}
+                {% endblock content_wrapper %}
+            </div>
+        </div>
+
+        {% cache 84600 key_footer %}
+                <footer class="main-footer" id="gtco-footer">
+                    <div class="content" style="padding: unset;">
+                        <div class="row top">
+                            <ul>
+                                <li>
+                                    <a href="" title="">
+                                        <i class="ico fa fa-wrench"></i>预约维修服务
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="" title="">
+                                        <i class="ico fa fa-briefcase"></i>7天无理由退货
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="" title="">
+                                        <i class="ico fa fa-refresh"></i>15天免费换货
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="" title="">
+                                        <i class="ico fa fa-truck"></i>北京包邮直达
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="" title="">
+                                        <i class="ico fa fa-user-md"></i>免费上门安装
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+
+
+                        <div class="row" style="margin-top: 35px;">
+                            <div class="col-xs-2">
+                                <ul class="gtco-footer-links">
+                                    <li>
+                                        <h5>支付方式</h5></li>
+                                    <li><small><a href="#">货到付款</a></small></li>
+                                    <li><small><a href="#">在线支付</a></small></li>
+                                    <li><small><a href="#">邮局汇款</a></small></li>
+                                    <li><small><a href="#">公司转账</a></small></li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-2">
+                                <ul class="gtco-footer-links">
+                                    <li>
+                                        <h5>配送方式</h5></li>
+                                    <li><small><a href="#">上门自提</a></small></li>
+                                    <li><small><a href="#">配送费收取标准</a></small></li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-2">
+                                <ul class="gtco-footer-links">
+                                    <li>
+                                        <h5>售后服务</h5></li>
+                                    <li><small><a href="#">售后政策</a></small></li>
+                                    <li><small><a href="#">退款说明</a></small></li>
+                                    <li><small><a href="#">返修/退换货</a></small></li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-2">
+                                <ul class="gtco-footer-links">
+                                    <li>
+                                        <h5>关于我们</h5></li>
+                                    <li><small><a href="{% url 'app:about' %}">关于领航</a></small></li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-4 gtco-widget xfoot">
+                                <p style="color: #3C8DBC;font-weight: bold;font-size:24px; margin-top: 0px;">010-80734326 | 400-1815535</p>
+                                <p style="color:#757575;">周一至周日 8:00-18:00</p>
+                                <p>
+                                    <a class="callphone" href="http://p.qiao.baidu.com/cps/chat?siteId=12265760&userId=25894749" style="padding: 6.5px 30px;border:1px solid #00C0EF;text-decoration: none;">联系客服</a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row copyright">
+                            <div>
+                                <p style="border-top: 1px solid #f5f5f5;"></p>
+                                <p class="text-center">
+                                    <small class="block">
+                                        {{site_icp}}
+                                        &nbsp;|&nbsp;
+                                        经营许可证：京B2-20171428
+                                    </small>
+                                    <small class="block">
+                                        <strong>Copyright © 2018 - 2019
+                                        <a href="http://www.lhwill.com">{{site_name}}</a>
+                                        </strong> 版权所有&nbsp;|&nbsp;
+                                        <a href="{% static 'images/yyzz.jpg' %}">经营证照</a>
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+        {% endcache %}
+    </div>
+
+    {% cache 84600 key_script %} <!--缓存一天-->{% endcache %}
+        <script src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+        <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="//cdn.bootcss.com/admin-lte/2.4.3/js/adminlte.js" %}></script>
+        <script src="https://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+
+        <script src="{% static '/js/csrf_token.js' %}"></script>
+        <script src="{% static '/js/cart.js' %}"></script>
+
+    {% block script %}
+    {% endblock script %}
+    <script src="{% static '/js/AutomaticCollection.js' %}"></script><!--收录-->
+</body>
+
+</html>

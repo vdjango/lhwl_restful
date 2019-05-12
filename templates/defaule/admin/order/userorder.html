@@ -1,0 +1,652 @@
+{% extends 'defaule/admin/temp/index.ht' %}
+{% load staticfiles %}
+
+<!--网站标题-->
+{% block main_title %}
+   <title>后台管理 | 订单</title>
+{% endblock main_title %}
+
+<!--CSS样式-->
+{% block main_css %}
+    {% include 'defaule/admin/temp/css.ht' %}
+    <link href="https://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static '/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+    <style type="text/css" media="screen">
+        th {
+            font-size: 13px;
+        }
+    </style>
+{% endblock main_css %}
+
+<!--网站头部导航栏-->
+{% block main_header %}
+    <a href="" class="logo">
+        <span class="logo-mini"><b>管理</b>Admin</span>
+        <span class="logo-lg"><b>后台管理</b>Admin</span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Admin</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'admins:complete' %}">全局</a></li>
+                <li><a href="{% url 'admins:user' %}">用户</a></li>
+                <li><a href="{% url 'admins:commodity' %}">商品</a></li>
+                <li class="active"><a href="{% url 'admins:order' %}">订单</a></li>
+                <li><a href="{% url 'admins:sector' %}">板块</a></li>
+                <li><a href="{% url 'admins:AdmPlate' %}">导航</a></li>
+            </ul>
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src={% static "images/user/user2-160x160.jpg" %} class="user-image" alt="User Image">
+                        <span class="hidden-xs">
+                        {{username}}
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                Alexander Pierce - Web Developer
+                                <small>Member since Nov. 2012</small>
+                            </p>
+                        </li>
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endblock main_header %}
+
+<!--网站左侧项目栏-->
+{% block main_aside %}
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>{{username}}</p>
+            {% if username %}
+                <a href="#">
+                    <i class="fa fa-circle text-success"></i>
+                    Online
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="订单号查询...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">
+            <!--快捷菜单-->
+        </li>
+        <li>
+            <a href="{% url 'admins:order' %}">
+                <i class="fa fa-th"></i>
+                <span>仪表盘</span>
+            </a>
+        </li>
+        <li class="active">
+            <a href="{% url 'admins:userorder' %}">
+                <i class="fa fa-th"></i>
+                <span>用户订单</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'admins:contract' %}">
+                <i class="fa fa-th"></i>
+                <span>电子合同</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'admins:acceptances' %}">
+                <i class="fa fa-th"></i>
+                <span>验收单</span>
+            </a>
+        </li>
+    </ul>
+{% endblock main_aside %}
+
+<!--正文微标题，位置导航-->
+{% block main_content_header %}
+    <h1>用户订单<small>您可以在这里查看最新下单信息</small></h1>
+    <ol class="breadcrumb">
+        <li><a href={% url "admins:order" %}><i class="fa fa-dashboard"></i> 订单</a></li>
+        <li class="active">当前位置</li>
+    </ol>
+{% endblock main_content_header %}
+
+<!--正文开始部分-->
+{% block main_content %}
+    <div class="row">
+        <div class="col-md-12">
+            {% if maintain %}
+            <div class="callout callout-warning">
+                <h4><i class="fa fa-bell-o"></i> &nbsp;维护模式已开启！</h4>
+                <p>维护期间，站点将会无法访问。维护完成请及时关闭维护模式，站点即可访问！</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">订单信息</h3>
+                </div>
+                <div class="box-body">
+<div class="nav-tabs-custom">
+    <ul class="nav nav-tabs">
+        <li {% if not isgotuaddress %} class="active" {% endif %}><a href="#tab_1" data-toggle="tab">待确认订单</a></li>
+        <li><a href="#tab_2" data-toggle="tab">待收货订单</a></li>
+        <li {% if isgotuaddress %} class="active" {% endif %}><a href="#tab_3" data-toggle="tab">退换售后审核</a></li>
+        <li><a href="#tab_4" data-toggle="tab">以完成</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane {% if not isgotuaddress %} active {% endif %}" id="tab_1">
+            <div class="box-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>用户</th>
+                            <th>姓名</th>
+                            <th>订单</th>
+                            <th>时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for var1 in ordtype %}
+                        {% if var1.isgotuaddress != True and var1.state != 5 %}
+                            <tr>
+                                <th>{{username}}</th>
+                                <th>
+                                    {{var1.linkman}}
+                                    {% if var1.usercode %}
+                                        - <a
+                                        tabindex="0"
+                                        role="button"
+                                        data-placement="top"
+                                        data-toggle="popover"
+                                        data-trigger="focus"
+                                        title="用户编码"
+                                        data-content="{{var1.usercode}}">
+                                        {% if var1.usercode %}
+                                            [国采用户]
+                                        {% endif %}</a>
+                                    {% endif %}
+                                </th>
+                                <th><a href="{% url 'admins:orderCartWare' %}?id={{var1.id}}" title="">{{var1.orderid}}</a></th>
+                                <th>{{var1.createtime}}</th>
+                                <th>
+                                    <div class="btn-group">
+                                        <button type="button" onclick="setonorder({{var1.id}});" class="btn btn-default">确认发货</button>
+                                        {% if var1.usercode %}
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                        {% if var1.usercode %}
+                                            {% if var1.ordispaid == 0 %}
+                                                <li>
+                                                    <a href="javascript:;" class="btn" onclick="getOrderAcceptanceCheck({{var1.id}});">
+                                                    生成验收单
+                                                    </a>
+                                                </li>
+                                            {% else %}
+                                                <li><a href="javascript:;" class="btn disabled">验收单已生成</a></li>
+                                            {% endif %}
+
+                                            {% if var1.ispaid == '0' %}
+                                                {% if var1.ispaid != '1' %}
+                                                    <li><a href="javascript:;" class="btn" onclick="setOrderIspaid({{var1.id}});">订单结账</a></li>
+                                                {% endif %}
+                                            {% else %}
+                                                <li><a href="javascript:;" class="btn disabled">订单以结账</a></li>
+                                            {% endif %}
+                                        {% endif %}
+                                        </ul>
+                                        {% else %}
+                                            <button type="button" disabled class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                        </button>
+                                         {% endif %}
+                                    </div>
+                                </th>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <th>用户</th>
+                            <th>姓名</th>
+                            <th>订单</th>
+                            <th>时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </tfoot>
+
+                </table>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="tab_2">
+            <div class="box-body">
+
+                <table id="example2" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>用户</th>
+                            <th>姓名</th>
+                            <th>订单</th>
+                            <th>时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for var1 in ordadd %}
+                            {% if var1.isgotuaddress != True %}
+                            <tr>
+                                <th>{{username}}</th>
+                                <th>
+                                    {{var1.linkman}}
+                                    {% if var1.usercode %}
+                                        - <a
+                                        tabindex="0"
+                                        role="button"
+                                        data-placement="top"
+                                        data-toggle="popover"
+                                        data-trigger="focus"
+                                        title="用户编码"
+                                        data-content="{{var1.usercode}}">
+                                        {% if var1.usercode %}
+                                            [国采用户]
+                                        {% endif %}</a>
+                                    {% endif %}
+                                </th>
+                                <th><a href="{% url 'admins:orderCartWare' %}?id={{var1.id}}" title="">{{var1.orderid}}</a></th>
+                                <th>{{var1.createtime}}</th>
+                                <th>
+                                    <div class="btn-group">
+                                        <button type="button" onclick="setaddesorder({{var1.id}});" class="btn btn-default">配送完成</button>
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                        {% if var1.usercode %}
+                                            {% if var1.ordispaid == 0 %}
+                                                {% if var1.usercode %}
+                                                <li><a href="javascript:;" class="btn" onclick="getOrderAcceptanceCheck({{var1.id}});">生成验收单</a></li>
+                                                {% endif %}
+                                            {% else %}
+                                                <li><a href="javascript:;" class="btn disabled">验收单已生成</a></li>
+                                            {% endif %}
+
+                                            {% if var1.ispaid == '0' %}
+                                                {% if var1.ispaid != '1' %}
+                                                    <li><a href="javascript:;" class="btn" onclick="setOrderIspaid({{var1.id}});">订单结账</a></li>
+                                                {% endif %}
+                                            {% else %}
+                                                <li><a href="javascript:;" class="btn disabled">订单以结账</a></li>
+                                            {% endif %}
+                                        {% endif %}
+                                        </ul>
+
+                                    </div>
+                                </th>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>用户</th>
+                            <th>姓名</th>
+                            <th>订单</th>
+                            <th>时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </tfoot>
+                </table>
+
+            </div>
+        </div>
+
+        <div class="tab-pane {% if isgotuaddress %} active {% endif %}" id="tab_3">
+            <div class="box-body">
+                <table id="example3" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>用户</th>
+                            <th>姓名</th>
+                            <th>订单</th>
+                            <th>时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for var1 in isgotuaddress %}
+                        <tr>
+                            <th>{{username}}</th>
+                            <th>
+                                {{var1.linkman}}
+                                {% if var1.usercode %}
+                                    - <a
+                                    tabindex="0"
+                                    role="button"
+                                    data-placement="top"
+                                    data-toggle="popover"
+                                    data-trigger="focus"
+                                    title="用户编码"
+                                    data-content="{{var1.usercode}}">
+                                    {% if var1.usercode %}
+                                        [国采用户]
+                                    {% endif %}</a>
+                                {% endif %}
+                            </th>
+                            <th><a href="{% url 'admins:orderCartWare' %}?id={{var1.id}}" title="">{{var1.orderid}}</a></th>
+                            <th>{{var1.createtime}}</th>
+                            <th>
+                                <div class="btn-group">
+                                    <button type="button" id="ax{{var1.id}}" onclick="Approval({{var1.id}}, 0);" class="btn btn-default">批准</button>
+                                    <button type="button" id="axd{{var1.id}}" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="javascript:;" onclick="Approval('{{var1.id}}', 1);" class="btn">不通过</a></li>
+                                    </ul>
+                                </div>
+                            </th>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>用户</th>
+                            <th>姓名</th>
+                            <th>订单</th>
+                            <th>时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="tab_4">
+            <div class="box-body">
+                <table id="example4" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>用户</th>
+                            <th>姓名</th>
+                            <th>订单</th>
+                            <th>时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for var1 in ordall %}
+                            {% if var1.isgotuaddress != True %}
+                            <tr>
+                                <th>{{username}}</th>
+                                <th>
+                                    {{var1.linkman}}
+                                    {% if var1.usercode %}
+                                        - <a
+                                        tabindex="0"
+                                        role="button"
+                                        data-placement="top"
+                                        data-toggle="popover"
+                                        data-trigger="focus"
+                                        title="用户编码"
+                                        data-content="{{var1.usercode}}">
+                                        {% if var1.usercode %}
+                                            [国采用户]
+                                        {% endif %}</a>
+                                    {% endif %}
+                                </th>
+                                <th><a href="{% url 'admins:orderCartWare' %}?id={{var1.id}}" title="">{{var1.orderid}}</a></th>
+                                <th>{{var1.createtime}}</th>
+                                <th>
+                                    <div class="btn-group">
+
+                                        {% if var1.state == '-2' %}
+                                            {% if usercodes and var1.ordispaid == '0' or var1.ordispaid == '-1' %}
+                                                <button type="button" class="btn btn-default">删除订单</button>
+                                            {% endif %}
+                                            {% if not usercodes %}
+                                                <button type="button" class="btn btn-default">删除订单</button>
+                                            {% endif %}
+                                        {% else %}
+                                            <button type="button" disabled class="btn btn-default">删除订单</button>
+                                        {% endif %}
+
+                                    </div>
+                                </th>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>用户</th>
+                            <th>姓名</th>
+                            <th>订单</th>
+                            <th>时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+{% endblock main_content %}
+
+<!--位置底部Footer信息-->
+{% block main_footer %}
+    {% include 'defaule/admin/temp/footer.ht' %}
+{% endblock main_footer %}
+
+<!--网站Script脚本-->
+{% block main_script %}
+    {% include 'defaule/admin/temp/script.ht' %}
+    <script src="https://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="{% static '/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static '/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/csrf_token.js' %}"></script>
+    <script>
+
+        toastr.options.positionClass = 'toast-top-right';
+        var csrftoken = getCookie('csrftoken');
+
+        function Approval(sid, did){
+            $.ajax({
+                url: "{% url 'admins:Approval' %}",
+                type: 'POST',
+                token: csrftoken,
+                dataType: 'json',
+                data: {'id': sid, 'type': did},
+            })
+            .done(function(data) {
+                var jsons = data.code;
+                toastr.success('已批准，请刷新页面');
+                $('#ax'+sid).attr("disabled","disabled");
+                $('#axd'+sid).attr("disabled","disabled");
+
+                if (jsons == '201') {
+                } else if (jsons == '200'){
+                    window.location.reload();
+                };
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+        }
+
+        function setonorder(wid){
+            $.ajax({
+                url: "{% url 'admins:setonorder' %}",
+                type: 'POST',
+                token: csrftoken,
+                dataType: 'json',
+                data: {'id': wid},
+            })
+            .done(function(data) {
+                var jsons = data.code;
+                console.log(jsons);
+                if (jsons == '201') {
+                    toastr.info('未结账验收单已经生成，不要在点了');
+                } else if (jsons == '200'){
+                    window.location.reload();
+                };
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+        }
+
+        function setaddesorder(wid){
+            $.ajax({
+                url: "{% url 'admins:setaddesorder' %}",
+                type: 'POST',
+                token: csrftoken,
+                dataType: 'json',
+                data: {'id': wid},
+            })
+            .done(function() {
+                console.log("success");
+                toastr.success('验收单已生成');
+                window.location.reload();
+            })
+            .fail(function() {
+
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+        }
+
+
+
+        function getOrderAcceptanceCheck(wid){
+            $.ajax({
+                url: "{% url 'admins:getOrderAcceptanceCheck' %}",
+                type: 'POST',
+                token: csrftoken,
+                dataType: 'json',
+                data: {'id': wid},
+            })
+            .done(function(data) {
+                var jsons = data.code;
+                console.log(jsons);
+                if (jsons == '201') {
+                    toastr.info('未结账验收单已经生成，不要在点了');
+                } else if (jsons == '200'){
+                    toastr.success('验收单已生成');
+                };
+
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+        }
+
+
+        function setOrderIspaid(wid){
+            $.ajax({
+                url: "{% url 'admins:setOrderIspaid' %}",
+                type: 'POST',
+                token: csrftoken,
+                dataType: 'json',
+                data: {'id': wid},
+            })
+            .done(function(data) {
+                var jsons = data.code;
+                console.log(jsons);
+                toastr.success('订单以结账');
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+        }
+
+      $(function () {
+        $('#example1').DataTable();
+        $('#example2').DataTable();
+        $('#example3').DataTable();
+        $('#example4').DataTable();
+      })
+      $(function () {
+      $('[data-toggle="popover"]').popover()
+    })
+
+    </script>
+{% endblock main_script %}
+

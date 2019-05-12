@@ -1,0 +1,4 @@
+classify 全部分类
+broadcast 轮播图
+navigation首页导航[二级导航]
+sector 首页板块

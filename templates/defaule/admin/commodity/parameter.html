@@ -1,0 +1,489 @@
+{% extends 'defaule/admin/temp/index.ht' %}
+{% load static %}
+{% load tags %}
+
+<!--网站标题-->
+{% block main_title %}
+    <title xmlns="http://www.w3.org/1999/html">后台管理 | 商品 - 商品管理 [添加详情]</title>
+{% endblock main_title %}
+
+<!--CSS样式-->
+{% block main_css %}
+    {% include 'defaule/admin/temp/css.ht' %}
+    <link href={% static "css/admin/fileinput.min.css" %} media="all" rel="stylesheet" type="text/css"/>
+    <style>
+
+        /* 商品首图 */
+        .box-image {
+            margin: auto;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ecf0f5;
+        }
+
+        .box-image > img {
+            width: 90%;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        /* 首图删除红色按钮 */
+        .box-image > a {
+            position: absolute;
+            display: none;
+            right: 5px;
+            top: 5px;
+        }
+
+        .box-image > p {
+            position: absolute;
+            margin-top: -22px;
+            right: 5px;
+        }
+
+        .box-image > p a.fa-bolt {
+            display: none;
+        }
+
+        /* 鼠标触发商品首图 首图模糊处理 */
+        .box-image:hover > img {
+            filter: blur(1px);
+            -ms-filter: blur(1px);
+            -moz-filter: blur(1px);
+            -webkit-filter: blur(1px); /* Chrome, Opera */
+            filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=1, MakeShadow=false);
+        }
+
+        /* 鼠标触发商品首图 删除按钮显示 */
+        .box-image:hover > a {
+            position: absolute;
+            z-index: 1;
+            display: inline;
+            right: 5px;
+            top: 5px;
+        }
+
+        .box-image:hover > p a.fa-bolt {
+            display: inherit;
+        }
+    </style>
+{% endblock main_css %}
+
+<!--网站头部导航栏-->
+{% block main_header %}
+    <a href="" class="logo">
+        <span class="logo-mini"><b>管理</b>Admin</span>
+        <span class="logo-lg"><b>后台管理</b>Admin</span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Admin</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'admins:complete' %}">全局</a></li>
+                <li><a href="{% url 'admins:user' %}">用户</a></li>
+                <li class="active"><a href="{% url 'admins:commodity' %}">商品</a></li>
+                <li><a href="{% url 'admins:order' %}">订单</a></li>
+                <li><a href="{% url 'admins:sector' %}">板块</a></li>
+                <li><a href="{% url 'admins:AdmPlate' %}">导航</a></li>
+            </ul>
+
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src={% static "images/user/user2-160x160.jpg" %} class="user-image" alt="User Image">
+                        <span class="hidden-xs">
+                        {{ username }}
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                Alexander Pierce - Web Developer
+                                <small>Member since Nov. 2012</small>
+                            </p>
+                        </li>
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endblock main_header %}
+
+<!--网站左侧项目栏-->
+{% block main_aside %}
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>{{ username }}</p>
+            {% if username %}
+                <a href="#">
+                    <i class="fa fa-circle text-success"></i>
+                    Online
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="你想知道什么...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header"></li>
+        <li class="active">
+            <a href={% url "admins:commodity" %}>
+                <i class="fa fa-clone"></i>
+                <span>商品管理</span> <!-- 包含增删查改-->
+            </a>
+        </li>
+        <li>
+            <a href={% url "admins:stay" %}>
+                <i class="fa fa-hourglass-2"></i>
+                <span>待发布</span>
+            </a>
+        </li>
+        <li>
+            <a href={% url "admins:import" %}>
+                <i class="fa fa-hourglass-2"></i>
+                <span>批量导入</span>
+            </a>
+        </li>
+        <li>
+            <a href={% url "admins:ClassZycg" %}>
+                <i class="fa fa-hourglass-2"></i>
+                <span>央采分类</span>
+            </a>
+        </li>
+    </ul>
+{% endblock main_aside %}
+
+<!--正文微标题，位置导航-->
+{% block main_content_header %}
+    <h1>添加参数
+        <small>您可以在这里管理商品相关参数</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'admins:commodity' %}">添加商品</a></li>
+        <li><a href="{% url 'admins:commodity' %}">商品参数</a></li>
+        <li><a href="{% url 'admins:commodity' %}">商品管理</a></li>
+        <li class="active">当前位置</li>
+    </ol>
+{% endblock main_content_header %}
+
+<!--正文开始部分-->
+{% block main_content %}
+
+    <form enctype="multipart/form-data" action="" method="POST">{% csrf_token %}
+
+        <div class="row">
+            {% if response.state == 'success' %}
+                <div class="col-md-12">
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> {{ response.data.title }}</h4>
+                        {{ response.data.content }} {{ response.data.data|date:"Y-m-d H:i:s" }}
+                    </div>
+                </div>
+            {% elif response.state == 'error' %}
+                <div class="col-md-12">
+                    <div class="alert alert-warning alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-warning"></i> {{ response.data.title }}</h4>
+                        {{ response.data.content }} {{ response.data.data|date:"Y-m-d H:i:s" }}
+                    </div>
+                </div>
+            {% endif %}
+            <div class="col-md-4">
+                <div class="box box-widget">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">商品首图</h3>
+                    </div>
+                    <div class="box-body">
+                        {% for var1 in image %}
+                            <div class="col-md-4 box-image">
+                                <a class="badge bg-red image-delete" value="{{ var1.id }}">删除</a>
+                                <img src="{{ var1.get_absolute_url }}" alt="" class="img-responsive center-block">
+                                {% if var1.defaule %}
+                                    <p class="image-{{ var1.id }} image" value-id="{{ var1.id }}"
+                                       value-image="{{ var1.image }}"
+                                       value-key="{{ var1.key.id }}">
+                                        <i class="icon fa fa-check"></i>
+                                    </p>
+                                {% else %}
+                                    <p class="image-{{ var1.id }}" value-id="{{ var1.id }}"
+                                       value-image="{{ var1.image }}"
+                                       value-key="{{ var1.key.id }}">
+                                        <a href="javascript:;" value-id="{{ var1.id }}" value-image="{{ var1.image }}"
+                                           value-key="{{ var1.key.id }}" class="icon fa fa-bolt set-image-defaule"
+                                           title="设置默认"></a>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <input id="file-image" name="image" type="file" multiple class="file insect" data-show-upload="false" data-show-caption="true">
+                            <!-- data-show-upload="false" data-show-caption="true" -->
+                            {% if locals.error.commodity_picture.0 %}
+                                <span class="pull-right-container">
+                                <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="box box-widget">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <h3 class="box-title">基本参数</h3>
+                            <small>Set</small>
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        {% for vf in par.filter_name %}
+                            {% if vf.2 == True %}
+                                <div class="col-md-3">
+                                    <div class="btn-group-vertical">
+                                        <div class="form-group">
+                                            {{ vf.1 }}
+                                            <input name="{{ vf.0 }}" type="text" class="form-control"
+                                                   placeholder="{{ vf.1 }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            {% elif vf.2 == None %}
+                                <div class="col-md-3">
+                                    <div class="btn-group-vertical">
+                                        <div class="form-group">
+                                            {{ vf.1 }}
+                                            <input name="{{ vf.0 }}" type="text" class="form-control"
+                                                   placeholder="{{ vf.1 }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-info btn-sm pull-right">下一步</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+
+
+
+
+
+
+
+{% endblock main_content %}
+
+<!--位置底部Footer信息-->
+{% block main_footer %}
+    {% include 'defaule/admin/temp/footer.ht' %}
+{% endblock main_footer %}
+
+<!--网站Script脚本-->
+{% block main_script %}
+    {% include 'defaule/admin/temp/script.ht' %}
+    <script src="{% static 'js/csrf_token.js' %}"></script>
+    <script src={% static "js/admin/fileinput.min.js" %} type="text/javascript"></script>
+
+    <script>
+        $(function () {
+            /* 商品首图删除 */
+            $('.image-delete').on('click', function (event) {
+                event.preventDefault();
+
+                var app_id = $(this).attr('value');
+                console.log(app_id);
+
+                $.ajax({
+                    url: '/api/v1/ImageViewSet/' + $(this).attr('value') + '/',
+                    type: 'DELETE',
+                    dataType: 'json'
+                })
+                    .done(function (data) {
+                        console.log("success");
+                        location.reload();
+                    })
+                    .fail(function () {
+                        console.log("error");
+                    })
+                    .always(function () {
+                        console.log("complete");
+                    });
+            });
+
+            /* 商品首图设置默认展示图 */
+            $('.set-image-defaule').on('click', function () {
+                $.ajax({
+                    url: '/api/v1/ImageViewSet/' + $(this).attr('value-id') + '/',
+                    type: 'PATCH',
+                    dataType: 'json',
+                    data: {
+                        'defaule': true
+                    }
+                })
+                    .done(function (data) {
+                        console.log(data);
+                        $('p.image').html('<a href="javascript:;" class="icon fa fa-bolt set-image-defaule" title="设置默认"></a>');
+                        $('p.image-' + data.id).html('<i class="icon fa fa-check"></i>');
+                        location.reload();
+                    })
+                    .fail(function () {
+                        console.log('error');
+                    })
+                    .always(function () {
+                        console.log('complete');
+                    });
+            });
+
+            $("#file-image").fileinput({
+                language: 'zh', //设置语言
+                //uploadUrl: '', //上传的地址
+                enctype: 'multipart/form-data',
+                allowedFileExtensions: ['jpg', 'png', 'bmp', 'jpeg'],//接收的文件后缀
+                showUpload: false, //是否显示上传按钮
+                showPreview: true,              //展前预览
+                showCaption: false,//是否显示标题
+                maxFileSize: 10000,//上传文件最大的尺寸
+                maxFilesNum: 10,//
+                dropZoneEnabled: false,//是否显示拖拽区域
+                browseClass: "btn btn-primary", //按钮样式
+                uploadAsync: false,
+                layoutTemplates: {
+                    // actionDelete:'', //去除上传预览的缩略图中的删除图标
+                    actionUpload: '',//去除上传预览缩略图中的上传图片；
+                    actionZoom: ''   //去除上传预览缩略图中的查看详情预览的缩略图标。
+                },
+                uploadExtraData: function (previewId, index) {
+                    //向后台传递id作为额外参数，是后台可以根据id修改对应的图片地址。
+                    var obj = {};
+                    obj.id = fishId;
+                    return obj;
+                }
+            }).on("filebatchuploadsuccess", function (event, data) {
+                if (data.response) {
+                    closeModal('fishAddDetail')
+                    // 关闭模态框。
+                    $("#bootstraptable_fishcontent").bootstrapTable("refresh");
+                }
+            }).on('fileerror', function (event, data, msg) {  //一个文件上传失败
+                console.log('文件上传失败！' + msg);
+            });
+
+        });
+    </script>
+
+    <script type="text/javascript">
+        function emailu(vid) {
+            document.getElementById('email_email').value = document.getElementById(vid).getAttribute("value");
+            document.getElementById('email_username').value = document.getElementById(vid).getAttribute("user");
+        }
+    </script>
+
+    <script type="text/javascript">
+        var csrftoken = getCookie('csrftoken');
+
+
+        function SetEmail(url, data, ids) {
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                token: csrftoken,
+                data: data,
+                success: function (callback) {
+                    if (callback['code'] == 200) {
+                        //location.reload();
+                        window.location.href = callback['url']
+                        //console.log(callback['url'])
+                    } else {
+                        console.log(callback['code']);
+                        var html = '<div class="alert alert-warning alert-dismissible">' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                            '<h4><i class="icon fa fa-warning"></i>' + callback[callback['state']] + '</h4>' +
+                            '</div> ';
+                        document.getElementById('error_' + ids).innerHTML = html;
+                    }
+                    ;
+                },
+                error: function (callback) {
+                    console.log(callback);
+                    console.log('ERROR ' + callback['code']);
+                    var html = '<div class="alert alert-warning alert-dismissible">' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                        '<h4><i class="icon fa fa-warning"></i> 请检查下面的信息，也许你忘记填写了</h4>' +
+                        '</div> ';
+                    document.getElementById('error_0').innerHTML = html;
+                }
+            })
+        }
+
+
+        var maths = Math.floor(Math.random() * 24);
+
+        // $("#file-1").fileinput({
+        //     uploadUrl: "{% url 'api:imageup' %}?path=head&unix={{unix}}&encode=utf-8&create=wareapp&math=" + maths, // you must set a valid URL here else you will get an error
+        //     allowedFileExtensions: ['jpg', 'png', 'gif'],
+        //     overwriteInitial: false,
+        //     maxFileSize: 1000,
+        //     maxFilesNum: 10,
+        //     showPreview: false,
+        //     dropZoneEnabled: false,
+        //     browseClass: "btn btn-primary",
+        //     allowedFileTypes: ['image', 'video', 'flash'],
+        //     slugCallback: function (filename) {
+        //         return filename.replace('(', '_').replace(']', '_');
+        //     }
+        // });
+
+
+    </script>
+{% endblock main_script %}
+

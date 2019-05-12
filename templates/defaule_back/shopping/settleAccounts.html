@@ -1,0 +1,1554 @@
+{% extends 'defaule/temp/top-nav.ht' %}
+{% load staticfiles %}
+{% load tags %}
+
+{% block title %}
+    {% if site_name %}
+        {% if site_tags %}
+            <title>{{site_name}} - {{site_tags}}</title>
+        {% else %}
+            <title>{{site_name}}</title>
+        {% endif %}
+    {% else %}
+        {% if site_tags %}
+            <title>{{site_tags}}</title>
+        {% else %}
+            <title>你好粗心，怎么没有设置标题呢？</title>
+        {% endif %}
+    {% endif %}
+{% endblock title %}
+
+<!-- SEO优化 -->
+{% block seo %}
+{% endblock seo %}
+
+<!-- CSS样式 -->
+
+{% block css %}
+    {% include 'defaule/temp/css.ht' %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/htmleaf-demo.css' %}">
+    <link rel="stylesheet" href="{% static 'iCheck/square/blue.css' %}">
+
+    <style>
+        #logos {
+            z-index: 30;
+            left: 0;
+            width: 211px;
+            height: 170px;
+            margin-top: -46px;
+        }
+
+        .wrapper>.content-wrapper {
+            background-color: #fff;
+        }
+
+        .item-li {
+            float: left;
+            min-height: 65px;
+            height: 100%;
+        }
+
+        .cart-checkbox {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            margin-left: 20px;
+            margin-top: 20px;
+        }
+
+        .td-item {
+            //min-height: 119px;
+            _height: 119px;
+            overflow: hidden;
+            _overflow: visible;
+            _zoom: 1;
+        }
+
+        .td-inner {
+            padding-top: 20px;
+            _zoom: 1;
+        }
+
+        .item-info {
+            margin: -3px 0 0 91px;
+            padding-right: 25px;
+        }
+
+        .item-pic {
+            width: 80px;
+            height: 80px;
+            border: 1px solid #eee;
+            float: left;
+            overflow: hidden;
+            background: #fff url(//gtd.alicdn.com/tps/i3/T1b1m3XkVpXXXXXXXX-32-32.gif) no-repeat 50% 50%;
+        }
+
+        .item-logos {
+            _clear: left;
+            zoom: 1;
+            overflow: hidden;
+            min-height: 26px;
+        }
+
+        .item-basic-info {
+            min-height: 40px;
+            float: left;
+        }
+
+        .item-title {
+            color: #000;
+            font-size: 12px;
+            display: block;
+            max-height: 36px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            _height: expression(this.scrollHeight > 36 ? "36px": "auto");
+        }
+
+        .sku {
+            margin: 0 5px 0 15px;
+            color: #9c9c9c;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .btn-edit-sku {
+            display: block;
+            position: absolute;
+            right: -1px;
+            top: -1px;
+            color: #fff;
+            cursor: pointer;
+            background: #f60;
+            padding: 2px 4px 0;
+            height: 16px;
+            line-height: 1;
+        }
+
+        .item-props-can-hover {
+            border-color: #f60;
+            background: #fff;
+        }
+
+        .item-props {
+            padding: 16px 0;
+            min-height: 84px;
+            _height: 84px;
+            border: 1px dashed transparent;
+            position: relative;
+            _border-color: #EEF6FF;
+            height: 128px;
+        }
+
+        .item-amount {
+            height: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .item-amount .no-left {
+            border-right-color: transparent;
+            left: 9px;
+        }
+
+        .item-amount .no-right {
+            border-right-color: transparent;
+            right: -9px;
+        }
+
+        .item-amount a {
+            display: block;
+            height: 23px;
+            width: 17px;
+            border: 1px solid #e5e5e5;
+            background: #f0f0f0;
+            text-align: center;
+            line-height: 23px;
+            color: #444;
+            position: absolute;
+            top: 0;
+        }
+
+        .td-sum {
+            color: #ca141d;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+
+        .td-sumdis {
+            color: #a9a9a9;
+            font-weight: 700;
+            margin-bottom: 0;
+            margin-top: -16px;
+            text-align: center;
+            text-decoration: line-through;
+        }
+
+        .text-left {
+            margin-left: 30px;
+        }
+
+        .showlist {
+            border: 1px solid #ccc;
+            height: 130px;
+            background: #fcfcfc;
+            margin-bottom: 15px;
+        }
+
+
+
+        .fixed-bottom {
+            bottom: -1px;
+            z-index: 9999;
+        }
+
+
+
+        @media screen and (min-width: 1200px) {
+            .float-bar-wrapper {
+                width: 1140px;
+                height: 50px;
+                overflow: hidden;
+                background: #e5e5e5;
+            }
+
+            .box-wareapp {
+                margin-top: 50px;
+                margin-left: 350px;
+            }
+        }
+
+        @media screen and (min-width: 922px) and (max-width: 1200px) {
+            .float-bar-wrapper {
+                width: 940px;
+                height: 50px;
+                overflow: hidden;
+                background: #e5e5e5;
+            }
+            .box-wareapp {
+                margin-top: 50px;
+                margin-left: 300px;
+            }
+        }
+
+        @media screen and (min-width: 768px) and (max-width: 922px) {
+            .float-bar-wrapper {
+                width: 720px;
+                height: 50px;
+                overflow: hidden;
+                background: #e5e5e5;
+            }
+            .box-wareapp {
+                margin-top: 50px;
+                margin-left: 200px;
+            }
+        }
+
+
+        .select-all {
+            float: left;
+            line-height: 50px;
+            height: 50px;
+
+            margin-left: 20px;
+        }
+
+
+        .operations {
+            float: left;
+            line-height: 50px;
+            height: 50px;
+        }
+
+        .oper-text {
+            margin-left: 30px;
+        }
+
+        .float-bar-right {
+            float: right;
+            /* position: absolute; */
+            right: 0;
+            top: 0;
+            z-index: 4;
+            padding-left: 20px;
+        }
+
+        .amount-sum {
+            cursor: pointer;
+            float: left;
+            height: 48px;
+            color: #3c3c3c;
+        }
+
+
+        .price-sum strong,
+        .amount-sum em,
+        .price-sum .txt,
+        .amount-sum .txt {
+            float: left;
+        }
+
+        .amount-sum em,
+        .price-sum .price em {
+            color: #5bc0de;
+            font-weight: 700;
+            font-size: 18px;
+            font-family: tohoma, arial;
+            font-style: normal;
+        }
+
+        .arrow-box {
+            float: left;
+        }
+
+        .price-sum {
+            float: left;
+            height: 48px;
+            color: #3c3c3c;
+        }
+
+
+        .price-sum .price em {
+            font-weight: 700;
+            font-size: 22px;
+            padding: 0 3px;
+        }
+
+        .total-symbol {
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+        .submit-btn {
+            color: #fff;
+            display: inline-block;
+            width: 120px;
+            height: 50px;
+            line-height: 50px;
+            background: #5bc0de;
+            text-align: center;
+            font-family: 'Lantinghei SC', 'Microsoft Yahei';
+            font-size: 20px;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            -ms-border-radius: 2px;
+            border-radius: 2px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            color: #fff;
+            display: inline-block;
+            width: 120px;
+            height: 50px;
+            line-height: 50px;
+            background: #5bc0dec7;
+            text-align: center;
+            font-family: 'Lantinghei SC', 'Microsoft Yahei';
+            font-size: 20px;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            -ms-border-radius: 2px;
+            border-radius: 2px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .submit-btn a:hover,
+        .submit-btn a:link {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        a:hover,
+        a:link {
+            text-decoration: none;
+        }
+
+        .submit-btn-disabled:link,
+        .submit-btn-disabled:hover {
+            background: #B0B0B0;
+            color: #fff;
+            border-left: 1px solid #e7e7e7;
+            width: 119px;
+            cursor: not-allowed;
+            text-decoration: none;
+        }
+
+
+        .wrapper {
+            background-color: #fff;
+        }
+
+        .skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side {
+            background-color: #fff !important;
+        }
+
+        .logo-text {
+            position: absolute;
+            top: 133px;
+            margin-left: 188px;
+            font-size: 36px;
+            font-family: "Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑,STHeiti,MingLiu;
+        }
+
+        /*不可用的确定按钮*/
+        .disabled-button{
+            border-color: #D4D4D4;
+            background-color: #D4D4D4;
+            color: #fff;
+            cursor:auto;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+        input[type="number"]{
+            -moz-appearance: textfield;
+        }
+
+        .box {
+            border-top: unset;
+        }
+    </style>
+
+    <style type="text/css" media="screen">
+
+        .span {
+            margin-top: 10px;
+            margin-left: 0.5px;
+        }
+        .span-left {
+            margin-left: 15px;
+        }
+
+        .selected b {
+            display: block;
+            margin-left: 105.5px;
+            margin-top: -7.5px;
+            width: 12px;
+            height: 12px;
+            overflow: hidden;
+            background: url(/static/images/selected-icon.png) no-repeat;
+        }
+
+        .selected {
+            border: 2px solid #5bc0de;
+        }
+        .btn-width {
+            width: 133px;
+            height: 34px;
+        }
+
+        .default {
+            display: inline-block;
+            margin: 9px 10px;
+            color: #fff;
+            padding: 0 3px;
+            line-height: 20px;
+        }
+
+
+        .left {
+            margin-left: 9px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+
+
+
+        .todo-list>li .tools {
+            display: none;
+            float: right;
+            color: #dd4b39;
+        }
+
+        /* 更多地址  */
+        .addr-switch {
+            display: inline-block;
+            vertical-align: middle;
+            height: 10px;
+            line-height: 10px;
+            width: 9px;
+            margin-left: 5px;
+            background: url(//misc.360buyimg.com/user/purchase/2.0.0/widget/consignee-scroll/i/addr-i.png) no-repeat 0 0;
+        }
+
+        /* */
+        .addr-switch {
+            display: inline-block;
+            vertical-align: middle;
+            height: 10px;
+            line-height: 10px;
+            width: 9px;
+            margin-left: 5px;
+            background: url(//misc.360buyimg.com/user/purchase/2.0.0/widget/consignee-scroll/i/addr-i.png) no-repeat 0 0;
+        }
+
+        del {
+            text-decoration: line-through;
+            color: #a3a3a3;
+            font-size: 8px;
+            margin-left: 15px;
+            padding: 0;
+        }
+
+        #dels {
+            text-decoration: line-through;
+            color: #ff1b19;
+            font-size: 16px;
+            margin-left: 15px;
+            padding: 0;
+        }
+        .generalInvoice{
+            padding-left: 20px;
+            display: none;
+        }
+
+        .subtab tr{
+            height: 45px;
+        }
+        .subtab tr td{
+            height: 35px;
+            line-height:35px ;
+        }
+        .inp{
+            width: 200px;
+            height: 35px;
+            line-height: 35px;
+            padding-left:10px;
+        }
+        .increment{
+            padding-left: 20px;
+            display: none;
+        }
+         .inctab tr{
+            height: 45px;
+        }
+        .inctab tr td{
+            height: 35px;
+            line-height:35px ;
+        }
+        .navbar-nav>.user-menu>.dropdown-menu>li.user-header{
+                height: 160px !important;
+        }
+
+        .btns {
+            font-weight: 350;
+            background-color: #fff;
+        }
+
+        .btns:hover {
+            font-weight: 350;
+            border: 2px solid #5bc0de;
+            background-color: #fff;
+        }
+
+        input,button,select,textarea{outline:none;}
+
+        .btns:active {
+            font-weight: 550;
+            border: 2px solid #5bc0de;
+            background-color: #fff;
+            border:0;
+        }
+    </style>
+
+{% endblock css %}
+
+<!-- 导航栏-->
+{% block navbar %}
+    <div class="container">
+        <div class="navbar-header">
+            <a href="{% url 'app:index' %}" class="navbar-brand"><b>{{site_name}}</b></a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="{% url 'app:index' %}">首页</a></li>
+                {% for var1 in navigation %}
+                    <li><a href="{{var1.url}}">{{var1.name}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    {% if user %}
+                        <a href="{% url 'home:index' %}">
+                            <span class="hidden-xs"> 我的订单 </span>
+                        </a>
+                    {% endif %}
+                </li>
+
+                {% if not user %}
+                <li class="dropdown user user-menu">
+                    <a href="{% url 'auth:oauth2:login_zycg' %}" class="dropdown-toggle">
+                        <img src="http://mall.zycg.gov.cn/home/images/yc.png" class="user-image" alt="User Image">
+                        <span class="hidden-xs">央采登录</span>
+                    </a>
+                </li>
+                {% endif %}
+                <li class="dropdown user user-menu">
+                    {% if user %}
+                        <a href="{% url 'auth:logout' %}" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="{% static 'images/user/user2-160x160.jpg' %}" class="user-image" alt="User Image">
+                            <span class="hidden-xs"> {{user.username}} </span>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'auth:login' %}" class="dropdown-toggle">
+                            <span class="hidden-xs">请登陆</span>
+                        </a>
+                    {% endif %}
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                <small>{{site_name}} 欢迎您 </small>
+                            </p>
+                        </li>
+                        <!-- <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li> -->
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="{% url 'home:index' %}" class="btn btn-default btn-flat">我的订单</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="{% url 'auth:logout' %}" class="btn btn-default btn-flat">退出登录</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+
+                {% if not user %}
+                <li class="dropdown user user-menu">
+                    <a href="{% url 'auth:register' %}" class="dropdown-toggle">
+                        <span class="hidden-xs">立即注册</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock navbar %}
+
+{% block content_wrapper %}
+    <div class="row">
+        <div class="container box-body" style="margin-top: 20px;">
+            <div class="col-md-6 pull-right" style="margin-top: 17px; width: 40%;">
+                <!-- <form action="{% url 'app:search' %}" method="GET">
+                    <div class="input-group">
+                        <input name="search" type="text"  class="form-control">
+                        <span class="input-group-btn">
+                            <button type="" class="btn btn-info btn-flat">搜索</button>
+                        </span>
+                    </div>
+                </form> -->
+            </div>
+
+            <div id="logos">
+                <div class="logo_extend" clstag="h|keycount|head|logo_02" style="display: block;">
+                    <a href="" style="display: block; width: auto; background: #fff;" target="_blank">
+                        <img src="/static/Logosc_2000x1500.png" style="margin: auto; display: block; width: 140px;">
+                    </a>
+                </div>
+
+            </div>
+            <div class="logo-text pull-left">
+                    结算页
+                </div>
+
+        </div>
+    </div>
+
+    <div class="container">
+            <section class="content">
+
+                {% if not address %}
+                <div class="callout callout-info">
+                    <p>您还没有添加收货地址，<a href="" data-toggle="modal" data-target="#modal-create" title="">请添加</a></p>
+                </div>
+                {% set defaules = False %}
+                {% endif %}
+
+                <div class="box box-solid">
+                    <div class="box-header">
+                        <div style="margin-bottom: 10px;"></div>
+                        <h3 class="box-title">填写并核对订单信息</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">收货人信息</h3>
+                                <div class="pull-right">
+                                    <a href="" data-toggle="modal" data-target="#modal-create" title="新增收货地址">新增收货地址</a>
+                                </div>
+                            </div>
+                            <div class="box-body table-responsive no-padding">
+                                <div class="col-xs-12">
+                                    <ul class="todo-list" id="todo-lists">
+                                        <li>
+                                            {% if address %}
+                                                <div class="pull-left">
+                                                    <button type="button" class="btn btn-block btn-default btn-ms btn-width selected">
+                                                        {{address.consigneeName}}
+                                                        <b></b>
+                                                    </button>
+                                                </div>
+                                                <div class="span-left pull-left span">{{address.consigneeName}}</div>
+                                                <div class="span-left pull-left span">
+                                                    {% if address.province %}
+                                                        {{address.province}}
+                                                    {% endif %}
+                                                    {% if address.city %}
+                                                        {{address.city}}
+                                                    {% endif %}
+                                                    {% if address.area %}
+                                                        {{address.area}}
+                                                    {% endif %}
+                                                    {% if address.consigneeAddress %}
+                                                        {{address.consigneeAddress}}
+                                                    {% endif %}
+                                                </div>
+                                                <div class="span-left pull-left span">{{address.consigneeMobile}}</div>
+                                                {% if address.defaule %}
+                                                    <span style="background-color: #999;" class="default">默认地址</span>
+                                                {% else %}
+                                                    <span class="default"> &nbsp;</span>
+                                                {% endif %}
+
+                                                <div class="tools span">
+                                                    <i data-toggle="modal" data-target="#modal-create" class="fa fa-edit" onclick="editAddress('{{address.id}}');"></i>
+                                                </div>
+                                                {% else %}
+                                                     <a href="" data-toggle="modal" data-target="#modal-create" title="新增收货地址">新增收货地址</a>
+                                                {% endif %}
+                                        </li>
+                                    </ul>
+                                    <!--div class="box-body">
+                                        <a href="">更多地址 <b class="addr-switch"></b></a>
+                                    </div-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-header with-border" style="margin-bottom: 10px;"></div>
+
+
+                    <!--支付开始-->
+                    <div class="box-header with-border" style="margin-bottom: 10px;"></div>
+
+                        <div class="box-body">
+                            <div class="box">
+                                <div class="box-header with-border">
+                                    <h4 class="box-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                                             支付方式
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseTwo" class="panel-collapse collapse in">
+                                    <div class="box-body">
+                                        <div class="pull-left span-left">
+                                            <button type="button" class="btn btn-block btn-default btn-ms btn-width paymode goodsCatchPay selected">
+                                                货到付款 &nbsp;<a tabindex="3"
+                                                class="fa fa-question-circle"
+                                                role="button"
+                                                data-toggle="popover"
+                                                data-trigger="focus"
+                                                data-content="在没有选择支付方式的时候，默认以： 货到付款-现金结算 [点击货到付款后，选择更多支付方式]">
+                                                </a>
+                                                <b></b>
+                                            </button>
+                                        </div>
+                                        <div class="pull-left span-left">
+                                            <button type="button" class="btn btn-block btn-default btn-ms btn-width paymode payment" disabled>
+                                                在线支付
+                                                <b></b>
+                                            </button>
+                                        </div>
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <!--在线支付选项-->
+                                        <div class="onlinepay">
+                                            <div class="pull-left span-left">
+                                                <button type="button" class="btn btn-block btn-default btn-ms btn-width cash btn99 selected">
+                                                    现金结算
+                                                    <b></b>
+                                                </button>
+                                            </div>
+                                            <div class="pull-left span-left">
+                                                <button type="button" class="btn btn-block btn-default btn-ms btn-width accounts btn99">
+                                                    转账汇款
+                                                    <b></b>
+                                                </button>
+                                            </div>
+                                            <div class="pull-left span-left">
+                                                <button type="button" class="btn btn-block btn-default btn-ms btn-width OfficialCard btn99">
+                                                    公务卡
+                                                    <b></b>
+                                                </button>
+                                            </div>
+                                            <div class="pull-left span-left">
+                                                <button type="button" class="btn btn-block btn-default btn-ms btn-width cheque btn99">
+                                                    支票
+                                                    <b></b>
+                                                </button>
+                                            </div>
+                                            <div class="pull-left span-left">
+                                                <button type="button" class="btn btn-block btn-default btn-ms btn-width period btn99">
+                                                    账期
+                                                    <b></b>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--支付结束-->
+                        <div class="box-header with-border" style="margin-bottom: 10px;"></div>
+
+                        <div class="box-body">
+                            <div class="box">
+                                <div class="box-header with-border">
+                                    <h4 class="box-title">
+                                        发票信息 &nbsp;
+                                        <a tabindex="3"
+                                                class="fa fa-question-circle"
+                                                role="button"
+                                                data-toggle="popover"
+                                                data-trigger="focus"
+                                                data-content="开企业抬头发票须填写纳税人识别号，以免影响报销">
+                                        </a>
+                                        <b></b>
+                                    </h4>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse">
+                                    <div class="box-body">
+                                        <div class="pull-left span-left">
+                                            <button type="button" class="btn btn-block btn-default btn-ms btn-width btn1 notOpen selected">
+                                                不开发票
+                                                <b></b>
+                                            </button>
+                                        </div>
+                                        <div class="pull-left span-left">
+                                            <button type="button" class="btn btn-block btn-default btn-ms btn-width btn1 btnbox">
+                                                普通发票
+                                                <b></b>
+                                            </button>
+                                        </div>
+                                        <div class="pull-left span-left">
+                                            <button type="button" class="btn btn-block btn-default btn-ms btn-width btn1 incbox">
+                                                增值税专用发票
+                                                <b></b>
+                                            </button>
+                                        </div>
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <!--
+                                        发票类型：
+                                            - 普通发票
+                                            - 增值税专用发票：
+                                                - 单位名称
+                                                - 纳税人识别码
+                                                - 注册地址
+                                                - 注册电话
+                                                - 开户银行
+                                                - 银行账号
+                                        发票内容：
+                                            - 不开发票
+                                        -->
+                                        <!--普通发票框框开始-->
+                                        <div class="generalInvoice">
+                                            <form id="invoice2">
+                                                <input type="hidden" name="actionid" id="actionid" value="1" class="actionid"/> <!--不开发票/普通发票/增值税专用发票[0/1/2]-->
+                                                <table class="subtab">
+                                                    <tr>
+                                                        <td style="width: 20%;text-align: right;"><span style="margin-right: 10px;">发票抬头</span></td>
+                                                        <td style="width: 80%;"><input name="head" value="{{inv.head}}" type="text" placeholder="请填写公司发票抬头" class="inp"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span style="margin-right: 10px;">纳税人识别号</span></td>
+                                                        <td><input name="taxpayer" value="{{inv.taxpayer}}" type="text" placeholder="请填写纳税人识别号" class="inp"/></td>
+                                                    </tr>
+
+
+                                                    <tr>
+                                                        <td style="text-align:right;"><span style="margin-right: 10px;">发票内容</span></td>
+                                                        <td>
+                                                                <input name="content" value="{{inv.content}}" type="hidden" name="wid" id="wid" value="0" class="changevalue"/> <!--商品明细/商品类别 [0/1]-->
+                                                                <button type="button" class="btn btn-block btn-default btn-ms btn-width pull-left selected btn2 detailed" style="margin-top: 5px;margin-right: 10px;">
+                                                                    商品明细
+                                                                    <b></b>
+                                                                </button>
+                                                                <button type="button" class="btn btn-block btn-default btn-ms btn-width pull-left btn2 category">
+                                                                    商品类别
+                                                                    <b></b>
+                                                                </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="height: 30px;">
+                                                        <td></td>
+                                                        <td>
+                                                            <span>发票内容将显示详细商品名称与价格信息</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align: right;"><span style="color: red;">*</span><span style="margin-right: 10px;">收票人手机</span></td>
+                                                        <td><input name="phone" type="text" value="{{inv.phone}}"" placeholder="请填写收票人手机号" class="inp"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align: right;"><span style="margin-right: 10px;">收票人邮箱</span></td>
+                                                        <td><input name="email" value="{{inv.email}}" type="text" placeholder="请填写收票人邮箱" class="inp"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>
+                                                            <button type="submit" class="btn btn-info btn-width btn-ms save">保存</button>
+                                                            <button type="button" class="btn btn-subscribe btn-width btn-ms cancelsub">取消</button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </form>
+                                        </div>
+                                        <!--普通发票框框结束-->
+                                        <!--增值税专用发票框框开始-->
+                                        <div class="increment">
+                                            <form id="invoice1">
+                                                <input type="hidden" name="actionid" id="actionid" value="2" class="actionid"/> <!--不开发票/普通发票/增值税专用发票[0/1/2]-->
+                                                <table class="inctab">
+                                                    <tr>
+                                                        <td style="text-align: right;"><span style="color: red;">*</span><span style="margin-right: 10px;">单位名称</span></td>
+                                                        <td><input name="unitName" value="{{inv.unitName}}" type="text" placeholder="请填写单位名称" class="inp"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align: right;"><span style="color: red;">*</span><span style="margin-right: 10px;">纳税人识别码</span></td>
+                                                        <td><input name="taxpayer" value="{{inv.taxpayer}}" type="text" placeholder="请填写纳税人识别码" class="inp"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align: right;"><span style="color: red;">*</span><span style="margin-right: 10px;">注册地址</span></td>
+                                                        <td><input name="registeredAddress" value="{{inv.registeredAddress}}" type="text" placeholder="请填写注册地址" class="inp"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align: right;"><span style="color: red;">*</span><span style="margin-right: 10px;">注册电话</span></td>
+                                                        <td><input name="registeredTelephone" value="{{inv.registeredTelephone}}" type="text" placeholder="请填写注册电话" class="inp"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align: right;"><span style="color: red;">*</span><span style="margin-right: 10px;">开户银行</span></td>
+                                                        <td><input name="accountOpening" value="{{inv.accountOpening}}" type="text" placeholder="请填写开户银行" class="inp"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align: right;"><span style="color: red;">*</span><span style="margin-right: 10px;">银行账户</span></td>
+                                                        <td><input name="account" value="{{inv.account}}" type="text" placeholder="请填写银行账号" class="inp"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>
+                                                            <button type="submit" class="btn  btn-info btn-width btn-ms save">保存</button>
+                                                            <button type="button" class="btn btn-subscribe btn-width btn-ms cancelsub">取消</button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </form>
+                                        </div>
+                                        <!--增值税专用发票框框结束-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="box-header with-border" style="margin-bottom: 10px;"></div>
+
+                        <div class="box-body">
+                            <div class="box">
+                                <div class="box-header">
+                                    <h3 class="box-title">送货清单</h3>
+                                </div>
+                                {% for var1 in cart %}
+                                <div class="box-body" style="background-color: #ecf0f563; margin-top: 5px;">
+                                    <div class="timeline-body pull-left">
+                                        {% if var1.image %}
+                                            <img style="width: 100px; height: 100px;" src="{{var1.image}}" alt="{{var1.name}}" class="margin">
+                                        {% else %}
+                                            <img style="width: 100px; height: 100px;" src="http://placehold.it/150x150" alt="{{var1.name}}" class="margin">
+                                        {% endif %}
+                                    </div>
+                                    <h5 style="margin-top: 9px; margin-bottom: 3px;"><a style="color: #353535; width: auto;" href="">{{var1.name}}</a></h5>
+
+                                    {% if user.usercode %}
+                                        <p style="margin-bottom: 3px;">央采折扣：
+                                        <span style="color: red;"><span class="money">￥</span>{{var1.yc_money}}<del>原价￥ {{var1.money}}</del></span>
+                                        </p>
+                                    {% else %}
+                                        <p style="margin-bottom: 3px;">商品价钱：
+                                        <span style="color: red;">{{var1.money}}</span>
+                                        </p>
+                                    {% endif %}
+
+                                    {% if user.usercode and var1.rate %}
+                                        <p style="margin-bottom: 3px;">央采优惠: {{var1.rate}}%</p>
+                                    {% endif %}
+
+                                    <p style="margin-bottom: 3px;">数量： x{{var1.numb}}</p>
+                                    <p style="margin-bottom: 3px;">库存： {% if var1.key.release %}有货{% else %}无货{% endif %}</p>
+                                    <hr style="margin-bottom: 0px; margin-top: 0px;">
+                                    <!--div class="box-body">
+                                        <p>品牌 高品质蓝牙耳机 （赠品颜色款式随机） x1 <a href="" style="color: #000;">查看价格</a></p>
+                                    </div-->
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+
+
+                        <div class="box-header with-border" style="margin-bottom: 10px;"></div>
+                </div>
+
+                    <div class="box box-solid">
+                        <div class="box-body">
+                            <div class="pull-right">
+                                <p style="text-align: right; font-size: 18px;">
+                                    应付总额：
+                                    <span style="text-align: right; font-size: 24px; color: #f00;">
+                                        {{money_aggregate.total}}
+                                    </span>
+                                </p>
+
+                                <p>寄送至：
+                                {% if address.province %}
+                                    {{address.province}}
+                                {% endif %}
+                                {% if address.city %}
+                                    {{address.city}}
+                                {% endif %}
+                                {% if address.area %}
+                                    {{address.area}}
+                                {% endif %}
+                                {% if address.consigneeAddress %}
+                                    {{address.consigneeAddress}}
+                                {% endif %}
+                                &nbsp;收货人：{{address.consigneeName}} {{address.consigneeMobile}}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="box-footer">
+                            <form action="{% url 'shop:settleAccounts' %}" method="POST">
+                                {% csrf_token %}
+                                <!-- 收货地址 -->
+                                <input type="hidden" name="address" value="{{address.id}}">
+
+                                <!-- 商品ID -->
+                                <input type="hidden" name="ware_id" value="{{cartlist}}">
+
+                                <!-- 支付方式 -->
+                                <input type="hidden" name="paymethod" value="4" class="payval">
+
+                                <!-- invoices 发票 -->
+                                <input type="hidden" name="invoices" id="invoices" value="0">
+
+                                <!-- 订单备注 -->
+                                <input type="hidden" name="remark" value="">
+
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-block btn-danger btn-ms" {% if defaules == False %} disabled {% endif %}>提交订单</button>
+                                </div>
+                            </form>
+                        </div>
+
+
+                        <div class="box-header with-border" style="margin-bottom: 10px;"></div>
+                        {% if usercodes %}
+                            <div class="box">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">优惠报表</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <th style="width: 40%;text-align: center;">品目</th>
+                                                <th style="width: 60%;text-align: center;" colspan="4">阶梯报价优惠率(%)</th>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 40%;"></td>
+                                                <td style="width: 10%;text-align: center;">10万元(含)以下</td>
+                                                <td style="width: 15%;text-align: center;">10万元至30万元(含)</td>
+                                                <td style="width: 15%;text-align: center;">30万元至60万元(含)</td>
+                                                <td style="width: 20%;text-align: center;">60万元至100万元(含)</td>
+                                            </tr>
+                                            {% for i in moneytable %}
+                                            <tr>
+                                                <td style="width: 40%;text-align: center;">{{i.get_uid_display}}</td>
+                                                <td style="width: 10%;text-align: center;">{{i.a1}}%</td>
+                                                <td style="width: 15%;text-align: center;">{{i.a2}}%</td>
+                                                <td style="width: 15%;text-align: center;">{{i.a3}}%</td>
+                                                <td style="width: 20%;text-align: center;">{{i.a4}}%</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        {% endif %}
+                        </div>
+
+
+                    </div>
+
+            </section>
+
+
+    <div class="modal fade" id="modal-create">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="addaddress">
+                    {% csrf_token %}
+                    <input type="hidden" id="edit_id" name="edit_id" value=''>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="h4-te">新增收货地址</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="consigneeName">*收货人</label>
+                                <input name="consigneeName" type="text" class="form-control" id="consigneeName" placeholder="收货人">
+                            </div>
+                            <div class="form-group box-body">
+                                <label for="city_china_val">*所在地区</label>
+                                <div id="city_china_val">
+                                    <div class="col-xs-4">
+                                        <select id="province" name="province" class="province other form-control select2" data-first-title="选择省">
+                                            <option value="北京市" selected>北京市</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <select id="city" name="city" class="city form-control select2 col-xs-4" data-first-title="选择市">
+                                            <option value="选择市" selected>选择市</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <select id="area" name="area" class="area form-control select2 col-xs-4" data-first-title="选择地区">
+                                            <option value="选择区" selected>选择区</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="consigneeAddress">*详细地址</label>
+                                <input name="consigneeAddress" type="text" class="form-control" id="consigneeAddress" placeholder="详细地址">
+                            </div>
+                            <div class="form-group">
+                                <label for="consigneeMobile">*手机号码</label>
+                                <input name="consigneeMobile" type="consigneeMobile" class="form-control" id="consigneeMobile" placeholder="手机号码">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">邮箱</label>
+                                <input name="email" type="email" class="form-control" id="email" placeholder="邮箱">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content_wrapper %}
+
+{% block top_script %}
+{% endblock top_script %}
+
+
+
+{% block script %}
+    {% include 'defaule/temp/script.ht' %}
+    <script src="{% static 'iCheck/icheck.min.js' %}"></script>
+    <script src="{% static 'js/jquery.cxselect.min.js' %}"></script>
+    <script src="{% static 'js/csrf_token.js' %}"></script>
+
+    <script>
+        toastr.options.positionClass = 'toast-top-right';
+
+        //点击商品明细改变inputvalue
+        $(".detailed").on("click",function(){
+            $(".changevalue").val(0);
+        })
+        //点击商品类别改变inputvalue
+        $(".category").on("click",function(){
+            $(".changevalue").val(1);
+        })
+
+        //支付方面
+        $(function(){
+            //切换默认状态
+            $(".paymode").on("click",function(){
+                $(".paymode").removeClass("selected");
+                $(this).addClass("selected");
+            })
+            $(".btn99").on("click",function(){
+                $(".btn99").removeClass("selected");
+                $(this).addClass("selected");
+            })
+            //点击货到付款 出来5种支付
+            $(".goodsCatchPay").on("click",function(){
+                $(".onlinepay").show();
+            })
+            //点击货到付款 给payval传值
+            $(".goodsCatchPay").on("click",function(){
+                $(".payval").val(4);
+            })
+            //点击在线支付隐藏5种支付
+            $(".payment").on("click",function(){
+                $(".onlinepay").hide();
+            })
+
+            //点击现金结算给payval传值
+            $(".cash").on("click",function(){
+                $(".payval").val(4);
+            })
+            //点击转账汇款给payval传值
+            $(".accounts").on("click",function(){
+                $(".payval").val(3);
+            })
+            //点击支票给payval传值
+            $(".cheque").on("click",function(){
+                $(".payval").val(2);
+            })
+            //点击公务卡给payval传值
+            $(".OfficialCard").on("click",function(){
+                $(".payval").val(1);
+            })
+            //点击账期给payval传值
+            $(".period").on("click",function(){
+                $(".payval").val(9);
+            })
+            //点击在线支付给payval传值
+            $(".payment").on("click",function(){
+                $(".payval").val(5);
+            })
+        })
+
+        //发票方面
+        $(function(){
+            //点击切换selected
+                $(".btn1").on("click",function(){
+                    $(".btn1").removeClass("selected");
+                  $(this).addClass("selected");
+                })
+                $(".btn2").on("click",function(){
+                    $(".btn2").removeClass("selected");
+                  $(this).addClass("selected");
+                })
+            //点击普通发票显示table
+            $(".btnbox").on("click",function(){
+                $(".generalInvoice").show();
+                $(".increment").hide();
+                $("#invoices").val(1);
+
+            })
+            //点击增值显示table
+            $(".incbox").on("click",function(){
+                $(".increment").show();
+                $(".generalInvoice").hide();
+                $("#invoices").val(2);
+            })
+            //点击不开发票隐藏
+            $(".notOpen").on("click",function(){
+                $(".generalInvoice").hide();
+                $(".increment").hide();
+                $("#invoices").val(0);
+            })
+            //点击取消按钮隐藏
+            $(".cancelsub").on("click",function(){
+                $(".generalInvoice").hide();
+                $(".increment").hide();
+            })
+
+            // $(".save").on('click', function(event) {
+            //     event.preventDefault();
+            //     /* Act on the event */
+            //     toastr.success('以保存，请核对订单信息后提交订单');
+            // });
+        })
+
+        $(function () {
+          $('[data-toggle="popover"]').popover()
+        })
+        var csrftoken = getCookie('csrftoken');
+
+
+        function editAddress(ids){
+            document.getElementById('h4-te').innerHTML = '修改收货地址';
+            $.ajax({
+                url: '{% url "home:getaddress" %}',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'id': ids
+                },
+            })
+            .done(function(data) {
+                var consigneeName = data['data'][0]['consigneeName']
+
+                var province = data['data'][0]['province']
+                var city = data['data'][0]['city']
+                var area = data['data'][0]['area']
+
+                var consigneeAddress = data['data'][0]['consigneeAddress']
+                var consigneeMobile = data['data'][0]['consigneeMobile']
+                var email = data['data'][0]['email']
+                console.log(email);
+
+                document.getElementById('consigneeName').value = consigneeName;
+                document.getElementById('consigneeAddress').value = consigneeAddress;
+                document.getElementById('consigneeMobile').value = consigneeMobile;
+                document.getElementById('email').value = email;
+                document.getElementById('edit_id').value = ids;
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+        }
+
+        //增值开票
+        var Addinvoices = document.getElementById("invoice1");
+            function Addinvoice1(){
+                var Dat = new FormData(Addinvoices);
+                var url = "{% url 'home:invoice' %}";
+                var data = {
+                    "actionid": Dat.get('actionid'),
+                    "content": Dat.get('content'),
+                    "taxpayer": Dat.get('taxpayer'),
+                    "phone": Dat.get('phone'),
+                    "email": Dat.get('email'),
+                    "head": Dat.get('head'),
+                    "unitName": Dat.get('unitName'),
+                    "registeredAddress": Dat.get('registeredAddress'),
+                    "registeredTelephone": Dat.get('registeredTelephone'),
+                    "accountOpening": Dat.get('accountOpening'),
+                    "account": Dat.get('account')
+                };
+                $.ajax({
+                    url: url,
+                    type:'POST',
+                    dataType:'json',
+                    token: csrftoken,
+                    data: data,
+                    success: function(callback){
+                        toastr.success('发票信息以保存，请核对订单信息后提交订单');
+                    },
+                    error: function (callback) {
+
+                    }
+                });
+            }
+            Addinvoices.addEventListener("submit", function (event) {
+                event.preventDefault();   // 取消按键的原始提交行为
+                Addinvoice1();         //启动监听提交按钮
+            });
+            //普通发票
+            var Addinvoice = document.getElementById("invoice2");
+            function AddinvoiceOrdinary(){
+                var Dat = new FormData(Addinvoice);
+                var url = "{% url 'home:invoice' %}";
+                var data = {
+                    "actionid": Dat.get('actionid'),
+                    "content": Dat.get('content'),
+                    "taxpayer": Dat.get('taxpayer'),
+                    "phone": Dat.get('phone'),
+                    "email": Dat.get('email'),
+                    "head": Dat.get('head'),
+                    "unitName": Dat.get('unitName'),
+                    "registeredAddress": Dat.get('registeredAddress'),
+                    "registeredTelephone": Dat.get('registeredTelephone'),
+                    "accountOpening": Dat.get('accountOpening'),
+                    "account": Dat.get('account')
+                };
+                $.ajax({
+                    url: url,
+                    type:'POST',
+                    dataType:'json',
+                    token: csrftoken,
+                    data: data,
+                    success: function(callback){
+                        toastr.success('发票信息以保存，请核对订单信息后提交订单');
+                    },
+                    error: function (callback) {
+                    }
+                });
+            }
+            Addinvoice.addEventListener("submit", function (event) {
+                event.preventDefault();   // 取消按键的原始提交行为
+                AddinvoiceOrdinary();         //启动监听提交按钮
+            });
+
+
+            var addaddress = document.getElementById("addaddress")
+            function address(){
+                var Dat = new FormData(addaddress);
+                var url = "{% url 'home:addaddress' %}";
+                var data = {
+                    "edit_id": Dat.get('edit_id'),
+                    "consigneeName": Dat.get('consigneeName'),
+                    "province": Dat.get('province'),
+                    "city": Dat.get('city'),
+                    "area": Dat.get('area'),
+                    "consigneeAddress": Dat.get('consigneeAddress'),
+                    "consigneeMobile": Dat.get('consigneeMobile'),
+                    "email": Dat.get('email')
+                };
+                $.ajax({
+                    url: url,
+                    type:'POST',
+                    dataType:'json',
+                    token: csrftoken,
+                    data: data,
+                    success: function(callback){
+                        if (callback['code'] == 200) {
+                            location.reload();
+                        } else{
+                            console.log(callback['code']);
+                            var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                        '<h4><i class="icon fa fa-warning"></i>' + callback[callback['state']] + '</h4>' +
+                                        '</div> ';
+                            document.getElementById('error_'+ids).innerHTML = html;
+                        };
+                    },
+                    error: function (callback) {
+                        console.log(callback);
+                        console.log(callback['code']);
+                            var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                        '<h4><i class="icon fa fa-warning"></i> 啊偶，提交内容失败了！</h4>' +
+                                        '</div> ';
+                            document.getElementById('error_0').innerHTML = html;
+
+                    }
+                });
+            }
+            addaddress.addEventListener("submit", function (event) {
+                event.preventDefault();   // 取消按键的原始提交行为
+                address();         //启动监听提交按钮
+            });
+
+
+
+
+            $(function() {
+                var urlChina = "{% static 'js/cityData.min.json' %}";
+                var urlGlobal = "{% static 'js/globalData.min.json' %}";
+                $.cxSelect.defaults.url = urlChina;
+
+                // 设置默认值及选项标题
+                $('#city_china_val').cxSelect({
+                    selects: ['province', 'city', 'area'],
+                    emptyStyle: 'none'
+                });
+
+                // API 接口
+                var apiBox = $('#api_data');
+                var cxSelectApi;
+
+                apiBox.cxSelect({
+                    selects: ['province', 'city', 'area']
+                }, function(api) {
+                    cxSelectApi = api;
+                });
+
+                $('body').on('click', 'button', function() {
+                    var _name = this.name;
+                    var _value = this.value;
+
+                    switch (_name) {
+                        case 'attach':
+                            cxSelectApi.attach();
+                            break;
+                        case 'detach':
+                            cxSelectApi.detach();
+                            break;
+                        case 'clear':
+                            cxSelectApi.clear();
+                            break;
+                        case 'required':
+                            cxSelectApi.setOptions({
+                                required: _value == 1 ? false : true
+                            });
+                            this.value = _value == 1 ? 0 : 1;
+                            break;
+                        case 'emptyStyle':
+                            if (_value === 'none') {
+                                _value = 'hidden';
+                            } else if (_value === 'hidden') {
+                                _value = '';
+                            } else {
+                                _value = 'none';
+                            };
+                            cxSelectApi.setOptions({
+                                emptyStyle: _value
+                            });
+                            this.value = _value;
+                            break;
+                        case 'firstTitle':
+                            _value = _value === '请选择' ? '选择吧' : '请选择';
+                            cxSelectApi.setOptions({
+                                firstTitle: _value
+                            });
+                            this.value = _value;
+                            break;
+                        case 'setSelect':
+                            cxSelectApi.setOptions({
+                                selects: _value === 'a' ? ['province', 'city', 'area'] : ['first', 'second', 'third', 'fourth', 'fifth']
+                            });
+                            this.value = _value === 'a' ? 'b' : 'a';
+                            break;
+                        case 'setData':
+                            if (_value === 'china' || _value === 'global') {
+                                cxSelectApi.setOptions({
+                                    url: this.value === 'china' ? urlChina : urlGlobal,
+                                });
+                            } else if (this.value === 'custom') {
+                                cxSelectApi.setOptions({
+                                    data: dataCustom
+                                });
+                            };
+                            break;
+                    };
+                });
+            })();
+    </script>
+{% endblock script %}
+

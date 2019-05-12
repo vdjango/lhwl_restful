@@ -1,0 +1,258 @@
+/* 全部分类展示页 */
+
+.plate-ant {
+    width: 1230px;
+    margin-left: -45px;
+    right: -25px;
+    float: left;
+    position: relative;
+}
+
+.plate-ant>.subplate-ant {
+    width: 228px !important;
+    height: 325px;
+    margin: 0 10px 10px 5px !important;
+    background-color: #fff;
+    padding: 0 20px;
+    float: left;
+    -webkit-transition: all 0.03s linear;
+    transition: all 0.03s linear;
+}
+
+.plate-ant>.subplate-ant>a img {
+    width: 200px !important;
+    height: 200px !important;
+    margin: 2px -7px 15px -7px !important;
+}
+
+.subplate-ant>.text-name {
+    height: 30px;
+    text-align: left;
+    font-style: normal;
+    text-decoration: none;
+    font-size: 12px;
+    white-space: unset;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-height: 16px;
+}
+
+.subplate-ant>.text-price {
+    margin: 0px 0px 6px -2px;
+    text-align: left;
+    font-size: 17px;
+    height: 20px;
+}
+
+
+
+
+.subplate-ant>.col-xs-6 {
+    margin: 0 0 0 -20px;
+}
+
+
+
+
+
+
+
+.icheckbox_square-blue,
+.iradio_square-blue {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+
+    width: 18px;
+    height: 18px;
+    -moz-border-radius: 1px;
+    /* Gecko browsers */
+    -webkit-border-radius: 1px;
+    /* Webkit browsers */
+    border-radius: 1px;
+    /* W3C syntax */
+}
+
+
+@media (max-width: 1315px) {
+    .wrapper {
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+}
+
+
+
+.ware-box {
+    height: 24px;
+    margin-top: 0px;
+    border: 1px solid #76e2f94f;
+}
+
+.ware-box-main {
+    width: 60px;
+    height: 23px;
+    float: left;
+    margin: -5px;
+    margin: 0px 5px 2px 5px;
+    border-right: 1px solid #76e2f94f;
+}
+
+.f5 {
+    font-size: 12px;
+    line-height: 20px;
+    /* position: absolute; */
+    /* left: -2px; */
+    line-height: 9px;
+    font-weight: normal;
+    margin: 1.5px 0 0 4px;
+    /* position: absolute; */
+    width: 27px;
+}
+
+.ware-box-bout {
+    float: left;
+}
+
+.ware-box-bout>a {
+    position: absolute;
+    margin: 2.5px 0px 0px 27px;
+    font-size: 12px;
+}
+
+.ware-box-bout>a>i {
+    position: absolute;
+    margin: 2px 0 0 -20px;
+}
+
+
+.breadcrumbs {
+    margin: 0 0 10px 5px;
+    padding: 8px 15px;
+    list-style: none;
+    border-radius: 4px;
+    height: 50px;
+    width: 1200px;
+}
+
+.box.breadcrumbs {
+    border-top: 3px solid #ffffff;
+}
+
+
+.form-input {
+    display: none;
+    position: absolute;
+    margin: 0px 195px;
+    width: 205px;
+    height: 29px;
+}
+
+.breadcrumbs>.clearfix>.form-input-price:hover .breadcrumbs>.clearfix>.form-input {
+    position: absolute;
+    display: unset !important;
+    margin: 0px 195px;
+    width: 205px;
+    height: 29px;
+}
+
+
+.groom {
+    width: 165px;
+    height: auto;
+    margin: 15px 0px 0px -15px;
+    /* position: absolute; */
+    float: left;
+
+    border-bottom: 1px solid #5bc0de;
+    border-left: 1px solid #5bc0de;
+    border-right: 1px solid #5bc0de;
+}
+
+.groom>.groom-ant {
+    height: 200px;
+    background: #fff;
+    border: 1px solid #f5f5f5;
+}
+
+
+.groom>.groom-ant img {
+    border-radius: 0px;
+    margin: 5px 0 15px 23px;
+}
+
+.groom>.groom-ant>.text-price,
+.groom>.groom-ant>.text-name {
+    text-align: left;
+    margin: -13px -2px 14px 13px;
+    width: 140px;
+}
+
+.groom-title {
+    background: #fff;
+    height: 30px;
+    margin: -15px;
+    width: 165px;
+    border: 1px solid #5bc0de;
+    border-bottom: unset;
+}
+
+.groom-title h3 {
+    font-size: 12px;
+    line-height: 0;
+    margin: 15px;
+}
+
+
+
+/* 对比框 */
+
+.addgoods {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.addgoods-li {
+    width: 22%;
+    height: 100px;
+    float: left;
+    border-right: 1px solid #5bc0de;
+    border-left: 1px solid #5bc0de;
+    margin: -10px 0 0 0;
+}
+
+.addgoods-li-five {
+    width: 12%;
+    border: none;
+    text-align: center;
+    height: 100px;
+    float: right;
+    border-right: none;
+    margin: -10px 0 0 0;
+}
+
+#tab_1 {
+    height: 100px;
+}
+
+.alertwindow {
+    width: 1200px;
+    z-index: 1000;
+    position: fixed;
+    bottom: 0;
+    margin-left: -15px;
+    display: none;
+}
+
+.col-md-10 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.navbar-nav>.user-menu>.dropdown-menu>li.user-header {
+    height: 160px !important;
+}

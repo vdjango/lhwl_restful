@@ -1,0 +1,411 @@
+{% extends 'defaule/temp/top-nav.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% load cache %}
+{% load tags %}
+
+{% cache 84600 index_seo %}
+    {% block title %}
+        {% if site_name %}
+            {% if site_tags %}
+                <title>{{ site_name }} - {{ site_tags }}</title>
+            {% else %}
+                <title>{{ site_name }}</title>
+            {% endif %}
+        {% else %}
+            {% if site_tags %}
+                <title>{{ site_tags }}</title>
+            {% else %}
+                <title>你好粗心，怎么没有设置标题呢？</title>
+            {% endif %}
+        {% endif %}
+    {% endblock title %}
+
+    <!-- SEO优化 -->
+    {% block seo %}
+        <meta name="description" content="{{ site_name }} - {{ site_tags }}"/>
+        <meta name="keywords"
+              content="{{ site_name }} - {{ site_tags }}，多功能一体机，碎纸机，投影仪，办公文具，办公耗材，办公设备，办公文具，数码设备，网络产品，电脑及配件，外设产品，办公电器，劳保用品，配件服务，员工福利，维修服务，企业团购，礼品定制，设备租赁，以旧换新"/>
+    {% endblock seo %}
+    <!-- CSS样式 -->
+
+    {% block css %}
+        <link rel="stylesheet" href="{% static 'slider/css/edslider.css' %}">
+        <link rel="stylesheet" href="{% static 'slider/css/animate-custom.css' %}">
+        <style type="text/css">
+        </style>
+    {% endblock css %}
+{% endcache %}
+
+{% block content_nav %}
+    <div class="nav">
+
+        <!-- 全部分类 -->
+        {% cache 84600 index_seo %}
+            <p class="classify-top"></p>
+            <div class="nav_ten" style="margin-top: 26px;">
+                <div class="quanbu_zxr">
+                    <!--div class="quanbu_zxr1"> 全部商品分类</div-->
+                    <ul class="ul" style="margin-left: 165px;">
+                        {% for var1 in navigation_two %}
+                            <li><a target="subnavigation" title="{{ var1.name }}" href="{{ var1.key.get_absolute_url }}">{{ var1.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class="focus">
+                        <!--轮播图左边当行蓝-->
+                        <div class="font-item-title" style="color: #fff;">
+                            <h3>全部商品分类</h3>
+                        </div>
+
+
+                        <div class="dd-inner">
+                            <!--添加数据-->
+
+                            {% for var1 in classify_assortment %}
+                                <div class="font-item">
+
+                                    <div class="item fore1">
+                                        <h3><a href="javascript:;" title="{{ var1.title }}">{{ var1.title }}</a></h3>
+                                        <img alt="{{ var1.title }}" src="{% static 'images/right.png' %}"
+                                             class="rightimg"/>
+                                    </div>
+
+                                    <div class="font-item1">
+                                        <div class="font-left">
+                                            <div class="one">
+                                                <a title="{{ varx.title }}"
+                                                   href="{% url 'app:assortment' 3 %}?search={{ varx.title }}">{{ varx.title }}<i></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        {% if setclassify.radio == '2' %}
+                                            <div class="font-lefty font-lefte">
+                                                {% for var2 in var1.connets %}
+                                                    <div class="col-md-3 pull-left setclassify">
+                                                        <a {% if 'http' in var2.url %}
+                                                            href={{ var3.url }} {% else %} href="{% url 'app:assortment' 3 %}?search={{ var2.title }}" {% endif %}
+                                                            title="{{ var2.title }}">
+                                                            {% thumbnail var2.image "40x40" as im %}
+                                                                <img class="thumb" alt="{{ var2.title }}"
+                                                                     src="{{ im.url }}" style="border-radius: 5px;">
+                                                            {% endthumbnail %}
+                                                            {{ var2.title }}</a>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            <div class="font-lefty">
+                                                {% for var2 in var1.connets %}
+                                                    <dl class="fore1">
+                                                        <dt><a title="{{ var2.subtitle }}"
+                                                               href="{{ var2.url }}">{{ var2.subtitle }}<i>></i></a>
+                                                        </dt>
+                                                        <dd>
+                                                            {% for var3 in var2.connets_list %}
+                                                                {% if 'http' in var3.url %}
+                                                                    <a title="{{ var3.title }}"
+                                                                       href={{ var3.url }}>{{ var3.title }}</a>
+                                                                {% else %}
+                                                                    <a title="{{ var3.title }}"
+                                                                       href="{% url 'app:assortment' 3 %}?search={{ var3.title }}">{{ var3.title }}</a>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </dd>
+                                                    </dl>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--轮播图开始-->
+            <div class="Broadcast-pic">
+                <ul class="Slide">
+                    {% for im in Carousels %}
+                        <li>
+                            <a href="#" target="_blank">
+                                <img src="/media/carousel/{{ im.image }}">
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- 头部微板块-热门 -->
+            <div class="nav-box">
+                <div class="nav-box-channel">
+                    <ul class="nav-box-channel-ul">
+                        <li>
+                            <a href="" title="维修服务">
+                                <i class="fa fa-wrench"></i><br>
+                                维修服务
+                            </a>
+                        </li>
+                        <li>
+                            <a href="" title="企业团购">
+                                <i class="fa fa-users"></i><br>
+                                企业团购
+                            </a>
+                        </li>
+                        <li>
+                            <a href="" title="礼品定制">
+                                <i class="fa fa-gift"></i><br>
+                                礼品定制
+                            </a>
+                        </li>
+                        <li>
+                            <a href="" title="设备租赁">
+                                <i class="fa fa-leaf"></i><br>
+                                设备租赁
+                            </a>
+                        </li>
+                        <li>
+                            <a href="" title="以旧换新">
+                                <i class="fa fa-refresh"></i><br>
+                                以旧换新
+                            </a>
+                        </li>
+                        <li>
+                            <a href="" title="采购流程">
+                                <i class="fa fa-hand-pointer-o"></i><br>
+                                采购流程
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-box-list">
+                    <ul class="nav-box-list-ul">
+                        <li>
+                            <div class="nav-box-list-ul-ware">
+                                <div class="nav-box-text">
+                                    <h3>热销 H1</h3>
+                                    <p class="grid-desc">多功能一体机专栏&nbsp; </p>
+                                    <p class="grid-price">平均价 7988</p>
+                                </div>
+                                <div class="nav-box-img">
+                                    <a href="" title="多功能一体机专栏">
+                                        <img alt="多功能一体机专栏"
+                                             src="/media/images/1241382793/head/2018-06-04 122552-6554.png">
+                                    </a>
+                                    <img src="/media/images/1241382793/head/2018-06-04 122552-6554.png">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="nav-box-list-ul-ware">
+                                <div class="nav-box-text">
+                                    <h3>热销 H2</h3>
+                                    <p class="grid-desc">碎乐碎纸机专栏&nbsp; </p>
+                                    <p class="grid-price">平均价 7988</p>
+                                </div>
+                                <div class="nav-box-img">
+                                    <a href="" title="碎乐碎纸机专栏">
+                                        <img alt="碎乐碎纸机专栏"
+                                             src="/media/images/1422091719/head/2018-06-06 105055-4246.jpg">
+                                    </a>
+                                    <img src="/media/images/1422091719/head/2018-06-06 105055-4246.jpg">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="nav-box-list-ul-ware">
+                                <div class="nav-box-text">
+                                    <h3>热销 H3</h3>
+                                    <p class="grid-desc">打印设备专栏&nbsp; </p>
+                                    <p class="grid-price">平均价 7988</p>
+                                </div>
+                                <div class="nav-box-img">
+                                    <a href="" title="打印设备专栏">
+                                        <img alt="打印设备专栏" src="/media/images/1291727495/head/2018-06-05 230246-8789.jpg">
+                                    </a>
+                                    <img alt="打印设备专栏" src="/media/images/1291727495/head/2018-06-05 230246-8789.jpg">
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        {% endcache %}
+
+        <!--4个小时更新缓存-->
+            <!-- 头部微板块-新品上线 -->
+            <div class="nav-box-new">
+                <div class="nav-box-new-title">
+                    <h3>新品上线</h3>
+                </div>
+                <div class="nav-box-new-r">
+                    <a class="l go-left disabled" href="javascript:;">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a class="r go-right" href="javascript:;">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                    <input type="hidden" class="go-list" name="go-list" value="0">
+                </div>
+                <div style="overflow: hidden; width: 1220px;">
+                    <ul class="nav-box-new-ul">
+                        {% for var1 in newProduct %}
+                            <li>
+                                <div class="nav-box-new-ul-plate">
+                                    <a href="{% url 'app:details' var1.id %}" title="{{ var1.name }}">
+                                        {% thumbnail var1.get_image_url "200x200" as im %}
+                                            <img alt="{{ var1.name }}" src="{{ im.url }}" width="{{ im.width }}"
+                                                 height="{{ im.height }}">
+                                        {% endthumbnail %}
+                                    </a>
+                                    <div class="nav-box-new-ul-title">
+                                        <a href="{% url 'app:details' var1.id %}"
+                                           title="{{ var1.name }}">{{ var1.name }}</a>
+                                        <p class="desc"><!-- 描述 -->
+                                            {% if var1.commodity_description %}
+                                                {{ var1.commodity_description }}
+                                            {% else %}
+                                                上线于 {{ var1.time_add }}
+                                            {% endif %}
+                                        </p>
+                                        <p class="price">{{ var1.money }}元</p>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% cache 14400 index_nav-box-new %}
+        {% endcache %}
+
+        <!-- <div class="nav-box-bottom">
+        <img src="{% static 'images/cyqid.jpg' %}" alt="">
+        </div> -->
+    </div>
+{% endblock content_nav %}
+
+{% block content_wrapper %}
+    {% cache 84600 index_content_wrapper %}
+        <!-- 板块专区 -->
+        <div class="content pl">
+
+            <!-- 普通板块 展示10个商品 -->
+            {% for var1 in MiddleTop %}
+                <div class="plate">
+                    <div class="box-title">
+                        <h3 class="title">{{ var1.title }}</h3>
+                    </div>
+
+                    <div class="left-list-ul">
+                        <ul class="left-ul">
+                            {% for sear in var1.mid_search %}
+                                {% if tabActive != 0 %}
+                                    {% set tabActive = 0 %}
+                                    <li class="tab-active"><a href="" title="{{ sear.name }}">{{ sear.name }}</a></li>
+                                {% else %}
+                                    <li><a href="" title="{{ sear.name }}">{{ sear.name }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    {% for war_1 in var1.commodity %}
+                        <div class="subplate">
+                            <a href="{% url 'app:details' war_1.wareid %}" title="{{ war_1.name }}">
+                                {% thumbnail war_1.image "220x220" as im %}
+                                    <img alt="{{ war_1.name }}" src="{{ im.url }}" width="{{ im.width }}"
+                                         height="{{ im.height }}" style="border-radius: 5px;">
+                                {% endthumbnail %}
+                            </a>
+                            <div class="text-name">
+                                <a href="{% url 'app:details' war_1.wareid %}" title="{{ war_1.name }}">
+                                    {{ war_1.name }}
+                                </a>
+                            </div>
+                            <div class="text-price">{{ war_1.money }}元</div>
+                        </div>
+                    {% endfor %}
+                    <!-- End 普通板块 展示10个商品 -->
+                </div>
+            {% endfor %}
+            <!-- /.content -->
+        </div>
+    {% endcache %}
+{% endblock content_wrapper %}
+
+{% block script %}
+    {% cache 84600 index_script %}
+        <script src="{% static 'slider/js/jquery.edslider.js' %} "></script>
+        <script>
+            $(document).ready(function () {
+                //Call plugin
+                $('.Slide').edslider({
+                    width: '100%',
+                    height: 500
+                });
+            });
+
+
+            /* 新品上线-左按钮 */
+            $('.go-left').click(function (event) {
+                /* Act on the event */
+                var s = parseInt($('.go-list').val()) + 1210;
+                var d = parseInt($(".nav-box-new-ul li").length) / 5;
+
+                if (s / -1210 < d) {
+                    if (s / -1210 > -1) {
+                        console.log(s / -1210, d);
+                        $('.go-list').val(s);
+                        $('.nav-box-new-ul').css('margin-left', s + 'px');
+                        $('.go-right').removeClass('disabled');
+                    }
+                    if (s / -1210 == 0) {
+                        $('.go-left').addClass('disabled');
+                    }
+                }
+            });
+
+            /* 新品上线-右按钮 */
+            $('.go-right').click(function (event) {
+                var s = parseInt($('.go-list').val()) - 1210;
+                var d = parseInt($(".nav-box-new-ul li").length) / 5;
+
+                if (s / -1210 < d) {
+                    $('.go-list').val(s);
+                    $('.nav-box-new-ul').css('margin-left', s + 'px');
+                    $('.go-left').removeClass('disabled');
+                }
+
+                console.log(s / -1210, d)
+                if (s / -1210 == d - 1) {
+                    $('.go-right').addClass('disabled');
+                }
+            });
+
+            var i = 0;
+            setInterval(function(){
+                //$(".Broadcast-pic ul li").eq(i).find("img").css("left","-1180px");
+                //$(".Broadcast-pic ul li").eq(i).find("p").css("width","0px");
+                $(".Broadcast-pic ul li").eq(i).find("img").animate({left: "0px"}, 500, function () {
+                    //当图片移动完成后再加载进度条
+                    //alert("当图片移动完成后再做操作");
+                    $(".Broadcast-pic ul li").eq(i).find("p").animate({width: "600px"}, 8000, function () {
+                        $(".Broadcast-pic ul li").eq(i).find("img").animate({left: "1180px"}, 500, function () {
+                            i++;
+
+                            $(".Broadcast-pic ul li").eq(i).fadeIn(100).siblings().fadeOut(100);
+                            if (i > 2) {
+                                i = 0;
+                            }
+                        });
+                    });
+                });
+            }, 3000);
+        </script>
+    {% endcache %}
+{% endblock script %}

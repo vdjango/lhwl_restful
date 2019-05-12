@@ -1,0 +1,399 @@
+{% extends 'defaule/admin/temp/index.ht' %}
+{% load staticfiles %}
+
+<!--网站标题-->
+{% block main_title %}
+   <title>后台管理 | 商品 - 商品管理 [发布]</title>
+{% endblock main_title %}
+
+<!--CSS样式-->
+{% block main_css %}
+    {% include 'defaule/admin/temp/css.ht' %}
+{% endblock main_css %}
+
+<!--网站头部导航栏-->
+{% block main_header %}
+    <a href="" class="logo">
+        <span class="logo-mini"><b>管理</b>Admin</span>
+        <span class="logo-lg"><b>后台管理</b>Admin</span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Admin</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'admins:complete' %}">全局</a></li>
+                <li><a href="{% url 'admins:user' %}">用户</a></li>
+                <li class="active"><a href="{% url 'admins:commodity' %}">商品</a></li>
+                <li><a href="{% url 'admins:order' %}">订单</a></li>
+                <li><a href="{% url 'admins:sector' %}">板块</a></li>
+                <li><a href="{% url 'admins:AdmPlate' %}">导航</a></li>
+            </ul>
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src={% static "images/user/user2-160x160.jpg" %} class="user-image" alt="User Image">
+                        <span class="hidden-xs">
+                        {{username}}
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                Alexander Pierce - Web Developer
+                                <small>Member since Nov. 2012</small>
+                            </p>
+                        </li>
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endblock main_header %}
+
+<!--网站左侧项目栏-->
+{% block main_aside %}
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>{{username}}</p>
+            {% if username %}
+                <a href="#">
+                    <i class="fa fa-circle text-success"></i>
+                    Online
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="你想知道什么...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header"></li>
+        <li class="active">
+            <a href={% url "admins:commodity" %}>
+                <i class="fa fa-clone"></i>
+                <span>商品管理</span> <!-- 包含增删查改-->
+            </a>
+        </li>
+        <li>
+            <a href={% url "admins:stay" %}>
+                <i class="fa fa-hourglass-2"></i>
+                <span>待发布</span>
+            </a>
+        </li>
+        <li>
+            <a href={% url "admins:import" %}>
+                <i class="fa fa-hourglass-2"></i>
+                <span>批量导入</span>
+            </a>
+        </li>
+        <li>
+            <a href={% url "admins:ClassZycg" %}>
+                <i class="fa fa-hourglass-2"></i>
+                <span>央采分类</span>
+            </a>
+        </li>
+    </ul>
+{% endblock main_aside %}
+
+<!--正文微标题，位置导航-->
+{% block main_content_header %}
+    <h1>发布管理<small>您可以在这里管理商品相关参数</small></h1>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'admins:commodity' %}">商品</a></li>
+        <li><a href="{% url 'admins:commodity' %}">发布管理</a></li>
+        <li class="active">当前位置</li>
+    </ol>
+{% endblock main_content_header %}
+
+<!--正文开始部分-->
+{% block main_content %}
+
+    <div class="row">
+                    <!--添加商品-->
+                    {% if error %}
+                    <div class="alert alert-warning alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <i class="icon fa fa-info"></i> 还有其他地方没有填写哦！
+                    </div>
+                    {% endif %}
+                    <!--添加商品-->
+                    <div class="col-md-6">
+                        <div class="box box-info col-md-12">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">信息发布
+                                    <small>商品：{{release.name}}</small>
+                                </h3>
+                            </div>
+                            <div class="box-body" style="width=100%;">
+                                <div class="form-horizontal col-md-12">
+
+
+                                    <table class="table">
+                                        <tbody>
+                                            {% if release.state %}
+                                            <tr>
+                                                <td>发布状态：</td>
+                                                <td>
+                                                    以发布
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>发布版本：</td>
+                                                <td>
+                                                    v{{release.version}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>最后发布时间：</td>
+                                                <td>
+                                                    {{release.timedate}}
+                                                </td>
+                                            </tr>
+                                            {% else %}
+                                            <tr>
+                                                <td>发布状态：</td>
+                                                <td>
+                                                    未发布
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>发布版本：</td>
+                                                <td>
+                                                    未发布
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>最后发布时间：</td>
+                                                <td>
+                                                    未发布
+                                                </td>
+                                            </tr>
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+
+                                    <div class="form-group">
+                                        <form id="set_online">
+                                            {% if release.state %}
+                                            <button type="submit" class="btn btn-warning pull-right">下架</button>
+                                            {% else %}
+                                            <button type="submit" class="btn btn-info pull-right">发布</button>
+                                            {% endif %}
+                                        </form>
+                                        <a href="{% url 'app:details' id %}" class="btn btn-default">预览商品</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--追加内容-->
+                    <div class="col-md-6">
+                        <div class="box box-info col-md-12">
+                            <div class="box-header">
+                                <h3 class="box-title">商品状态</h3>
+                                <small>Adm</small>
+                            </div>
+                            <div class="box-body">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <p>商品图片：</p>
+                                            </td>
+                                            <td>
+                                                <a href="" title="XXXX"><b class="text-yellow">Warning</b></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>商品详情：</p>
+                                            </td>
+                                            <td>
+                                                <a href="" title="XXXX"><b class="text-yellow">Warning</b></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>商品参数：</p>
+                                            </td>
+                                            <td>
+                                                <b class="text-green">Success</b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>产品套餐：</p>
+                                            </td>
+                                            <td>
+                                                <b class="text-green">Success</b>
+                                            </td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                                <form action="">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-warning pull-right">全部下架</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!--商品参数-->
+                    </div>
+    </div>
+
+
+
+
+
+
+    <!--设置用户等级-->
+    <div class="modal fade" id="modal-set_level">
+        <form id="form_set_level">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">设置用户等级</h4>
+                    </div>
+                    <div class="modal-body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock main_content %}
+
+<!--位置底部Footer信息-->
+{% block main_footer %}
+    {% include 'defaule/admin/temp/footer.ht' %}
+{% endblock main_footer %}
+
+<!--网站Script脚本-->
+{% block main_script %}
+
+    {% include 'defaule/admin/temp/script.ht' %}
+    <script src="{% static 'js/csrf_token.js' %}"></script>
+
+    <script type="text/javascript">
+        var csrftoken = getCookie('csrftoken');
+
+        var set_online = document.getElementById("set_online")
+
+
+        function SetEmail(url, data, ids){
+            $.ajax({
+                url: url,
+                type:'POST',
+                dataType:'json',
+                token: csrftoken,
+                data: data,
+                success: function(callback){
+                    if (callback['code'] == 200) {
+                        console.log(callback['code']);
+                        location.reload();
+                    } else{
+                        console.log(callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i>' + callback[callback['state']] + '</h4>' +
+                                    '</div> ';
+                        document.getElementById('error_'+ids).innerHTML = html;
+                    };
+                },
+                error: function (callback) {
+                    console.log(callback);
+                    console.log(callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i> 啊偶，提交内容失败了！</h4>' +
+                                    '</div> ';
+                        document.getElementById('error_0').innerHTML = html;
+
+                }
+            })
+        }
+
+        function submitFormSetOnline(){
+            var Dat = new FormData(set_online)
+            var url = "{% url 'admins:set_online' %}"
+            var D = {
+                "id": "{{id}}"
+            }
+            SetEmail(url, D, 3);
+            console.log('修改邮箱'); //修改邮箱
+
+            console.log(D);
+        };
+
+        function submitFormDelware(){
+            var Dat = new FormData(set_online)
+            var url = "{% url 'admins:set_online' %}"
+            var D = {
+                "id": "{{id}}",
+                "stype": "onw",
+
+            }
+            SetEmail(url, D, 3);
+            console.log('修改邮箱'); //修改邮箱
+
+            console.log(D);
+        };
+
+
+        set_online.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormSetOnline();         //启动监听提交按钮
+        });
+
+
+    </script>
+{% endblock main_script %}
+

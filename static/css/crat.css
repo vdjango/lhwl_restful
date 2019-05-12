@@ -1,0 +1,195 @@
+/**
+ *
+ * @authors Marte (iqianduan@126.com)
+ * @date    2018-07-20 19:23:55
+ * @version $Id$
+ */
+
+/* 购物车 */
+
+.btn-cart {
+    color: #3c8dbc;
+    font-weight: 550;
+    border: 1px solid #5bc0de;
+/ / background-color: #fff;
+}
+
+.btn-cart:hover {
+    color: #3c8dbc;
+    font-weight: 550;
+    border: 1px solid #5bc0de;
+    background-color: #fff;
+}
+
+.btn-cart:active:hover {
+    color: #3c8dbc;
+    font-weight: 550;
+    border: 1px solid #5bc0de;
+    background-color: #fff;
+}
+
+.btn-cart-count {
+    position: absolute;
+    top: 8px;
+    left: 136px;
+    right: auto;
+    display: inline-block;
+    padding: 1px;
+    font-size: 12px;
+    line-height: 14px;
+    color: #fff;
+    background-color: #5bc0de;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    min-width: 12px;
+    text-align: center;
+    font-style: normal;
+}
+
+/* .juz {
+    margin: auto;
+    left: 0;
+    right: 0;
+    margin-top: 24px;
+    position: absolute;
+}
+ */
+
+.cart {
+    width: 200px;
+    margin-top: 32px;
+    position: absolute;
+    right: 0;
+}
+
+.box-cart {
+    width: 300px;
+    height: auto;
+    z-index: 5;
+    margin-left: -100px;
+    border-top: unset;
+}
+
+.cart > .box.box-body.box-cart > #CartList > .pull-left.box-left-1 {
+    margin-bottom: 20px;
+}
+
+.cart > .box.box-body.box-cart > .col-md-12 p {
+    margin-bottom: 0;
+}
+
+.cart > .box.box-body.box-cart > .col-md-12 {
+    margin-bottom: 5px;
+}
+
+.cart > .box.box-body.box-cart > .col-md-12 > .col-md-12.box-list > .pull-left > .pull-left > .box-icon {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 2px;
+    margin-left: -15px;
+    display: block;
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    font-size: 45px;
+}
+
+.box-cart-dis {
+    display: none;
+}
+
+.box-icon > img {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 2px;
+    margin-left: 0px;
+    display: block;
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    font-size: 45px;
+}
+
+.box-cart-text {
+    width: 115px;
+    position: absolute;
+    margin-top: 2px;
+    margin-left: 35px;
+    font-size: 9px;
+}
+
+.box-cart-price {
+    margin-top: 2px;
+    margin-bottom: 10px;
+}
+
+.box-cart-price p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-right: -14px;
+}
+
+.font-line-3 {
+    line-height: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    margin-top: 0;
+}
+
+.box-left-1 {
+    margin-left: 10%;
+}
+
+.pull-left > .box-icon > .fa-cart {
+    font-size: 30px;
+    margin-top: 9px;
+}
+
+/* 板块 */
+
+.channel-title {
+    text-align: center;
+    font-size: 30px;
+    color: #000;
+    line-height: 50px;
+    margin-bottom: 0;
+}
+
+.channel-title:before {
+    content: "";
+    width: 30px;
+    height: 4px;
+    display: block;
+    background: #2785a0;
+    margin: 0 auto;
+}
+
+.channel-nav {
+    text-align: center;
+    margin-left: 0;
+}
+
+.channel-nav > li {
+    float: none;
+    display: inline-block;
+    line-height: 34px;
+}
+
+.channel-nav > a {
+    font-size: 14px;
+    color: #717171;
+}
+
+/* 购物车按钮背景颜色清空 */
+.btn-default {
+    background-color: unset;
+}
+
+.box-list {
+    padding: 10px 15px 0px 15px;
+}

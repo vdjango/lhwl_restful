@@ -1,0 +1,32 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" href='//cdn.bootcss.com/admin-lte/2.4.3/css/AdminLTE.min.css'>
+<link rel="stylesheet" href='//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.css'>
+<link rel="stylesheet" href='//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css'>
+<link href="https://cdn.bootcss.com/toastr.js/latest/css/toastr.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'Ionicons/css/ionicons.min.css' %}">
+<!--link rel="stylesheet" href="{% static 'css/main.css' %}"-->
+<link rel="stylesheet" href="{% static 'css/_all-skins.min.css' %}">
+
+<style type="text/css" media="screen">
+        #logo, .logo_tit {
+            position: absolute;
+        }
+
+        #logo {
+            z-index: 30;
+            left: 0;
+            top: -130px;
+            width: 211px;
+            height: 170px;
+            -webkit-box-shadow: 0 -12px 10px rgba(0,0,0,.2);
+            -moz-box-shadow: 0 -12px 10px rgba(0,0,0,.2);
+            box-shadow: 0 -12px 10px rgba(0,0,0,.2);
+            background-color: #fff;
+            border-bottom: 1px solid #ededed;
+        }
+    </style>
+<!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->

@@ -1,0 +1,300 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>XXXX - 商品搜索 - 领航</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Ionicons/css/ionicons.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'buttons/css/buttons.css' %}">
+    <link href="{% static 't/css/css/style.css' %}" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="{% static 'dist/css/skins/_all-skins.min.css' %}">
+    <link rel="stylesheet" href="{% static 'text1/css/thumbnail-gallery.css' %}">
+    <link rel="stylesheet" href="{% static 'text2/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'iCheck/flat/blue.css' %}">
+    <link rel="stylesheet" href="{% static 'text3/css/style.css' %}" media="screen" type="text/css" />
+    <link rel="stylesheet" href="{% static 'dist/css/AdminLTE.min.css' %}">
+    <style>
+        #hotwords {
+            float: left; //width: 384px;
+            height: 20px;
+            line-height: 20px;
+            overflow: hidden;
+        }
+
+        #hotwords {
+            float: left; //padding-left: 95px;
+            //width: 384px;
+            height: 20px;
+            line-height: 20px;
+            overflow: hidden;
+        }
+
+        #hotwords.haveline b {
+            display: block;
+            float: left;
+            width: 21px;
+            font: 12px/20px "Helvetica Neue", "Hiragino Sans GB", SimSun, serif;
+            color: #ccc;
+            text-align: center;
+        }
+
+        #hotwords b {
+            display: none;
+        }
+
+        #hotwords a {
+            margin-right: 10px;
+            float: left;
+            white-space: nowrap;
+        }
+
+        #hotwords a {
+            margin-right: 10px;
+            color: #999;
+        }
+
+        .fff {
+            color: #fff;
+        }
+
+        a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .main {
+            border-radius: 20px;
+            margin: 0 auto;
+            border: 1px solid #000；
+        }
+
+        .success-ad {
+            width: 106px;
+            height: 45px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="row">
+            <div class="container-fluid h">
+                <div class="navbar-header">
+                    <a class="navbar-brand fff" href="#">领航办公</a>
+                </div>
+                <div>
+                    <ul class="nav navbar-nav navbar-left">
+                        <li class="">
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if username %}
+                        <li><a href="" title="" class="fff">您好！ {{username}}</a></li>
+                        {% else %}
+                        <li><a href="" title="" class="fff">登陆/注册</a></li>
+                        {% endif %}
+                        <li><a href="" title="" class="fff">|</a></li>
+                        <li><a href="{% url 'shopping' %}" title="" class="fff">购物车</a></li>
+                        <li><a href="" title="" class="fff">我的订单</a></li>
+                        <li>
+                            <a href="#" class="dropdown-toggle fff" data-toggle="dropdown">个人中心<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="" title="" class="fff">待处理订单</a></li>
+                                <li><a href="" title="" class="fff">返修退换货</a></li>
+                                <li><a href="" title="" class="fff">我的消息</a></li>
+                                <li><a href="" title="" class="fff">我的关注</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="" title="" class="fff">企业采购</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle fff" data-toggle="dropdown">
+                                    客户服务<b class="caret"></b>
+                                </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="" title="" class="fff">帮助中心</a></li>
+                                <li><a href="" title="" class="fff">售后服务</a></li>
+                                <li><a href="" title="" class="fff">在线客服</a></li>
+                                <li><a href="" title="" class="fff">意见建议</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle fff" data-toggle="dropdown">
+                                    网站导航<b class="caret"></b>
+                                </a>
+                            <ul class="dropdown-menu">
+                                <li>123</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="container box-body" style="margin-top: 20px;">
+                <div class="col-md-6 col-md-offset-3">
+                    <form action="{% url 'search' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="input-group input-group-sm">
+                            <input name="search" type="text" class="form-control">
+                            <span class="input-group-btn">
+                                    <button class="btn btn-flat" style="background-color: #312b30; color: #fff;">搜索</button>
+                                </span>
+                        </div>
+                    </form>
+                    <div id="hotwords" class="haveline" style="margin-top: 2px;">
+                        <a>复合机一体机</a>
+                        <a>复印机</a>
+                        <a>打印机</a>
+                        <a>佳能复合机</a>
+                        <a>理光复合机</a>
+                        <a>复合机 京东自营</a>
+                        <a>夏普复合机</a>
+                        <a>投影仪</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="zxr_nav">
+                <div class="nav_ten">
+                    <div class="quanbu_zxr">
+                        <div class="quanbu_zxr1"> 全部商品分类</div>
+                        <ul class="ul">
+                            <li><a href="SteelSeries_zxr.html">免费维修</a></li>
+                            <li><a href="SteelSeries_zxr.html">免费维修</a></li>
+                            <li><a href="SteelSeries_zxr.html">免费试用</a></li>
+                            <li><a href="SteelSeries_zxr.html">免费兑换</a></li>
+                            <li><a href="SteelSeries_zxr.html">私人定制</a></li>
+                            <li><a href="SteelSeries_zxr.html">个人寄售</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+<section class="box">
+    <div class="box-body">
+        <div class="box-header">
+            <div class="box-title">
+                <h3 class="box-title text-green"><i class="fa fa-check-circle-o"></i>&nbsp;商品已成功加入购物车！</h3>
+            </div>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="col-md-1">
+            <a href="#"><img width="100px" height="100px" src="/media/carousel/2.jpg" alt="13"></a>
+        </div>
+        <div class="col-md-6">
+            <p class="box-title">{{ware.name}}</p>
+            <p class="text-muted">
+            {% if choiceone %}
+                配置：{{choiceone}}
+            {% endif %}
+            {% if choicetwo %}
+                /{{choicetwo}}
+            {% endif %}
+            </p>
+            <p class="text-muted">
+            {% if number %}
+                数量： {{number}}
+            {% endif %}
+            </p>
+        </div>
+        <div class="col-md-3">
+            <div class="success-ad">
+
+            </div>
+            <div class="btn-group">
+                <a href="{% url 'details' id %}" type="button" class="btn btn-default btn-lg">查看商品详情</a>
+            </div>
+            <div class="btn-group pull-right">
+                <a href="{% url 'shopping' %}" type="button" class="btn btn-danger btn-lg">去购物车结算</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+    <footer>
+        <div class="footer">
+            <div class="container">
+                <div class="footer-grids">
+                    <div class="col-md-3 footer-grid">
+                        <h3 class="title">Services</h3>
+                        <ul>
+                            <li><a href="#">Rerum hic tenetur</a></li>
+                            <li><a href="#">Molestiae non recusandae</a></li>
+                            <li><a href="#">Voluptates repudiandae</a></li>
+                            <li><a href="#">Necessitatibus saepe</a></li>
+                            <li><a href="#">Debitis aut rerum</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 footer-grid">
+                        <h3 class="title">Information</h3>
+                        <ul>
+                            <li><a href="#">Quibusdam et aut</a></li>
+                            <li><a href="#">Testimonals</a></li>
+                            <li><a href="#">Archives</a></li>
+                            <li><a href="#">Our Staff</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 footer-grid">
+                        <h3 class="title">More details</h3>
+                        <ul>
+                            <li><a href="#">About us</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms &amp; Conditions</a></li>
+                            <li><a href="#">Sitemap</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 footer-grid contact-grid">
+                        <h3 class="title">Contact us</h3>
+                        <ul>
+                            <li><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>Newyork Still Road.</li>
+                            <li class="adrs">756 gt globel Place</li>
+                            <li><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>+000 100 444 1111</li>
+                            <li><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><a href="mailto:example@mail.com">mail@example.com</a></li>
+                        </ul>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+        </div>
+        <div class="copy">
+            <div class="container">
+                <div class="copy-left">
+                    <p>Copyright © 2018 <a href="http://www.lhwill.com/" target="_blank" title="lhwill">lhwill</a> All rights reserved.</p>
+                </div>
+                <div class="copy-left-right">
+                    <ul>
+                        <li><a href="#" class="facebook"></a></li>
+                        <li><a href="#" class="twitter"></a></li>
+                        <li><a href="#" class="be"></a></li>
+                        <li><a href="#" class="p"></a></li>
+                    </ul>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
+    <script src="{% static 'fastclick/lib/fastclick.js' %}"></script>
+    <script src="{% static 'iCheck/icheck.min.js' %}"></script>
+    <script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+    <script src="{% static 'select2/dist/js/select2.full.min.js' %}"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<!--<link rel="stylesheet" href="css/flexslider.css" />
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="js/jquery.flexslider-min.js" ></script>-->
+
+		<link rel="stylesheet" href='//cdn.bootcss.com/admin-lte/2.4.3/css/AdminLTE.min.css'>
+		<link rel="stylesheet" href='//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.css'>
+		<link rel="stylesheet" href='//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css'>
+
+
+	</head>
+	<body>
+			<section class="content" style="margin-top: 15%;">
+		      <div class="error-page">
+		        <h2 class="headline text-yellow">
+		        	{% if code %}
+		        	    {{code}}
+		        	{% else %}
+		        	    404
+		        	{% endif %}
+		        </h2>
+		        <span class="text-yellow">{{page}}</span>
+
+		        <div class="error-content">
+		          <h3><i class="fa fa-warning text-yellow"></i> {{title}}</h3>
+
+		          <p>
+		            {{content}}
+		          </p>
+
+		          <form class="search-form">
+		            <div class="input-group">
+		              <input type="text" name="search" class="form-control" placeholder="Search">
+
+		              <div class="input-group-btn">
+		                <button type="submit" name="submit" class="btn btn-warning btn-flat"><i class="fa fa-search"></i>
+		                </button>
+		              </div>
+		            </div>
+		            <!-- /.input-group -->
+		          </form>
+		        </div>
+		        <!-- /.error-content -->
+		      </div>
+		      <!-- /.error-page -->
+		    </section>
+	</body>
+</html>
+
+

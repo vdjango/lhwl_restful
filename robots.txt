@@ -1,0 +1,7 @@
+# robots.txt generated at http://tool.chinaz.com/robots/
+User-agent: *
+Disallow: /api/
+Disallow: /home/
+Disallow: /admin/
+Disallow: /controller/
+Sitemap: https://www.lhwill.com/sitemap.xml

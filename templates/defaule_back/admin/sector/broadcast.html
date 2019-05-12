@@ -1,0 +1,448 @@
+{% extends 'defaule/admin/temp/index.ht' %}
+{% load staticfiles %}
+{% load tags %}
+
+<!--网站标题-->
+{% block main_title %}
+   <title>后台管理 | 板块 - 轮播图</title>
+{% endblock main_title %}
+
+<!--CSS样式-->
+{% block main_css %}
+    {% include 'defaule/admin/temp/css/select2.min.ht' %}
+    {% include 'defaule/admin/temp/css.ht' %}
+{% endblock main_css %}
+
+<!--网站头部导航栏-->
+{% block main_header %}
+    <a href="" class="logo">
+        <span class="logo-mini"><b>管理</b>Admin</span>
+        <span class="logo-lg"><b>后台管理</b>Admin</span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Admin</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'admins:index' %}">常用 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">创始人</a></li>
+                <li><a href="{% url 'admins:complete' %}">全局</a></li>
+                <li><a href="{% url 'admins:user' %}">用户</a></li>
+                <li><a href="{% url 'admins:commodity' %}">商品</a></li>
+                <li><a href="{% url 'admins:order' %}">订单</a></li>
+                <li class="active"><a href="{% url 'admins:sector' %}">板块</a></li>
+                <li><a href="{% url 'admins:AdmPlate' %}">导航</a></li>
+                <li><a href="#">移动APP</a></li>
+            </ul>
+
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src={% static "images/user/user2-160x160.jpg" %} class="user-image" alt="User Image">
+                        <span class="hidden-xs">
+                        {{username}}
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                Alexander Pierce - Web Developer
+                                <small>Member since Nov. 2012</small>
+                            </p>
+                        </li>
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endblock main_header %}
+
+<!--网站左侧项目栏-->
+{% block main_aside %}
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>{{username}}</p>
+            {% if username %}
+                <a href="#">
+                    <i class="fa fa-circle text-success"></i>
+                    管理员
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="你想知道什么...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header"></li>
+        <li class="treeview active">
+            <a href="#">
+                <i class="fa fa-laptop"></i>
+                <span>首页管理</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href='{% url "admins:sector" %}'><i class="fa fa-circle-o"></i> 板块管理</a></li>
+                <li><a href='{% url "admins:classify" %}'><i class="fa fa-circle-o"></i> 全部分类</a></li>
+                <li><a href='{% url "admins:navigation" %}'><i class="fa fa-circle-o"></i> 导航管理</a></li>
+                <li class="active"><a href='{% url "admins:broadcast" %}'><i class="fa fa-circle-o"></i> 轮播/横幅</a></li>
+            </ul>
+        </li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-laptop"></i>
+                <span>预设管理</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href='{% url "admins:setupsearch" %}'><i class="fa fa-circle-o"></i> 商品筛选器</a></li>
+                <li><a href='{% url "admins:setupparameter" %}'><i class="fa fa-circle-o"></i> 品牌预设</a></li>
+                <li><a href='{% url "admins:discount" %}'><i class="fa fa-circle-o"></i> 优惠率</a></li>
+            </ul>
+        </li>
+    </ul>
+{% endblock main_aside %}
+
+<!--正文微标题，位置导航-->
+{% block main_content_header %}
+    <h1>轮播图/横幅<small>您可以在这里添加首页轮播图或横幅</small></h1>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'admins:index' %}"><i class="fa fa-dashboard"></i> 后台首页</a></li>
+        <li><a href="{% url 'admins:sector' %}">板块</a></li>
+        <li><a href="{% url 'admins:broadcast' %}">轮播图/横幅</a></li>
+        <li class="active">当前位置</li>
+    </ol>
+{% endblock main_content_header %}
+
+<!--正文开始部分-->
+{% block main_content %}
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">轮播图</h3>
+                </div>
+                <div class="box-body">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#bar1_1" data-toggle="tab">从商品添加</a>
+                            </li>
+                            <li>
+                                <a href="#bar1_2" data-toggle="tab">自定义</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+
+                            <div class="tab-pane active" id="bar1_1">
+                                <div class="box-body">
+                                    <form action="{% url 'admins:_add_broadcast' %}" enctype="multipart/form-data" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="WareApp">
+                                        <div class="form-group">
+                                            <label for="name">描述</label>
+                                            <input type="text" class="form-control" name="name" id="name" placeholder="描述">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>选择商品</label>&nbsp;<small>只显示最近20调记录</small>
+                                            <select name="id" class="form-control select2" style="width: 100%;">
+                                                {% for var1 in wareapp %}
+                                                    <option value="{{var1.id}}">{{var1.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="image">上传图片</label>
+                                            <input type="file" class="form-control" name="image" id="image" placeholder="URL地址">
+                                        </div>
+
+                                        <div class="btn-group">
+                                            <button type="submit" class="btn btn-default">添加</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="bar1_2">
+                                <div class="box-body ">
+                                    <form action="{% url 'admins:_add_broadcast' %}" enctype="multipart/form-data" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="custom">
+                                        <div class="form-group">
+                                            <label for="name">描述</label>
+                                            <input type="text" class="form-control" name="name" id="name" placeholder="描述">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="url">URL地址</label>
+                                            <input type="text" class="form-control" name="url" id="url" placeholder="URL地址">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="image">上传图片</label>
+                                            <input type="file" class="form-control" name="image" id="image" placeholder="URL地址">
+                                        </div>
+
+                                        <div class="btn-group">
+                                            <button type="submit" class="btn btn-default">添加</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box box-info box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">横幅</h3>
+                    <small>只能添加一张</small>
+                </div>
+                <div class="box-body">
+                    <form id="from_createNavigationTwo">
+                        <div class="form-group">
+                            <label for="name">导航名称</label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="导航名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="url">URL地址</label>
+                            <input type="text" class="form-control" name="url" id="url" placeholder="URL地址">
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-default">添加</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="overlay">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">轮播图管理</h3>
+                </div>
+                <div class="box-body">
+                    <div class="box-body">
+                        <ul class="products-list product-list-in-box ">
+                        {% for var1 in car %}
+                            <li class="item">
+                                <div class="product-img">
+                                    <a href="/media/carousel/{{var1.image}}" class="product-title" title="预览">
+                                        <img src="/media/carousel/{{var1.image}}" alt="{{var1.name}}"><!-- 50x50 -->
+                                    </a>
+                                </div>
+                                <div class="product-info">
+                                    <a href="{{var1.url}}" class="product-title">{{var1.name}}</a>
+                                    <div class="btn-group pull-right">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                            操作&nbsp;<span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="" onclick="car_edit('{{var1.id}}');" data-toggle="modal" data-target="#modal-carEditor">编辑</a></li>
+                                            <li><a href="" onclick="del_bar('{{var1.id}}');">删除</a></li>
+                                        </ul>
+                                    </div>
+                                    <span class="product-description">
+                                        最后修改 {{var1.time_now}}
+                                    </span>
+                                </div>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--板块修改-->
+    <div class="modal fade" id="modal-carEditor">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">导航修改</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#bar1_1" data-toggle="tab">从商品添加</a>
+                                </li>
+                                <li>
+                                    <a href="#bar1_2" data-toggle="tab">自定义</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="bar1_1">
+                                    <div class="box-body">
+                                        <form action="{% url 'admins:_set_broadcast' %}" enctype="multipart/form-data" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="action" value="WareApp">
+                                            <input id="car_id" type="hidden" name="car_id" value="">
+                                            <div class="form-group">
+                                                <label for="name">描述</label>
+                                                <input type="text" class="form-control" name="name" id="name" placeholder="描述">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>选择商品</label>&nbsp;<small>只显示最近20调记录</small>
+                                                <select name="id" class="form-control select2" style="width: 100%;">
+                                                    <option value="-1">未选择</option>
+                                                    {% for var1 in wareapp %}
+                                                        <option value="{{var1.id}}">{{var1.name}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="image">上传图片</label>
+                                                <input type="file" class="form-control" name="image" id="image" placeholder="URL地址">
+                                            </div>
+
+                                            <div class="btn-group">
+                                                <button type="submit" class="btn btn-default">添加</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="bar1_2">
+                                    <div class="box-body ">
+                                        <form action="{% url 'admins:_set_broadcast' %}" enctype="multipart/form-data" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="action" value="custom">
+                                            <input id="car_id" type="hidden" name="car_id" value="">
+                                            <div class="form-group">
+                                                <label for="name">描述</label>
+                                                <input type="text" class="form-control" name="name" id="name" placeholder="描述">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="url">URL地址</label>
+                                                <input type="text" class="form-control" name="url" id="url" placeholder="URL地址">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="image">上传图片</label>
+                                                <input type="file" class="form-control" name="image" id="image" placeholder="URL地址">
+                                            </div>
+
+                                            <div class="btn-group">
+                                                <button type="submit" class="btn btn-default">添加</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+{% endblock main_content %}
+
+<!--位置底部Footer信息-->
+{% block main_footer %}
+    {% include 'defaule/admin/temp/footer.ht' %}
+{% endblock main_footer %}
+
+<!--网站Script脚本-->
+{% block main_script %}
+    {% include 'defaule/admin/temp/script.ht' %}
+    {% include 'defaule/admin/temp/js/select2.full.min.ht' %}
+    <script src="{% static 'js/csrf_token.js' %}"></script>
+    <script>
+        $('.select2').select2();
+
+        function SetPOST(url, data, ids){
+            $.ajax({
+                url: url,
+                type:'POST',
+                dataType:'json',
+                token: getCookie('csrftoken'),
+                data: data,
+                success: function(callback){
+                    if (callback['code'] == 200) {
+                        console.log(callback['code']);
+
+                    } else{
+                        console.log(callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i>' + callback[callback['state']] + '</h4>' +
+                                    '</div> ';
+                        document.getElementById('error_'+ids).innerHTML = html;
+                    };
+                },
+                error: function (callback) {
+                    console.log(callback);
+                    console.log(callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i> 啊偶，提交内容失败了！</h4>' +
+                                    '</div> ';
+                        document.getElementById('error_0').innerHTML = html;
+                }
+            })
+        }
+
+        function car_edit(vid){
+            console.log(vid);
+            document.getElementById('car_id').value = vid;
+        }
+
+        function del_bar(vid){
+            var url = "{% url 'admins:del_broadcast' %}"
+            var D = {
+                "id": vid
+            }
+            SetPOST(url, D, vid);
+        }
+
+    </script>
+{% endblock main_script %}
+

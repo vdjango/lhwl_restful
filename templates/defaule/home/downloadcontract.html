@@ -1,0 +1,906 @@
+{% load tags %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>采购协议供货合同</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="{{ site_url }}/static/css/bootstrap4.min.css">
+
+        <style type="text/css">
+            body {
+                color: #000;
+            }
+
+            .table-bordered td, .table-bordered th {
+                border: 1px solid #000000 !important;
+            }
+
+            table {
+                font-size: 22px;
+                font-weight: inherit;
+                word-break:normal;
+            }
+
+            .app {
+                padding: 3px;
+            }
+            .app-name, .app-brand, .app-model, .app-info, .app-unit, .app-price, .app-charge, .app-number, .app-money{
+                text-align: center !important;
+            }
+            .app-table p{
+                font-size: 18px;
+            }
+        </style>
+    </head>
+    <body>
+
+
+
+        <table class="table table-borderless">
+            <tbody>
+                <tr class="app">
+                    <td><h1 class="text-center">采购协议供货合同</h1></td>
+                </tr>
+                <tr class="app">
+                    <td class="text-center">
+                        <p style="font-size: 16px;">【合同编号：<span>{{Contracts.orderid}}</span>】</p>
+                    </td>
+                </tr>
+                <tr class="app">
+                    <td class="app">
+                        <table class="table">
+                            <tbody>
+                                <tr class="app">
+                                    <td align="left">
+                                        <p>验收单编号：
+                                        <u style="color:red;">
+                                            {% if Contracts.Acceptance %}
+                                                {{Contracts.Acceptance}}
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </u></p>
+                                    </td>
+                                    <td align="right">
+                                        发票编号： <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
+                                    </td>
+                                </tr>
+                                <tr class="app">
+                                    <td align="left">
+                                        <span style="font-weight:bold;">
+                                            需方：<u style="text-decoration:underline;">{{Contracts.unit}}</u>
+                                        </span>
+                                    </td>
+                                    <td align="right">
+                                        <span style="font-weight:bold;">
+                                            供方：<u style="text-decoration:underline;">北京领航未来办公设备有限公司</u>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr class="app">
+                    <td>
+                        为了保护各方合法权益，根据《中华人民共和国政府采购法》、《中华人民共和国合同法》等相关法律、法规的规定并
+                        严格 遵循政府采购协议供货项目招标文件、中标人的投标文件、采购中心与中标人签订的《中央国家机关政府采购协议
+                        供货框架 协议》等，签订本合同，共同遵守。
+                    </td>
+                </tr>
+                <tr class="app">
+                    <td>
+                        <table>
+                            <tbody>
+                                <tr class="app">
+                                    <td valign="top" width="5%">一、 </td>
+                                    <td>本合同采购的产品所需资金来源构成为： <br>
+                                        预算内（√） 预算外（ ） 自筹（） <br>
+                                        付款方式为： <br>
+                                        财政集中支付（ ） 采购单位直接支付（√）
+                                    </td>
+                                </tr>
+                                <tr class="app">
+                                    <td valign="top" >二、 </td>
+                                    <td>采购产品名称、 型号、 规格和主要配置、 单价、 数量、 金额、 产地。</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-bordered">
+            <tbody>
+                <tr class="app">
+                    <td colspan="9"><p class="text-center">产品信息</p></td>
+                </tr>
+                <tr class="app app-table">
+                    <td style="text-align: center;" class="app-name">
+                        <p>产品名称</p>
+                    </td>
+                    <td style="text-align: center;" class="app-brand">
+                        <p>品牌</p>
+                    </td>
+                    <td style="text-align: center;" class="app-model">
+                        <p>型号</p>
+                    </td>
+                    <td style="text-align: center;" class="app-info">
+                        <p>技术规格和主要配置</p>
+                    </td>
+                    <td style="text-align: center;" class="app-unit">
+                        <p>单位</p>
+                    </td>
+                    <td style="text-align: center;" class="app-price">
+                        <p>成交价</p>
+                    </td>
+                    <td style="text-align: center;" class="app-charge">
+                        <p>服务费</p>
+                    </td>
+                    <td style="text-align: center;" class="app-number">
+                        <p>数量</p>
+                    </td>
+                    <td style="text-align: center;" class="app-money">
+                        <p>总计<br>(人民币元)</p>
+                    </td>
+                </tr>
+
+                {% for var1 in gso %}
+                <tr class="app app-table">
+                    <td class="app-name">
+                        <p class="text-center">{{ var1.goodsname | spit:3 }}</p>
+                    </td>
+                    <td class="app-brand">
+                        <p class="text-center">{{ var1.goodsbrandname | spit:3 }}</p>
+                    </td>
+                    <td class="app-model">
+                        <p class="text-center">{{ var1.model | spit:5 }}</p>
+                    </td>
+                    <td class="app-info">
+                        <p class="text-center">{{var1.spu | spit:7 }}，{{var1.sku | spit:7 }} <br>数量x{{var1.qty}}</p>
+                    </td>
+                    <td class="app-unit">
+                        <p class="text-center">{{Contracts.unit | spit:6 }}</p>
+                    </td>
+                    <td class="app-price">
+                        <p class="text-center">{{ var1.price }}</p>
+                    </td>
+                    <td class="app-charge">
+                        <p class="text-center">{{Contracts.service}}</p>
+                    </td>
+                    <td class="app-number">
+                        <p class="text-center">{{ var1.qty }}</p>
+                    </td>
+                    <td class="app-money">
+                        <p class="text-center">{{ var1.total }}</p>
+                    </td>
+                </tr>
+                {% endfor %}
+
+                <tr class="app">
+                    <th><p class="text-center">合 计</p></th>
+                    <td colspan="7"><p class="text-center">大写金额： {{Contracts.DAXTOTAL}}</p></td>
+                    <td align="right"><p class="text-center">{{Contracts.total}}</p></td>
+                </tr>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-bordered">
+            <tbody>
+                <tr class="app text-center">
+                    <th colspan="3">服务费</th>
+                </tr>
+                <tr class="app">
+                    <th width="8%" rowspan="3">说 明</th>
+                    <td width="7%" valign="top">1、</td>
+                    <td width="85%" style="border-bottom:0;font-weight:bold;text-align: left;">
+                        台式、 便携式计算机产品的供货价包含 “中标价” 与 “增值服务费” 两部分。
+                    </td>
+                </tr>
+                <tr class="app">
+                    <td valign="top">2、</td>
+                    <td style="border-top:0;border-bottom:0;font-weight:bold;text-align: left;">
+                        “中标价”中包含设备售价、运输至合同指定地点的运费，以及由设备生产厂家提供的符合招标文件要
+                        求的 标准保修服务的费用，一般为送修，部分直销厂家可能需要预付货款。设备生产厂家承诺：中标
+                        价即协议 供货商从设备生产厂家或其渠道总分销商处提货的价格，其中已经不包含任何代理商的利
+                        润、折扣或返点 。若设备生产厂家或其渠道总分销商再给予协议供货商的任何优惠都将被视为降低协
+                        议供货投标价的承诺 ，采购中心有权同比例降低协议供货价格。
+                    </td>
+                </tr>
+                <tr class="app">
+                    <td valign="top">3、</td>
+                    <td style="border-top:0;font-weight:bold;text-align: left;">
+                        “增值服务费”指协议供货商为采购人提供的“上门安装调试、现场培训、上门保修服务、垫付货款以及
+                        其 它增值服务的费用”。当采购人可预付货款，独立完成安装调试工作且不需要上门保修服务时，可
+                        按照“ 中标价”直接从货物生产厂家采购，不需另付“增值服务费”。
+                    </td>
+                </tr>
+                <tr class="app">
+                    <th style="height:49px;">备注</th>
+                    <td colspan="2"></td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+<table class="table table-borderless">
+    <tbody>
+        <tr class="app">
+            <td width="5%" rowspan="4" valign="top">注：</td>
+            <td width="5%" valign="top">1、</td>
+            <td>采购价格不高于中标价 (协议供货最高限价)， 高于时按照中标价计算；</td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">2、</td>
+            <td>
+                “协议供货最高限价”为采购最高限价，各单位可在此基础上就中标产品的服务条款、付款方式、价格与供货
+                商进 行进一步的洽谈、或组织多家供货商进行竞价，货比三家，以争取获得更优惠的采购价格和服务。
+
+            </td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">3、</td>
+            <td>
+                本合同价格已包含了购买货物的价格及安装、调试、保修、售后服务及将货物运至指定地点所发生的运费、
+                装卸 费等货物伴随服务的费用及其它相关费用，和所需缴纳的一切相关税、费；
+
+            </td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">4、</td>
+            <td>
+                必须注明计量货币币种，未注明者即视为人民币。若约定使用外汇必须事先已经获得有权部门的批准，并且
+                在本 合同中应当注明批准文件文号，该外汇价格须按照批准文件内容并注明是按照固定汇率抑或是按照本
+                合同需方付 款当日中国银行公布的牌价计算。
+
+            </td>
+        </tr>
+
+        <tr class="app">
+            <td width="5%" rowspan="6" valign="top">三、</td>
+            <td colspan="2">
+                交（提）货时间、地点、方式：供方于<span style="font-weight:bold;text-decoration:underline;">{{Contracts.DeliveryTime}}</span>前将货物送至以下指定地点交由需方指定收货人出具签字
+                并加盖公章的证明，该文件仅证明已按现状收到若干具体单位数量的货物。
+            </td>
+        </tr>
+        <tr class="app">
+            <td colspan="2">
+                需方指定货物交接地点：<span style="font-weight:bold;text-decoration:underline;">{{Contracts.DeliverylaceP}}</span> 的使用场所内；
+            </td>
+        </tr>
+        <tr class="app">
+            <td colspan="2">
+                需方指定的签字收货人：<span class="fill">{{Contracts.username}}</span>
+            </td>
+        </tr>
+
+        <tr class="app">
+            <td colspan="2">此外:</td>
+        </tr>
+
+
+        <tr class="app">
+            <td width="5%" valign="top">1、</td>
+            <td>
+                 供方应在<span style="font-weight:bold;text-decoration:underline;">交货前至少2个工作日</span>以书面方式向需方提供交货计划；
+            </td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">2、</td>
+            <td>
+                本合同项下的货物及追加、更换、补充的货物(含零件、部件、配件)的风险自货物交付需方且由需方确认验
+                收合 格时转移。为此供方须与有良好信誉记录的保险公司订立保险合同，负担并实际支付保险费，为货物
+                在交付需方 且验收合格前的一切风险取得有效的保险。否则供方仍应承担货物在交付需方且由需方确认验
+                收合格前的一切风 险，除非货损是由于需方明显不当的作为所直接引起的，但该作为不包括验收的行为。
+            </td>
+        </tr>
+
+        <tr class="app">
+            <td width="5%" rowspan="3" valign="top">四、</td>
+            <td width="95%" colspan="2" valign="top">验收标准及提出异议等事项按照下列约定：</td>
+        </tr>
+        <tr class="app">
+            <td width="5%"  valign="top">1、</td>
+            <td width="95%">验收标准：货物须同时完全符合下列各项标准及要求方为合格：</td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">&nbsp;</td>
+            <td width="95%">
+                <table class="table-text">
+                    <tbody>
+                        <tr class="app">
+                            <td width="10%" valign="top">
+                                （1）
+                            </td>
+                            <td width="90%">
+                                装箱单、质量合格证书、保修证书、产品使用说明书及其它应当随箱的技术资料；
+                            </td>
+                        </tr>
+                        <tr class="app">
+                            <td width="10%" valign="top">
+                                （2）
+                            </td>
+                            <td width="90%">
+                                投标人在投标时提供的产品样本；
+                            </td>
+                        </tr>
+                        <tr class="app">
+                            <td width="10%" valign="top">
+                                （3）
+                            </td>
+                            <td width="90%">
+                                该批次货物的招、投标文件中涉及质量、技术、服务、鉴定、检验及验收的全部相关内容或其
+                                所指引的内容；
+                            </td>
+                        </tr>
+                        <tr class="app">
+                            <td width="10%" valign="top">
+                                （4）
+                            </td>
+                            <td width="90%">
+                                一次开箱合格率大于或等于 98% 。
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+
+
+        <tr class="app">
+            <td width="5%" rowspan="2" valign="top">&nbsp;</td>
+            <td width="5%" valign="top">2、</td>
+            <td width="95%">对于一般不需经过开机运行即可进行验收的货物：</td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">&nbsp;</td>
+            <td width="95%">
+                <table class="table-text">
+                    <tbody>
+                        <tr class="app">
+                            <td width="10%" valign="top">
+                                （1）
+                            </td>
+                            <td width="90%">
+                                货到后3天内，双方根据所到货物实际情形确定验收所需工作日并记载于验收记录文件中，由
+                                双方签 字认可。
+                            </td>
+                        </tr>
+                        <tr class="app">
+                            <td valign="top">
+                                （2）
+                            </td>
+                            <td>
+                                验收所需工作日确定后的3天内双方包括各自根据需要所聘请的检验机构、检验专家开始进行
+                                验收， 验收应当在所确定的工作日内完成，若未能按双方计划完成则应当在专家所确定的延长
+                                期间内完成， 但该延长期间除非双方一致认为必要外最多不得超过双方原定工作日的一倍，否
+                                则应视为验收合格 。
+                            </td>
+                        </tr>
+                        <tr class="app">
+                            <td valign="top">
+                                （3）
+                            </td>
+                            <td>
+                                若双方对验收所需工作日不能达成一致意见或一方未适当地配合另一方共同完成验收，则除非
+                                存在 合理的并可以证实的原因或验收所依赖的客观条件不足，验收最迟应当在货到后15天内完
+                                成或应当 被视为完成。
+
+                            </td>
+                        </tr>
+                        <tr class="app">
+                            <td valign="top">
+                                （4）
+                            </td>
+                            <td>
+                                由于供方原因导致不能在上述合理期限内完成验收的，若需方仍需要该批次货物的，除验收及
+                                付款 期限应当顺延外，供方还应当承担本合同所规定的延期交货的违约及赔偿责任；若需方不
+                                再需要该 批次货物的，除退货外，供方还应当承担本合同所规定的不能履行合同约定交货义务
+                                的全部违约及 赔偿责任。
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+
+        <tr class="app">
+            <td width="5%" rowspan="3" valign="top">&nbsp;</td>
+            <td width="5%" valign="top">3、</td>
+            <td width="95%">
+                对大型或复杂货物或需经试车、运行的货物：应经过至少1至3个月的（本项目选择<u>个月</u>）整套使用或整套试
+                车 、运行期方可以完成最终验收。该类验收不合格或不完全合格的情形，或在本合同约定期限内发现货物
+                缺陷及 其它质量问题或发现不符合设计要求、招标文件的要求，供方应当严格按照需方的要求免费给予合
+                理解决直至 完全符合招、投标文件要求及本合同约定为止。
+
+            </td>
+        </tr>
+
+        <tr class="app">
+            <td valign="top">4、</td>
+            <td width="95%">
+                开箱检验时双方皆应派员参加，验收后并最迟于验收期限(含延长的验收期限)结束之日起<u>10日内</u>对合格货物
+                应 签署无异议的《中央国家机关政府采购中心货物验收单》（以下简称《货物验收单》）；对显而易见不
+                合格的 货物应在《货物验收单》上加注表示货物不合格的文字或符号，或者以其它书面异议方式提出异
+                议，均为有效 异议，但该类异议应最迟于验收期限(含延长的验收期限)结束之日起<u>10日内</u>提出，否则除非供
+                方未在接到需方 异议之日起<u>10日内</u>提出书面反对意见，均应当视为无效异议。
+
+            </td>
+        </tr>
+
+        <tr class="app">
+            <td width="5%" valign="top">5、</td>
+            <td width="95%">
+                若检验时发现货物数量不足、规格与合同要求不符，或开箱时虽然货物外包装完好无损但箱内货物短缺或损
+                伤 ，需方有权拒绝接收或决定暂时收取该批次货物，双方或单方应当在发现后及时记录并最迟在验收期限
+                (含延长 的验收期限)结束之日起<u>7日内</u>签署书面证明并送达给对方一份，供方应按照该证明将需补足或更换
+                的货物在送 达证明之日起<u>10日内</u>交付到需方指定地点，按本合同前述各条款项规定交付及验收。
+
+            </td>
+        </tr>
+
+        <tr class="app">
+            <td width="5%" rowspan="2" valign="top">&nbsp;</td>
+            <td width="5%" valign="top">6、</td>
+            <td width="95%">
+                供方保证向需方提供的技术资料包括全部中文版本是清晰的、正确的、完整的。如发现缺失，供方应在需方
+                送 达通知之日起<u>10日内</u>将需补足的资料交付到需方指定地点，按本合同前述各条款项规定交付及验收。
+            </td>
+        </tr>
+
+        <tr class="app">
+            <td width="5%" valign="top">7、</td>
+            <td width="95%">
+                <u>在第一个完整的使用季节且不少于60天的期限内</u>，或对于非季节性使用的货物在验收期限结束之日起<u>90日
+                内</u>， 若需方经进一步检验或在使用中发现货物内在的、非显而易见的损坏或缺陷，或者货物的质量与合同
+                规定不符 但并非在验收时属于显而易见(下称“A情形”)；或者在货物质量保证期内(下称“B情形”)、合理使用
+                寿命期 限结束前6个月内(下称“C情形”)证实货物及/或零部件是有缺陷的（包括潜在的缺陷或使用不符合要
+                求的材料 等），需方有权要求供方免费更换成没有缺陷的货物或零部件，并且，经过该项处理后需方待遇
+                不得低于国家 部委级别发布的“三包”规定的标准。其中：对属于A情形的货物应当用崭新且尚未拆封、未曾
+                使用也未曾展示 过的正品合格品整机、整件货物更换而不得仅更换零部件；对属于B情形的货物应当用崭新
+                且尚未拆封、未曾使 用也未曾展示过的正品合格品更换；对属于C情形的货物应当用不低于需更换货物成新
+                的正品合格品更换。需方 可以在发现该情形后尽快并且至迟应当在上述各对应期限结束之日起<u>7日内</u>以书面
+                形式通知供方，供方应在收到 需方通知后<u>15日内</u>免费完成更换，按本合同前述各条款项规定交付及验收。
+            </td>
+        </tr>
+
+        <tr class="app">
+            <td width="5%" rowspan="2">&nbsp;</td>
+            <td width="5%" valign="top">8、</td>
+            <td width="95%">
+                本合同各相关条款中凡与供方责任或义务相关及由供方原因所引起涉及各项货物、零件、部件、配件及资料
+                的 更、换、补、退等情形所发生活相关的任何价款、成本、费用，包括但不限于运输、安装、服务、维
+                修、调试 等，以及保险、税、费等，均应当由供方承担。
+            </td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">9、</td>
+            <td width="95%">需方应将货物验收单同发票一起入账，作为需方执行了政府采购的凭证。</td>
+        </tr>
+
+        <tr class="app">
+            <td width="5%" rowspan="3" valign="top">五、</td>
+            <td colspan="2" valign="top">质量标准及保修：</td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">1、</td>
+            <td width="95%">
+                供方保证提供的货物皆为符合国家标准的正品合格产品，且承诺为需方提供符合或高于国家标准（国家质量
+                监 督检验检疫总局和信息产业部2002年联合发布的24号令）及招标文件要求的服务，且若该货物在投标货
+                物生产 厂商中国总部对外公众网站上具有标准配置和服务的，供方为需方提供的产品及服务符合或高于其
+                标准。
+            </td>
+        </tr>
+        <tr class="app">
+            <td valign="top">2、</td>
+            <td width="90%">
+                供方保证提供的货物符合中华人民共和国国家及行业的安全质量标准、环保标准中之较高者；若货物来源于
+                中 华人民共和国境外，还要同时符合货物来源国的官方、行业及生产厂商的安全质量标准、环保标准中之
+                较高者 。上述标准为已发布的且在货物交付时有效的最新版本的标准；当货物来源于中华人民共和国境外
+                时，产品必 须附有原产地证明、中华人民共和国商检机构的检验证明、合法进货渠道证明及海关完税证
+                明，此外，有关技 术资料中须附有全文翻译的中文文本。
+            </td>
+        </tr>
+
+        <tr class="app">
+            <td width="5%" rowspan="2" valign="top">&nbsp;</td>
+            <td width="5%" valign="top">3、</td>
+            <td width="90%">
+                供方保证提供给需方的货物是货物生产厂商原造的，全新、未使用过的，是用一流的工艺和优质材料制造而
+                成 的，并完全符合需方的各项使用目的或在采购时提出的各项需要。
+
+            </td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">4、</td>
+            <td width="90%">
+                本合同中所提供的货物保修期为（大写） 年。若本处填写的数据与投标货物生产厂商提供的《售后服务条
+                款 --投标产品质量保障和服务表》（详见附件一）中内容不一致，以其中服务年限更长或服务标准更高者为
+                准 。若供方承诺免费提供更高标准的保修服务或增值服务的，可另附页填写，但填写内容对“国家标准、招
+                标要 求、《售后服务条款--投标产品质量保障和服务表》中的承诺”，提出免责条件、存在偏离和保留的条
+                款无效。
+            </td>
+        </tr>
+
+        <tr class="app">
+            <td width="5%" rowspan="2" valign="top">&nbsp;</td>
+            <td width="5%" valign="top">5、</td>
+            <td width="90%">
+                货物的保修期或与质量相关的其它期限均自按照本合同约定方式完成最终验收并由需方签署了货物最终验收
+                单 之日起算。特别约定对大型或复杂货物或需经整套试车、整套运行的货物，该类包退、免费包换、免费
+                包修、 负责保修等期限，应当在约定质量保证期限、约定使用寿命、招标文件所要求的期限或行业认可的
+                平均使用寿 命、国家部委以上文件所规定的强制适用的期限等不同的期限中，自动适用其中最长的期限。
+                若各方对该类期 限不能达成一致的确认则应当通过本合同中所约定的解决争议的方式裁决出相关期限。
+            </td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">6、</td>
+            <td width="90%">
+                如因需方在使用中自行变更货物的硬件或软件而引起的缺陷，或因需方人员维护不当而损坏的货物或零部
+                件， 供方不负免费保修的责任，但供方应按照或比照本合同相关条款规定提供更换或保修服务，由此引起
+                的合理 费用由需方负担。
+
+            </td>
+        </tr>
+
+        <tr class="app">
+            <td width="5%" rowspan="2" valign="top">&nbsp;</td>
+            <td width="5%" valign="top">7、</td>
+            <td width="90%">
+                如因供方提供的货物硬件或软件有缺陷，或供方提供的技术资料有错误，或供方在现场的技术人员指导有错
+                误 而使货物不能达到合同规定的指标和技术性能，供方应负责按本合同相关条款规定更换或修理，使货物
+                运行指 标和技术性能达到合同规定 , 由此引起的全部费用由供方承担。 若因软件或硬件缺陷导致或引起需
+                方损失及 导致或引起第三方受到损害的，全部赔偿责任均应由供方承担。
+
+            </td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">8、</td>
+            <td width="90%">
+                在合同货物保修期内或在应当由供方负责的其他情况下，若由于供方更换、修理和续补货物，而造成货物不
+                得 不停止使用，货物保修期应依照停止使用的实际时间加以延长，如因此给需方造成损失，供方应负责赔
+                偿。
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table table-borderless">
+    <tbody>
+        <tr class="app">
+            <td width="5%" rowspan="5" valign="top">六、</td>
+        </tr>
+        <tr class="app">
+            <td width="20%" valign="top">付款方式及期限</td>
+            <td width="75%" style="text-decoration:underline">
+                采用需方直接支付方式的应当在验收合格并由双方签署《货物验收单》后7日内将货款全
+                部 付清；采用财政集中支付方式的应当遵从财政部规定付款。
+            </td>
+        </tr>
+        <tr class="app">
+            <td valign="top">供应商开户行名称</td>
+            <td><u><b>中国银行股份有限公司北京沙河支行</b></u></td>
+        </tr>
+        <tr class="app">
+            <td valign="top">账号</td>
+            <td class="fill">325960528718</td>
+        </tr>
+        <tr class="app">
+            <td valign="top">其它</td>
+            <td>
+                <table>
+                    <tbody>
+                        <tr class="app">
+                            <td width="7%" valign="top">1、</td>
+                            <td width="93%">供方在收到需方每一批付款的同时，应向需方开具相应金额的商业发票。</td>
+                        </tr>
+                        <tr class="app">
+                            <td valign="top">2、</td>
+                            <td>
+                                如供方根据本合同规定有责任向需方支付违约金或其它赔偿时，需方在书面通知
+                                供 方后 , 有权从上述付款中扣除该等额款项。
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table class="table table-borderless">
+    <tbody>
+        <tr class="app">
+            <td width="5%" rowspan="11" valign="top">七、</td>
+            <td colspan="2" valign="top">违约责任：</td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">1、</td>
+            <td width="95%">
+                若供方未如期按照合同约定的任何或全部款项内容之要求交付合同货物或提供服务、补足或更换货物且符合
+                要 求，或供方未能履行合同规定的任何其它义务时，需方有权直接向供方发出违约通知书，供方应按照需
+                方选择 的下列一种或多种方式承担赔偿责任及违约责任
+            </td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top"></td>
+            <td width="95%">
+                <table cellspacing="0" cellpadding="0" width="100%" class="HtHeadFont">
+                    <tbody>
+                        <tr class="app">
+                            <td width="5%" valign="top">1）</td>
+                            <td width="96%">
+                                在需方同意延长的期限内交付全部货物、提供服务并承担由此给需方造成的直接损失及需方因此产
+                                生的 对第三方的责任。
+                            </td>
+                        </tr>
+                        <tr class="app">
+                            <td valign="top">2）</td>
+                            <td>
+                                在需方规定的时间内，按照本合同相关条款的约定，完成相应的更换及/或修理以达到合同规定的
+                                各项 要求，供方应承担由此发生的各项相关费用并承担由此给需方造成的损失及需方因此产生的对
+                                第三方的 责任。此时，相关货物的质量保修期及相关的其它期限也应相应顺延或重新起算。
+                            </td>
+                        </tr>
+                        <tr class="app">
+                            <td valign="top">3）</td>
+                            <td>
+                                根据货物低劣程度、损坏程度和使需方所遭受的损失以及需方因此产生的对第三方的责任，经双方
+                                商定 降低货物的价格并由供方承担赔偿需方所遭受的损失及需方因此产生的对第三方的责任。
+                            </td>
+                        </tr>
+                        <tr class="app">
+                            <td valign="top">4）</td>
+                            <td>
+                                按合同规定的同种货币将需方所退货物的已支付货款全部退还给需方，并由供方承担需方由此发生
+                                的损 失和相关费用及需方因此产生的对第三方的责任。
+                            </td>
+                        </tr>
+                        <tr class="app">
+                            <td valign="top">5）</td>
+                            <td>
+                                需方有权部分或全部终止合同并由供方赔偿由此造成的损失及承担需方因此产生的对第三方的责
+                                任。
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">&nbsp;</td>
+            <td width="95%">
+                此外，上述情形下需方为采取必要的补救措施及/或因防止损失扩大而支出的合理费用应由供方承担。
+            </td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">2、</td>
+            <td width="95%">
+                若供方在收到需方的违约通知书或类似的其它书面通知之日起<u>7日内</u>未作答复也没有按照需方选择的方式承
+                担违 约责任，则需方有权直接从尚未支付的合同价款中扣留相当于需方选择的方式计算的索赔金额包括违
+                约金。若 这些金额不足以补偿，供方仍应承担不足部分的赔偿或支付责任。
+            </td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">3、</td>
+            <td width="95%">
+                如供方延期交货或需方延期付款，每逾期一天，违约方应按延期交货所折合的金额或延期付款金额每天 2‰
+                的比例向对方支付违约金，但该违约金累计不超过合同金额的5% ，逾期超过20天且成套集成的货物已交货
+                套 数未达合同约定套数90%的或非成套、非集成的货物已交货件数未达合同约定件数90%的，守约方有权
+                解除合同 ，并要求违约方赔偿由此造成的损失。
+
+            </td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">&nbsp;</td>
+            <td width="95%">
+                上述逾期超过20天且成套集成的货物已交货套数未达合同约定套数90%的以及单套货物未能全部交足的，或
+                非成 套、非集成的货物已交货件数未达合同约定件数90%的，守约方有权解除合同，并要求违约方赔偿由
+                此造成的损 失。
+            </td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">&nbsp;</td>
+            <td width="95%">
+                上述逾期超过20天但成套集成的货物已交货套数已达合同约定套数90%的，或非成套、非集成的货物已交货
+                件数 已达合同约定件数90%的，守约方不得要求解除合同已经履行的部分只有权决定解除尚未履行的部
+                分，但违约方 应当向对方支付按照中国人民银行规定的同期借款利息最高限额的两倍按日计算的违约金。
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">4、</td>
+            <td width="95%">
+                如任何一方无故解除合同或有违反本合同规定的任何情形均属于违约行为，违约方应就每一单项违约向对方
+                支 付合同总金额 5% 的违约金。
+            </td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">5、</td>
+            <td width="95%">
+                若货物为假冒伪劣产品，供方应按照合同总金额的2倍向需方支付惩罚性赔偿金，若该赔偿未达到给需方造
+                成损 失的2倍，则供方应当支付给需方造成损失的2倍的惩罚性赔偿金，且并不当然免除其依法应受的其它
+                处罚。
+
+            </td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">6、</td>
+            <td width="95%">
+                任何一方由于不可抗力原因不能按约履行合同时，应在不可抗力事件结束后3天内向对方有效通报，以减轻
+                可能 给对方造成的损失，在取得有关机构的不可抗力证明或双方谅解并书面确认后，应当根据具体情况允
+                许延期履 行、修订或终止合同，并根据情况可部分或全部免于承担违约责任。
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table class="table table-borderless">
+    <tbody>
+        <tr class="app">
+            <td width="5%" valign="top">八、</td>
+            <td width="95%">
+                供方同意并保证尊重任何他方的知识产权及其它合法权益，承诺其所提供的产品或服务均为有合法权利的，不会
+                侵犯 、导致或引起侵犯第三方知识产权及其它合法权益，若因本合同所提供的相关产品或服务及因履行本合同导
+                致侵犯第 三方的知识产权及其它合法权益，所引起的任何及/或全部责任均应当由供方承担。
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table class="table table-borderless">
+    <tbody>
+        <tr class="app">
+            <td width="5%" rowspan="6" valign="top">九、</td>
+            <td colspan="2" valign="top">因本合同所引起的任何相关争议均适用中华人民共和国法律、法规及规章并<b><u>选择采用以下第 种方式及规则解决：</u></b></td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">1、</td>
+            <td width="90%">双方协商解决（ ）；</td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">2、</td>
+            <td width="90%">向中标人指定协调人反映（ ）；</td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">3、</td>
+            <td width="90%">提请位于<u>&nbsp;&nbsp;&nbsp;&nbsp;</u>的<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>仲裁委员会仲裁（ ）；</td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">4、</td>
+            <td width="90%">依据《中华人民共和国民事诉讼法》的规定，向对双方争议有管辖权的人民法院提起诉讼（ ）。</td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top"></td>
+            <td width="90%">
+            双方同意下列约定作为规则：根据中国法律规定当事人在上述第3、4项中只能选择其中一种；若选择上述第
+            3 种解决方式的必需在相应空格上填写仲裁委员会所在地名和仲裁委员会的准确的全称；若上述第 3 、4 项
+            均 未被选择且事后未能就仲裁事项达成一致书面意见的则可以直接适用上述第4项。
+            </td>
+        </tr>
+
+        <tr class="app">
+            <td width="5%" rowspan="3" valign="top">十、</td>
+            <td colspan="2" valign="top">其它约定事项：</td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">1、</td>
+            <td width="90%">供方不得将本合同全部或部分权利、义务转让给任何第三方。</td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">2、</td>
+            <td width="90%">
+                任何一方没有行使其权利或没有就违约方的违约行为采取任何行动，不应被视为是对其权利的放弃或对追究
+                另 一方违约责任权利的放弃。任何一方放弃针对违约方的某种权利，或放弃追究违约方的某种责任，不应
+                视为对 其它权利或追究其它责任的放弃。
+            </td>
+        </tr>
+
+        <tr class="app">
+            <td width="5%" rowspan="2" valign="top">&nbsp;</td>
+            <td width="5%" valign="top">3、</td>
+            <td width="90%">
+                各方当事人均应尽力在最大程度上将本合同及其条款理解和解释为合法、有效、适合履行、应当履行。若本
+                合 同部分条款依据现行有关法律、法规被确认为无效或无法履行，且该部分无效或无法履行的条款不影响
+                本合 同其它条款效力的，本合同其它条款继续有效；同时，双方应根据现行有关法律、法规、规章对该部
+                分无效 或无法履行的条款进行调整，使其成为有效条款或自动适用最为接近的法规并尽量符合本合同所体
+                现的原则 精神。
+            </td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">4、</td>
+            <td width="90%">
+                政府采购协议供货招标文件、投标文件、采购中心与中标人签订的《中央国家机关政府采购协议供货框架协
+                议 》均是本合同不可分割的组成部分，本合同未尽事宜从其规定。但，投标文件内容违背或低于招标文件
+                要求或 任何可能导致影响当次采购目的的情形，均应当被视为供方自动放弃投标文件中相应部分而同意以
+                招标文件 相应内容为准。此外，若上述文件文本的内容或含义与本合同内容含义冲突时，以本合同内容为
+                准。
+            </td>
+        </tr>
+
+        <tr class="app">
+            <td width="5%" rowspan="3" valign="top">&nbsp;</td>
+            <td width="5%" valign="top">5</td>
+            <td width="90%">
+                在本合同履行的过程中，采购人需追加与合同标的相同的货物的，在不改变合同其他条款的前提下，可以仅
+                就 供货数量与供应商协商签订补充订单。补充订单构成本合同的一部分，并与本合同具有同等效力。但，
+                所有补 充订单的采购金额累计不得超过本合同原有采购金额的百分之十。对本合同其他实质性条款（价
+                格、配置、服 务条款等）进行变更的补充协议无效。
+
+            </td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">6、</td>
+            <td width="92%">
+                供方及需方在此承诺：已在投标之前或签署本合同之前详细阅读并适当理解了本合同文本全文，现由合同当
+                事 一方或双方在中央政府采购网下载使用，而供方及需方均是在完全自愿与平等法律地位基础上签署本合
+                同，各 自均承诺放弃以本合同系属于格式合同为由而提出不利于对方的合同条款的解释的相关主张权。对
+                同一条款含 义存在不同解释时，应采用与招标文件及其目的最接近的解释。当本合同双方对同一条款含义
+                存在不同解释时 ，应当以本合同版本发布者或质疑受理机构、投诉受理机构的解释为准。
+            </td>
+        </tr>
+        <tr class="app">
+            <td width="5%" valign="top">7、</td>
+            <td width="90%">
+                本合同的有效法律文本为中文文本，其他语言文本与之有不同解释的，以中文文本为准。本合同一式两份，
+                供 方、需方各一份。
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<table class="table table-borderless" style="margin-top: 300px;">
+    <tbody>
+        <tr class="app">
+            <td width="5%" rowspan="1" valign="top">&nbsp;</td>
+            <td width="5%" valign="top">8、</td>
+            <td width="90%">
+
+                <table class="table">
+                    <tbody>
+                        <tr class="app">
+                            <td width="50%" valign="top"><strong>需方（签章）： {{Contracts.unit}}</strong></td>
+                            <td width="50%" valign="top">
+                                <strong>供方（签章）：北京领航未来办公设备有限公司</strong>
+                            </td>
+                        </tr>
+                        <tr class="app">
+                            <td width="50%" valign="top"><strong>需方代表（签字）：</strong></td>
+                            <td width="50%" valign="top"><strong>供方代表（签字）：</strong></td>
+                        </tr>
+                        <tr class="app">
+                            <td width="50%" valign="top"><strong>地址： {{Contracts.DeliverylaceP}}</strong></td>
+                            <td width="50%" valign="top">
+                                <strong>地址：北京市昌平区沙河镇松兰堡村西B-505</strong>
+                            </td>
+                        </tr>
+                        <tr class="app">
+                            <td width="50%" valign="top"><strong>传真：</strong></td>
+                            <td width="50%" valign="top"><strong>传真：</strong></td>
+                        </tr>
+                        <tr class="app">
+                            <td width="50%" valign="top"><strong>电话：{{Contracts.phlone}} </strong></td>
+                            <td width="50%" valign="top">
+                                <strong>电话：010-80734326</strong>
+                            </td>
+                        </tr>
+                        <tr class="app">
+                            <td width="50%" valign="top" width="50%">
+                                <strong>合同签订日期：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;月&nbsp;&nbsp;日</strong>
+                            </td>
+                            <td width="50%" valign="top">
+                                <strong>合同签订日期：&nbsp;{{Contracts.createtime}}</strong>
+                                {% if Contracts.stype == '0' %}
+                                    <div style="width: 300px; height: 300px; margin: -350px 100px; background-image: url(http://127.0.0.1:8000/static/公章.png); background-size: cover;"></div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+        <script src="{{ site_url }}/static/js/jquery.min-3.3.1.js"></script>
+        <script src="{{ site_url }}/static/js/popper.min.js"></script>
+        <script src="{{ site_url }}/static/js/bootstrap4.min.js"></script>
+    </body>
+</html>

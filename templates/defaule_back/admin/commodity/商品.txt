@@ -1,0 +1,7 @@
+index.html= 商品-管理商品首页
+create.html= 创建和修改商品
+online.html = 
+parameter.html = 创建商品添加商品参数或修改商品参数[商品详细参数配置等]
+release.html = 商品上下线操作页面[单个商品]
+stay.html = 商品待发布管理
+sector.html = 首页板块商品发布管理等

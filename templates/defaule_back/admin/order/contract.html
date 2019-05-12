@@ -1,0 +1,446 @@
+{% extends 'defaule/admin/temp/index.ht' %}
+{% load staticfiles %}
+
+<!--网站标题-->
+{% block main_title %}
+   <title>{{site_name}} 后台管理 | 电子合同</title>
+{% endblock main_title %}
+
+<!--CSS样式-->
+{% block main_css %}
+    {% include 'defaule/admin/temp/css.ht' %}
+    <link href="https://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static '/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+    <style type="text/css" media="screen">
+        th {
+            font-size: 13px;
+        }
+    </style>
+{% endblock main_css %}
+
+<!--网站头部导航栏-->
+{% block main_header %}
+    <a href="" class="logo">
+        <span class="logo-mini"><b>管理</b>Admin</span>
+        <span class="logo-lg"><b>后台管理</b>Admin</span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Admin</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'admins:index' %}">常用 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">创始人</a></li>
+                <li><a href="{% url 'admins:complete' %}">全局</a></li>
+                <li><a href="{% url 'admins:user' %}">用户</a></li>
+                <li><a href="{% url 'admins:commodity' %}">商品</a></li>
+                <li class="active"><a href="{% url 'admins:order' %}">订单</a></li>
+                <li><a href="{% url 'admins:sector' %}">板块</a></li>
+                <li><a href="{% url 'admins:AdmPlate' %}">导航</a></li>
+                <li><a href="#">移动APP</a></li>
+            </ul>
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src={% static "images/user/user2-160x160.jpg" %} class="user-image" alt="User Image">
+                        <span class="hidden-xs">
+                        {{username}}
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                Alexander Pierce - Web Developer
+                                <small>Member since Nov. 2012</small>
+                            </p>
+                        </li>
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endblock main_header %}
+
+<!--网站左侧项目栏-->
+{% block main_aside %}
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>{{username}}</p>
+            {% if username %}
+                <a href="#">
+                    <i class="fa fa-circle text-success"></i>
+                    Online
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="订单号查询...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+
+
+
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">
+            <!--快捷菜单-->
+        </li>
+        <li>
+            <a href="{% url 'admins:order' %}">
+                <i class="fa fa-th"></i>
+                <span>仪表盘</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'admins:userorder' %}">
+                <i class="fa fa-th"></i>
+                <span>用户订单</span>
+            </a>
+        </li>
+        <li class="active">
+            <a href="{% url 'admins:contract' %}">
+                <i class="fa fa-th"></i>
+                <span>电子合同</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'admins:acceptances' %}">
+                <i class="fa fa-th"></i>
+                <span>验收单</span>
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <i class="fa fa-th"></i>
+                <span>返修/退货</span>
+            </a>
+        </li>
+        <!--li>
+            <a href={% url "admins:index" %}>
+                <i class="fa fa-dashboard"></i>
+                <span>仪表盘</span>
+            </a>
+        </li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-files-o"></i>
+                <span>商品管理</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href={% url "admins:ware" %}><i class="fa fa-circle-o"></i>添加商品</a></li>
+                <li><a href={% url "admins:commodity" %}><i class="fa fa-circle-o"></i>商品管理</a></li>
+            </ul>
+        </li-->
+    </ul>
+{% endblock main_aside %}
+
+<!--正文微标题，位置导航-->
+{% block main_content_header %}
+    <h1>电子合同<small>您可以在这里管理用户电子合同</small></h1>
+    <ol class="breadcrumb">
+        <li><a href={% url "home:index" %}><i class="fa fa-dashboard"></i> 个人中心</a></li>
+        <li><a href={% url "home:contract" %}> 电子合同</a></li>
+        <li class="active">当前位置</li>
+    </ol>
+{% endblock main_content_header %}
+
+<!--正文开始部分-->
+{% block main_content %}
+    <div class="row">
+
+
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">电子合同</h3><small></small>
+                </div>
+                <div class="box-body">
+
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>用户</th>
+                                <th>单位</th>
+                                <th>编号</th>
+                                <!-- <th>状态</th> -->
+                                <th>时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for var1 in ordercontract %}
+                            <tr>
+                                <th>{{var1.username}}</th>
+                                <th>{{var1.unit}}</th>
+                                <!--订单-->
+                                <th>{{var1.orderid}}</th>
+                                <!--状态-->
+                                <!-- <th><span style="color: green;">{{正式}}</span></th> -->
+                                <!--时间-->
+                                <th>{{var1.time}}</th>
+                                <!--操作-->
+                                <th>
+                                    <div class="btn-group">
+                                        <a type="button" target="view_window" href="{% url 'home:ordercontract' var1.id %}" class="btn btn-default">查看合同</a>
+                                    </div>
+                                    <div class="btn-group">
+                                        <a type="button" target="view_window" href="javascript:;" class="btn btn-danger">作废合同</a>
+                                    </div>
+                                </th>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+
+                        <tfoot>
+                            <tr>
+                                <th>用户</th>
+                                <th>单位</th>
+                                <th>编号</th>
+                                <!-- <th>状态</th> -->
+                                <th>时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog" style="width: 85%; height: 90%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">选择订单 <small>订单完成状态可申请合同</small></h4>
+            </div>
+            <div class="modal-body">
+                <div class="box-body">
+                    <table id="example2" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>订单号</th>
+                                <th>商品名称</th>
+                                <th>创建时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for var1 in orde %}
+                            {% if var1.ordContract == '0' %}
+                            <tr>
+                                <th>{{var1.orderid}}</th>
+                                <th>{{var1.name}}</th>
+                                <th>{{var1.createtime}}</th>
+                                <!--操作-->
+                                <th>
+                                    <div class="btn-group">
+                                        <button type="button" id="tesa{{var1.id}}" onclick="getpulContract('{{var1.id}}');" class="btn btn-default btn-xs">合同申请</button>
+                                    </div>
+                                </th>
+                            </tr>
+                             {% endif %}
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>订单号</th>
+                                <th>商品名称</th>
+                                <th>创建时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+    </div>
+{% endblock main_content %}
+
+<!--位置底部Footer信息-->
+{% block main_footer %}
+    {% include 'defaule/admin/temp/footer.ht' %}
+{% endblock main_footer %}
+
+<!--网站Script脚本-->
+{% block main_script %}
+    {% include 'defaule/admin/temp/script.ht' %}
+    <script src="https://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="{% static '/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static '/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/csrf_token.js' %}"></script>
+    <script>
+
+        toastr.options.positionClass = 'toast-top-right';
+
+
+        var csrftoken = getCookie('csrftoken');
+
+        /*getpulContract 申请合同*/
+        function getpulContract(sid){
+            $.ajax({
+                url: '{% url "home:getpulContract" %}',
+                type: 'POST',
+                dataType: 'json',
+                token: csrftoken,
+                data: {'id': sid},
+            })
+            .done(function() {
+                toastr.success('合同以申请，请记得刷新页面哦');
+                $('#tesa'+sid).attr("disabled","disabled");
+                console.log("success");
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+        }
+
+
+        function setonorder(wid){
+
+            $.ajax({
+                url: "{% url 'admins:setonorder' %}",
+                type: 'POST',
+                token: csrftoken,
+                dataType: 'json',
+                data: {'id': wid},
+            })
+            .done(function(data) {
+                var jsons = data.code;
+                console.log(jsons);
+                if (jsons == '201') {
+                    toastr.info('未结账验收单已经生成，不要在点了');
+                } else if (jsons == '200'){
+                    window.location.reload();
+                };
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+
+        }
+
+        function setaddesorder(wid){
+            var csrftoken = getCookie('csrftoken');
+            $.ajax({
+                url: "{% url 'admins:setaddesorder' %}",
+                type: 'POST',
+                token: csrftoken,
+                dataType: 'json',
+                data: {'id': wid},
+            })
+            .done(function() {
+                console.log("success");
+                window.location.reload();
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+
+        }
+
+        function getOrderAcceptanceCheck(wid){
+            var csrftoken = getCookie('csrftoken');
+            $.ajax({
+                url: "{% url 'admins:getOrderAcceptanceCheck' %}",
+                type: 'POST',
+                token: csrftoken,
+                dataType: 'json',
+                data: {'id': wid},
+            })
+            .done(function(data) {
+                var jsons = data.code;
+                console.log(jsons);
+                if (jsons == '201') {
+                    toastr.info('未结账验收单已经生成，不要在点了');
+                } else if (jsons == '200'){
+                    toastr.success('验收单已生成');
+                };
+
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+
+        }
+
+      $(function () {
+        $('#example1').DataTable();
+        $('#example2').DataTable();
+
+
+
+      })
+      $(function () {
+      $('[data-toggle="popover"]').popover()
+    })
+
+    </script>
+{% endblock main_script %}
+

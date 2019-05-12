@@ -1,0 +1,571 @@
+{% extends 'defaule/admin/temp/index.ht' %}
+{% load staticfiles %}
+{% load tags %}
+
+<!--网站标题-->
+{% block main_title %}
+   <title>后台管理 | 商品 - 商品管理</title>
+{% endblock main_title %}
+
+<!--CSS样式-->
+{% block main_css %}
+    {% include 'defaule/admin/temp/css.ht' %}
+    <link rel="stylesheet" href="{% static 'iCheck/flat/blue.css' %}">
+{% endblock main_css %}
+
+<!--网站头部导航栏-->
+{% block main_header %}
+    <a href="" class="logo">
+        <span class="logo-mini"><b>管理</b>Admin</span>
+        <span class="logo-lg"><b>后台管理</b>Admin</span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Admin</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'admins:index' %}">常用 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">创始人</a></li>
+                <li><a href="{% url 'admins:complete' %}">全局</a></li>
+                <li><a href="{% url 'admins:user' %}">用户</a></li>
+                <li class="active"><a href="{% url 'admins:commodity' %}">商品</a></li>
+                <li><a href="{% url 'admins:order' %}">订单</a></li>
+                <li><a href="{% url 'admins:sector' %}">板块</a></li>
+                <li><a href="{% url 'admins:AdmPlate' %}">导航</a></li>
+                <li><a href="#">移动APP</a></li>
+            </ul>
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src={% static "images/user/user2-160x160.jpg" %} class="user-image" alt="User Image">
+                        <span class="hidden-xs">
+                        {{username}}
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                Alexander Pierce - Web Developer
+                                <small>Member since Nov. 2012</small>
+                            </p>
+                        </li>
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endblock main_header %}
+
+<!--网站左侧项目栏-->
+{% block main_aside %}
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>{{username}}</p>
+            {% if username %}
+                <a href="#">
+                    <i class="fa fa-circle text-success"></i>
+                    Online
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="你想知道什么...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header"></li>
+        <li class="active">
+            <a href={% url "admins:commodity" %}>
+                <i class="fa fa-clone"></i>
+                <span>商品管理</span> <!-- 包含增删查改-->
+            </a>
+        </li>
+        <li>
+            <a href={% url "admins:stay" %}>
+                <i class="fa fa-hourglass-2"></i>
+                <span>待发布</span>
+            </a>
+        </li>
+        <li>
+            <a href={% url "admins:import" %}>
+                <i class="fa fa-hourglass-2"></i>
+                <span>批量导入</span>
+            </a>
+        </li>
+        <li>
+            <a href={% url "admins:ClassZycg" %}>
+                <i class="fa fa-hourglass-2"></i>
+                <span>央采分类</span>
+            </a>
+        </li>
+    </ul>
+{% endblock main_aside %}
+
+<!--正文微标题，位置导航-->
+{% block main_content_header %}
+    <h1>商品管理<small>您可以在这里管理商品相关参数</small></h1>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'admins:index' %}"><i class="fa fa-dashboard"></i> 后台首页</a></li>
+        <li><a href="{% url 'admins:commodity' %}">商品</a></li>
+        <li><a href="{% url 'admins:commodity' %}">商品管理</a></li>
+        <li class="active">当前位置</li>
+    </ol>
+{% endblock main_content_header %}
+
+<!--正文开始部分-->
+{% block main_content %}
+    <div class="row">
+        {% if wareAppReleaseFalseLen > 0 %}
+            <div class="col-md-12">
+                <div class="alert alert-warning alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-info"></i> 发现未发布商品!</h4>
+                    未发布商品这里不会展示，请前往&nbsp;<a href="{% url 'admins:stay' %}" title="{{wareAppReleaseFalseLen}}&nbsp;个未发布商品。">待发布</a>&nbsp;进行管理。当前未发布商品&nbsp;{{wareAppReleaseFalseLen}}&nbsp;个。
+                </div>
+            </div>
+        {% endif %}
+
+
+
+
+        <div class="col-md-12">
+            {% if app_isnull %}
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Image <small> 当前有{{ app_isnull.count }}个商品没有设置首图哦</small></h3>
+                </div>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin">
+                            <thead>
+                                <tr>
+                                    <th>商品</th>
+                                    <th>首图</th>
+                                    <th>状态</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for var1 in app_isnull %}
+                                    <tr>
+                                        <td><a href="{% url "app:details" var1.id %}">{{var1.name|section:20}}</a></td>
+                                        <td>{% if not var1.image %}不存在{% endif %}</td>
+                                        <td>
+                                            {% if var1.release %}
+                                                <span class="label label-success">以发布</span>
+                                            {% else %}
+                                                <span class="label label-warning">未发布</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <form action="{% url "admins:SettupView" %}" method="POST">
+                        {% csrf_token %}
+                        <button type="" class="btn btn-block btn-default btn-flat batch">批量设置首图</button>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="box box-info col-md-12">
+                <div class="box-header with-border">
+                    <h3 class="box-title">商品列表<small>List</small></h3>
+                    <div class="box-body">
+                        <!-- /.box-header -->
+                        <form id="from_del_warelist">
+                            {% csrf_token %}
+                            <div class="box-body no-padding">
+                                <div class="mailbox-controls">
+                                    <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
+                                    </button>
+                                    <div class="btn-group">
+                                        <button type="submit" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                    </div>
+                                    <a href="{% url 'admins:ware' %}" type="button" class="btn btn-default btn-sm"><i class="fa fa-plus-square-o"></i></a>
+                                    <div class="pull-right">
+                                        {{page.end_index}}/{{max_page}}
+                                        <div class="btn-group">
+
+                                            <a {% if page.has_previous %} href="{% url 'admins:commodity' %}?search={{ search }}&amp;page={{ page.previous_page_number  }}" {% else %} disabled {% endif %} class="btn btn-default btn-sm">
+                                            <i class="fa fa-chevron-left"></i>
+                                            </a>
+
+                                            <a {% if page.has_next %} href="{% url 'admins:commodity' %}?search={{ search }}&amp;page={{ page.next_page_number }}"{% else %} disabled {% endif %} class="btn btn-default btn-sm">
+                                            <i class="fa fa-chevron-right"></i>
+                                            </a>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive mailbox-messages" style="height: 500px;">
+                                    <table class="table table-hover table-striped">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    选择
+                                                </td>
+                                                <td class="mailbox-name">商品</td>
+                                                <td class="mailbox-subject">金额</td>
+                                                <td class="mailbox-date">时间</td>
+                                                <td class="mailbox-date">操作</td>
+                                            </tr>
+                                            {% for var1 in classify %}
+                                            <tr>
+                                                <td>
+                                                    <input name="items" type="checkbox" value="{{var1.id}}">
+                                                </td>
+                                                <td class="mailbox-name"><a href={% url "admins:release" var1.wareApp_key.unix var1.wareApp_key.id %} title="">{{var1.wareApp_key.name}}</a></td>
+                                                <td class="mailbox-subject">{{var1.wareApp_key.money}}</td>
+                                                <td class="mailbox-date">{{var1.wareApp_key.time_now}}</td>
+                                                <td class="mailbox-date">
+                                                    <div class="btn-group">
+                                                        <div class="btn-group">
+                                                            <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
+                                                                更多操作&nbsp;<span class="caret"></span>
+                                                            </button>
+                                                            <ul class="dropdown-menu" role="menu">
+
+                                                                <li><a href="{% url 'admins:ware' var1.wareApp_key.id var1.wareApp_key.unix %}">编辑商品</a></li>
+
+                                                                <li><a href="{% url 'admins:info' var1.wareApp_key.id var1.wareApp_key.unix var1.classifythere_key.id %}">参数修改</a></li>
+
+
+
+
+                                                                <li><a  href="{% url 'admins:online' var1.wareApp_key.unix var1.wareApp_key.id %}?type=edit&url=commodity&there_id={{var1.classifythere_key.id}}">套餐详情</a></li>
+
+                                                                <li class="divider"></li>
+                                                                <li><a data-toggle="modal" data-target="#modal-index" href="" id="carousel_{{var1.wareApp_key.id}}" onclick="setCarousel('carousel_{{var1.wareApp_key.id}}')" value="{{var1.wareApp_key.id}}">首页推送</a></li>
+                                                                <li class="divider"></li>
+                                                                <li><a data-toggle="modal" onclick="downline('{{var1.id}}');" href="javascript:;">商品下架</a></li>
+
+                                                                <li><a data-toggle="modal" onclick="delete_ware('{{var1.wareApp_key.id}}');" href="">删除商品</a></li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="btn-group">
+                                                            <div class="modal modal-danger fade" id="deletle{{var1.wareApp_key.id}}">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                            <h4 class="modal-title">删除操作确认</h4>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <p>您即将删除本商品，删除后不可恢复！</p>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <a href="{% url 'admins:del_ware' var1.wareApp_key.id %}" class="btn btn-outline">确认</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+
+                                <div class="mailbox-controls">
+                                    <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
+                                    </button>
+                                    <div class="btn-group">
+                                        <button type="" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                    </div>
+                                    <a href="{% url 'admins:ware' %}" type="button" class="btn btn-default btn-sm"><i class="fa fa-plus-square-o"></i></a>
+
+                                    <div class="pull-right">
+                                        {{page.end_index}}/{{max_page}}
+                                        <div class="btn-group">
+                                            <a {% if page.has_previous %} href="{% url 'admins:commodity' %}?search={{ search }}&amp;page={{ page.previous_page_number  }}" {% else %} disabled {% endif %} class="btn btn-default btn-sm">
+                                            <i class="fa fa-chevron-left"></i>
+                                            </a>
+
+                                            <a {% if page.has_next %} href="{% url 'admins:commodity' %}?search={{ search }}&amp;page={{ page.next_page_number }}"{% else %} disabled {% endif %} class="btn btn-default btn-sm">
+                                            <i class="fa fa-chevron-right"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+    <!--首页推送-->
+    <div class="modal fade" id="modal-index">
+
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">首页推送</h4>
+                    </div>
+                    <div class="modal-body">
+
+
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                                <li><a href="#tab_1" data-toggle="tab">轮播图</a></li>
+                                <li class="active"><a href="#tab_2" data-toggle="tab">板块</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane " id="tab_1">
+
+                                    <div class="form-group">
+                                        <label>模板</label>
+                                        <select name="temp" class="form-control select2" style="width: 100%;">
+                                            {% for var1 in middleTop %}
+                                                <option value="{{var1.temp}}">{{var1.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div  class="tab-pane active" id="tab_2">
+                                    <form id="from_add_sector" enctype="multipart/form-data">
+                                        <div class="box-body">
+                                            <input type="hidden" id="ware_id" name="ware_id">
+
+                                            <div class="form-group">
+                                                <label>板块</label>
+                                                <select name="temp" class="form-control select2" style="width: 100%;" id="select_temp">
+                                                    {% for var1 in temp %}
+                                                        <option value="{{var1.id}}">{{var1.name}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="name">预览图</label>-默认商品第一张图片[暂不可用]
+                                                <input name="upfile" id="file-1" type="file" multiple class="file" disabled>
+                                                {% if error.commodity_picture.0 %}
+                                                    <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">推送</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+    </div>
+{% endblock main_content %}
+
+<!--位置底部Footer信息-->
+{% block main_footer %}
+    {% include 'defaule/admin/temp/footer.ht' %}
+{% endblock main_footer %}
+
+<!--网站Script脚本-->
+{% block main_script %}
+    {% include 'defaule/admin/temp/script.ht' %}
+    <script src="{% static 'js/csrf_token.js' %}"></script>
+
+    <script src="{% static 'iCheck/icheck.min.js' %}"></script>
+    <script type="text/javascript">
+
+        $('.mailbox-messages input[type="checkbox"]').iCheck({
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass: 'iradio_flat-blue'
+        });
+
+        $(".checkbox-toggle").click(function () {
+            var clicks = $(this).data('clicks');
+            if (clicks) {
+                //Uncheck all checkboxes
+                $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
+                $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+            } else {
+                //Check all checkboxes
+                $(".mailbox-messages input[type='checkbox']").iCheck("check");
+                $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+            }
+                $(this).data("clicks", !clicks);
+        });
+
+        var csrftoken = getCookie('csrftoken');
+        var from_del_warelist = document.getElementById("from_del_warelist");
+        var from_add_sector = document.getElementById("from_add_sector");
+
+        function setCarousel(vid){
+            document.getElementById('ware_id').value=document.getElementById(vid).getAttribute("value");
+
+        };
+
+        function SetEmail(url, data, ids){
+            $.ajax({
+                url: url,
+                type:'POST',
+                dataType:'json',
+                token: csrftoken,
+                data: data,
+                success: function(callback){
+                    if (callback['code'] == 200) {
+                        location.reload();
+                    } else{
+                        console.log(callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i>' + callback[callback['state']] + '</h4>' +
+                                    '</div> ';
+                        document.getElementById('error_'+ids).innerHTML = html;
+                    };
+                },
+                error: function (callback) {
+                    console.log(callback);
+                    console.log(callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i> 啊偶，提交内容失败了！</h4>' +
+                                    '</div> ';
+                        document.getElementById('error_0').innerHTML = html;
+
+                }
+            })
+        };
+
+        function submitFormDataEmail(){
+            var Dat = new FormData(from_del_warelist)
+            var student = $("input[name='items']:checked").serialize();
+
+
+            var url = "{% url 'admins:del_ware' %}"
+            var D = {
+                "stype": "list",
+                "list": student
+            }
+            SetEmail(url, D, 1);
+            console.log('修改邮箱'); //修改邮箱
+
+            console.log(D);
+        };
+
+        function submitFormAddSector(){
+            var Dat = new FormData(from_add_sector);
+
+            var url = "{% url 'admins:set_addSector' %}";
+            var D = {
+                "ware_id": Dat.get('ware_id'),
+                "temp": Dat.get('temp')
+            };
+            SetEmail(url, D, 1);
+            console.log('修改邮箱'); //修改邮箱
+
+            console.log(D);
+        };
+
+        from_del_warelist.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormDataEmail();         //启动监听提交按钮
+        });
+
+
+        from_add_sector.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormAddSector();         //启动监听提交按钮
+        });
+
+
+
+
+        function downline(ids){
+            $.ajax({
+                url: '/path/to/file',
+                type: 'default GET (Other values: POST)',
+                dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+                data: {param1: 'value1'},
+            })
+            .done(function() {
+                console.log("success");
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+
+        };
+
+        function delete_ware(ids){
+            var url = "{% url 'admins:del_ware' %}"
+            var D = {
+                "stype": 'one',
+                "list": ids
+            }
+            SetEmail(url, D, 1);
+        };
+    </script>
+{% endblock main_script %}
+

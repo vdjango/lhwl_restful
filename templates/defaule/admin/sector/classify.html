@@ -1,0 +1,954 @@
+{% extends 'defaule/admin/temp/index.ht' %}
+{% load staticfiles %}
+{% load tags %}
+
+<!--网站标题-->
+{% block main_title %}
+   <title>后台管理 | 板块 - 全部分类</title>
+{% endblock main_title %}
+
+<!--CSS样式-->
+{% block main_css %}
+    {% include 'defaule/admin/temp/css/select2.min.ht' %}
+    {% include 'defaule/admin/temp/css.ht' %}
+{% endblock main_css %}
+
+<!--网站头部导航栏-->
+{% block main_header %}
+    <a href="" class="logo">
+        <span class="logo-mini"><b>管理</b>Admin</span>
+        <span class="logo-lg"><b>后台管理</b>Admin</span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Admin</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'admins:complete' %}">全局</a></li>
+                <li><a href="{% url 'admins:user' %}">用户</a></li>
+                <li><a href="{% url 'admins:commodity' %}">商品</a></li>
+                <li><a href="{% url 'admins:order' %}">订单</a></li>
+                <li class="active"><a href="{% url 'admins:sector' %}">板块</a></li>
+                <li><a href="{% url 'admins:AdmPlate' %}">导航</a></li>
+            </ul>
+
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src={% static "images/user/user2-160x160.jpg" %} class="user-image" alt="User Image">
+                        <span class="hidden-xs">
+                        {{username}}
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                Alexander Pierce - Web Developer
+                                <small>Member since Nov. 2012</small>
+                            </p>
+                        </li>
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endblock main_header %}
+
+<!--网站左侧项目栏-->
+{% block main_aside %}
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>{{username}}</p>
+            {% if username %}
+                <a href="#">
+                    <i class="fa fa-circle text-success"></i>
+                    管理员
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="你想知道什么...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header"></li>
+        <li class="treeview active">
+            <a href="#">
+                <i class="fa fa-laptop"></i>
+                <span>首页管理</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href='{% url "admins:sector" %}'><i class="fa fa-circle-o"></i> 板块管理</a></li>
+                <li class="active"><a href='{% url "admins:classify" %}'><i class="fa fa-circle-o"></i> 全部分类</a></li>
+                <li><a href='{% url "admins:navigation" %}'><i class="fa fa-circle-o"></i> 导航管理</a></li>
+                <li><a href='{% url "admins:broadcast" %}'><i class="fa fa-circle-o"></i> 轮播/横幅</a></li>
+            </ul>
+        </li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-laptop"></i>
+                <span>预设管理</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href='{% url "admins:setupsearch" %}'><i class="fa fa-circle-o"></i> 商品筛选器</a></li>
+                <li><a href='{% url "admins:setupparameter" %}'><i class="fa fa-circle-o"></i> 品牌预设</a></li>
+                <li><a href='{% url "admins:discount" %}'><i class="fa fa-circle-o"></i> 优惠率</a></li>
+            </ul>
+        </li>
+    </ul>
+{% endblock main_aside %}
+
+<!--正文微标题，位置导航-->
+{% block main_content_header %}
+    <h1>全部分类<small>您可以在这里管理首页分类布局，管理分类数据</small></h1>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'admins:sector' %}">板块</a></li>
+        <li><a href="{% url 'admins:classify' %}">全部分类</a></li>
+        <li class="active">当前位置</li>
+    </ol>
+{% endblock main_content_header %}
+
+<!--正文开始部分-->
+{% block main_content %}
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">一级分类</h3>
+                    <small>全部分类</small>
+                </div>
+                <div class="box-body">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#createtab_1" data-toggle="tab">添加分类</a></li>
+                            <li><a href="#createtab_2" data-toggle="tab">添加导航</a></li>
+                        </ul>
+                        <div class="tab-content">
+
+                            <div class="tab-pane active" id="createtab_1">
+                                <form id="from_create_classify">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label for="name">一级分类名称</label>
+                                            <input type="text" class="form-control" name="name" id="name" placeholder="一级分类名称">
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                        <button type="submit" class="btn btn-primary">提交</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="tab-pane" id="createtab_2">
+                                <form id="from_create_classif_Label">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label for="name">分类标签</label>
+                                            <input type="text" class="form-control" name="name" id="name" placeholder="分类标签">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="url">URL地址</label>
+                                            <input type="text" class="form-control" name="url" id="url" placeholder="URL地址">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>分类目标</label>
+                                            <select name="id" class="form-control select2" style="width: 100%;">
+                                                {% for var1 in classify %}
+                                                    <option value="{{var1.id}}">{{var1.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                        <button type="submit" class="btn btn-primary">提交</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">二级分类</h3>
+                    <small>添加子分类</small>
+                </div>
+                <form id="from_create_classify_two">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="name">二级分类</label> &nbsp;<small>不要超出4个汉字的长度</small>
+                            <input type="text" class="form-control" name="name" placeholder="二级分类名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">URL地址</label>
+                            <input type="text" class="form-control" name="url" placeholder="URL地址">
+                        </div>
+                        <div class="form-group">
+                            <label>分类目标</label>
+                            <select name="id" class="form-control select2" style="width: 100%;">
+                                {% for var1 in classify %}
+                                    <option value="{{var1.id}}">{{var1.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">提交</button>
+                    </div>
+                </form>
+                {% if setclassify.radio == '2' %}
+                    <div class="overlay">
+                        <i class="fa fa-refresh fa-spin"></i>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">三级分类</h3>
+                    <small>添加商品分类</small>
+                </div>
+                <form id="from_create_classify_Three">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="name">三级分类</label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="三级分类名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">URL地址</label>
+                            <input type="text" class="form-control" name="url" placeholder="URL地址">
+                        </div>
+                        {% if setclassify.radio == '2' %}
+                            <div class="form-group">
+                                <label>一级分类目标</label>
+                                <select name="id" class="form-control select2" style="width: 100%;">
+                                    {% for var1 in classify %}
+                                        <option value="{{var1.id}}">{{var1.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        {% else %}
+                            <div class="form-group">
+                                <label>二级分类目标</label>
+                                <select name="id" class="form-control select2" style="width: 100%;">
+                                    {% for var1 in classify_two %}
+                                        <option value="{{var1.id}}">{{var1.subtitle}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        {% endif %}
+
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">全部分类管理</h3>
+                </div>
+                <div class="box-body">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab_1" data-toggle="tab">分类管理</a></li>
+                            <li><a href="#tab_2" data-toggle="tab">导航管理</a></li>
+                        </ul>
+                        <div class="tab-content">
+
+                            <div class="tab-pane active" id="tab_1">
+                                <form id="from_classify_text">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label>分类目标</label>
+                                            <select name="id" class="form-control select2" style="width: 100%;">
+                                                {% for var1 in classify %}
+                                                    <option value="{{var1.id}}">{{var1.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                          操作&nbsp;<span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a onclick="classify_edit('from_classify_text');" data-toggle="modal" data-target="#classify_edit" href="">修改分类</a></li>
+                                            <li><a onclick="classify_delete('from_classify_text');" data-toggle="modal" data-target="#classify_delete" href="">删除分类</a></li>
+                                        </ul>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="tab-pane" id="tab_2">
+                                <form id="from_classify_label">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label>分类目标</label>
+                                            <select name="id" class="form-control select2" style="width: 100%;">
+                                                {% for var1 in classify %}
+                                                    <option value="{{var1.id}}">{{var1.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                          操作&nbsp;<span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a onclick="label_edit('from_classify_label');" data-toggle="modal" data-target="#label_edit" href="">修改分类导航</a></li>
+                                            <li><a onclick="label_delete('from_classify_label');" data-toggle="modal" data-target="#label_delete" href="">删除分类导航</a></li>
+                                        </ul>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                {% set default = True %}
+                {% for var1 in content %}
+                    <li {% if default %} {% set default = False %} class="active" {% else %} {% endif %}><a href="#tab_{{var1.Classification.obj.id}}" data-toggle="tab">{{var1.Classification.obj.name}}</a></li>
+                {% endfor %}
+
+                </ul>
+                <div class="tab-content">
+                    {% set default_tag = True %}
+                    {% for var1 in content %}
+                        <div class="tab-pane {% if default_tag %} {% set default_tag = False %} active {% endif %}" id="tab_{{var1.Classification.obj.id}}">
+                            <div class="nav-tabs-custom">
+                                <ul class="todo-list">
+                                    {% for var2 in var1.Classification.Navigation_There %}
+                                        <li>
+                                            <span class="text">{{var2.name}}</span>
+
+                                            <div class="tools">
+                                                <i data-toggle="modal" data-target="#set_level" class="fa fa-level-up set_level" value="{{var2.id}}"></i>
+                                                <i onclick="Set_id('{{var2.id}}', 'label_classify_there_edit_id');" data-toggle="modal" data-target="#classify_there_edit" class="fa fa-edit"></i>
+                                                <i onclick="delete_classify_There('{{var2.id}}');" class="fa fa-trash-o"></i>
+                                            </div>
+
+                                            <div class="tools" style="display: unset;">
+                                                <i class="level-{{var2.id}}" style="margin-right: 15px;">Level: {{var2.level}}</i>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--修改分类-->
+    <div class="modal fade" id="classify_edit">
+        <form id="form_classify_edit">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">修改分类</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input id="classify_edit_id" type="hidden" name="id">
+                        <div class="form-group">
+                            <label for="name">修改分类名称</label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="修改分类名称">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--修改分类导航-->
+    <div class="modal fade" id="label_edit">
+        <form id="form_label_edit">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">修改分类导航</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input id="label_editclassify_edit_id" type="hidden" name="id">
+                        <div class="form-group">
+                            <label for="name">修改分类导航</label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="修改分类导航">
+                        </div>
+
+                        <div class="form-group">
+                            <label>分类导航</label>
+                            <select id="classif_label_Select1" name="id" class="form-control select2" style="width: 100%;">
+                                <option value="0">0</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--删除标签-->
+    <div class="modal fade" id="label_delete">
+        <form id="form_label_delete">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">删除分类导航</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input id="label_deleteclassify_edit_id" type="hidden" name="id">
+                        <div class="form-group">
+                            <label>选择删除的分类导航</label>
+                            <select id="classif_label_Select2" name="label_id" class="form-control select2" style="width: 100%;">
+                                <option value="0">0</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">删除</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--二级分类管理-修改-->
+    <div class="modal fade" id="classify_two_edit">
+        <form id="form_classify_two_edit">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">二级分类修改</h4>
+                        <small>子分类</small>
+                    </div>
+                    <div class="modal-body">
+                        <input id="label_classify_two_edit_id" type="hidden" name="id">
+                        <div class="form-group">
+                            <label for="name">修改二级分类</label>
+                            <input type="text" class="form-control" name="name" placeholder="新二级分类名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">URL地址</label>
+                            <input type="text" class="form-control" name="url" placeholder="URL地址">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">提交</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--三级分类管理-修改-->
+    <div class="modal fade" id="classify_there_edit">
+        <form id="form_classify_there_edit">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">三级分类修改</h4>
+                        <small>商品分类</small>
+                    </div>
+                    <div class="modal-body">
+                        <input id="label_classify_there_edit_id" type="hidden" name="id">
+                        <div class="form-group">
+                            <label for="name">修改三级分类</label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="新三级分类名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">URL地址</label>
+                            <input type="text" class="form-control" name="url" placeholder="URL地址">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">提交</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal fade" id="classify_delete">
+        <form id="form_classify_delete">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">修改分类</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input id="classify_delete_id" type="hidden" name="id">
+                        <div class="form-group">
+                            <label for="name">修改分类名称</label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="修改分类名称">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal fade" id="set_level">
+        <form id="form_classify_there_level">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">设置优先级</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <input id="level_id" type="hidden" name="id">
+                        <p class="">
+                        优先级默认1000，优先级数值越小，表示优先级越大。 <br>
+                        设置优先级的作用是： 搜索商品 筛选器优先展示分类
+                        </p>
+                        <div class="form-group">
+                            <label for="name">优先级</label>
+                            <input type="number" class="form-control" name="level" id="level" placeholder="优先级" value="1000">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock main_content %}
+
+<!--位置底部Footer信息-->
+{% block main_footer %}
+    {% include 'defaule/admin/temp/footer.ht' %}
+{% endblock main_footer %}
+
+<!--网站Script脚本-->
+{% block main_script %}
+
+    {% include 'defaule/admin/temp/script.ht' %}
+    {% include 'defaule/admin/temp/js/select2.full.min.ht' %}
+    <script src="{% static 'js/csrf_token.js' %}"></script>
+    <script>
+        $('.fa.fa-level-up.set_level').on('click', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            $('#level_id').val($(this).attr('value'));
+            $.ajax({
+                url: '{% url "admins:searchLevel" %}',
+                type: 'GET',
+                dataType: 'json',
+                data: { 'id': $(this).attr('value') },
+            })
+            .done(function(data) {
+                console.log("success: " + data.level);
+                $('#level').val(data.level);
+
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+        });
+
+
+        var form_classify_there_level = document.getElementById("form_classify_there_level")
+
+        function level(){
+            var form = new FormData(form_classify_there_level)
+
+            var url = "{% url 'admins:searchLevel' %}"
+            var data = {
+                "id": form.get('id'),
+                "level": form.get('level')
+            }
+            $.ajax({
+                url: '{% url "admins:searchLevel" %}',
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+            })
+            .done(function(data) {
+                console.log("success");
+                console.log('data.id: ' + data.id + '; data.data: ' + data.data);
+                $('.level-' + data.id).text('Level: ' + data.data);
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+
+        }
+
+        form_classify_there_level.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            level();         //启动监听提交按钮
+        });
+    </script>
+
+
+
+    <script>
+        $('.select2').select2()
+
+        var csrftoken = getCookie('csrftoken');
+
+        function SetEmail(url, data, ids){
+            $.ajax({
+                url: url,
+                type:'POST',
+                dataType:'json',
+                token: csrftoken,
+                data: data,
+                success: function(callback){
+                    if (callback['code'] == 200) {
+                        location.reload();
+                    } else{
+                        console.log(callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i>' + callback[callback['state']] + '</h4>' +
+                                    '</div> ';
+                        document.getElementById('error_'+ids).innerHTML = html;
+                    };
+                },
+                error: function (callback) {
+                    console.log(callback);
+                    console.log(callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i> 啊偶，提交内容失败了！</h4>' +
+                                    '</div> ';
+                        document.getElementById('error_0').innerHTML = html;
+                }
+            })
+        }
+
+        $.ajax({
+            url: "{% url 'admins:get_classifyLabel' %}",
+            type:'GET',
+            dataType:'json',
+            token: csrftoken,
+            data: {
+                'id': ''
+            },
+            success: function(callback){
+                if (callback['code'] == 200) {
+                    var html =  ''
+                    var jsons = JSON.parse(callback['data']);
+                    console.log(jsons[1]);
+                    for (var i = jsons.length - 1; i >= 0; i--) {
+                        var id = jsons[i]['pk'];
+                        var name = jsons[i]['fields']['name']
+                        console.log(name);
+                        html = html + '<option value="' + id + '">' + name + '</option>'
+                    };
+                    console.log(html);
+                    document.getElementById('classif_label_Select1').innerHTML = html;
+                    document.getElementById('classif_label_Select2').innerHTML = html;
+                };
+            },
+            error: function (callback) {
+                console.log(callback);
+                console.log(callback['code']);
+                alert('获取板块标签失败！')
+            }
+        })
+
+        function classify_edit(vid){
+            var v = new FormData(document.getElementById(vid));
+            console.log(v.get('id'));
+            document.getElementById('classify_edit_id').value = v.get('id');
+        }
+
+        function classify_delete(vid){
+            var v = new FormData(document.getElementById(vid));
+            var url = "{% url 'admins:del_classify' %}"
+            var D = {
+                "id": v.get('id')
+            }
+            SetEmail(url, D, 1);
+            console.log(v.get('id'));
+        }
+
+        function label_edit(vid){
+            var v = new FormData(document.getElementById(vid));
+            console.log(v.get('id'));
+            document.getElementById('label_editclassify_edit_id').value = v.get('id');
+        }
+
+        function label_delete(vid){
+            var v = new FormData(document.getElementById(vid));
+            console.log(v.get('id'));
+            document.getElementById('label_deleteclassify_edit_id').value = v.get('id');
+        }
+
+        function Set_id(vid, str_id){
+            console.log(vid);
+            document.getElementById(str_id).value = vid;
+        }
+
+        function delete_classify_Two(vid){
+            var url = "{% url 'admins:del_classifyTwo' %}"
+            var D = {
+                "id": vid
+            }
+            SetEmail(url, D, 1);
+            console.log(vid);
+        }
+
+        function delete_classify_There(vid){
+            var url = "{% url 'admins:del_classifyThere' %}"
+            var D = {
+                "id": vid
+            }
+            SetEmail(url, D, 1);
+            console.log(vid);
+        }
+    </script>
+
+    <script type="text/javascript">
+
+        var from_create_classify = document.getElementById("from_create_classify") //创建分类
+        var from_create_classif_Label = document.getElementById("from_create_classif_Label") //创建分类标签[导航]
+        var form_classify_edit = document.getElementById("form_classify_edit") //修改分类
+        var form_label_edit = document.getElementById("form_label_edit") //修改标签
+        var form_label_delete = document.getElementById("form_label_delete") //删除标签Views
+        var from_create_classify_two = document.getElementById("from_create_classify_two") //创建二级分类
+        var from_create_classify_Three = document.getElementById("from_create_classify_Three") //创建三级分类
+
+        var form_classify_two_edit = document.getElementById("form_classify_two_edit") //修改二级分类
+        var form_classify_there_edit = document.getElementById("form_classify_there_edit") //修改三级分类
+
+
+
+
+
+
+        function submitFormCreateClassify(){
+            var Dat = new FormData(from_create_classify)
+
+            var url = "{% url 'admins:add_classify' %}"
+            var D = {
+                "name": Dat.get('name')
+            }
+            SetEmail(url, D, 1);
+            console.log(D);
+        }
+        function submitFormCreateClassifyLabel(){
+            var Dat = new FormData(from_create_classif_Label)
+
+            var url = "{% url 'admins:add_classifyLabel' %}"
+            var D = {
+                "id": Dat.get('id'),
+                "name": Dat.get('name'),
+                "url": Dat.get('url')
+            }
+            SetEmail(url, D, 1);
+            console.log(D);
+        }
+        function submitFormCreateClassifyEdit(){
+            var Dat = new FormData(form_classify_edit)
+
+            var url = "{% url 'admins:set_classify' %}"
+            var D = {
+                "id": Dat.get('id'),
+                "name": Dat.get('name')
+            }
+            SetEmail(url, D, 1);
+            console.log(D);
+        }
+        function submitFormCreateLabelEdit(){
+            var Dat = new FormData(form_label_edit)
+
+            var url = "{% url 'admins:set_classifyLabel' %}"
+            var D = {
+                "id": Dat.get('id'),
+                "name": Dat.get('name')
+            }
+            SetEmail(url, D, 1);
+            console.log(D);
+        }
+        function submitFormCreateLabelDelete(){
+            var Dat = new FormData(form_label_delete)
+
+            var url = "{% url 'admins:del_classifyLabel' %}"
+            var D = {
+                "id": Dat.get('label_id')
+            }
+            SetEmail(url, D, 1);
+            console.log(D);
+        }
+        function submitFormCreate_classify_two(){
+            var Dat = new FormData(from_create_classify_two)
+
+            var url = "{% url 'admins:add_classify_two' %}"
+            var D = {
+                "id": Dat.get('id'),
+                "name": Dat.get('name'),
+                "url": Dat.get('url')
+            }
+            SetEmail(url, D, 1);
+            console.log(D);
+        }
+        function submitFormCreate_classify_Three(){
+            var Dat = new FormData(from_create_classify_Three)
+
+            var url = "{% url 'admins:add_classifyThere' %}"
+            var D = {
+                "id": Dat.get('id'),
+                "name": Dat.get('name'),
+                "url": Dat.get('url')
+            }
+            SetEmail(url, D, 1);
+            console.log(D);
+        }
+        function submitFormClassify_two_edit(){
+            var Dat = new FormData(form_classify_two_edit)
+
+            var url = "{% url 'admins:set_classifyTwo' %}"
+            var D = {
+                "id": Dat.get('id'),
+                "name": Dat.get('name'),
+                "url": Dat.get('url')
+            }
+            SetEmail(url, D, 1);
+            console.log(D);
+        }
+        function submitFormClassify_there_edit(){
+            var Dat = new FormData(form_classify_there_edit)
+
+            var url = "{% url 'admins:set_classifyThere' %}"
+            var D = {
+                "id": Dat.get('id'),
+                "name": Dat.get('name'),
+                "url": Dat.get('url')
+            }
+            SetEmail(url, D, 1);
+            console.log(D);
+        }
+
+        from_create_classify.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormCreateClassify();         //启动监听提交按钮
+        });
+        from_create_classif_Label.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormCreateClassifyLabel();         //启动监听提交按钮
+        });
+        form_classify_edit.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormCreateClassifyEdit();         //启动监听提交按钮
+        });
+        form_label_edit.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormCreateLabelEdit();         //启动监听提交按钮
+        });
+        form_label_delete.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormCreateLabelDelete();         //启动监听提交按钮
+        });
+        from_create_classify_two.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormCreate_classify_two();         //启动监听提交按钮
+        });
+        from_create_classify_Three.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormCreate_classify_Three();         //启动监听提交按钮
+        });
+
+        form_classify_two_edit.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormClassify_two_edit();         //启动监听提交按钮
+        });
+        form_classify_there_edit.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormClassify_there_edit();         //启动监听提交按钮
+        });
+    </script>
+{% endblock main_script %}
+

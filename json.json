@@ -1,0 +1,309 @@
+
+{
+	"Username": {
+		"user": "用户名"
+	}, //用户相关
+
+	"Subsection": [ //子栏目
+		{
+			"title": "首页",
+			"url": "index"
+		},
+		{
+			"title": "闪购",
+			"url": "index"
+		},
+		{
+			"title": "限时购",
+			"url": "index"
+		},
+		{
+			"title": "团购",
+			"url": "index"
+		},
+		{
+			"title": "大包装",
+			"url": "index"
+		}
+	], //子栏目
+
+	"Classification": [
+		{
+			"title": "点心/蛋糕",
+			"connet": [
+				{
+					"subtitle": "蛋糕",
+					"connet": [
+						{
+							"title": "蒸蛋糕",
+							"url": ""
+						},
+						{
+							"title": "脱水蛋",
+							"url": ""
+						},
+						{
+							"title": "糕瑞士卷",
+							"url": ""
+						},
+						{
+							"title": "软面包",
+							"url": ""
+						}
+					]
+				},
+				{
+					"subtitle": "蛋糕",
+					"connet": [
+						"蒸蛋糕",
+						"脱水蛋",
+						"糕瑞士卷",
+						"软面包",
+						"马卡龙",
+						"千层饼",
+						"甜甜圈",
+						"蒸三明治",
+						"铜锣烧"
+					]
+				}
+			],
+			"Strength": "" //实力商家
+		}, 
+		{
+			"title": "饼干/膨化",
+			"connet": [
+				{
+					"subtitle": "蛋糕",
+					"connet": [
+						"蒸蛋糕",
+						"脱水蛋",
+						"糕瑞士卷",
+						"软面包",
+						"马卡龙",
+						"千层饼",
+						"甜甜圈",
+						"蒸三明治",
+						"铜锣烧"
+					]
+				},
+				{
+					"subtitle": "蛋糕",
+					"connet": [
+						"蒸蛋糕",
+						"脱水蛋",
+						"糕瑞士卷",
+						"软面包",
+						"马卡龙",
+						"千层饼",
+						"甜甜圈",
+						"蒸三明治",
+						"铜锣烧"
+					]
+				}
+			],
+			"Strength": "" //实力商家
+		}, 
+		{
+			"title": "熟识/肉类",
+			"connet": [
+				{
+					"subtitle": "蛋糕",
+					"connet": [
+						"蒸蛋糕",
+						"脱水蛋",
+						"糕瑞士卷",
+						"软面包",
+						"马卡龙",
+						"千层饼",
+						"甜甜圈",
+						"蒸三明治",
+						"铜锣烧"
+					]
+				},
+				{
+					"subtitle": "蛋糕",
+					"connet": [
+						"蒸蛋糕",
+						"脱水蛋",
+						"糕瑞士卷",
+						"软面包",
+						"马卡龙",
+						"千层饼",
+						"甜甜圈",
+						"蒸三明治",
+						"铜锣烧"
+					]
+				}
+			],
+			"Strength": "" //实力商家
+		}
+
+	], //全部分类
+
+	"Carousel": [
+		{
+			"imgurl": "", // 图片路径
+			"url": "index" // 图片的超链接
+		},
+		{
+			"imgurl": "", // 图片路径
+			"url": "index" // 图片的超链接
+		},
+		{
+			"imgurl": "", // 图片路径
+			"url": "index" // 图片的超链接
+		},
+		{
+			"imgurl": "", // 图片路径
+			"url": "index" // 图片的超链接
+		}
+	], //轮播相关
+
+
+	"Headlines": [
+		{
+			"title": "[特惠]洋河年末大促，低至两件五折",
+			"url": "" // 头条的地址
+		},
+		{
+			"title": "[公告]商城与广州市签署战略合作协议",
+			"url": "" // 头条的地址
+		},
+		{
+			"title": "[特惠]女生节商城爆品1分秒",
+			"url": "" // 头条的地址
+		},
+		{
+			"title": "[特惠]家电狂欢千亿礼券 买1送1！",
+			"url": "" // 头条的地址
+		},
+		{
+			"title": "[公告]华北、华中部分地区配送延",
+			"url": "" // 头条的地址
+		}
+	], //头条
+
+
+	"CommodityClassification": [
+		{
+			"title": "爆款特卖",
+			"subtitle": "限时秒杀",
+			"connet": [
+				{
+					"subtitle": "ZEK原味牛奶",
+					"money": "9.90",
+					"imgurl": "",
+					"url": ""
+				},
+				{
+					"subtitle": "ZEK原味牛奶",
+					"money": "9.90",
+					"imgurl": "",
+					"url": ""
+				},
+				{
+					"subtitle": "ZEK原味牛奶",
+					"money": "9.90",
+					"imgurl": "",
+					"url": ""
+				},
+				{
+					"subtitle": "ZEK原味牛奶",
+					"money": "9.90",
+					"imgurl": "",
+					"url": ""
+				}
+			]
+		},
+		{
+			"title": "甜品",
+			"subtitle": "每一道甜品都有一个故事",
+			"connet": [
+				{
+					"subtitle": "ZEK原味牛奶",
+					"money": "9.90",
+					"imgurl": "",
+					"url": ""
+				},
+				{
+					"subtitle": "ZEK原味牛奶",
+					"money": "9.90",
+					"imgurl": "",
+					"url": ""
+				},
+				{
+					"subtitle": "ZEK原味牛奶",
+					"money": "9.90",
+					"imgurl": "",
+					"url": ""
+				},
+				{
+					"subtitle": "ZEK原味牛奶",
+					"money": "9.90",
+					"imgurl": "",
+					"url": ""
+				}
+			]
+		},
+		{
+			"title": "坚果",
+			"subtitle": "酥酥脆脆，回味无穷",
+			"connet": [
+				{
+					"subtitle": "ZEK原味牛奶",
+					"money": "9.90",
+					"imgurl": "",
+					"url": ""
+				},
+				{
+					"subtitle": "ZEK原味牛奶",
+					"money": "9.90",
+					"imgurl": "",
+					"url": ""
+				},
+				{
+					"subtitle": "ZEK原味牛奶",
+					"money": "9.90",
+					"imgurl": "",
+					"url": ""
+				},
+				{
+					"subtitle": "ZEK原味牛奶",
+					"money": "9.90",
+					"imgurl": "",
+					"url": ""
+				}
+			]
+		},
+		{
+			"title": "甜品",
+			"subtitle": "每一道甜品都有一个故事",
+			"connet": [
+				{
+					"subtitle": "ZEK原味牛奶",
+					"money": "9.90",
+					"imgurl": "",
+					"url": ""
+				},
+				{
+					"subtitle": "ZEK原味牛奶",
+					"money": "9.90",
+					"imgurl": "",
+					"url": ""
+				},
+				{
+					"subtitle": "ZEK原味牛奶",
+					"money": "9.90",
+					"imgurl": "",
+					"url": ""
+				},
+				{
+					"subtitle": "ZEK原味牛奶",
+					"money": "9.90",
+					"imgurl": "",
+					"url": ""
+				}
+			]
+		},
+	], //商品分类
+}

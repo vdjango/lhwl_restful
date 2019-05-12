@@ -1,0 +1,324 @@
+{% extends 'defaule/admin/temp/index.ht' %}
+{% load thumbnail %}
+{% load staticfiles %}
+
+<!--网站标题-->
+{% block main_title %}
+   <title>后台管理 | 订单</title>
+{% endblock main_title %}
+
+<!--CSS样式-->
+{% block main_css %}
+    {% include 'defaule/admin/temp/css.ht' %}
+    <link rel="stylesheet" href="{% static '/Ionicons/css/ionicons.min.css' %}">
+{% endblock main_css %}
+
+<!--网站头部导航栏-->
+{% block main_header %}
+    <a href="" class="logo">
+        <span class="logo-mini"><b>管理</b>Admin</span>
+        <span class="logo-lg"><b>后台管理</b>Admin</span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Admin</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'admins:index' %}">常用 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">创始人</a></li>
+                <li><a href="{% url 'admins:complete' %}">全局</a></li>
+                <li><a href="{% url 'admins:user' %}">用户</a></li>
+                <li><a href="{% url 'admins:commodity' %}">商品</a></li>
+                <li class="active"><a href="{% url 'admins:order' %}">订单</a></li>
+                <li><a href="{% url 'admins:sector' %}">板块</a></li>
+                <li><a href="{% url 'admins:AdmPlate' %}">导航</a></li>
+                <li><a href="#">移动APP</a></li>
+            </ul>
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src={% static "images/user/user2-160x160.jpg" %} class="user-image" alt="User Image">
+                        <span class="hidden-xs">
+                        {{username}}
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                Alexander Pierce - Web Developer
+                                <small>Member since Nov. 2012</small>
+                            </p>
+                        </li>
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endblock main_header %}
+
+<!--网站左侧项目栏-->
+{% block main_aside %}
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>{{username}}</p>
+            {% if username %}
+                <a href="#">
+                    <i class="fa fa-circle text-success"></i>
+                    Online
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="订单号查询...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">
+            <!--快捷菜单-->
+        </li>
+        <li class="active">
+            <a href="{% url 'admins:order' %}">
+                <i class="fa fa-th"></i>
+                <span>仪表盘</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'admins:userorder' %}">
+                <i class="fa fa-th"></i>
+                <span>用户订单</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'admins:contract' %}">
+                <i class="fa fa-th"></i>
+                <span>电子合同</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'admins:acceptances' %}">
+                <i class="fa fa-th"></i>
+                <span>验收单</span>
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <i class="fa fa-th"></i>
+                <span>返修/退货</span>
+            </a>
+        </li>
+        <!--li>
+            <a href={% url "admins:index" %}>
+                <i class="fa fa-dashboard"></i>
+                <span>仪表盘</span>
+            </a>
+        </li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-files-o"></i>
+                <span>商品管理</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href={% url "admins:ware" %}><i class="fa fa-circle-o"></i>添加商品</a></li>
+                <li><a href={% url "admins:commodity" %}><i class="fa fa-circle-o"></i>商品管理</a></li>
+            </ul>
+        </li-->
+    </ul>
+{% endblock main_aside %}
+
+<!--正文微标题，位置导航-->
+{% block main_content_header %}
+    <h1>订单详情<small> 订单号： {{order.orderid}}</small></h1>
+    <ol class="breadcrumb">
+        <li><a href={% url "admins:index" %}><i class="fa fa-dashboard"></i> 后台首页</a></li>
+        <li><a href={% url "admins:order" %}><i class="fa fa-dashboard"></i> 仪表盘</a></li>
+        <li class="active">当前位置</li>
+    </ol>
+{% endblock main_content_header %}
+
+<!--正文开始部分-->
+{% block main_content %}
+    <div class="row">
+        <div class="col-md-12">
+            {% if maintain %}
+            <div class="callout callout-warning">
+                <h4><i class="fa fa-bell-o"></i> &nbsp;维护模式已开启！</h4>
+                <p>维护期间，站点将会无法访问。维护完成请及时关闭维护模式，站点即可访问！</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <section class="content">
+<div class="row">
+
+    <div class="col-md-3">
+
+
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">用户信息</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <strong><i class="fa fa-book margin-r-5"></i> 用户信息</strong>
+                <p></p>
+                {% if order.usercode %}
+                    <p class="text-muted">GID: {{order.usercode}}</p>
+                {% endif %}
+                <p class="text-muted">姓名: {{order.linkman}}</p>
+                <p class="text-muted">联系方式: {{order.linkmobile}}</p>
+                <p class="text-muted">付款方式:
+                    {% if order.paymethod == '1' %}
+                        {{order.paymethod_choices.0.1}}
+                    {% elif order.paymethod == '2' %}
+                        {{order.paymethod_choices.1.1}}
+                    {% elif order.paymethod == '3' %}
+                        {{order.paymethod_choices.2.1}}
+                    {% elif order.paymethod == '4' %}
+                        {{order.paymethod_choices.3.1}}
+                    {% elif order.paymethod == '5' %}
+                        {{order.paymethod_choices.4.1}}
+                    {% elif order.paymethod == '9' %}
+                        {{order.paymethod_choices.5.1}}
+                    {% endif %}
+                </p>
+
+                <hr>
+                <strong><i class="fa fa-map-marker margin-r-5"></i> 送货地址</strong>
+                <p></p>
+                <p class="text-muted">{{order.province}} - {{order.city}}
+                    {% if order.area %}
+                        - {{order.area}}
+                    {% endif %}  {{order.deliveryaddress}}</p>
+                <hr>
+
+                <strong><i class="fa fa-file-text-o margin-r-5"></i> 发票信息 -
+                {% if order.invoice == '0' %}
+                    不开发票
+                {% elif  order.invoice == '1' %}
+                    普通发票
+                {% elif order.invoice == '2' %}
+                    增值税发票
+                {% endif %}
+                </strong>
+                <p></p>
+                {% if order.invoice == '0' %}
+                    <p> 不开发票 </p>
+                {% endif %}
+                {% if order.invoice == '1' %}
+
+                    {% if order.key_inv.content == '0' %}
+                        <p> 商品明细</p>
+                    {% else %}
+                        <p> 商品类型</p>
+                    {% endif %}
+                    <p>抬头: {{order.key_inv.head}}</p>
+                    <p>纳税人识别号: {{order.key_inv.taxpayer}}</p>
+                    <p>收票人手机: {{order.key_inv.phone}}</p>
+                    <p>收票人邮箱: {{order.key_inv.email}}</p>
+
+                {% endif %}
+                {% if order.invoice == '2' %}
+
+                    <p>单位名称: {{order.key_inv.unitName}}</p>
+                    <p>纳税人识别号: {{order.key_inv.taxpayer}}</p>
+                    <p>注册地址: {{order.key_inv.registeredAddress}}</p>
+                    <p>注册电话: {{order.key_inv.registeredTelephone}}</p>
+                    <p>开户银行: {{order.key_inv.accountOpening}}</p>
+                    <p>银行账户: {{order.key_inv.account}}</p>
+
+                {% endif %}
+
+                <hr>
+                <strong><i class="fa fa-pencil margin-r-5"></i> 留言备注</strong>
+                <p></p>
+                <p>.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">配送清单</h3>
+            </div>
+
+            <div class="box-body">
+                {% for var1 in goods %}
+                <div class="box-info col-md-12" style="margin: 5px;">
+                    <div class="pull-left">
+                        <a target="wareapp" href="{{var1.goodsurl}}">
+                            {% thumbnail var1.imgurl "120x120" as im %}
+                                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" style="border-radius: 5px;">
+                            {% endthumbnail %}
+                        </a>
+                    </div>
+                    <div class="pull-left" style="margin: 5px;" >
+                        <p><a target="wareapp" href="{{var1.goodsurl}}">{{var1.goodsname}}</a></p>
+                        <p>套餐： {{var1.taoc}}</p>
+                        <p>数量 x{{var1.qty}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+    </section>
+{% endblock main_content %}
+
+<!--位置底部Footer信息-->
+{% block main_footer %}
+    {% include 'defaule/admin/temp/footer.ht' %}
+{% endblock main_footer %}
+
+<!--网站Script脚本-->
+{% block main_script %}
+    {% include 'defaule/admin/temp/script.ht' %}
+{% endblock main_script %}
+

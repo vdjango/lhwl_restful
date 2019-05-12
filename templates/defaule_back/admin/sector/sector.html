@@ -1,0 +1,713 @@
+{% extends 'defaule/admin/temp/index.ht' %}
+{% load staticfiles %}
+{% load tags %}
+
+<!--网站标题-->
+{% block main_title %}
+   <title>后台管理 | 板块 - 首页板块</title>
+{% endblock main_title %}
+
+<!--CSS样式-->
+{% block main_css %}
+    {% include 'defaule/admin/temp/css/select2.min.ht' %}
+    {% include 'defaule/admin/temp/css.ht' %}
+{% endblock main_css %}
+
+<!--网站头部导航栏-->
+{% block main_header %}
+    <a href="" class="logo">
+        <span class="logo-mini"><b>管理</b>Admin</span>
+        <span class="logo-lg"><b>后台管理</b>Admin</span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Admin</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'admins:index' %}">常用 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">创始人</a></li>
+                <li><a href="{% url 'admins:complete' %}">全局</a></li>
+                <li><a href="{% url 'admins:user' %}">用户</a></li>
+                <li><a href="{% url 'admins:commodity' %}">商品</a></li>
+                <li><a href="{% url 'admins:order' %}">订单</a></li>
+                <li class="active"><a href="{% url 'admins:sector' %}">板块</a></li>
+                <li><a href="{% url 'admins:AdmPlate' %}">导航</a></li>
+                <li><a href="#">移动APP</a></li>
+            </ul>
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src={% static "images/user/user2-160x160.jpg" %} class="user-image" alt="User Image">
+                        <span class="hidden-xs">
+                        {{username}}
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                Alexander Pierce - Web Developer
+                                <small>Member since Nov. 2012</small>
+                            </p>
+                        </li>
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endblock main_header %}
+
+<!--网站左侧项目栏-->
+{% block main_aside %}
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>{{username}}</p>
+            {% if username %}
+                <a href="#">
+                    <i class="fa fa-circle text-success"></i>
+                    管理员
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="你想知道什么...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header"></li>
+        <li class="treeview active">
+            <a href="#">
+                <i class="fa fa-laptop"></i>
+                <span>首页</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li class="active"><a href='{% url "admins:sector" %}'><i class="fa fa-circle-o"></i> 板块管理</a></li>
+                <li><a href='{% url "admins:classify" %}'><i class="fa fa-circle-o"></i> 全部分类</a></li>
+                <li><a href='{% url "admins:navigation" %}'><i class="fa fa-circle-o"></i> 导航管理</a></li>
+                <li><a href='{% url "admins:broadcast" %}'><i class="fa fa-circle-o"></i> 轮播/横幅</a></li>
+            </ul>
+        </li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-laptop"></i>
+                <span>预设管理</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href='{% url "admins:setupsearch" %}'><i class="fa fa-circle-o"></i> 商品筛选器</a></li>
+                <li><a href='{% url "admins:setupparameter" %}'><i class="fa fa-circle-o"></i> 品牌预设</a></li>
+                <li><a href='{% url "admins:discount" %}'><i class="fa fa-circle-o"></i> 优惠率</a></li>
+            </ul>
+        </li>
+    </ul>
+{% endblock main_aside %}
+
+<!--正文微标题，位置导航-->
+{% block main_content_header %}
+    <h1>首页板块<small>您可以在这里管理首页商品布局，管理板块数据</small></h1>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'admins:index' %}"><i class="fa fa-dashboard"></i> 后台首页</a></li>
+        <li><a href="{% url 'admins:sector' %}">板块</a></li>
+        <li><a href="{% url 'admins:sector' %}">首页板块</a></li>
+        <li class="active">当前位置</li>
+    </ol>
+{% endblock main_content_header %}
+
+<!--正文开始部分-->
+{% block main_content %}
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">板块创建</h3>
+                </div>
+                <div class="box-body">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#createtab_1" data-toggle="tab">创建板块</a></li>
+                            <li><a href="#createtab_2" data-toggle="tab">创建标签</a></li>
+                        </ul>
+                        <div class="tab-content">
+
+                            <div class="tab-pane active" id="createtab_1">
+                                <form id="from_AddSector">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label for="name">名称</label>
+                                            <input type="text" class="form-control" name="name" id="name" placeholder="板块名称">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">条目</label>
+                                            <input type="number" class="form-control" name="number" id="name" value="1" placeholder="一个条目4条数据">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>模板</label>
+                                            <select name="temp" class="form-control select2" style="width: 100%;">
+                                                <option value="0">默认</option>
+                                                <option value="1">简约</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                        <button type="submit" class="btn btn-primary">提交</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="tab-pane" id="createtab_2">
+                                <form id="from_addLabel">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label for="name">名称</label>
+                                            <input type="text" class="form-control" name="name" id="name" placeholder="板块名称">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="url">URL地址</label>
+                                            <input type="text" class="form-control" name="url" id="url" placeholder="URL地址">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>模板</label>
+                                            <select name="temp" class="form-control select2" style="width: 100%;">
+                                                {% for var1 in middleTop %}
+                                                    <option value="{{var1.id}}">{{var1.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                        <button type="submit" class="btn btn-primary">提交</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">板块管理</h3>
+                </div>
+                <div class="box-body">
+
+                    <div>
+                        <div class="form-group">
+                            <label>板块</label>
+                            <form id="form_setbrack">
+                                <select id="temp" name="temp" class="form-control select2" style="width: 100%;">
+                                    {% for var1 in middleTop %}
+                                    <option value="{{var1.id}}">{{var1.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    操作
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a onclick="setBrock('form_setbrack');" href="#modal-set_brock" data-toggle="modal">板块修改</a></li>
+                                    <li><a onclick="setLabel('form_setbrack');" href="#modal-set_label" data-toggle="modal">标签修改</a></li>
+                                    <li><a onclick="Del_brock('form_setbrack');" href="#">删除</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-8">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">板块数据</h3>
+                </div>
+                <div class="box-body">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            {% for var1 in middleTop %}
+                                {% if def_ts %}
+                                    <li>
+                                        <a href="#data_{{var1.id}}" data-toggle="tab">{{var1.name}}</a>
+                                    </li>
+                                {% else %}
+                                    <li class="active">
+                                        <a href="#data_{{var1.id}}" data-toggle="tab">{{var1.name}}</a>
+                                    </li>
+                                {% endif %}
+                                {% set def_ts = '0' %}
+
+                            {% endfor %}
+
+                        </ul>
+                        <div class="tab-content">
+                            {% for var1 in middleTop %}
+                                {% if def_t %}
+                                    <div class="tab-pane" id="data_{{var1.id}}">
+                                        <div class="box-primary">
+                                            <div class="box-body">
+                                                <ul class="todo-list">
+                                                    {% for war in var1.commodity %}
+                                                        <li>
+                                                            <i class="fa fa-genderless"></i>
+                                                            <span class="text">{{war.title}}</span>
+                                                            <small class="label label-info"><i class="fa fa-clock-o"></i> {{war.time_now}}</small>
+                                                            <div class="tools">
+                                                                <!--i class="fa fa-edit"></i-->
+                                                                <form id="del_wareBarck_{{war.id}}">
+                                                                    <input id="warebrock_input_{{war.id}}" type="hidden" name="id" value="">
+                                                                </form>
+                                                                <i onclick="Del_wareBarck('del_wareBarck_{{war.id}}', '{{war.id}}', 'warebrock_input_{{war.id}}');" class="fa fa-trash-o"></i>
+                                                            </div>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+
+                                            <div class="box-footer clearfix no-border">
+                                                <button onclick="setWareApp('{{var1.id}}', '{{var1.name}}');" type="button" href="#modal-add_ware" data-toggle="modal" class="btn btn-default pull-right"><i class="fa fa-plus"></i> 推送商品</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="tab-pane active" id="data_{{var1.id}}">
+                                        <div class="box-primary">
+                                            <div class="box-body">
+                                                <ul class="todo-list">
+                                                    {% for war in var1.commodity %}
+                                                        <li>
+                                                            <i class="fa fa-genderless"></i>
+                                                            <span class="text">{{war.title}}</span>
+                                                            <small class="label label-info"><i class="fa fa-clock-o"></i> {{war.time_now}}</small>
+                                                            <div class="tools">
+                                                                <!--i class="fa fa-edit"></i-->
+                                                                <form id="del_wareBarcks_{{war.id}}">
+                                                                    <input id="warebrock_input_{{war.id}}" type="hidden" name="id" value="">
+                                                                </form>
+                                                                <i onclick="Del_wareBarck('del_wareBarcks_{{war.id}}', '{{war.id}}', 'warebrock_input_{{war.id}}');" class="fa fa-trash-o"></i>
+                                                            </div>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+
+                                            <div class="box-footer clearfix no-border">
+                                                <button onclick="setWareApp('{{var1.id}}', '{{var1.name}}');" type="button" href="#modal-add_ware" data-toggle="modal" class="btn btn-default pull-right"><i class="fa fa-plus"></i> 推送商品</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {% set def_t = '0' %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--添加商品-->
+    <div class="modal fade" id="modal-add_ware">
+        <form id="form_add_wareBarck">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">推送商品</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="wareapp_id" name="id" value="">
+                        <div class="form-group">
+                            将商品推送到首页板块&nbsp;-&nbsp;<span id="wareapp_str"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>商品</label>
+                            <select id="wareapp_ware_id" name="ware_id" class="form-control select2" style="width: 100%;">
+                                <option value="0">默认</option>
+                            </select>
+                        </div>
+                        只显示最近添加前20条，如果想添加其他商品请到&nbsp;<a href="{% url 'admins:commodity' %}" title="商品管理">商品管理</a>&nbsp;界面 [后期添加搜索功能]
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--板块修改-->
+    <div class="modal fade" id="modal-set_brock">
+        <form id="form_set_brock">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">板块修改</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="Brock_id" name="brock_id" value="">
+                        <div class="form-group">
+                            <label for="name">名称</label>
+                            <input type="text" class="form-control" name="brock_name" id="name" placeholder="板块名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">条目</label>
+                            <input type="number" class="form-control" name="brock_number" id="name" value="1" placeholder="一个条目4条数据">
+                        </div>
+                        <div class="form-group">
+                            <label>模板</label>
+                            <select name="brock_temp" class="form-control select2" style="width: 100%;">
+                                <option value="0">默认</option>
+                                <option value="1">简约</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--标签修改-->
+    <div class="modal fade" id="modal-set_label">
+        <form id="form_set_label">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">标签修改</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="Label_id" name="Label_id" value="">
+                        <div class="form-group">
+                            <label for="name">新名称</label>
+                            <input type="text" class="form-control" name="Label_name" id="Label_name" placeholder="板块名称">
+                        </div>
+                        <div class="form-group">
+                            <label>修改对象</label>
+                            <select name="Label_temp" id="Label_temp" class="form-control select2" style="width: 100%;">
+                                <option value="0">默认</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock main_content %}
+
+<!--位置底部Footer信息-->
+{% block main_footer %}
+    {% include 'defaule/admin/temp/footer.ht' %}
+{% endblock main_footer %}
+
+<!--网站Script脚本-->
+{% block main_script %}
+
+    {% include 'defaule/admin/temp/script.ht' %}
+    {% include 'defaule/admin/temp/js/select2.full.min.ht' %}
+    <script src="{% static 'js/csrf_token.js' %}"></script>
+    <script>
+        $('.select2').select2()
+    </script>
+
+    <script type="text/javascript">
+        var csrftoken = getCookie('csrftoken');
+
+        var from_AddSector = document.getElementById("from_AddSector")
+        var from_addLabel = document.getElementById("from_addLabel")
+
+        function SetEmail(url, data, ids){
+            $.ajax({
+                url: url,
+                type:'POST',
+                dataType:'json',
+                token: csrftoken,
+                data: data,
+                success: function(callback){
+                    if (callback['code'] == 200) {
+                        location.reload();
+                    } else{
+                        console.log(callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i>' + callback[callback['state']] + '</h4>' +
+                                    '</div> ';
+                        document.getElementById('error_'+ids).innerHTML = html;
+                    };
+                },
+                error: function (callback) {
+                    console.log(callback);
+                    console.log(callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i> 啊偶，提交内容失败了！</h4>' +
+                                    '</div> ';
+                        document.getElementById('error_0').innerHTML = html;
+                }
+            })
+        }
+
+        function submitFormAddSector(){
+            var Dat = new FormData(from_AddSector)
+
+            var url = "{% url 'admins:add_sector' %}"
+            var D = {
+                "name": Dat.get('name'),
+                "temp": Dat.get("temp"),
+                "number": Dat.get('number')
+            }
+            SetEmail(url, D, 1);
+
+            console.log(D);
+        }
+
+
+        function submitFormaddLabel(){
+            var Dat = new FormData(from_addLabel)
+
+            var url = "{% url 'admins:add_label' %}"
+            var D = {
+                "name": Dat.get('name'),
+                "temp": Dat.get("temp"),
+                "url": Dat.get("url")
+            }
+            SetEmail(url, D, 1);
+
+            console.log(D);
+        }
+
+        from_AddSector.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormAddSector();         //启动监听提交按钮
+        });
+        from_addLabel.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormaddLabel();         //启动监听提交按钮
+        });
+
+        function setBrock(vid){
+            var Dat = new FormData(document.getElementById(vid));
+            document.getElementById('Brock_id').value=Dat.get('temp');
+        };
+
+        function setLabel(vid){
+            var Dat = new FormData(document.getElementById(vid));
+            var Label = Dat.get('temp');
+            console.log("IDSSS  " + Label);
+            document.getElementById('Label_id').value=Label;
+            $.ajax({
+                url: "{% url 'admins:get_label' %}",
+                type:'GET',
+                dataType:'json',
+                token: csrftoken,
+                data: {
+                    'id': Label
+                },
+                success: function(callback){
+                    if (callback['code'] == 200) {
+                        var html =  ''
+                        var jsons = callback['data'];
+                        for (var i = jsons.length - 1; i >= 0; i--) {
+                            var id = jsons[i]['id'];
+                            var name = jsons[i]['name']
+                            console.log(name);
+                            html = html + '<option value="' + id + '">' + name + '</option>'
+                        };
+                        console.log(html);
+                        document.getElementById('Label_temp').innerHTML = html;
+                    };
+                },
+                error: function (callback) {
+                    console.log(callback);
+                    console.log(callback['code']);
+                    alert('获取板块标签失败！')
+                }
+            })
+        };
+
+        function setWareApp(vid, str){
+
+            document.getElementById('wareapp_id').value=vid;
+
+            var html = '<a target="_blank" href="/?m=brock_' + vid + '" title="' + str + '">' + str + '</a>'
+            document.getElementById('wareapp_str').innerHTML = html;
+
+            $.ajax({
+                url: "{% url 'admins:get_ware' %}",
+                type:'GET',
+                dataType:'json',
+                token: csrftoken,
+                data: {
+                    'id': ''
+                },
+                success: function(callback){
+                    if (callback['code'] == 200) {
+                        var html =  ''
+                        var jsons = JSON.parse(callback['data']);
+                        console.log(jsons[1]);
+                        for (var i = jsons.length - 1; i >= 0; i--) {
+                            var id = jsons[i]['pk'];
+                            var name = jsons[i]['fields']['name']
+                            console.log(name);
+                            html = html + '<option value="' + id + '">' + name + '</option>'
+                        };
+                        console.log(html);
+                        document.getElementById('wareapp_ware_id').innerHTML = html;
+                    };
+                },
+                error: function (callback) {
+                    console.log(callback);
+                    console.log(callback['code']);
+                    alert('获取板块标签失败！')
+                }
+            })
+        };
+
+        var form_set_brock = document.getElementById("form_set_brock");
+        var form_set_label = document.getElementById("form_set_label");
+        var form_add_wareBarck = document.getElementById("form_add_wareBarck");/*推送商品*/
+
+        function submitFormSet_brock(){
+            var Dat = new FormData(form_set_brock)
+
+            var url = "{% url 'admins:set_brock' %}"
+            var D = {
+                "id": Dat.get('brock_id'),
+                "name": Dat.get('brock_name'),
+                "temp": Dat.get("brock_temp"),
+                "number": Dat.get('brock_number')
+            }
+            SetEmail(url, D, 1);
+
+            console.log(D);
+        }
+        function submitFormSet_label(){
+            var Dat = new FormData(form_set_label)
+
+            var url = "{% url 'admins:set_label' %}"
+            var D = {
+                "id": Dat.get('Label_temp'),
+                "name": Dat.get('Label_name')
+            }
+            SetEmail(url, D, 1);
+
+            console.log(D);
+        }
+
+        function submitFormAdd_wareBarck(){
+            var Dat = new FormData(form_add_wareBarck)
+
+            var url = "{% url 'admins:add_WareAppBrock' %}"
+            var D = {
+                "middleTop_id": Dat.get('id'),
+                "ware_id": Dat.get('ware_id')
+            }
+            SetEmail(url, D, 1);
+
+            console.log(D);
+        }
+
+        form_set_brock.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormSet_brock();         //启动监听提交按钮
+        });
+        form_set_label.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormSet_label();         //启动监听提交按钮
+        });
+        form_add_wareBarck.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormAdd_wareBarck();         //启动监听提交按钮
+        });
+
+        function Del_brock(vid){
+            var Dat = new FormData(document.getElementById(vid));
+
+            var url = "{% url 'admins:del_brock' %}"
+            var D = {
+                "id": Dat.get('temp')
+            }
+            SetEmail(url, D, 1);
+
+            console.log(D);
+        }
+
+        function Del_wareBarck(vid, uid, str){
+            document.getElementById(str).value=uid;
+
+            var Dat = new FormData(document.getElementById(vid));
+
+            var url = "{% url 'admins:del_WareAppBrock' %}"
+            var D = {
+                "id": Dat.get('id')
+            }
+            SetEmail(url, D, 1);
+
+            console.log(D);
+        }
+    </script>
+{% endblock main_script %}
+

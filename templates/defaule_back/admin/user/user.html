@@ -1,0 +1,764 @@
+{% extends 'defaule/admin/temp/index.ht' %}
+{% load staticfiles %}
+
+<!--网站标题-->
+{% block main_title %}
+   <title>后台管理 | 用户 - 用户管理</title>
+{% endblock main_title %}
+
+<!--CSS样式-->
+{% block main_css %}
+    {% include 'defaule/admin/temp/css/select2.min.ht' %}
+    {% include 'defaule/admin/temp/css.ht' %}
+    <link rel="stylesheet" href="{% static 'iCheck/flat/blue.css' %}">
+{% endblock main_css %}
+
+<!--网站头部导航栏-->
+{% block main_header %}
+    <a href="" class="logo">
+        <span class="logo-mini"><b>管理</b>Admin</span>
+        <span class="logo-lg"><b>后台管理</b>Admin</span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Admin</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'admins:index' %}">常用 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">创始人</a></li>
+                <li><a href="{% url 'admins:complete' %}">全局</a></li>
+                <li class="active"><a href="{% url 'admins:user' %}">用户</a></li>
+                <li><a href="{% url 'admins:commodity' %}">商品</a></li>
+                <li><a href="{% url 'admins:order' %}">订单</a></li>
+                <li><a href="{% url 'admins:sector' %}">板块</a></li>
+                <li><a href="{% url 'admins:AdmPlate' %}">导航</a></li>
+                <li><a href="#">移动APP</a></li>
+            </ul>
+
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src={% static "images/user/user2-160x160.jpg" %} class="user-image" alt="User Image">
+                        <span class="hidden-xs">
+                        {{username}}
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                Alexander Pierce - Web Developer
+                                <small>Member since Nov. 2012</small>
+                            </p>
+                        </li>
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endblock main_header %}
+
+<!--网站左侧项目栏-->
+{% block main_aside %}
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>{{username}}</p>
+            {% if username %}
+                <a href="#">
+                    <i class="fa fa-circle text-success"></i>
+                    Online
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="你想知道什么...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header"></li>
+            <li class="active">
+                <a href={% url "admins:user" %}>
+                    <i class="fa fa-user"></i>
+                    <span>用户管理</span>
+                </a>
+            </li>
+            <li>
+                <a href={% url "admins:prohibit" %}>
+                    <i class="fa fa-user-times"></i>
+                    <span>用户禁止</span>
+                </a>
+            </li>
+            <li>
+                <a href={% url "admins:examine" %}>
+                    <i class="fa fa-user-md"></i>
+                    <span>新用户审核</span>
+                </a>
+            </li>
+            <li>
+                <a href={% url "admins:groupmanager" %}>
+                    <i class="fa fa-users"></i>
+                    <span>用户组管理</span>
+                </a>
+            </li>
+            <li>
+                <a href={% url "admins:index" %}>
+                    <i class="fa fa-hand-o-up"></i>
+                    <span>用户组提升</span>
+                </a>
+            </li>
+        </ul>
+{% endblock main_aside %}
+
+<!--正文微标题，位置导航-->
+{% block main_content_header %}
+    <h1>用户<small>您可以在这里设置或管理用户相关参数</small></h1>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'admins:index' %}"><i class="fa fa-dashboard"></i> 后台首页</a></li>
+        <li><a href="{% url 'admins:user' %}">用户</a></li>
+        <li><a href="{% url 'admins:user' %}">用户管理</a></li>
+        <li class="active">当前位置</li>
+    </ol>
+{% endblock main_content_header %}
+
+<!--正文开始部分-->
+{% block main_content %}
+    <div class="row">
+        <div class="col-md-12">
+            {% if maintain %}
+                <div class="callout callout-warning">
+                    <h4><i class="fa fa-bell-o"></i> &nbsp;维护模式已开启！</h4>
+                    <p>维护期间，站点将会无法访问。维护完成请及时关闭维护模式，站点即可访问！</p>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-md-12">
+            <div class="form-group" id="error_0"></div>
+            <div class="box box-info">
+                <div class="box-body">
+
+                    <div class="box-body no-padding">
+                        <div class="mailbox-controls">
+                            <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
+                            </button>
+                            <div class="btn-group">
+                                <button type="" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                <button type="button"  data-toggle="modal" data-target="#modal-usercreate" class="btn btn-default btn-sm"><i class="fa fa-pencil-square-o"></i></button>
+                            </div>
+                            <div class="pull-right">
+                                {% if usersize >=  After %}
+                                    {{Front}}-{{After}}/{{usersize}}
+                                {% else %}
+                                    {{Front}}-{{usersize}}/{{usersize}}
+                                {% endif %}
+                                <div class="btn-group">
+                                    {% if Front < 1 %}
+                                        <button type="button" class="btn btn-default btn-sm disabled" disabled="disabled"><i class="fa fa-chevron-left"></i></button>
+                                    {% else %}
+                                        <a href={% url "admins:list" %} type="button" class="btn btn-default btn-sm "><i class="fa fa-chevron-left"></i></a>
+                                    {% endif %}
+                                    {% if usersize <= After %}
+                                        <button type="button" class="btn btn-default btn-sm disabled" disabled="disabled"><i class="fa fa-chevron-right"></i></button>
+                                    {% else %}
+                                        <a href={% url "admins:list" %} type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive mailbox-messages" style="height: 500px;">
+                            <table class="table table-hover table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 5%;">
+                                            选择
+                                        </td>
+                                        <td class="mailbox-subject" >邮箱</td>
+                                        <td class="mailbox-name">用户名</td>
+                                        <td class="mailbox-name">用户状态</td>
+                                        <td class="mailbox-attachment">上次登陆</td>
+                                        <!--td class="mailbox-attachment" style="width: 20%;">注册时间</td-->
+                                        <td class="mailbox-date">操作</td>
+                                    </tr>
+                                    {% for var1 in userlist %}
+                                    <tr>
+                                        <td>
+                                            <input name="items" type="checkbox" value="{{var1.id}}">
+                                        </td>
+                                        <td class="mailbox-subject">{{var1.email}}</td>
+                                        <td class="mailbox-name"><a href="" title="">{{var1.username}}</a></td>
+                                        <td class="mailbox-name">
+                                            {% if var1.is_staff %}
+                                                管理员
+                                            {% else %}
+                                                {% if var1.state == '0' %}
+                                                    普通
+                                                {% elif var1.state == '1' %}
+                                                    央采用户
+                                                {% elif var1.state == '-1' %}
+                                                    未激活
+                                                {% elif var1.state == '-2' %}
+                                                    被封禁
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td class="mailbox-attachment">{{var1.update_time}}</td>
+                                        <td class="mailbox-date">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
+                                                    更多操作&nbsp;<span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li><a id="email_{{var1.id}}" onclick="emailu('email_{{var1.id}}');" data-toggle="modal" data-target="#modal-email" value="{{var1.email}}" user="{{var1.username}}">修改邮箱</a></li>
+                                                    <li><a id="username_{{var1.id}}" onclick="usernameu('username_{{var1.id}}');" data-toggle="modal" data-target="#modal-username" value="{{var1.email}}" user="{{var1.username}}">修改名称</a></li>
+                                                    <li><a id="password_{{var1.id}}" onclick="passwordu('password_{{var1.id}}');" data-toggle="modal" data-target="#modal-password" value="{{var1.email}}" user="{{var1.username}}">修改密码</a></li>
+                                                    {% if username != var1.username %}
+                                                    <li class="divider"></li>
+                                                    <li><a href="#" id="text" onclick="UserDel('{{var1.username}}', '{{var1.email}}');">删除账号</a></li>
+
+                                                    {% if var1.state == '-2' %}
+                                                        <li><a  onclick="UserM('{{var1.id}}');" href="#" data-toggle="modal">解封</a></li>
+                                                    {% else %}
+                                                        <li><a id="prohi_{{var1.id}}" onclick="prohi('prohi_{{var1.id}}');" href="#" data-toggle="modal" data-target="#modal-prohi" value="{{var1.email}}" user="{{var1.username}}">限制登陆</a></li>
+                                                    {% endif %}
+                                                    {% if var1.is_staff %}
+                                                        <li><a data-toggle="modal" onclick="UserSetAdmin('{{var1.id}}');" href="#">取消管理员</a></li>
+                                                    {% else %}
+                                                        <li><a data-toggle="modal" onclick="UserSetAdmin('{{var1.id}}');" href="#">设置管理员</a></li>
+                                                    {% endif %}
+                                                    <!--li><a href="#" data-toggle="modal" data-target="#modal-set_level">设置用户等级</a></li-->
+                                                    {% endif %}
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <!-- /.table -->
+                        </div>
+                        <div class="mailbox-controls">
+                            <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
+                            </button>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                <button type="button" data-toggle="modal" data-target="#modal-usercreate" class="btn btn-default btn-sm"><i class="fa fa-pencil-square-o"></i></button>
+                            </div>
+                            <div class="pull-right">
+                                {% if usersize >=  After %}
+                                    {{Front}}-{{After}}/{{usersize}}
+                                {% else %}
+                                    {{Front}}-{{usersize}}/{{usersize}}
+                                {% endif %}
+                                <div class="btn-group">
+                                    {% if Front < 1 %}
+                                        <button type="button" class="btn btn-default btn-sm disabled" disabled="disabled"><i class="fa fa-chevron-left"></i></button>
+                                    {% else %}
+                                        <a href={% url "admins:list" %} type="button" class="btn btn-default btn-sm "><i class="fa fa-chevron-left"></i></a>
+                                    {% endif %}
+                                    {% if usersize <= After %}
+                                        <button type="button" class="btn btn-default btn-sm disabled" disabled="disabled"><i class="fa fa-chevron-right"></i></button>
+                                    {% else %}
+                                        <a href={% url "admins:list" %} type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--修改邮箱-->
+    <div class="modal fade" id="modal-email">
+        <form id="form_email">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">修改邮箱</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">邮箱</label>
+                            <input name="newemail" type="email" class="form-control" id="exampleInputEmail1"  placeholder="Enter email">
+                            <input name="email" id="email_email" type="hidden" value="">
+                            <input name="username" id="email_username" type="hidden" value="">
+                        </div>
+                        <div class="form-group" id="error_1"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--修改用户名-->
+    <div class="modal fade" id="modal-username">
+        <form id="form_username">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">修改用户名</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">名称</label>
+                            <input name="newusername" type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter username">
+                            <input name="email" id="username_email" type="hidden" value="">
+                            <input name="username" id="username_username" type="hidden" value="">
+                        </div>
+                        <div class="form-group" id="error_2"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--修改密码-->
+    <div class="modal fade" id="modal-password">
+        <form id="form_password">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">修改密码</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">密码</label>
+                            <input name="newpassword" type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter password">
+                            <input name="email" id="password_email" type="hidden" value="">
+                            <input name="username" id="password_username" type="hidden" value="">
+                        </div>
+                        <div class="form-group" id="error_3"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <!--创建用户-->
+    <div class="modal fade" id="modal-usercreate">
+        <form id="form_usercreate">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">创建用户</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">用户名</label>
+                                <input name="username" type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter name">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">邮箱</label>
+                                <input name="email" type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">密码</label>
+                                <input name="password" type=" " class="form-control" id="exampleInputEmail1" placeholder="Enter password">
+                            </div>
+                            <div class="form-group">
+                                <label>用户组</label>
+                                <select name="groupname" class="form-control select2" style="width: 100%;">
+                                    {% for gro in usergroup %}
+                                        <option value="{{gro.id}}">{{gro}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>消费等级[VIP]</label>
+                                <select class="form-control select2" style="width: 100%;">
+                                    {% for vip in vipgroup %}
+                                        <option>{{vip}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group" id="error_4"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">创建</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <!--限制登陆-->
+    <div class="modal fade" id="modal-prohi">
+        <form id="form_userprohi">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">限制登陆</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="prohi_username">用户名</label>
+                                <input id="prohi_username" type="text" class="form-control" value="" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="prohi_email">邮箱</label>
+                                <input id="prohi_email" type="email" class="form-control" value="" disabled>
+                            </div>
+                            <input id="prohi_email_hidden" name="email" type="hidden" value="">
+                            <input id="prohi_username_hidden" name="username" type="hidden" value="">
+                            <div class="form-group">
+                                <label>你要封我多长时间</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-clock-o"></i>
+                                    </div>
+                                    <input name="prohi_datetime" type="text" class="form-control pull-right" id="reservationtime">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>为什么要封我</label>
+                                <textarea name="prohi_text" class="form-control" rows="3" placeholder="看你不顺眼，咋地？"></textarea>
+                            </div>
+                            <div class="form-group" id="error_5"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">提交</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+
+
+    <!--设置用户等级-->
+    <div class="modal fade" id="modal-set_level">
+        <form id="form_set_level">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">设置用户等级</h4>
+                    </div>
+                    <div class="modal-body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock main_content %}
+
+<!--位置底部Footer信息-->
+{% block main_footer %}
+    {% include 'defaule/admin/temp/footer.ht' %}
+{% endblock main_footer %}
+
+<!--网站Script脚本-->
+{% block main_script %}
+    {% include 'defaule/admin/temp/script.ht' %}
+    {% include 'defaule/admin/temp/js/select2.full.min.ht' %}
+    <script src="{% static 'js/csrf_token.js' %}"></script>
+    <script src="{% static 'iCheck/icheck.min.js' %}"></script>
+    <script type="text/javascript">
+
+        $('.mailbox-messages input[type="checkbox"]').iCheck({
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass: 'iradio_flat-blue'
+        });
+
+        $(".checkbox-toggle").click(function () {
+            var clicks = $(this).data('clicks');
+            if (clicks) {
+                //Uncheck all checkboxes
+                $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
+                $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+            } else {
+                //Check all checkboxes
+                $(".mailbox-messages input[type='checkbox']").iCheck("check");
+                $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+            }
+                $(this).data("clicks", !clicks);
+        });
+        function emailu(vid){
+            document.getElementById('email_email').value=document.getElementById(vid).getAttribute("value");
+            document.getElementById('email_username').value=document.getElementById(vid).getAttribute("user");
+        }
+        function usernameu(vid){
+            document.getElementById('username_email').value=document.getElementById(vid).getAttribute("value");
+            document.getElementById('username_username').value=document.getElementById(vid).getAttribute("user");
+        }
+        function passwordu(vid){
+            document.getElementById('password_email').value=document.getElementById(vid).getAttribute("value");
+            document.getElementById('password_username').value=document.getElementById(vid).getAttribute("user");
+        }
+        function prohi(vid){
+            /* 限制登陆 */
+            document.getElementById('prohi_email').value=document.getElementById(vid).getAttribute("value");
+            document.getElementById('prohi_username').value=document.getElementById(vid).getAttribute("user");
+            document.getElementById('prohi_email_hidden').value=document.getElementById(vid).getAttribute("value");
+            document.getElementById('prohi_username_hidden').value=document.getElementById(vid).getAttribute("user");
+        }
+    </script>
+
+    <script type="text/javascript">
+        var csrftoken = getCookie('csrftoken');
+        var form_email = document.getElementById("form_email")
+        var form_username = document.getElementById("form_username")
+        var form_password = document.getElementById("form_password")
+        var form_usercreate = document.getElementById("form_usercreate")
+        var form_userprohi = document.getElementById("form_userprohi")
+
+        function SetEmail(url, data, ids){
+            $.ajax({
+                url: url,
+                type:'POST',
+                dataType:'json',
+                token: csrftoken,
+                data: data,
+                success: function(callback){
+                    if (callback['code'] == 200) {
+                        location.reload();
+                    } else{
+                        console.log(callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i>' + callback[callback['state']] + '</h4>' +
+                                    '</div> ';
+                        document.getElementById('error_'+ids).innerHTML = html;
+                    };
+                },
+                error: function (callback) {
+                    console.log(callback);
+                    console.log(callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i> 啊偶，提交内容失败了！</h4>' +
+                                    '</div> ';
+                        document.getElementById('error_0').innerHTML = html;
+
+                }
+            })
+        }
+        function submitFormDataEmail(){
+            var Dat = new FormData(form_email)
+            var url = "{% url 'admins:set_email' %}"
+            var D = {
+                "email": Dat.get('email'),
+                "username": Dat.get('username'),
+                "newemail": Dat.get('newemail')
+            }
+            SetEmail(url, D, 1);
+            console.log('修改邮箱'); //修改邮箱
+
+            console.log(D);
+        }
+        function submitFormDataUsername(){
+            var Dat = new FormData(form_username)
+            var url = "{% url 'admins:set_username' %}"
+            var D = {
+                "email": Dat.get('email'),
+                "username": Dat.get('username'),
+                "newusername": Dat.get('newusername')
+            }
+            SetEmail(url, D, 2);
+            console.log('修改名称'); //修改邮箱
+
+            console.log(D);
+        }
+        function submitFormDataPassword(){
+            var Dat = new FormData(form_password)
+            var url = "{% url 'admins:set_password' %}"
+            var D = {
+                "username": Dat.get('username'),
+                "newpassword": Dat.get('newpassword'),
+                "email": Dat.get('email')
+            }
+            SetEmail(url, D, 3);
+            console.log('修改密码');
+
+            console.log(D);
+        }
+        function submitFormDatauserCreate(){
+            var Dat = new FormData(form_usercreate)
+            var url = "{% url 'admins:add_user' %}"
+            var D = {
+                "username": Dat.get('username'),
+                "password": Dat.get('password'),
+                "email": Dat.get('email'),
+                "groupname": Dat.get('groupname')
+            }
+            SetEmail(url, D, 4);
+            console.log('创建用户');
+
+            console.log(D);
+        }
+        function submitFormDataProhi(){
+            var Dat = new FormData(form_userprohi);
+            var url = "{% url 'admins:set_prohibit' %}";
+            var D = {
+                "email": Dat.get('email'),
+                "username": Dat.get('username'),
+                "prohi_datetime": Dat.get('prohi_datetime'),
+                "prohi_text": Dat.get('prohi_text')
+            }
+            SetEmail(url, D, 1);
+            console.log('修改邮箱'); //修改邮箱
+
+            console.log(D);
+        }
+
+        form_email.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormDataEmail();         //启动监听提交按钮
+        });
+        form_username.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormDataUsername();         //启动监听提交按钮
+        });
+        form_password.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormDataPassword();         //启动监听提交按钮
+        });
+        form_usercreate.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormDatauserCreate();         //启动监听提交按钮
+        });
+        form_userprohi.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormDataProhi();         //启动监听提交按钮
+        });
+        function UserDel(username, email){
+            $.ajax({
+                url:"{% url 'admins:del_user' %}",
+                type:'POST',
+                dataType:'json',
+                token: csrftoken,
+                data:{
+                    'username': username,
+                    'email': email
+                },
+                success: function(callback){
+                    location.reload();
+
+                    if (callback[callback['state']]) {
+                        console.log(callback[callback['state']]);
+                    };
+                },
+                error: function (callback) {
+                    console.log(callback);
+                    alert('删除账号失败，请联系软件研发部工作人员');
+                }
+            })
+        }
+
+        function UserSetAdmin(uid){
+            var url = "{% url 'admins:set_admin' %}"
+            var D = {
+                "id": uid,
+            }
+            SetEmail(url, D, 0);
+
+        }
+        function UserM(uid){
+            $.ajax({
+                url:"{% url 'admins:set_examine' %}",
+                type:'POST',
+                dataType:'json',
+                token: csrftoken,
+                data:{
+                    'uid': uid
+                },
+                success: function(callback){
+                    if (callback['code'] == 200) {
+                        location.reload();
+                    } else{
+                        console.log(callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i>' + callback['state'] + '</h4>' +
+                                    '</div> ';
+                        document.getElementById('error').innerHTML = html;
+                    };
+                },
+                error: function (callback) {
+                    var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i> 啊偶，提交内容失败了！</h4>' +
+                                    '</div> ';
+                    document.getElementById('error').innerHTML = html;
+                    alert('message')
+                }
+            });
+        }
+        $(function () {
+            $('.select2').select2()
+        })
+    </script>
+{% endblock main_script %}
+

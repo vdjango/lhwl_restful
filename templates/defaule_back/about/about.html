@@ -1,0 +1,129 @@
+{% extends 'defaule/temp/top-nav.html' %}
+{% load thumbnail %}
+{% load staticfiles %}
+{% load tags %}
+
+{% block title %}
+    {% if site_name %}
+        {% if site_tags %}
+            <title>{{site_name}} - {{site_tags}}</title>
+        {% else %}
+            <title>{{site_name}}</title>
+        {% endif %}
+    {% else %}
+        {% if site_tags %}
+            <title>{{site_tags}}</title>
+        {% else %}
+            <title>你好粗心，怎么没有设置标题呢？</title>
+        {% endif %}
+    {% endif %}
+{% endblock title %}
+
+<!-- SEO优化 -->
+{% block seo %}
+{% endblock seo %}
+
+<!-- CSS样式 -->
+
+{% block css %}
+{% endblock css %}
+
+{% block content_wrapper %}
+
+    <div class="navs">
+        <div class="nav-tag">
+            <ul>
+                <li><a href="{% url 'app:index' %}">首页</a></li>
+                <li><span class="sep">></span></li>
+                <li><a href="{% url 'app:about' %}">关于领航</a></li>
+                <li><span class="sep">></span></li>
+                <li><a href="{% url 'app:us' %}">联系我们</a></li>
+            </ul>
+        </div>
+        <div class="nav-top">
+            <ul>
+                <li><a href="{% url 'app:about' %}">公司简介</a><span class="sep">|</span></li>
+                <li><a href="">加入领航</a><span class="sep">|</span></li>
+                <li class="last cur"><a href="{% url 'app:us' %}">联系我们</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content contact index" style="margin-top: 55px;">
+        <div class="contact_header section-title">
+            <img alt="" src="//s1.mi.com/m/images/20180410/WechatIMG20.jpeg">
+            <div class="text">
+                <h1>联系方式</h1>
+                <h2>领航未来办公设备有限公司</h2>
+                <ul class="list">
+                    <li>
+                        地址： 北京市昌平区沙河高教园南三街一号（客服中心）
+                        <br>
+                        <span style="margin-left: 45px;">北京市昌平区沙河青年创业大厦B505(技术中心)</span>
+                    </li>
+                    <li>邮编： 102206</li>
+                    <li>传真： 010-80734326</li>
+                </ul>
+            </div>
+        </div>
+        <div class="contact_content section-title">
+            <img alt="" src="{% static '/images/map.jpg' %}">
+            <div class="boxc clearfix ">
+                <h3>客服服务</h3>
+                <dl class="item">
+                    <dt>客服咨询</dt>
+                    <dd>
+                        <ul class="list">
+                            <li><span>联系人：</span>黄女士</li>
+                            <li><span>联系电话：</span>01080734326 / 01069735822 / 4001815535</li>
+                            <li><span>在线客服：</span>开始咨询</li>
+                            <li><span>Email：</span>huangyan@lhwill.com</li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+            <div class="boxc clearfix ">
+                <h3>售后服务</h3>
+                <dl class="item">
+                    <dt>机器维修 / 配件服务</dt>
+                    <dd>
+                        <ul class="list">
+                            <li><span>联系人：</span>徐鹏</li>
+                            <li><span>联系电话：</span>15010152522</li>
+                            <li><span>Email：</span>xupeng@lhwill.com</li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+            <div class="boxc clearfix ">
+                <h3>商务合作</h3>
+                <dl class="item">
+                    <dt>商务咨询</dt>
+                    <dd>
+                        <ul class="list">
+                            <li><span>联系人：</span>代先生</li>
+                            <li><span>联系电话：</span>13301281342</li>
+                            <li><span>Email：</span>dsz@lhwill.com</li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+            <div class="boxc clearfix last">
+                <h3>廉洁领航</h3>
+                <dl class="item">
+                    <dt>只接受“廉政方面”的举报</dt>
+                    <dd>
+                        <ul class="list">
+                            <li><span>联系人：</span>代先生</li>
+                            <li><span>投诉电话：</span>13301281342</li>
+                            <li><span>Email：</span>dsz@lhwill.com</li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+{% endblock content_wrapper %}
+
+{% block script %}
+{% endblock script %}
+

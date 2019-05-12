@@ -1,0 +1,364 @@
+后端项目进展
+
+
+- 20180723
+[修复]仪盘表今日下单统计UI错别字
+[修复]我的订单跟踪显示错误
+[修复]后台订单详情查询错误
+[修复]后台商品添加参数读取数据错误
+[修复]后台用户激活状态显示不正常
+[修复]新品上线图片不正常展示
+[新增]后台商品管理分页 提高后台商品管理响应速度
+[新增]全文搜索索引 为后期搜索引擎提高搜索动力支撑
+
+- 20180730
+[改进]重写商品参数添加规则 商品参数 [导致产品类型错乱]
+[修复]商品搜索页分页功能 重写分页功能，加入返回搜索值 [分页根据搜索值进行分页]
+[修复]未登录添加商品到购物车跳转登录页面
+[修复]商品详情页面添加购物车失败
+[修复]商品单笔订单下单失败 [非购物车下单]
+[修复]读取商品参数错误 [导致商品页面无法加载]
+[修复]分类商品展示未发布商品问题 [未发布的商品被展示]
+[修复]商品规格 产品类型错乱 [导致搜索不正确]
+[修复]全部分类 分类结果精确展示 [未实现]
+[新增]目录分页 后台商品，商品搜索等分页 [未实现]
+[新增]搜索引擎 用户搜索商品展示结果 [商品筛选器筛选结果未实现]
+[新增]分类页面 搜索页面，增加加入购物车功能 [未实现]
+
+- 20180803
+[改进]重写载入全部分类方法，取消部分页面加载需求 [提高网站响应速度]
+[修复]部分页面对比失效问题 [对比无法取消]
+[新增]缓存功能 [缓存页面，减少数据库交互。提高网站响应速度]
+[新增]主动推送功能 对接百度主动推送接口 [有利于搜索引擎收录页面，及时收录]
+[新增]网站地图 [有利于搜索引擎收录页面]
+[新增]自动收录js 百度 360 [有利于搜索引擎收录页面]
+[新增]robots.txt [有利于搜索引擎收录页面]
+
+- 20180813
+[改进]接口权限管理，对[POST PUT DELETE]进行约束
+[修复]分类数据紊乱的可能性[对一件商品进行商品分类后继续筛选分类就会紊乱数据]
+[修复]搜索结果不精确[搜索商品出现其他商品]
+[修复]搜索不到商品导致报错的可能性[搜索不存在，搜索商品发布但是未分类会导致报错]
+[新增]搜索引擎并修复筛选器分类不精准[改进jieba分词 分词目标，移除一些不必要的分词]
+[新增]用户前端页面 商品分类, 筛选分类[方便后期调整商品]
+[新增]API接口，实现API接口基本认证[前端请求接口认证功能]
+[新增]商品分类接口功能[GET POST PUT DELETE HEAD OPTIONS]
+[新增]商品配置接口功能[GET POST PUT DELETE HEAD OPTIONS]
+[新增]商品筛选器接口功能[GET POST PUT DELETE HEAD OPTIONS]
+[新增]商品筛选器分类[全部商品分类实现筛选，搜索商品实现筛选]
+
+- 20180820
+[重构]商品展示页面实现方法，移除function-view。采用class-view类视图
+[改进]字段 为WareApp Models增加slug.SlugField字段，改变现有商品Url路径命名格式 /details/ID/SLUG/ 并兼容之前的路径
+[改进]导航页面板块布局展示方法，看起来更清爽
+[改进]移除docs，controller应用，看起来他们是没用的东西，去掉
+[改进]重写get_object_or_404方法，指定404页面
+[改进]完善后台添加商品套餐信息管理，新增套餐修改等[解决以往不能修改套餐信息问题]
+[修复]部分页面不正常展示二级导航栏目，解决点击不跳转问题
+[修复]百度主动推送（实时）推送失败问题[WareApp get_absolute_url 错误导致推送导致有误]
+[修复]搜索页面对比商品取消复选框商品展示问题[取消复选框，商品依然存在]
+[修复]商品无法对比问题[传入商品ID错误导致]
+[新增]导航板块，针对各分类汇总数据，展示到特定页面上来
+[新增]后台导航管理功能，实现创建二级导航，删除二级导航
+[新增]对商品展示View的Last-Modified和ETag的支持，有利于缓存等
+[新增]导航功能，独立出来一个导航APP。专门用于管理导航页面
+[新增]导航页面全部商品分类及二级导航栏目，在二级导航页面基础上增加
+[新增]套餐信息管理API接口[GET POST PUT DELETE HEAD OPTIONS]
+[新增]导航页面API，一级导航和二级导航[GET POST PUT DELETE HEAD OPTIONS]
+[新增]导航页面的板块API，导航页面的板块信息[GET POST PUT DELETE HEAD OPTIONS]
+
+- 20180827
+[改进]重构央采登录回调视图，增加跨域验证等安全手段
+[改进]央采用户接口，将用户信息同步到平台上，根据央采用户接口自动创建收货地址
+[改进]创建商品Models.WareApp重写save方法，关联创建Models.WareAppProfix. 增加缩略图字段，解决缩略图失效，偶尔不显示问题
+[改进]取消商品修改或创建价钱字段，整改为根据套餐价可随意变换。默认按照套餐默认价展示
+[改进]调整参数信息页面布局，展示商品首图，添加对首图的直接修改
+[改进]创建商品Models.WareAppProfix重写save方法，关联创建Models.parameter[商品参数信息].
+[改进]重写商品首图Models.image.get_absolute_url方法，取消全路径保存图片。通过get_absolute_url方法获取图片路径
+[改进]添加重写商品首图Models.image.delete方法，删除首图或者删除商品时，同时删除图片源文件
+[改进]添加商品首图Models.image.defaule字段，用于记录那张图片是商品首图的默认展示图
+[改进]整理数据库image整理字段 image ， 去除 /media/
+[改进]完善后台商品发布流程，简化操作流程。
+[改进]商品发布页面增加字段验证，避免提交空字段导致修改信息不完整[前端JS验证加后端验证] - [JS验证未完成！！！！]
+[改进]商品首图上传方法实现
+[改进]完善后台商品图片上传，选择默认图片，删除图片等功能
+[修复]下单时报错，未对Models.Invoices添加异常捕获DoesNotExist导致报错
+[修复]后台待发布商品删除推送百度接口错误修正[未发布商品不推送]
+[修复]创建商品Models.parameter未捕获AttributeError异常
+[修复]修复长期未发现的重大BUG，创建或者修改商品时Models.WareAppPrefix部分字段写错，导致数据未成功保存进去
+[修复]商品WareApp.image字段保存url不统一，导致多同平台不兼容问题。直接导致图片缓存不正常
+[修复]增加套餐删除功能，之前忘记加了
+[修复]导入商品不能预览商品，导入商品可以预览商品信息等
+[修复]商品下架 首页板块下架不展示
+[修复]发布商品时生成缓存图片
+[新增]对FormModels验证表单重构，增加自定义验证字段方法以及自定义验证提示信息
+[新增]为所有接口增加分页器，提高API响应速度
+[重构]创建商品FBV视图->CBV视图，重写修改方法。便于后期维护
+[重构]创建商品参数信息FBV视图->CBV视图，重写修改方法。便于后期维护
+
+- 20180903
+[新增]商品首图不存在修复引导过程，后台一键生成商品默认首图[针对没有设置首图的商品]
+[新增]重写央采18类ID对照表，创建商品选择央采分类
+[新增]增加存在异常优惠率板块,用于线上环境调节商品18类分类情况
+[新增]购物车models.Cart-加入央采价格及优惠率[相同类型商品按照最高价格享受对应的优惠率政策]
+[修复]临时解决下单方法dispatch没有返回数据导致用户下单失败
+[修复]全部分类分类数据展示图不显示问题，改进指定首图为商品默认展示图[指定为 app.models.WareApp.image]
+[修复]批量设置首图部分商品失效问题[如有首图未设置则在商品管理展示]
+[修复]搜索商品首图不展示[指定获取图片方法get_image_url]
+[修复]添加购物车商品图片不展示[指定获取图片方法get_image_url]
+[修复]加入购物车失败问题
+[修复]商品不存在404页面修复
+[修复]app.models.WareApp save方法创建WareAppPrefix多出的字段
+[修复]修复发布商品针对央采分类一项forms表单验证[未验证提交空字段报错]
+[修复]商品后台发布商品，修改参数部分。如若商品品牌分类没有设置，报错
+[修复]修复多商品下单因价格计算不到位推送失败，无法生成验收单等问题
+[修复]商品详情也添加商品到购物车于购物车同类别商品优惠率同步问题
+[修复]商品详情页优惠率新方法展示。移除老方法的实现
+[修复]修复WareAppPrefix.save方法 try异常捕获错误,导致商品发布或者批量导入商品失败
+[修复]后台优惠率板块修复商品优惠率时导致商品信息丢失问题[优惠率-设置修复商品优惠率后商品品牌型号信息丢失问题，导致下单推送央采接口失败问题]
+[修复]订单页面优惠率不展示问题[因重写订单下单方法导致]
+[修复]增加商品数量 央采优惠字段信息不会变.导致购物车下单页面商品优惠信息展示不正确[因重写订单下单方法导致]
+[改进]增加二级导航修改方法
+[改进]央采接口推送，优化央采接口获取推送数据方法，从购物车数据库里面获取商品优惠信息
+[改进]优化央采价格算法计算过程及方法，修复多件商品价格计算不正确问题
+[改进]移除之前的优惠率设置方法,对这部分进行了重写
+[改进]调整商品批量导入UI布局,去除无用块儿
+[重构]购物车商品数量加减央采优惠率计算方法，商品搜索分类等添加商品到购物车采优惠率计算方法。优惠信息写入数据库
+[重构]购物车下单方法潜在BUG，重构下单流程。
+[调整]分类商品18类，解决用户下单优惠率不统一问题
+
+- 20180910
+[修复]商品分类展示页Url地址缺少参数导致报错
+[修复]提交订单央采用户接口推送商品 order_create-创建商品接口 图片地址错误导致推送的商品没有展示图
+[修复]修复因调整订单下单接口而导致商品修改无法保存商品信息问题
+[改进]整理app应用url路由方式为path，移除传统url方式
+[改进]整理app应用fbv方式为cbv，去除部分cbv方法并简写path方法
+[修复]发布商品产品类型不正确，发现产品类型不正确的商品信息
+[修复]央采用户合同入口不展示问题
+[新增]获取央采18类Models API，通过本接口 GET请求rate=rate方法获取18类分类商品
+[新增]发票信息API
+[新增]收货地址API
+[新增]完成后台商品央采分离功能
+[修复]分类整理错误分类，dao'z下单推送18类错误
+[修复]发布商品商品参数获取相关参数错误
+
+- 20180917
+[新增]generic方法重构TemplateView 适配移动端模板
+[改进]收货地址模型Address 重写save方法，实其default默认地址一个用户只有一个默认开关
+[改进]后台用户订单发票信息新增发票类型
+[改进]后台用户订单配送清单商品图片不展示问题，添加商品超链接
+[改进]商品订单结算页布局设计及功能实现
+[改进]商品订单完成页布局设计及功能实现
+[改进]购物车页布局整理等
+[重写]商品订单完成页视图fbv->cbf类实现，并迁移到shopping APP应用内部，移除home APP 订单完成页视图fbv
+[重构]接口权限，整加公共写入开关，对listAPI列表统一权限管理。允许用户关联的对象进行修改，限制未登录用户只读操作[修复接口安全重大隐患，修复商品订单流程部分前端功能不正常]
+[改进]调整所有接口，通过接口权限限制用户操作。
+[修复]订单完成页 不存在前端订单验证
+[新增]订单金额限制在一百万，大于一百万无法下单，展示错误UI页面
+
+- 20180924
+[重构]用户登录视图抛弃fbv改用cbv方法，添加移动端适配器
+[重构]用户注册视图抛弃fbv改用cbv方法，添加移动端适配器
+[新增]完成移动端首页UI
+[新增]首页分类，头部分类等UI
+[新增]用户登录移动端UI
+[新增]用户注册移动端UI
+[修复]修复about页面路由错误导致页面打不开
+[修复]保持登录状态失效问题
+[修复]移动端分类UI不兼容IE浏览器问题
+[修复]移动端分类UI布局错拉
+
+- 20181008 调整相关接口，主要用于适配移动端做准备
+[改进]后端接口分页处理
+[重写]后端接口数据返回格式，增加code状态值
+[新增]最新发布横向轮播板块相关接口完成
+[新增]首页主轮播图相关接口完成
+[新增]首页板块相关接口完成
+[新增]首页的头部搜索导航条 完成部分功能
+[新增]业务相关路由配置，分离模型和业务API接口路由
+[新增]获取首页分类,详细到子分类 重写内部方法，实现统一数据返回格式
+
+- 20181015
+[改进]后端接口增加返回值状态值code
+[改进]后端缩略图处理方式，继承imageFile模型实现缩略图功能
+[改进]为部分接口增加图片尺寸，实现不同场合不同大小分辨率图片 [可以有效提高响应速度]
+[新增]首页子导航接口，获取导航相关数据 [改变数据相关展示方法]
+[修复]搜索商品使用商品筛选器cache_search为空导致查询失败[前端加入cache_search值]
+
+[改进]models.WareApp模型image缩略图生成方式，增加image_[64x64|125x125|200x200|400x400|800x800]字段
+[修复]后端restful接口WareApp模型提交数据失败[WareApp模型ImageFile __getattr__方法导致 -移除]
+[修复]后台批量导入成功返回状态不正确导致展示 未成功状态
+[改进]首页板块商品展示图，移除之前的缩略图。 展示models缩略图
+[改进]首页分类类别展示图，移除之前的缩略图。 展示models缩略图
+[改进]修改 添加购物车商品图片，移除之前的缩略图。 展示models缩略图
+[改进]提交订单商品图片url路径修正
+[修复]home.models.Goodslist 字段 goodsclassname 长度为200， 解决提交订单因商品类别名长度越位导致提交失败
+[修复]新用户下单，下单页面收货地址不规范，重新调整。方便用户添加收货地址
+[修复]首页全部分类获取商品时不存在导致报错
+
+
+- 20181022
+[修复]调整后端接口调用WareApp图片方法
+[新增]商品相关信息接口，集合了[商品套餐，商品图片List，商品配置相关, 商品参数]
+[修复]反向查询异常，去除 related_name 属性。[重新调整移动端WareApp接口方法，存在可能导致下下单失败，无法打开商品详情等]
+[修复]修复之前调整接口导致订单下单商品图片url错误
+[修复]后端接口CommodityDetails.wareappprefix_set 字典key为空而获取不到报错
+[改进]移除PC端移动端适应，移动端分离
+
+- 20181029
+[改进]用户合同改进，以PDF方式呈现。
+[新增]用户订单接口[/api/v1/logical/OrderViewSet/]
+[改进]用户订单UI界面[待改进]
+
+- 20181105
+[改进]用户订单接口[/api/v1/logical/OrderViewSet/] 订单取消验证，以取消订单阻止二次取消
+[新增]央采用户订单创建接口[/api/v1/logical/CreateContractsViewSet/]，央采用户验证，只针对央采用户
+[改进]用户订单UI界面，完善我的订单二级导航，新增完成订单二级导航[待改进]
+[修复]用户订单及用户合同添加登录装饰器
+[修复]用户订单生成合同及查看合同链接
+[修复]用户订单-完成订单以生成合同布局乱
+[修复]央采用户合同模板丢失导致不展示问题
+[改进]重写用户管理Index首页方法，修复分页错误导致用户数据不能全部展示
+[改进]用户订单合同审核流程初步完成
+[修复]央采用户增值税发票无法创建导致下单无法提交增值税发票信息
+[改进]用户合同采用pdfkit渲染后端
+[改进]央采用户合同进一步完善
+[修复]日志存放路径错误
+[修复]更正requirement文件
+[改进]用户提交审核合同加盖公章步骤简化
+[改进]央采用户合同字体排版等
+[改进]整理后台没用的方法与页面
+
+- 20181112
+[改进]分离管理后台Vue项目
+[新增]拆分后台为单独Vue前端项目
+[新增]计划预留用户订单，用户管理view视图
+[新增]商品页布局，完成商品管理UI基础布局
+[新增]商品页布局，完成商品创建UI基础布局
+[改进]后端restful接口权限颗粒度细化权限控制，区分公共接口部分和私有接口部分
+[新增]restful用户认证，新增Token身份令牌，新增Session认证方式
+[重写]重写LoginView，实现未登录用户的Token认证方式
+[改进]调整restful认证CBV路由路径
+[改进]restful端点暴露auth认证api方法
+[修复]添加 @ensure_csrf_cookie 用于解决因csrf_token无法进行相关操作。 Django官方解释 对于完全的前后分离，是拿不到crf的。 通过这种方式将csrf设置cookie里面
+[新增]JWT认证
+[改进]添加用户信息到jwt_payload_handlers，自定义Token JWT handlers 信息
+[改进]增加刷新令牌，验证令牌url
+[改进]启用刷新令牌功能，获取令牌，为Token包含orig_iat字段
+[改进]自定义jwt认证成功返回数据
+[改进]整理v1接口规范，调整路由方式
+[新增]新增v2接口，路由权限展示颗粒化
+[改进]调整认证接口url路径
+[修复]接口v2 路径缺少‘/’
+[新增]IsAdminMethodPrivateViewSet认证方式
+[改进]新增接口过滤器filters，实现WareApp接口过滤功能
+[改进]调整WareApp接口release的可搜索范围
+
+
+- 20181119
+[改进]Category，Sub Category接口新增filter过滤器
+[新增]实现generics，mixinsCBV
+[改进]Screening Results接口实现filter过滤器
+
+[修复]models模型WareApp 因super save(args, kwargs)写法错误导致Cannot force an update in save() with no primary key.错误。实则save(*args, **kwargs)
+[新增]WareSetupPrefixSerializer序列化
+[改进]调整ModelPublicViewSet V2接口类顺序
+[改进]实现generics.GenericAPIView类get_object_filter方法
+[新增]ImportGoodsViewSet接口，用于分片上传ZIP文件。将要实现导入商品功能
+[改进]model ImportFile模型，添加delete方法，实现删除数据一同删除本地文件
+[新增]model ImportGoods模型，实现删除数据同时删除本地文件
+[新增]ImportWareAppViewSet接口，
+[改进]完善ImportGoodsViewSet与ImportWareAppViewSet接口
+[新增]增加Zip解压工具类，实现解压Zip文件
+[改进]对Zip解压工具类添加中文乱码校准，添加转码方法，解决中文乱码
+
+
+- 20181126
+[改进]按照pep8代码规范调整代码规范
+[新增]实现ImportGoodsutils工具类文件删除方法
+[改进]对模型WareApp实现delete删除本地文件
+[新增]文件删除工具类
+[改进]序列化OrderSerializer类增加 合同序列化InvoicesSerializer类，添加字段filter过滤
+[改进]更正Goodslist模型spu，sku字段类型为SlugField
+- commit -
+[改进]改进分页页码，实现settings配置文件管理页码功能
+
+
+
+- 20181203
+[改进]对订单接口 OrderViewSet 增加发货处理，收货处理，完成支付处理方法
+[改进]对订单接口 OrderViewSet 增加User,UserInfo,UnitInfo序列化类，增加字段
+[改进]对订单接口 OrderViewSet 增加验收单序列化
+
+[新增]合同创建工具类
+[改进]对订单接口 OrderViewSet 增加 批准用户取消订单，驳回用户取消订单
+[改进]去除订单Models 部分choice选项
+[新增]对商品models新增 stock 字段，根据库存信息锁定商品，防止库存为0的时候被下单操作
+
+
+- 20181210
+[重构]重构接口 WareAppViewSet ，添加商品相关信息等[套餐信息，分类信息等]
+[修复]推送央采订单接口 创建订单失败，因商品ID大于50长度导致
+[修复]修复部分接口timezone问题
+[修复]修复后端接口上传文件导入商品时 xzipfile.getUrl 方法无法捕获系统类型导致导入商品失败 [目前支持Windows Linux文件系统格式路径： C:\\xxx\\, /home/xxx 类型]
+[改进]调整后端导入商品信息提示
+[改进]实现图片类型判断
+[改进]调整商品导入models数据排序方式
+[改进]goods-image接口增加filter过滤器
+
+
+- 20181217
+[改进]模型Lease 对应商品defaule 唯一性。每个商品只允许一个默认套餐实现
+[改进]新增ImageSerializer序列化器 序列化url自定义字段，实现前端vue框架特殊需求
+[新增]goods-meal-info接口filter过滤器
+[新增]新增StepCategoryViewSet，获取商品分类，梯级分类数据。 
+[新增]新增WareParProfixViewSet接口，获取商品参数信息，不同分类的商品参数信息不一致
+
+
+- 20181224
+[新增]添加部分模型注释
+[新增]goods接口 with_info 字段，实现商品参数信息
+[新增]商品参数信息goods-with-info接口
+
+
+
+
+
+
+
+
+
+
+BUG：
+1. 后端接口央采用户登录导致 请求接口 [https://www.lhwill.com/api/v1/logical/CommodityDetails/1539/] 失败
+
+
+待取消电子合同
+19181018105827015256
+
+
+
+16328480k
+3644056k
+
+
+
+MIDP|WAP|UP.Browser|Smartphone|Obigo|Mobile|AU.Browser|wxd.Mms|WxdB.Browser|CLDC|
+UP.Link|KM.Browser|UCWEB|SEMC-Browser|Mini|Symbian|Palm|Nokia|Panasonic|MOT-|SonyEricsson|NEC-|Alcatel|Ericsson|BENQ|BenQ|Amoisonic|Amoi-|Capitel|PHILIPS|SAMSUNG|Lenovo|Mitsu|Motorola|SHARP|WAPPER|LG-|
+LG/|EG900|CECT|Compal|kejian|Bird|BIRD|G900/V1.0|Arima|CTL|TDG|Daxian|DAXIAN|DBTEL|Eastcom|EASTCOM|
+PANTECH|Dopod|Haier|HAIER|KONKA|KEJIAN|LENOVO|Soutec|SOUTEC|SAGEM|SEC-|SED-|EMOL-|INNO55|ZTE|
+iPhone|Android|Windows CE|Wget|Java|curl|Opera
+
+
+(
+    mobile|nokia|iphone|ipad|android|samsung|htc|blackberry|MIDP|WAP|
+)
+
+
+if ($http_user_agent ~* (MIDP|WAP|UP.Browser|Smartphone|Obigo|Mobile|AU.Browser|wxd.Mms|WxdB.Browser|CLDC|
+UP.Link|KM.Browser|UCWEB|SEMC-Browser|Mini|Symbian|Palm|Nokia|Panasonic|MOT-|SonyEricsson|NEC-|Alcatel|Ericsson|BENQ|BenQ|Amoisonic|Amoi-|Capitel|PHILIPS|SAMSUNG|Lenovo|Mitsu|Motorola|SHARP|WAPPER|LG-|
+LG/|EG900|CECT|Compal|kejian|Bird|BIRD|G900/V1.0|Arima|CTL|TDG|Daxian|DAXIAN|DBTEL|Eastcom|EASTCOM|
+PANTECH|Dopod|Haier|HAIER|KONKA|KEJIAN|LENOVO|Soutec|SOUTEC|SAGEM|SEC-|SED-|EMOL-|INNO55|ZTE|
+iPhone|Android|Windows CE|Wget|Java|curl|Opera)) {
+            rewrite  ^(.*)    https://m.lhwill.com$1 permanent;
+        }

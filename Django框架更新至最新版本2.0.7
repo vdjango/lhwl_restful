@@ -1,0 +1,230 @@
+Django框架更新至最新版本2.0.7
+
+Jenkins环境：
+[地址] http://jenkins.lhwill.com
+[用户] job
+[密码] shsz123.com
+[配置文件] /etc/sysconfig/jenkins
+[安装位置] /usr/lib/jenkins/jenkins.war
+
+Gitlab环境：
+[地址] http://gitlab.lhwill.com
+[用户] job
+[密码] shsz123.com
+[配置文件] /var/opt/gitlab/[nginx/redis/...]
+[安装位置] 未知
+
+1.二级导航【中央政府采购】
+
+修改商品品牌失效
+https://www.lhwill.com/search/?q=%E5%A4%9A%E5%8A%9F%E8%83%BD%E4%B8%80%E4%BD%93%E6%9C%BA&A1=15&cac=3037
+cac=None
+
+中央政府采购信息类产品
+协议供货商
+
+待解决后续：
+用户下单接口调整等
+
+待解决[预计一周]：
+
+1.商品单独下单[后端方法没有完成]
+2.商品详情页UI布局，商品多套餐选择
+
+4.首页商品管理功能[有部分BUG待定]
+
+- 待解决[速度快的话可以完成1到2个]：
+7.首页板块 板块分页 [未实现]
+8.导航板块 板块分页 [未实现]
+
+9.下单商品价格四舍五入[导致央采接口推送失败 - 子订单总金额不等于商品金额总和]
+
+Log['home.util.autograph'] : 【失败】国采用户，创建订单  {'returnmessage': {'code': 807, 'message': '子订单总金额不等于商品金额总和！'}}
+Log['home.util.autograph'] : 【失败】国采用户，物流推送接口， 全量推送  {'returnmessage': {'code': 516, 'message': '总订单号与子订单号不匹配！'}}
+
+
+https://www.lhwill.com/details/2291/
+https://www.lhwill.com/Assortment/3/?search=台式机
+
+
+class ArticleListView(generic.ListView):
+    model = Article
+    paginate_by = 1
+
+
+class ArticleDetailView(generic.DetailView):
+    model = Article
+
+
+class ArticleCreate(generic.CreateView):
+    model = Article
+    fields = '__all__'
+
+
+class ArticleUpdate(generic.UpdateView):
+    model = Article
+    fields = '__all__'
+
+
+class ArticleDelete(generic.DeleteView):
+    model = Article
+    success_url = reverse_lazy('app01:articles')
+    fields = '__all__'
+
+
+
+- 今晚
+1.发布应用
+2.创建数据库表 -
+    -> app.models.Classification_There.level
+    ->
+
+如果一个女孩真心的爱你，喜欢你，只会做你的女朋友
+
+
+不能吃油腻食物
+忌大量饮水
+忌食大补之品
+不能吃生冷瓜果
+
+
+原文是：I love three things in this world. Sun, moon and you. Sun for morning, moon for night , and you forever.
+翻译为：浮世万千，吾爱有三。日，月与卿。日为朝，月为暮，卿为朝朝暮暮。
+
+白色满天星 花
+
+第一次直播： 10.40 - 12.44  = 2h
+第二次直播： 13.16 - 15.16  = 2h
+现在时间： 15.09
+
+第一次直播：16.16 - 18.16 = 2h
+结束时间：  16.16 - 20.16 = 4h
+
+第一次直播： 13.00 - 13.25 [换房]
+第二次直播： 13.28 - 14.48 [掉线]
+第三次直播： 15.00 - 15.45 [掉线]
+第四次直播： 16.00 -
+
+第一次直播： 11.30 - 14.05 = 2.35
+第二次直播： 15.50 - 17.25 = 1.35
+
+第一次直播： 10.30 - 14.30
+
+第一次直播： 10.30 - 14.30
+
+14.45 - 18.45
+
+第一次直播： 11.00 - 14.40 = 3.40
+第一次直播： ~= 20分钟
+
+第一次直播： 14.40 - 16.00 = 1.20
+： 开播 14：40 到 16：00 结束 [换房间]
+第一次直播： 16.17 - 19.17 = 3.00
+： 开播 16：17 到 19.17  结束 [这个时间 多播20分钟]
+
+第一次直播：10.30 - 12.10 = 1.40[1个小时40分钟]
+第一次直播：12.40 - 15.20 = 2.40[2个小时40分钟]
+
+3小时 + 80分钟[80分钟=1小时30分钟]
+1.30
+
+3.8
+15.30 够4个小时
+
+
+10.30 - 12.30 = 2
+13.00 - 15.00 = 2
+
+15.30下播
+
+第一次直播： 10.40
+
+10.10 - 12.30 = 2.20
+13.00 - 15.00 = 2.00
+
+4.20
+
+11.00 - 13.13 = 2.13
+
+14.00 - 16.00 = 2.00
+
+2.13 + 2.00 = 4.13
+
+16.43 - 24.43
+
+20.30 - 24.30
+
+第一次直播： 12.30 - 15.00
+
+
+
+- 紧急BUG
+Internal Server Error: /contrast/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/site-packages/django/core/handlers/base.py", line 128, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "./managestage/utli/wrapper.py", line 32, in ip
+    return func(request, *args, **kwargs)
+  File "./managestage/utli/wrapper.py", line 152, in Maintain
+    return func(request, *args, **kwargs)
+  File "./account/util/email.py", line 55, in access
+    return func(request, *args, **kwargs)
+  File "./app/views.py", line 217, in Contrast
+    ware = models.WareApp.objects.get(id=i)
+  File "/usr/local/lib/python3.6/site-packages/django/db/models/manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/django/db/models/query.py", line 394, in get
+    clone = self.filter(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/django/db/models/query.py", line 836, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/django/db/models/query.py", line 854, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/usr/local/lib/python3.6/site-packages/django/db/models/sql/query.py", line 1253, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/usr/local/lib/python3.6/site-packages/django/db/models/sql/query.py", line 1277, in _add_q
+    split_subq=split_subq,
+  File "/usr/local/lib/python3.6/site-packages/django/db/models/sql/query.py", line 1215, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/usr/local/lib/python3.6/site-packages/django/db/models/sql/query.py", line 1085, in build_lookup
+    lookup = lookup_class(lhs, rhs)
+  File "/usr/local/lib/python3.6/site-packages/django/db/models/lookups.py", line 18, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "/usr/local/lib/python3.6/site-packages/django/db/models/lookups.py", line 68, in get_prep_lookup
+    return self.lhs.output_field.get_prep_value(self.rhs)
+  File "/usr/local/lib/python3.6/site-packages/django/db/models/fields/__init__.py", line 947, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: ''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,14 @@
+.idea/
+logs/
+import/
+media/
+whoosh_index/
+media/images/
+media/cache/
+media/images/carousel/
+*/migrations/0*_*.py
+*.pyc
+*.log
+*.pid
+.gitlab-ci.yml
+venv/

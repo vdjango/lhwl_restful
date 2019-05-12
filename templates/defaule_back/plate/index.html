@@ -1,0 +1,220 @@
+{% extends 'defaule/temp/top-nav.html' %}
+{% load thumbnail %}
+{% load staticfiles %}
+{% load tags %}
+
+{% block title %}
+    <title>{{ site_name }} - {{ site_tags }}</title>
+{% endblock title %}
+
+<!-- SEO优化 -->
+{% block seo %}
+{% endblock seo %}
+
+<!-- CSS样式 -->
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/assortmentSearch.css' %}">
+
+    <style type="text/css">
+
+        /* 商品 */
+        .subplate-ant.antx > .ware-box {
+            border: unset !important;
+        }
+
+        .subplate-ant.antx > .ware-box > .ware-box-main {
+            width: 85px;
+            background: #00c0ef;
+            margin: 0px 8px 0px 0px;
+        }
+
+        .subplate-ant.antx > .ware-box > .ware-box-main > a {
+            color: #fff;
+            font-size: 12px;
+            position: absolute;
+            margin: 3px 0 0 18px;
+        }
+
+        .subplate-ant.antx > .ware-box > .ware-box-bout.warecart {
+            width: 102px;
+            height: 23px;
+            margin: 0px 0 0 -8px;
+            border: 1px solid #76e2f94f !important;
+        }
+
+        .subplate-ant.antx > .ware-box > .ware-box-bout.warecart > a {
+            margin: 2px 0px 0px 30px;
+        }
+
+        .subplate-ant.antx > .ware-box > .ware-box-bout.warecart > a > i {
+            font-size: 16px;
+            margin: 0px 0px 0px -20px;
+        }
+
+        .subplate-ant.antx > .text-name {
+            margin-bottom: unset;
+        }
+
+        .plate-ant > .antx {
+            height: 330px !important;
+        }
+
+
+        .subplate-ant > .text-name {
+            white-space: nowrap !important;
+        }
+
+        .box-with-plate {
+            width: 1200px;
+            height: 39px;
+            background: #fff;
+            margin: 0 0 10px 5px;
+            border-left: 5px solid #5bc0de;
+            border-radius: 10px 0 10px 0;
+            border-top: 1px solid #5bc0de;
+
+        }
+
+
+
+        .content-wrapper > div.row {
+            background: url(/static/images/plate.jpg) no-repeat center center fixed;
+            background-size: 100%;
+        }
+
+        .content-wrapper > div.row.white {
+            background: #fff;
+        }
+
+
+    </style>
+{% endblock css %}
+
+
+
+{% block content_wrapper %}
+
+
+    <!-- 板块专区 -->
+    <div class="content pl m-auto">
+        <div class="row">
+            <div class="box-filter">
+                <div class="box-filter-header clearfix">
+                    <ul class="box-filter-header-ul ">
+                        <li><a href="{% url 'app:index' %}">首页</a></li>
+                        <li style="margin: 0 2px 0 0;"> &gt;</li>
+                        <li><a href="{% url 'app:index' %}">导航</a></li>
+                        <li style="margin: 0 2px 0 0;"> &gt;</li>
+                        <li>{{ search }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        {% for var1 in Content %}
+        <!-- 展示5个商品 -->
+        <div class="plate plate-ant">
+
+            <div class="box-header box-with-plate">
+                <h3 class="box-title">{{var1.name}}</h3>
+                <div class="pull-right"><a target="plate" href="{% url 'app:assortment' 3 %}?search={{ var1.name }}">更多 &nbsp;<i class="fa fa-caret-right text-info"></i></a></div>
+            </div>
+
+            {% for ware in var1.get_wareappprefix_set %}
+
+            <div class="subplate-ant antx">
+                <a target="wareApp" href="{% url 'app:details' ware.wareApp_key.id %}" title="">
+                    {% thumbnail ware.wareApp_key.get_image_url "220x220" as im %}
+                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
+                             style="border-radius: 5px; margin-top: 15px !important;">
+                    {% endthumbnail %}
+                </a>
+                <div class="text-price">￥{{ware.wareApp_key.money}}</div>
+                <div class="text-name">
+                    <a target="wareApp" href="{% url 'app:details' ware.wareApp_key.id %}" title="">
+                        {{ware.wareApp_key.name}}
+                    </a>
+                </div>
+
+                <div class="ware-box">
+                    <div class="ware-box-main">
+                        <a target="wareApp" href="{% url 'app:details' ware.wareApp_key.id %}"  title="">查看商品</a>
+                    </div>
+                    <div class="ware-box-bout warecart" id="{{ ware.wareApp_key.id }}">
+                        <a href="" title=""><i class="fa fa-cart-plus"></i>加入购物车</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% endfor %}
+
+
+
+    </div>
+{% endblock content_wrapper %}
+
+
+{% block script %}
+
+    <script>
+        function goLogin() {
+            window.location.href = '{% url "auth:login" %}'
+        }
+
+        $('.warecart').on('click', function (event) {
+            event.preventDefault();
+            /* Act on the event */
+
+            var data = {
+                "id": this.id,
+                "number": 1
+            }
+
+            $.ajax({
+                url: "{% url 'shop:shopping' %}",
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+            })
+                .done(function (data) {
+                    toastr.success("以添加到购物车");
+                    console.log("id  " + data.data.id);
+                    console.log("leas  " + data.data.leas);
+                    console.log("number  " + data.data.number);
+                    console.log("money  " + data.data.money);
+                })
+                .fail(function (data) {
+                    console.log(String(data.responseText).split(' - ')[1].split('</title>')[0]);
+                    if (String(data.responseText).split(' - ')[1].split('</title>')[0] == '登录') {
+                        goLogin();
+                    } else {
+                        toastr.error('啊呀，发生错误了。请截图联系客服哦')
+                        toastr.error(data.responseText)
+                    }
+                    ;
+                })
+                .always(function () {
+                    console.log("complete");
+                });
+        });
+
+
+        function removeByValue(arr, val) {
+            for (var i = 0; i < arr.length; i++) {
+                console.log('arr ' + arr[i]);
+                if (arr[i] == val) {
+                    arr.splice(i, 1);
+                    break;
+                }
+            }
+        }
+
+
+    </script>
+{% endblock script %}
+
+
+

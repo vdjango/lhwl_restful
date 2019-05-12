@@ -1,0 +1,342 @@
+{% extends 'defaule/admin/temp/index.ht' %}
+{% load staticfiles %}
+
+<!--网站标题-->
+{% block main_title %}
+   <title>后台管理 | 全局 - 第三方登陆</title>
+{% endblock main_title %}
+
+<!--CSS样式-->
+{% block main_css %}
+    {% include 'defaule/admin/temp/css.ht' %}
+{% endblock main_css %}
+
+<!--网站头部导航栏-->
+{% block main_header %}
+    <a href="" class="logo">
+        <span class="logo-mini"><b>管理</b>Admin</span>
+        <span class="logo-lg"><b>后台管理</b>Admin</span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Admin</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'admins:index' %}">常用 <span class="sr-only"></span></a></li>
+                <li><a href="#">创始人</a></li>
+                <li class="active"><a href="{% url 'admins:complete' %}">全局</a></li>
+                <li><a href="{% url 'admins:user' %}">用户</a></li>
+                <li><a href="{% url 'admins:commodity' %}">商品</a></li>
+                <li><a href="{% url 'admins:order' %}">订单</a></li>
+                <li><a href="{% url 'admins:sector' %}">板块</a></li>
+                <li><a href="{% url 'admins:AdmPlate' %}">导航</a></li>
+                <li><a href="#">移动APP</a></li>
+            </ul>
+
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src={% static "images/user/user2-160x160.jpg" %} class="user-image" alt="User Image">
+                        <span class="hidden-xs">
+                        {{username}}
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                Alexander Pierce - Web Developer
+                                <small>Member since Nov. 2012</small>
+                            </p>
+                        </li>
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endblock main_header %}
+
+<!--网站左侧项目栏-->
+{% block main_aside %}
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>{{username}}</p>
+            {% if username %}
+                <a href="#">
+                    <i class="fa fa-circle text-success"></i>
+                    Online
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="你想知道什么...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header"></li>
+        <li>
+            <a href={% url "admins:complete" %}>
+                <i class="fa fa-cogs"></i>
+                <span>站点设置</span>
+            </a>
+        </li>
+        <li>
+            <a href={% url "admins:seosetup" %}>
+                <i class="fa fa-book"></i>
+                <span>SEO设置</span>
+            </a>
+        </li>
+        <li>
+            <a href={% url "admins:emailsetup" %}>
+                <i class="fa fa-envelope"></i>
+                <span>邮箱设置</span>
+            </a>
+        </li>
+        <li class="active">
+            <a href={% url "admins:partysetup" %}>
+                <i class="fa fa-clone"></i>
+                <span>第三方登陆</span>
+            </a>
+        </li>
+    </ul>
+{% endblock main_aside %}
+
+<!--正文微标题，位置导航-->
+{% block main_content_header %}
+    <h1>第三方登陆<small>在这里可以设置QQ登陆和微信等登陆方式</small></h1>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'admins:index' %}"><i class="fa fa-dashboard"></i> 后台首页</a></li>
+        <li><a href="{% url 'admins:complete' %}">全局</a></li>
+        <li><a href="{% url 'admins:partysetup' %}">第三方登陆</a></li>
+        <li class="active">当前位置</li>
+    </ol>
+{% endblock main_content_header %}
+
+<!--正文开始部分-->
+{% block main_content %}
+
+    <div class="row">
+        <div class="col-md-12">
+            {% if maintain %}
+                <div class="callout callout-warning">
+                    <h4><i class="fa fa-bell-o"></i> &nbsp;维护模式已开启！</h4>
+                    <p>维护期间，站点将会无法访问。维护完成请及时关闭维护模式，站点即可访问！</p>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title">QQ APPID</h3>
+                </div>
+                <div class="box-body">
+                    <form id="qq_appid">
+                        <input type="hidden" name="stype" value="qq">
+                        <div class="box-body">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td class="key">App ID</td>
+                                        <td class="value">
+                                            <input type="text" class="form-control" name="appid" value="{{app_qq.0.appid}}" placeholder="App ID">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="key">App Key</td>
+                                        <td class="value">
+                                            <input type="password" class="form-control" name="appkey" value=""
+                                            {% if app_qq.0.appkey %}
+                                                placeholder="Key不便显示，以保存！"
+                                            {% else %}
+                                                placeholder="App Key"
+                                            {% endif %}
+                                            >
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-group">
+                            <section class="content-header">
+                                <h1><small>申请地址：https://connect.qq.com，注意是申请网站接入。回调地址请填写：http://域名/auth/complete/qq/auth</small></h1>
+                            </section>
+                        </div>
+                        <div class="form-group" id="error_1"></div>
+                        <div class="box-footer">
+                            <button type='submit' name='submit_general' class='btn btn-info'>提交</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title">微信 APPID</h3>
+                </div>
+                <div class="box-body">
+                    <form id="weixin_appid">
+                        <input type="hidden" name="stype" value="weixin">
+                        <div class="box-body">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td class="key">App ID</td>
+                                        <td class="value">
+                                            <input type="text" class="form-control" name="appid" value="{{app_weixin.0.appid}}" placeholder="App ID">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="key">App Key</td>
+                                        <td class="value">
+                                            <input type="password" class="form-control" name="appkey" value=""
+                                            {% if app_weixin.0.appkey %}
+                                                placeholder="Key不便显示，以保存！"
+                                            {% else %}
+                                                placeholder="App Key"
+                                            {% endif %}
+                                            >
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-group">
+                            <section class="content-header">
+                                <h1><small>申请地址：https://open.weixin.qq.com，注意是申请网站接入。回调地址请填写：http://域名/auth/complete/weixin/auth</small></h1>
+                            </section>
+                        </div>
+                        <div class="form-group" id="error_1"></div>
+                        <div class="box-footer">
+                            <button type='submit' name='submit_general' class='btn btn-info'>提交</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main_content %}
+
+<!--位置底部Footer信息-->
+{% block main_footer %}
+    {% include 'defaule/admin/temp/footer.ht' %}
+{% endblock main_footer %}
+
+<!--网站Script脚本-->
+{% block main_script %}
+    {% include 'defaule/admin/temp/script.ht' %}
+    <script src="{% static 'js/csrf_token.js' %}"></script>
+
+    <script type="text/javascript">
+        var csrftoken = getCookie('csrftoken');
+        var qq_appid = document.getElementById("qq_appid")
+        var weixin_appid = document.getElementById("weixin_appid")
+
+        function SetPOST(url, data, ids){
+            $.ajax({
+                url: url,
+                type:'POST',
+                dataType:'json',
+                token: csrftoken,
+                data: data,
+                success: function(callback){
+                    if (callback['code'] == 200) {
+                        location.reload();
+                    } else{
+                        console.log(callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i>' + callback[callback['state']] + '</h4>' +
+                                    '</div> ';
+                        document.getElementById('error_'+ids).innerHTML = html;
+                    };
+                },
+                error: function (callback) {
+                    console.log(callback);
+                    console.log(callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i> 啊偶，提交内容失败了！</h4>' +
+                                    '</div> ';
+                        document.getElementById('error_0').innerHTML = html;
+
+                }
+            });
+        }
+        function mainQQ_appid(){
+            var Dat = new FormData(qq_appid);
+            var url = "{% url 'admins:set_appid' %}";
+            var D = {
+                "stype": Dat.get('stype'),
+                "appid": Dat.get('appid'),
+                "appkey": Dat.get('appkey')
+            };
+            SetPOST(url, D, 1);
+            console.log('修改邮箱'); //修改邮箱
+            console.log(D);
+        }
+
+        function mainWeixin_appid(){
+            var Dat = new FormData(weixin_appid);
+            var url = "{% url 'admins:set_appid' %}";
+            var D = {
+                "stype": Dat.get('stype'),
+                "appid": Dat.get('appid'),
+                "appkey": Dat.get('appkey')
+            };
+            SetPOST(url, D, 1);
+            console.log('修改邮箱'); //修改邮箱
+            console.log(D);
+        }
+
+        qq_appid.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            mainQQ_appid();         //启动监听提交按钮
+        });
+
+        weixin_appid.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            mainWeixin_appid();         //启动监听提交按钮
+        });
+
+        //Date picker
+    </script>
+{% endblock main_script %}
+

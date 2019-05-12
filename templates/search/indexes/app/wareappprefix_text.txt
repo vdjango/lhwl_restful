@@ -1,0 +1,6 @@
+{{ object.classifythere_key.name }}
+{{ object.brand_key.name }}
+{{ object.producttype_key.name }}
+{{ object.technology_key.name }}
+{{ object.scene_key.name }}
+{{ object.wareApp_key.name }}

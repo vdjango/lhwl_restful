@@ -1,0 +1,190 @@
+{% load staticfiles %}
+{% load tags %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+
+    <!--360浏览器极速模式-->
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+
+
+
+
+
+    {% block title %}
+        <title></title>
+    {% endblock title %}
+
+
+    {% block seo %}
+    {% endblock seo %}
+	<style>
+		.callphone:hover{
+			background:#00C0EF;
+			color:white;
+			transition: 0.2s;
+		}
+        .skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side, .content-wrapper {
+            background-color: #f5f5f5 !important;
+        }
+        .bav-box {
+            position: relative;
+            border-radius: 3px;
+            background: #ffffff;
+            border-top: 3px solid #00c5ff;
+            margin-bottom: 20px;
+            width: 100%;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        }
+
+        .main-footer {
+            background: #fff;
+            padding: 15px;
+            color: #444;
+            border-top: unset !important;
+
+        }
+
+        .xfoot {
+                float: right;
+                width: 251px;
+                height: 112px;
+                border-left: 1px solid #e0e0e0;
+                text-align: center;
+                color: #616161;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+        ul > li a, .copyright p a{
+            color: #757575;
+        }
+
+	</style>
+    {% block css %}
+    {% endblock css %}
+
+
+
+    <!--[if lt IE 9]>
+    　 <script src="https://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+       <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.js"></script>
+    <![endif]-->
+
+
+
+    <script>/*@cc_on window.location.href="http://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); @*/</script>
+
+    <!--script defer>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?99317d7537a79d59997f3f4281d20a50";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script-->
+
+
+
+</head>
+
+<body class="hold-transition skin-blue layout-top-nav" scroll="no">
+    <div class="wrapper">
+        {% block main-header %}
+
+        <header class="main-header">
+            <nav class="navbar navbar-static-top">
+                {% block navbar %}
+
+                {% endblock navbar %}
+            </nav>
+        </header>
+
+        {% endblock main-header %}
+
+        <div class="content-wrapper">
+            {% block content_wrapper %}
+
+            {% endblock content_wrapper %}
+        </div>
+
+            <footer class="main-footer" id="gtco-footer" role="contentinfo" style="margin-top: 100px;">
+                <div class="container">
+                    <div class="row" style="margin-top: 35px;">
+                        <div class="col-xs-2 ">
+                            <ul class="gtco-footer-links">
+                                <li><h5>支付方式</h5></li>
+                                <li><small><a href="#">货到付款</a></small></li>
+                                <li><small><a href="#">在线支付</a></small></li>
+                                <li><small><a href="#">邮局汇款</a></small></li>
+                                <li><small><a href="#">公司转账</a></small></li>
+                            </ul>
+                        </div>
+
+                        <div class="col-xs-2 ">
+                            <ul class="gtco-footer-links">
+                                <li><h5>配送方式</h5></li>
+                                <li><small><a href="#">上门自提</a></small></li>
+                                <li><small><a href="#">配送费收取标准</a></small></li>
+                            </ul>
+                        </div>
+
+                        <div class="col-xs-2 ">
+                            <ul class="gtco-footer-links">
+                                <li><h5>售后服务</h5></li>
+                                <li><small><a href="#">售后政策</a></small></li>
+                                <li><small><a href="#">退款说明</a></small></li>
+                                <li><small><a href="#">返修/退换货</a></small></li>
+                            </ul>
+                        </div>
+
+                        <div class="col-xs-2 ">
+                            <ul class="gtco-footer-links">
+                                <li><h5>关于我们</h5></li>
+                                <li><small><a href="{% url 'app:about' %}">关于领航</a></small></li>
+                            </ul>
+                        </div>
+
+                        <div class="col-xs-4 gtco-widget xfoot">
+                            <p style="color: #3C8DBC;font-weight: bold;font-size:24px; margin-top: 0px;">010-80734326 | 400-1815535</p>
+                            <p style="color:#757575;">周一至周日 8:00-18:00</p>
+
+                            <p><a class="callphone" href="http://p.qiao.baidu.com/cps/chat?siteId=12265760&userId=25894749" style="padding: 6.5px 30px;border:1px solid #00C0EF;text-decoration: none;">联系客服</a></p>
+                        </div>
+                    </div>
+
+                    <div class="row copyright">
+                        <div class="col-xs-12">
+                        <p style="border: 1px solid #f5f5f5;"></p>
+                            <p class="text-center">
+                                <small class="block">
+                                {% block site_icp %}
+                                {% endblock site_icp %}
+                                &nbsp;|&nbsp;
+                                经营许可证：京B2-20171428
+                                </small>
+                                <small class="block">
+                                    <strong>Copyright © 2018 - 2019 <a href="http://www.lhwill.com">lhwill.com</a></strong> 版权所有&nbsp;|&nbsp;<a href="{% static 'images/yyzz.jpg' %}">经营证照</a>
+                                </small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+    </div>
+
+    {% block script %}
+    {% endblock script %}
+
+
+</body>
+
+</html>
+

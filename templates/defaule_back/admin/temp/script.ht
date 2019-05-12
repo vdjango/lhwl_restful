@@ -1,0 +1,7 @@
+{% load staticfiles %}
+<script src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="//cdn.bootcss.com/admin-lte/2.4.3/js/adminlte.js" %}></script>
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.js"></script>
+<script src="{% static 'js/csrf_token.js' %}"></script>
+<script src="https://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>

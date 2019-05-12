@@ -1,0 +1,509 @@
+{% load staticfiles %} {% load thumbnail %} {% load cache %} {% load tags %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" style="background: rgb(248, 248, 248);">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+
+    <meta name="Description" content="" />
+    <meta name="keywords" content="" />
+
+    {% block title %}
+    {% endblock title %}
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no, viewport-fit=cover">
+
+    <!-- 桌面图标 -->
+    <!--
+    <link rel="apple-touch-icon" href="touch-icon-iphone.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png" />
+
+    上面的写法可能觉得会有默认光泽，下面这种设置方法可以去掉光泽效果，还原设计图的效果！
+    <link rel="apple-touch-icon-precomposed" href="touch-icon-iphone.png" />
+
+    启动画面
+    iOS下页面启动加载时显示的画面图片，避免加载时的白屏。
+    <link rel="apple-touch-startup-image" href="start.png"/>
+
+    可以通过madia来指定不同的大小:
+    iPhone
+    <link href="apple-touch-startup-image-320x460.png" media="(device-width: 320px)" rel="apple-touch-startup-image" />
+
+    iPhone Retina
+    <link href="apple-touch-startup-image-640x920.png" media="(device-width: 320px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+
+    iPhone 5
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" href="apple-touch-startup-image-640x1096.png">
+
+    iPad portrait
+    <link href="apple-touch-startup-image-768x1004.png" media="(device-width: 768px) and (orientation: portrait)" rel="apple-touch-startup-image" />
+
+    iPad landscape
+    <link href="apple-touch-startup-image-748x1024.png" media="(device-width: 768px) and (orientation: landscape)" rel="apple-touch-startup-image" />
+
+    iPad Retina portrait
+    <link href="apple-touch-startup-image-1536x2008.png" media="(device-width: 1536px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+
+    iPad Retina landscape
+    <link href="apple-touch-startup-image-1496x2048.png"media="(device-width: 1536px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)"rel="apple-touch-startup-image" />
+    -->
+
+    <link rel="stylesheet" href='//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.css'>
+    <link rel="stylesheet" href='//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css'>
+    <link rel="stylesheet" href="{% static 'Ionicons/css/ionicons.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'Swiper-3.4.2/dist/css/swiper.min.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="stylesheet" type="text/css" href="{% static 'm/css/style.css' %}">
+    <style type="text/css">
+        html, body, form, fieldset, p, div, h1, h2, h3, h4, h5, h6 {
+            /* 旋转屏幕时，字体大小调整的问题 */
+            -webkit-text-size-adjust:100%;
+            -ms-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+        input:-ms-clear{display:none;}
+
+        ul.left {
+            text-align: center;
+            margin: 0 auto;
+            line-height: 5.26rem;
+            width: 100%;
+            background-color: #f8f8f8;
+        }
+
+        ul.left > li.left {
+            width: 100%;
+            height: 5.26rem;
+            float: unset !important;
+            text-align: center;
+            margin: 0 auto;
+        }
+        ul.left > li.left a{
+            font-size: 1.2rem;
+        }
+
+        ul.left > li.active {
+            background-color: #fff;
+        }
+
+        ul.left > li.left  span {
+            display: block;
+            margin-top: 0;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .col-xs-4 {
+            padding: .5rem;
+            text-align: center;
+        }
+
+        .col-xs-4 > .text-col {
+            position: absolute;
+            text-align: center;
+            margin: .1rem auto;
+            right: 0;
+            left: 0;
+        }
+        .tab-content > .tab-pane {
+            overflow: hidden;
+        }
+    </style>
+
+    {% block css %}
+
+    {% endblock css %}
+</head>
+
+<body class="hold-transition layout-top-nav" ontouchstart="">
+
+    <div class="wrapper context">
+        <!-- Start: 头部搜索导航条 -->
+        {% block header %}
+            <header class="main-header app_wrapper">
+                <nav class="navbar navbar-static-top navbar-control-1 navbar-search-control">
+                    <a href="javascript:;" class="navbar-toggle collapsed navbar-toggle-menu menu"><i class="fa fa-bars"></i></a>
+
+                    {% if user %}
+                        <a href="javascript:;" class="navbar-toggle collapsed navbar-toggle-login"><i class="fa fa-user"></i></a>
+                    {% else %}
+                        <a href="{% url 'auth:login' %}" class="navbar-toggle collapsed navbar-toggle-login">登录</a>
+                    {% endif %}
+
+                    <div class="navbar-search" style="">
+                        <div class="navbar-search-input">
+                            <i class="fa fa-search"></i><span>搜索您想要的东西吧</span>
+                        </div>
+                    </div>
+                    <!-- /.container-fluid -->
+                </nav>
+
+                <nav class="navbar navbar-static-top navbar-control-2" style="border-width: unset; background-color: red; height: 100%;">
+                    <p href="javascript:;" class="navbar-toggle collapsed navbar-toggle-menu navbar-toggle-menu-back"><i class="fa fa-chevron-left"></i></p>
+                    <p href="javascript:;" class="navbar-toggle collapsed navbar-toggle-login" style="padding: .05rem 0rem !important;">
+                        搜索
+                    </p>
+                    <div class="navbar-search" style="margin-top: -.25rem;">
+                        <div class="navbar-search-input">
+                            <i class="fa fa-search"></i>
+                            <input type="text" name="q" class="form-control search" placeholder="搜索您想要的东西吧">
+                        </div>
+                    </div>
+                    <div class="navbar-search-menu">
+
+                    </div>
+                </nav>
+            </header>
+        {% endblock header %}
+        <!-- End: 头部搜索导航条 -->
+
+        <!-- Start: 内容主体部分 -->
+        {% block wrapper %}
+            <div class="content-wrapper">
+
+                <!--轮播图开始-->
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        {% for im in Carousels %}
+                            <div class="swiper-slide"><img src="/media/carousel/{{ im.image }}"></div>
+                        {% endfor %}
+                    </div>
+                    <!-- Add Pagination -->
+                    <div class="swiper-pagination"></div>
+                </div>
+
+                <!-- 首页4个小品目 -->
+                <div class="box box-widget">
+                    <div class="box-body">
+                        <ul style="height: 8.15rem;">
+                            <li>
+                                <div class="new-box new-box-icon new-box-icon-04">
+                                    <a href="/plate/1/Zhong-Yang-Zheng-Fu-Cai-Gou/">
+                                        <i class="icon icon-zycg"></i>
+                                    </a>
+                                </div>
+                                <a href="/plate/1/Zhong-Yang-Zheng-Fu-Cai-Gou/">
+                                    <span>政府采购</span>
+                                </a>
+                            </li>
+                            <li>
+                                <div class="new-box new-box-icon new-box-icon-02">
+                                    <a href="javascript:void(0);">
+                                        <i class="fa fa-refresh"></i>
+                                    </a>
+                                </div>
+                                <a href="">
+                                    <span>以旧换新</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <div class="new-box new-box-icon new-box-icon-03">
+                                    <a href="javascript:void(0);">
+                                        <i class="fa fa-wrench"></i>
+                                    </a>
+                                </div>
+                                <a href="">
+                                    <span>维修服务</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <div class="new-box new-box-icon new-box-icon-01">
+                                    <a href="javascript:void(0);">
+                                        <i class="fa fa-hand-pointer-o"></i>
+                                    </a>
+                                </div>
+                                <a href="">
+                                    <span>采购流程</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 最新发布 -->
+                <div class="box box-widget box-widget-top">
+                    <div class="box-widget-hidden">
+                        <div class="swiper-containers" style="overflow: hidden;">
+                            <div class="box-swiper-new">
+                                <span>最新发布</span>
+                                <div class="box-swiper-ns"></div>
+                            </div>
+                            <div class="swiper-wrapper">
+                                {% for var1 in newProduct %}
+                                    <div class="swiper-slide swiper-slide-text">
+                                        <div class="new-img">
+                                            <a href="{% url 'app:details' var1.id %}" title="{{ var1.name }}">
+                                                {% thumbnail var1.get_image_url '200' as im %}
+                                                <img alt="{{ var1.name }}" src="{{ im.url }}" class="swiper-slide-img">
+                                                {% endthumbnail %}
+                                            </a>
+                                        </div>
+                                        <div class="new-title">
+                                            <div class="a-title">
+                                                <a href="{% url 'app:details' var1.id %}" title="{{ var1.name }}">{{ var1.name }}</a>
+                                            </div>
+                                            <p class="price">{{ var1.money }}元</p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 其他板块 -->
+                {% for var1 in MiddleTop %}
+                <div class="box box-widget box-widget-top">
+                    <div class="box-widget-hidden">
+                        <div class="box-swiper-new">
+                            <span>{{ var1.title }}</span>
+                        </div>
+                        <div class="box-body">
+                            {% for app in var1.commodity %}
+                            <div class="col-xs-6 box-plate">
+                                <div class="new-img">
+                                    <a href="{% url 'app:details' app.wareid %}" title="{{ app.name }}">
+                                        {% thumbnail app.image "220x220" as im %}
+                                        <img alt="{{ app.name }}" src="{{ im.url }}" class="swiper-slide-img">
+                                        {% endthumbnail %}
+                                    </a>
+                                </div>
+                                <div class="new-title">
+                                    <div class="a-title">
+                                        <a href="{% url 'app:details' app.wareid %}" title="{{ app.name }}" title="">{{ app.name }}</a>
+                                    </div>
+                                    <p class="price">{{ app.money }}元</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <!-- 底 -->
+                <div style="margin-bottom: 4.5rem;"></div>
+            </div>
+        {% endblock wrapper %}
+        <!-- End: 内容主体部分 -->
+    </div>
+
+    <div class="wrapper category display-hidden">
+        <!-- Start: 分类头部搜索导航条 -->
+        {% block category %}
+            <header class="main-header app_wrapper" style="border-bottom: 1px solid #f8f8f8; background: #fff; position: unset;">
+                <nav class="navbar navbar-static-top navbar-control-1 navbar-search-control">
+                    <p href="javascript:;" class="navbar-toggle collapsed navbar-toggle-menu menu navbar-toggle-menu-back" style="margin-top: 1.05rem;"><i style="color: #999;" class="fa fa-chevron-left"></i></p>
+                    <p href="javascript:;" class="navbar-toggle collapsed navbar-toggle-category" style="margin-top: .25rem;"><i  style="color: #999;" class="fa fa-ellipsis-h"></i></p>
+                    <div class="navbar-search">
+                        <div class="navbar-search-input" style="background-color: #f8f8f8;">
+                            <i  style="color: #999;" class="fa fa-search"></i><span style="color: #999;">搜索您想要的东西吧</span>
+                        </div>
+                    </div>
+                    <!-- /.container-fluid -->
+                </nav>
+
+                <nav class="navbar navbar-static-top navbar-control-2" style="border-width: unset; background-color: red; height: 100%;">
+                    <p href="javascript:;" class="navbar-toggle collapsed navbar-toggle-menu navbar-toggle-menu-back"><i class="fa fa-chevron-left"></i></p>
+                    <p href="javascript:;" class="navbar-toggle collapsed navbar-toggle-login">
+                        搜索
+                    </p>
+                    <div class="navbar-search">
+                        <div class="navbar-search-input">
+                            <i class="fa fa-search"></i>
+                            <input type="text" name="q" class="form-control search" placeholder="搜索您想要的东西吧">
+                        </div>
+                    </div>
+                </nav>
+            </header>
+        {% endblock category %}
+
+        <!-- Start: 内容主体部分 -->
+        {% block category-context %}
+            <div class="content-wrapper" style="background: #fff;">
+               <!--  <div class="row"> -->
+
+                    <div class="nav-tabs-custom" style="position: absolute; /* 兼容IE */">
+
+                        <div class="col-xs-4" style="margin: -.5rem;">
+                            <ul class="left">
+                                {% set default = True %}
+                                {% for var1 in classify_assortment %}
+                                    <li href="#tab_{{var1.title}}" data-toggle="tab" class="left {% if default %} active {% set default = False %}{% endif %}">
+                                        <span>{{ var1.title }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <div class="col-xs-8" style="background-color: #fff; float: right;">
+                            <div class="tab-content">
+                                {% set default = True %}
+                                {% for var1 in classify_assortment %}
+                                    <div class="tab-pane {% if default %} active {% set default = False %}{% endif %}" id="tab_{{var1.title}}">
+
+                                        {% for var2 in var1.connets %}
+                                            <div class="col-xs-4" style="padding: 1.2rem;">
+                                                <a href="{% url 'app:assortment' 3 %}?search={{ var2.title }}" title="{{ var2.title }}">
+                                                    {% thumbnail var2.image "40x40" as im %}
+                                                        <img src="{{ im.url }}" style="border-radius: 5px;">
+                                                    {% endthumbnail %}
+                                                </a>
+                                                <p class="text-col">
+                                                    <a href="{% url 'app:assortment' 3 %}?search={{ var2.title }}" title="{{ var2.title }}">
+                                                        {{ var2.title }}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        {% endfor %}
+
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                   <!--  </div> -->
+                </div>
+            </div>
+        {% endblock category-context %}
+        <!-- End: 内容主体部分 -->
+    </div>
+
+    {% block fool-botton %}
+        <div class="fool-back"><i class="fa fa-arrow-up"></i></div>
+
+        <div class="fool-botton">
+            <div class="col-xs-3 home fa-success">
+                <i class="fa fa-home"></i>
+                <p>首页</p>
+            </div>
+            <div class="col-xs-3 navicon">
+                <i class="fa fa-navicon"></i>
+                <p>分类</p>
+            </div>
+            <div class="col-xs-3 cart">
+                <i class="fa fa-shopping-cart"></i>
+                <p>购物车</p>
+            </div>
+            <div class="col-xs-3 user">
+                <i class="fa fa-user"></i>
+                <p>我的</p>
+            </div>
+        </div>
+    {% endblock fool-botton %}
+
+    <script src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/admin-lte/2.4.3/js/adminlte.js" %}></script>
+    <script src="https://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+
+    {% block javascript %}
+        <script src="{% static 'Swiper-3.4.2/dist/js/swiper.min.js' %}"></script>
+        <script type="text/javascript">
+            $(function(){
+                /* 点击搜索，展开搜索页面 */
+                $('.navbar-search-input').on('click', function(){
+                    $('.navbar-control-1').removeClass('navbar-search-control');
+                    $('.navbar-control-2').addClass('navbar-search-control');
+                    $('.content-wrapper').addClass('content-wrapper-display-none');
+                    $('.fool-botton').addClass('content-wrapper-display-none');
+                });
+
+                /* 点击返回[搜索]，关闭搜索页面 */
+                $('.navbar-toggle-menu-back').on('click', function(){
+                    $('.navbar-control-1').addClass('navbar-search-control');
+                    $('.navbar-control-2').removeClass('navbar-search-control');
+                    $('.content-wrapper').removeClass('content-wrapper-display-none');
+                    $('.fool-botton').removeClass ('content-wrapper-display-none');
+                    $('.form-control.search').val('');
+                });
+
+                /* 点击头部分类 */
+                $('.navbar-toggle-menu.menu').on('click', function(){
+                    $('.wrapper').removeClass('display-hidden');
+                    $('.wrapper.context').addClass('display-hidden');
+                    $('.fool-botton > div').removeClass('fa-success');
+                    $('.fool-botton .navicon').addClass('fa-success');
+                });
+                /* 点击头部分类返回 */
+                $('.navbar-toggle-menu.menu.navbar-toggle-menu-back').on('click', function(){
+                    $('.wrapper').removeClass('display-hidden');
+                    $('.fool-botton > div').removeClass('fa-success');
+                    $('.fool-botton .home').addClass('fa-success');
+                    $('.wrapper.category').addClass('display-hidden');
+                });
+            });
+            /* 首页下方导航栏目 */
+            $(function(){
+                /* 首页 */
+                $('.fool-botton > .home').on('click', function(){
+                    $('.wrapper').removeClass('display-hidden');
+                    $('.fool-botton > div').removeClass('fa-success');
+                    $('.fool-botton .home').addClass('fa-success');
+                    $('.wrapper.category').addClass('display-hidden');
+                });
+
+                /* 分类 */
+                $('.fool-botton > .navicon').on('click', function(){
+                    $('.wrapper').removeClass('display-hidden');
+                    $('.wrapper.context').addClass('display-hidden');
+                    $('.fool-botton > div').removeClass('fa-success');
+                    $('.fool-botton .navicon').addClass('fa-success');
+                });
+            });
+
+            $(window).scroll(function(){
+                // 滚动条距离顶部的距离 大于5px时
+                if($(window).scrollTop() >= 5){
+                    $('.app_wrapper').addClass('app_wrapper-success');
+                } else{
+                    $('.app_wrapper').removeClass('app_wrapper-success');
+                }
+
+                if($(window).scrollTop() >= 300){
+                    $(".fool-back").fadeIn(500); // 开始淡入
+                    console.log('开始淡入');
+                } else{
+                    $(".fool-back").stop(true,true).fadeOut(1000); // 如果小于等于 300 淡出
+                    console.log('淡出');
+                }
+            });
+
+            //点击回到页面顶部
+            $(".fool-back").click(function(){
+                $("html,body").animate({scrollTop:"0px"},'slow');
+            });
+
+            new Swiper('.swiper-container', {
+                loop : true, //让Swiper看起来是循环的
+                autoplay: 3000,//可选选项，自动滑动
+                autoplayDisableOnInteraction: false,
+                pagination: '.swiper-pagination',
+            });
+
+            new Swiper('.swiper-containers', {
+                //loop : true, //让Swiper看起来是循环的
+                autoplay: 5000,//可选选项，自动滑动
+                autoplayDisableOnInteraction: false,
+                slidesPerView: 3,
+                spaceBetween: 10,
+                freeMode: true
+            });
+
+            //document.addEventListener('touchstart',function(){},false);
+        </script>
+    {% endblock javascript %}
+</body>
+</html>
+
+

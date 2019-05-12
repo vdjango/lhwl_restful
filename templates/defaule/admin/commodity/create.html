@@ -1,0 +1,494 @@
+{% extends 'defaule/admin/temp/index.ht' %}
+{% load staticfiles %}
+
+<!--网站标题-->
+{% block main_title %}
+    {% if locals.connet %}
+        <title>后台管理 | 商品 - 商品管理 [修改商品]</title>
+    {% else %}
+        <title>后台管理 | 商品 - 商品管理 [创建商品]</title>
+    {% endif %}
+{% endblock main_title %}
+
+<!--CSS样式-->
+{% block main_css %}
+    <link href={% static "css/admin/fileinput.min.css" %} media="all" rel="stylesheet" type="text/css"/>
+    {% include 'defaule/admin/temp/css/select2.min.ht' %}
+    {% include 'defaule/admin/temp/css.ht' %}
+
+    <link rel="stylesheet" href="{% static 'summernote/dist/summernote.css' %}">
+
+    <style type="text/css" media="screen">
+        p {
+            margin: 0 !important;
+        }
+
+    </style>
+
+{% endblock main_css %}
+
+<!--网站头部导航栏-->
+{% block main_header %}
+    <a href="" class="logo">
+        <span class="logo-mini"><b>管理</b>Admin</span>
+        <span class="logo-lg"><b>后台管理</b>Admin</span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Admin</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'admins:complete' %}">全局</a></li>
+                <li><a href="{% url 'admins:user' %}">用户</a></li>
+                <li class="active"><a href="{% url 'admins:commodity' %}">商品</a></li>
+                <li><a href="{% url 'admins:order' %}">订单</a></li>
+                <li><a href="{% url 'admins:sector' %}">板块</a></li>
+                <li><a href="{% url 'admins:AdmPlate' %}">导航</a></li>
+            </ul>
+
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src={% static "images/user/user2-160x160.jpg" %} class="user-image" alt="User Image">
+                        <span class="hidden-xs">
+                        {{ locals.username }}
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                Alexander Pierce - Web Developer
+                                <small>Member since Nov. 2012</small>
+                            </p>
+                        </li>
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endblock main_header %}
+
+<!--网站左侧项目栏-->
+{% block main_aside %}
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>{{ locals.username }}</p>
+            {% if locals.username %}
+                <a href="#">
+                    <i class="fa fa-circle text-success"></i>
+                    Online
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="你想知道什么...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header"></li>
+        <li class="active">
+            <a href={% url "admins:commodity" %}>
+                <i class="fa fa-clone"></i>
+                <span>商品管理</span> <!-- 包含增删查改-->
+            </a>
+        </li>
+        <li>
+            <a href={% url "admins:stay" %}>
+                <i class="fa fa-hourglass-2"></i>
+                <span>待发布</span>
+            </a>
+        </li>
+        <li>
+            <a href={% url "admins:import" %}>
+                <i class="fa fa-hourglass-2"></i>
+                <span>批量导入</span>
+            </a>
+        </li>
+        <li>
+            <a href={% url "admins:ClassZycg" %}>
+                <i class="fa fa-hourglass-2"></i>
+                <span>央采分类</span>
+            </a>
+        </li>
+    </ul>
+{% endblock main_aside %}
+
+<!--正文微标题，位置导航-->
+{% block main_content_header %}
+    {% if WareApp.connet %}
+        <h1>商品修改
+            <small>您可以在这里修改商品相关参数</small>
+        </h1>
+    {% else %}
+        <h1>创建商品
+            <small>您可以在这里创建商品</small>
+        </h1>
+    {% endif %}
+
+    <ol class="breadcrumb">
+        <li><a href="{% url 'admins:commodity' %}">商品</a></li>
+        <li><a href="{% url 'admins:commodity' %}">Editor</a></li>
+        <li class="active">当前位置</li>
+    </ol>
+{% endblock main_content_header %}
+
+<!--正文开始部分-->
+{% block main_content %}
+    <div class="row">
+        {% if error %}
+            <div class="col-md-12">
+                <div class="alert alert-warning alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <i class="icon fa fa-info"></i> {{ error }}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if response.state == 'error' %}
+            <div class="col-md-12">
+                <div class="alert alert-warning alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-warning"></i> {{ response.data.title }}</h4>
+                    {{ response.data.content }} {{ response.data.data|date:"Y-m-d H:i:s" }}
+                </div>
+            </div>
+        {% endif %}
+
+
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if WareApp.id %}
+                <input type="hidden" name="id" value="{{ WareApp.id }}">
+                <input type="hidden" name="url" value="commodity">
+                <input type="hidden" name="stype" value="edit">
+            {% endif %}
+            <input type="hidden" name="unix" value="{{ unix }}">
+
+
+            <div class="col-md-4">
+                <!--添加商品-->
+                <div class="box box-widget">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">基本信息</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            商品名称
+                            {% if WareApp.name %}
+                                <input type="text" class="form-control" name="name" placeholder="名称"
+                                       value="{{ WareApp.name }}">
+                            {% else %}
+                                <input type="text" class="form-control" name="name" placeholder="名称">
+                            {% endif %}
+
+                            {% if WareApp.error.name.0 %}
+                                <span class="pull-right-container">
+                                    <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                </span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            央采分类
+                            <select name="rate" id="rate" class="form-control select2" style="width: 100%;">
+                            <option value="">-- -- -- -- -- --</option>
+                                {% for var1 in rate %}
+                                    <option value="{{ var1.uid }}">{{ var1.get_uid_display }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <fieldset id="global_location">
+                                <p>
+                                    首页分类：
+                                    <select name="classify_id" class="classify form-control select2 col-md-4"
+                                            data-first-title="-- -- -- -- -- --"></select>
+                                    <select name="classifytwo_id" id="classifytwo_id"
+                                            class="classifytwo form-control select2 col-md-4"
+                                            data-first-title="-- -- -- -- -- --"></select>
+                                </p>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box box-widget">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">商品筛选器
+                            <small><a href="{% url 'admins:setupsearch' %}">编辑筛选器</a></small>
+                        </h3>
+                    </div>
+                    <div id="Setclassify" class="box-body">
+                        <div class="form-group">
+                            品牌
+                            <select name="brand" id="brand" class="form-control select2" style="width: 100%;"
+                                    disabled>
+                                <option value="">-- -- -- -- -- --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            产品类型
+                            <select name="productType" id="productType" class="form-control select2"
+                                    style="width: 100%;" disabled>
+                                <option value="">-- -- -- -- -- --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            技术类型
+                            <select name="technology" id="techNology1" class="form-control select2"
+                                    style="width: 100%;" disabled>
+                                <option value="">-- -- -- -- -- --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            使用场景
+                            <select name="scene" id="scenE" class="form-control select2" style="width: 100%;"
+                                    disabled>
+                                <option value="">-- -- -- -- -- --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            价格范围
+                            <select name="priceRange" id="pRiceRange" class="form-control select2"
+                                    style="width: 100%;" disabled>
+                                <option value="">-- -- -- -- -- --</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="box box-widget">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">图文详情
+                            {% if WareApp.connet %}
+                                <small>Set</small>
+                            {% else %}
+                                <small>Add</small>
+                            {% endif %}
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            图文介绍
+                            {% autoescape off %}
+                                <textarea name="connet" class="summernote">{{ WareApp.connet }}</textarea>
+                            {% endautoescape %}
+
+                            {% if WareApp.error.connet.0 %}
+                                <span class="pull-right-container">
+                                    <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                </span>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-info pull-right">下一步</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock main_content %}
+
+<!--位置底部Footer信息-->
+{% block main_footer %}
+    {% include 'defaule/admin/temp/footer.ht' %}
+{% endblock main_footer %}
+
+<!--网站Script脚本-->
+{% block main_script %}
+    {% include 'defaule/admin/temp/script.ht' %}
+
+    <script type="text/javascript" src="{% static 'summernote/dist/summernote.min.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.summernote').summernote({
+                tabsize: 2,
+                height: 500,                 // set editor height
+                minHeight: null,             // set minimum height of editor
+                maxHeight: null,             // set maximum height of editor
+                focus: true                  // set focus to editable area after initializing summernote
+            });
+        });
+    </script>
+
+    <script src="{% static 'js/admin/cxSelect/js/jquery.cxselect.js' %}"></script>
+    {% include 'defaule/admin/temp/js/select2.full.min.ht' %}
+
+
+    <script src={% static "js/admin/fileinput.min.js" %} type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $('.select2').select2();
+        var csrftoken = getCookie('csrftoken');
+
+        $("select#classifytwo_id").change(function () {
+            var id = $(this).val();
+            $.ajax({
+                url: '{% url "admins:get_classifyTwo" %}',
+                type: 'GET',
+                dataType: 'json',
+                token: csrftoken,
+                data: {
+                    'id': id
+                },
+            })
+                .done(function (data) {
+                    var json = data['data'];
+
+                    var Setclassify = document.getElementById('Setclassify')
+                    var html = '';
+
+                    for (var i = json.length - 1; i >= 0; i--) {
+                        //console.log(json[i]);
+
+                        var option = '<option value="">-- -- -- -- -- --</option>'
+                        for (var iw = json[i]['data'].length - 1; iw >= 0; iw--) {
+                            option += '<option value="' + json[i]['data'][iw]['id'] + '">' + json[i]['data'][iw]['name'] + '</option>'
+                        }
+                        ;
+
+                        html += '<div class="form-group">' + json[i]['name'] +
+                            '    <select name="t' + json[i]['filter_id'] + '" class="form-control select2" style="width: 100%;">' + option +
+                            '    </select>' +
+                            '</div>'
+                    }
+                    ;
+                    Setclassify.innerHTML = html;
+                    $('.select2').select2();
+                })
+                .fail(function () {
+                    console.log("error");
+                })
+                .always(function () {
+                    console.log("complete");
+                });
+            console.log(id);
+        });
+
+    </script>
+
+    <script type="text/javascript">
+
+        var form_createware = document.getElementById("form_createware")
+        var form_file = document.getElementById("file-1")
+
+        function SetEmail(url, data, ids) {
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                token: csrftoken,
+                data: data,
+                success: function (callback) {
+                    if (callback['code'] == 200) {
+                        //location.reload();
+                        window.location.href = callback['url']
+                        console.log(callback['url'])
+                    } else {
+                        console.log(callback['code']);
+                        var html = '<div class="alert alert-warning alert-dismissible">' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                            '<h4><i class="icon fa fa-warning"></i>' + callback[callback['state']] + '</h4>' +
+                            '</div> ';
+                        document.getElementById('error_' + ids).innerHTML = html;
+                    }
+                    ;
+                },
+                error: function (callback) {
+                    console.log(callback);
+                    console.log(callback['code']);
+                    var html = '<div class="alert alert-warning alert-dismissible">' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                        '<h4><i class="icon fa fa-warning"></i> 啊偶，提交内容失败了！</h4>' +
+                        '</div> ';
+                    document.getElementById('error_0').innerHTML = html;
+                }
+            })
+        }
+
+        function submitFormDataEmail() {
+            var Dat = new FormData(form_createware)
+            var url = "{% url 'admins:ware' %}"
+            var D = {
+                "stype": "{{locals.stype}}",
+                "url": "{{locals.url}}",
+                "name": Dat.get('name'),
+                "money": Dat.get('money'),
+                "characteristic": Dat.get('characteristic'),
+                "commodity_description": Dat.get('commodity_description'),
+                "connet": Dat.get('connet'),
+                "unix": "{{locals.unix}}",
+                "id": "{{locals.id}}"
+            }
+            SetEmail(url, D, 1);
+            console.log('修改邮箱'); //修改邮箱
+            console.log(D);
+        }
+    </script>
+
+    <script>
+        $.ajax({
+            url: "{% url 'admins:get_classModels' %}",
+            type: 'GET',
+            dataType: 'json',
+            data: {},
+            success: function (response, xml) {
+                //请求成功后执行的代码
+                console.log(response['classModels']);
+                var urlGlobal = response['classModels'];
+                $('#global_location').cxSelect({
+                    data: urlGlobal,
+                    selects: ['classify', 'classifytwo', 'classifythere'],
+                    emptyStyle: 'none'
+                });
+            },
+            error: function (status) {
+                //失败后执行的代码
+            }
+        });
+    </script>
+{% endblock main_script %}
+
+     

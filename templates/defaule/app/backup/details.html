@@ -1,0 +1,584 @@
+{% extends 'defaule/temp/top-nav.html' %}
+{% load thumbnail %}
+{% load staticfiles %}
+{% load tags %}
+
+{% block title %}
+    <title>{{wareapp.name}} - {{site_name}}</title>
+{% endblock title %}
+
+{% block seo %}
+    <meta name="description" content="{{wareapp.name}} - {{site_name}} - {{site_tags}}" />
+    <meta name="keywords" content="{{wareapp.name}}，{{site_name}}，{{site_tags}}，{{classify.classifys}}，{{classify.classifytheres}}， {{classify.brands}}" />
+    <!--必填-->
+    <meta property="og:type" content="product"/>
+    <meta property="og:image" content="{{wareapp.image}}"/>
+
+    <!--选填-->
+    <meta property="og:title" content="{{wareapp.name}}"/>
+    <meta property="og:description" content="商品描述"/>
+    <meta property="og:product:price" content="{{wareapp.price}}"/>
+    <meta property="og:product:orgprice" content="{{wareapp.price}}"/>
+    <meta property="og:product:currency" content="CNY"/>
+    <meta property="og:product:score" content="9"/>
+    <meta property="og:product:base_score" content="10"/>
+    <meta property="og:product:brand" content="品牌"/>
+    <meta property="og:product:category" content="分类"/>
+    <meta property="og:product:nick" content="name={{site_name}}; url= https://www.lhwill.com "/>
+{% endblock seo %}
+
+{% block css %}
+<style type="text/css" media="screen">
+
+    .skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side, .content-wrapper {
+        background-color: #ffffff !important;
+    }
+
+    .nav {
+        z-index: 1;
+        margin-top: -26px;
+        background-color: unset;
+        box-shadow: unset;
+        position: unset;
+    }
+
+
+
+
+
+    /* 商品微导航 */
+    .content {
+        padding: unset;
+        padding-left: unset;
+        padding-right: unset;
+    }
+
+    .content > ol.nav-top-ol {
+        padding: 0px;
+        font-size: 12px;
+        overflow: hidden;
+        margin-top: -25px;
+        list-style-type: none;
+    }
+
+    .content > ol.nav-top-ol > li {
+        float: left;
+        margin-bottom: 5px;
+        margin: -3px 13px 0px -3px;
+    }
+
+    .preview {
+        width: 450px;
+        float: left;
+    }
+
+    #showsum {
+        margin: 10px 0 0 50px;
+        width: 420px !important;
+    }
+
+    #showsum > p {
+        margin: 0;
+        color: #999;
+        overflow: hidden;
+        left: unset !important;
+        width: auto !important;
+    }
+
+    #showsum span.sel {
+        color: #999;
+        border: 1px solid #f60;
+    }
+    #showsum span {
+        color: #999;
+        border: 1px solid #ddd;
+    }
+
+    .showpage {
+        color: #999;
+        width: 450px;
+        position: relative;
+        margin: 2px 0 0 0px;
+    }
+    .showpage a {
+        display: block;
+        width: 15px;
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+        font-size: 18px;
+        position: absolute;
+        left: 0;
+        top: -62px;
+        color: #999;
+        text-decoration: none;
+
+    }
+
+    .showpage > div {
+        width: 35px;
+        height: 60px;
+        top: -62px;
+        position: absolute;
+        background-color: #fff;
+    }
+
+    .showpage  a#shownext, .shownext {
+        margin-left: 415px !important;
+    }
+
+    #showlast {
+        top: 13px;
+        width: 21px;
+        height: 32px;
+        background-image: url(//static.360buyimg.com/item/unite/1.0.52/components/default/preview/i/__sprite.png);
+        background-position: 0 -54px;
+        left: 5px;
+    }
+
+    #shownext {
+        top: 13px;
+        width: 21px;
+        height: 32px;
+        background-image: url(//static.360buyimg.com/item/unite/1.0.52/components/default/preview/i/__sprite.png);
+        background-position: -78px 0;
+        left: -407px;
+    }
+
+    #showsum > p > span{
+        color: #999;
+        margin: 2px 9.5px 0 2px;
+    }
+
+
+
+    #showbox > p {
+        color: #999;
+        margin-top: 0 !important;
+    }
+
+    #showbox > p{
+        color: #999;
+        left: 430px !important;
+    }
+
+
+    #showbox > div{
+        width: 452px !important;
+        height: 452px !important;
+        border: 1.5px solid #80cee636;
+    }
+
+
+    .meal {
+        float: right;
+        width: 730px;
+        height: 520px;
+        position: relative;
+    }
+
+    .meal > .box-title h1{
+        margin: 5px 0 10px 0px;
+        padding: 0;
+        font-size: 24px !important;
+        font-weight: normal;
+        color: #666;
+        overflow: hidden;
+    }
+
+
+    .price {
+        width: 738px;
+        //background-image: url('/static/images/ware/800.png');
+    }
+
+    .price > div {
+        width: 730px;
+        background-color: #f3f3f3;
+    }
+
+    .price > .money {
+        color: #999;
+        height: 50px;
+    }
+
+    .price > .money p{
+        float: left;
+        margin: 20px 0 0 13px;
+    }
+
+
+    .price > .promotion {
+        line-height: 50px;
+    }
+
+    .price > .promotion p {
+        color: #999;
+        margin: 0 0 0 13px;
+    }
+
+    .price-money {
+        color: #00c0ef;
+        margin-top: 13px !important;
+        margin-left: 30px !important;
+    }
+
+    .promotion-box {
+        color: #999;
+        margin: -50px 0 0 100px;
+    }
+
+    .price > .money > .price-money > span {
+        font-size: 24px;
+    }
+
+    .meal > .ware-info {
+
+        color: #999;
+        margin: 15px 0px 0px 13px;
+        overflow:hidden;
+    }
+
+    .meal > .ware-info > .info {
+        color: #999;
+        float: left;
+        margin: 0 0 0 30px;
+    }
+
+    .hr {
+        border-bottom: 1px solid #e4f5fa;
+    }
+
+    .btn-default {
+        margin: -5px 0 0 0;
+        background-color: unset;
+        border: 1px solid #5bc0de;
+    }
+
+
+    .btn-default:hover, .btn-default:active {
+        background-color: unset;
+        border: 1px solid #5bc0de;
+    }
+    .btn-promotion {
+        position: absolute;
+    }
+    .btn-promotion > a{
+        margin-right: 5px;
+    }
+
+    .ware-info.bottom {
+        width: 720px;
+        height: 64px;
+        bottom: 50px;
+        position: absolute;
+    }
+
+
+    .item-amount {
+                height: 25px;
+                position: relative;
+                z-index: 1;
+            }
+
+            .item-amount .no-left {
+                border-right-color: transparent;
+                left: 9px;
+            }
+
+            .item-amount .no-right {
+                border-right-color: transparent;
+                right: -9px;
+            }
+
+            .item-amount a {
+                display: block;
+                height: 23px;
+                width: 17px;
+                border: 1px solid #e5e5e5;
+                background: #f0f0f0;
+                text-align: center;
+                line-height: 23px;
+                color: #444;
+                position: absolute;
+                top: 0;
+            }
+    /*不可用的确定按钮*/
+            .disabled-button{
+                border-color: #D4D4D4;
+                background-color: #D4D4D4;
+                color: #fff;
+                cursor:auto;
+            }
+
+            input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+            }
+            input[type="number"]{
+                -moz-appearance: textfield;
+            }
+
+
+    .content-text > .text-box{
+        float: left;
+    }
+
+    .content-text > .text-com{
+        float: right;
+        width: 990px;
+        margin: 40px 0 0 0;
+    }
+
+
+    .content-text > .text-com > .nav-tabs-custom > .tab-content > .text img{
+        width: 100%;
+    }
+
+    .content-text > .text-com > .nav-tabs-custom > .nav {
+        border-bottom: 1px solid #00c0ef;
+    }
+
+
+</style>
+
+{% endblock css %}
+
+
+
+{% block content_wrapper %}
+    <div class="content pl" style="margin-top: 40px;">
+        <ol class="nav-top-ol">
+            <li><a href="{% url 'app:index' %}"><i class="fa fa-firefox"></i> 首页</a></li>
+            <li><a href="{% url 'app:search' %}?search={{classify..classify_key.name}}">{{classify.classify_key.name}}</a></li>
+            <li><a href="{% url 'app:assortment' 3 %}?search={{classify.classifythere_key.name}}">{{classify.classifythere_key.name}}</a></li>
+            <li><a href="{% url 'app:details' wareapp.id %}">{{wareapp.name}} - {{classify.brand_key.name}}</a></li>
+        </ol>
+
+        <div class="preview">
+            <div id="showbox">
+                {% for var1 in image %}
+                    <img src="{{var1.image}}" width="450" height="450" />
+                {% endfor %}
+            </div>
+            <!--展示图片盒子-->
+            <div id="showsum"></div>
+            <!--展示图片里边-->
+            <div class="showpage">
+                <div class="showlast">
+                    <a href="javascript:void(0);" id="showlast"></a>
+                </div>
+                <div class="shownext">
+                    <a href="javascript:void(0);" id="shownext"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="meal">
+            <div class="box-title">
+                <h1>{{wareapp.name}}</h1>
+            </div>
+            <div class="price">
+                <div class="money">
+                    <p>价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格</p>
+                    <p class="price-money">¥<span>{{wareapp.money}}</span></p>
+                </div>
+                <div class="promotion">
+                    <p>促&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;销</p>
+                    <div class="promotion-box">
+                    待加入促销活动功能
+                    </div>
+                </div>
+            </div>
+
+            <div class="ware-info" style="margin-top: 20px;">
+                <div style="float: left;">服务说明</div>
+                <div class="info">由 领航 发货, 并提供售后服务。 23:00前下单,成功订货后预计次日送达。</div>
+            </div>
+            <div class="ware-info">
+                <div style="float: left;">服务电话</div>
+                <div class="info">010-80734326</div>
+            </div>
+            <div class="ware-info">
+                <div style="float: left;">商品编码</div>
+                <div class="info">DX5412D54A</div>
+            </div>
+
+            <p class="hr"></p>
+
+            <div class="ware-info">
+                <div style="float: left;">选择套餐</div>
+                <div class="info">
+                    <div class="btn-promotion">
+                        {% for var1 in purchase %}
+                            {% if var1.defaule %}
+                                <a href="" class="btn btn-default btn-flat btn-sm">{{var1.name}}</a>
+                            {% else %}
+                                <a href="" class="btn btn-default btn-flat btn-sm">{{var1.name}}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <p class="hr" style=""></p>
+            <div class="ware-info bottom">
+                <form id="wareapp-cart" method="GET" action="{% url 'home:settlement' %}">
+                    <!--选择方式[0 表示租赁/1 表示购买]-->
+                    <input type="hidden" id="Lease_" name="select" value="1">
+
+                    <!-- 租赁 -->
+                    <!--选择配置-->
+                    <input type="hidden" id="deploy_" name="lease" value="{{purchase_Lease.id}}">
+                    <!--选择时间-->
+                    <input type="hidden" id="hour_" name="duration" value="{{Lease_Duration_.id}}">
+                    <!-- 租赁 -->
+
+                    <!-- 购买 -->
+                    <!--选择配置[id为 models.Lease.objects.get(id=purchase).id]-->
+                    <input type="hidden" id="purchase_" name="purchase" value="{{purchase_Lease.id}}">
+                    <!-- 购买 -->
+
+                    <!--MONEY 商品价格计算-->
+                    <input type="hidden" id="purchase_deploy_money" name="purchase_deploy_money" value="0">
+                    <input type="hidden" id="hour_money" name="hour_money" value="0">
+
+                    <input type="hidden" name="id" value="{{id}}"> <!--商品ID-->
+
+                    <div class="box-body">
+                        <div class="" style="width: 100px; float: left;">
+                            <input name="number" type="number" class="form-control" value="1" min="0">
+                        </div>
+
+                        <div class="" style="width: 200px; margin-left: 30px; float: left;">
+                            <button type="submit" class="btn btn-block btn-default btn-ware btn-flat" style="margin: 0 !important;">立即购买</button>
+                        </div>
+
+                        <div class="" style="width: 200px; margin-left: 30px; float: left;">
+                            <button type="button" class="btn btn-block btn-info warecart btn-flat">加入购物车</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="content-text">
+            <div class="text-box">
+
+            </div>
+            <div class="text-com">
+                <div class="nav-tabs-custom">
+
+                    <ul class="nav nav-tabs text-center">
+                        <li class="active"><a href="#wareapptab_1" data-toggle="tab">商品介绍</a></li>
+                        <li><a href="#wareapptab_2" data-toggle="tab">评论</a></li>
+                        <li><a href="#wareapptab_3" data-toggle="tab">规格包装</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active text" id="wareapptab_1">
+                            {% autoescape off %}
+                                {{wareapp.connet}}
+                            {% endautoescape %}
+                        </div>
+
+                        <div class="tab-pane" id="wareapptab_2">
+                        </div>
+
+                        <div class="tab-pane" id="wareapptab_3">
+
+                            <div class="box-header with-border">
+                                <h3 class="box-title">商品规格</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th style="width: 100px">商品型号</th>
+                                        <th>参数信息</th>
+                                    </tr>
+
+                                    {% for v1 in param %}
+                                        {% if v1.k %}
+                                            <tr>
+                                                <td>{{ v1.v }}</td>
+                                                <td>{{ v1.k }}</td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+{% endblock content_wrapper %}
+
+
+{% block script %}
+    <script src="{% static 'js/details/wareapp_filter.js' %}"></script>
+    <script src="{% static '/js/cart.js' %}"></script>
+    <script>
+        $(function(){
+            /* 商品数量减少 */
+            $('.no-left').on('click', function(event) {
+                event.preventDefault();
+                var idv = $('#amount');
+                if (Number(idv.val()) > 1) {
+                    idv.attr('values', Number(idv.val())-1);
+                    idv.val(Number(idv.val())-1);
+                }
+            });
+
+            /* 商品数量增加 */
+            $('.no-right').on('click', function(event) {
+                event.preventDefault();
+                var idv = $('#amount');
+                idv.attr('values', Number(idv.val())+1);
+                idv.val(Number(idv.val())+1);
+            });
+
+            /* 输入框值的变化 */
+            $(".text-amount").bind('input porpertychange',function(){
+                var id = $(this).val();
+                var uid = $(this).attr('uid');
+                if ($(this).val() != '') {
+                    $(this).val($(this).attr('values'));
+                };
+            });
+        });
+
+
+        $(document).ready(function() {
+            var showproduct = {
+                "boxid": "showbox",
+                "sumid": "showsum",
+                "boxw": 450, //宽度,该版本中请把宽高填写成一样
+                "boxh": 450, //高度,该版本中请把宽高填写成一样
+                "sumw": 60, //列表每个宽度,该版本中请把宽高填写成一样
+                "sumh": 60, //列表每个高度,该版本中请把宽高填写成一样
+                "sumi": 2, //列表间隔
+                "sums": 6, //列表显示个数
+                "sumsel": "sel",
+                "sumborder": 0, //列表边框，没有边框填写0，边框在css中修改
+                "lastid": "showlast",
+                "nextid": "shownext"
+            }; //参数定义
+            $.ljsGlasses.pcGlasses(showproduct); //方法调用，务必在加载完后执行
+        });
+        $(".boxsize").on("click",function(){
+            $(".boxsize").addClass("btn-sm");
+        })
+    </script>
+
+{% endblock script %}
+
+
+

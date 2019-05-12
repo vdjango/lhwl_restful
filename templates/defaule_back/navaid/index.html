@@ -1,0 +1,233 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link rel="stylesheet" href='//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.css'>
+    <link rel="stylesheet" href='//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css'>
+
+    <link rel="stylesheet" href="{% static 'navaid/css/styles-merged.css' %}">
+    <link rel="stylesheet" href="{% static 'navaid/css/style.min.css' %}">
+
+
+    <style type="text/css">
+        .gototop > a {
+            margin-top: 1px;
+        }
+        img {
+            width: 100%;
+            height: 100%;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- START: header -->
+
+    <!-- END: header -->
+
+
+
+    <section id="0F" class="probootstrap-slider flexslider">
+        <div class="probootstrap-text-intro">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="probootstrap-slider-text text-center">
+                            <h1 class="probootstrap-heading probootstrap-animate mb20" data-animate-effect="fadeIn">{{nav.site_navaid_name}}</h1>
+
+                            <div class="probootstrap-animate probootstrap-sub-wrap mb30" data-animate-effect="fadeIn">
+                                <span style="margin-top: 20px;">{{nav.site_navaid_tags}}</span>
+                            </div>
+                            <p class="probootstrap-animate" data-animate-effect="fadeIn"><a onclick="gomiao('FF');" class="btn btn-ghost btn-ghost-white">{{nav.site_navaid_button}}</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="slides">/media/{{var1.images}}
+            {% for var1 in images %}
+                <li style="background-image: url(/media/{{var1.images}}); background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;"></li>
+            {% endfor %}
+        </ul>
+    </section>
+
+
+
+    {% for var1 in navmd %}
+
+
+    <section id="1F" class="probootstrap-section probootstrap-bg" style="background-image: url(/media/{{var1.navaid_images}});">
+        <div class="container text-center">
+            <h2 class="heading probootstrap-animate" data-animate-effect="fadeIn">{{var1.navaid_name}}</h2>
+            <p class="sub-heading probootstrap-animate" data-animate-effect="fadeIn">
+                <span style="margin-left: 400px;">———— <a href="">更多</a></span>
+            </p>
+        </div>
+    </section>
+
+    <section class="probootstrap-section">
+
+        {% for var2 in var1.Keyword %}
+        <div class="container">
+            <div class="row">
+                <div class="box-body col-md-12" style="margin-bottom: 10px;">
+                    <div class="box-title">
+                        <h2 class="heading probootstrap-animate text-center" data-animate-effect="fadeIn">—— {{var2.navaid_name}} ——</h2>
+                    </div>
+                </div>
+
+                {% for var3 in var2.wareapp %}
+                <div class="col-lg-3 col-md-3 col-sm-5 col-xs-12 probootstrap-animate" data-animate-effect="fadeIn">
+                    <div class="product-item">
+                        <div class="img-box">
+                            <img src="/media/images/{{var3.unix}}/head/{{var3.images.image}}" alt="涂掉了" class="img-responsive">
+                        </div>
+
+
+                        <div class="text">
+                            <p class="red">￥ {{var3.money}}</p>
+                            <h2 class="heading">{{var3.name}}</h2>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+
+
+
+    {% endfor %}
+
+    <p id="FF"></p>
+
+
+    <footer class="probootstrap-footer probootstrap-bg" style="background-image: url({% static 'navaid/img/slider_3.jpg' %})">
+        <div class="container">
+            <div class="row mb60">
+                <div class="col-md-3">
+                    <div class="probootstrap-footer-widget">
+                        <h4 class="heading">About Our Farm</h4>
+                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
+                        <p><a href="#">Read more...</a></p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="probootstrap-footer-widget">
+                        <h4 class="heading">Quick Links</h4>
+                        <ul class="stack-link">
+                            <li><a href="#">Organic Fruits</a></li>
+                            <li><a href="#">Organic Vegeables</a></li>
+                            <li><a href="#">Non-GMO Products</a></li>
+                            <li><a href="#">Locally Grown Products</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="probootstrap-footer-widget">
+                        <h4 class="heading">Products</h4>
+                        <ul class="stack-link">
+                            <li><a href="#">Organic Fruits</a></li>
+                            <li><a href="#">Organic Vegeables</a></li>
+                            <li><a href="#">Non-GMO Products</a></li>
+                            <li><a href="#">Locally Grown Products</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="probootstrap-footer-widget">
+                        <h4 class="heading">Subscribe</h4>
+                        <p>Far far away behind the word mountains far from.</p>
+                        <form action="#">
+                            <div class="form-field">
+                                <input type="text" class="form-control" placeholder="Enter your email">
+                                <button class="btn btn-subscribe"><i class="icon-arrow-long-right"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row copyright">
+                <div class="col-md-6">
+                    <div class="probootstrap-footer-widget">
+                        <p>Copyright &copy; 2018.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="probootstrap-footer-widget right">
+                        <ul class="probootstrap-footer-social">
+                            <li><a href="#"><i class="icon-twitter"></i></a></li>
+                            <li><a href="#"><i class="icon-facebook"></i></a></li>
+                            <li><a href="#"><i class="icon-instagram2"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <div class="gototop js-top toplinks">
+        <a href="#" class="js-gotop"><i class="icon-chevron-thin-up"></i></a>
+    </div>
+    <script src="{% static 'navaid/js/scripts.min.js' %}"></script>
+    <script src="{% static 'navaid/js/main.min.js' %}"></script>
+    <script src="{% static 'navaid/js/custom.js' %}"></script>
+
+
+
+    <script type="text/javascript">
+
+
+
+        function getParam(pname) {
+            var params = location.search.substr(1); //  获取参数 平且去掉？
+            var ArrParam = params.split('&');
+            if (ArrParam.length == 1) {
+                //只有一个参数的情况
+                return params.split('=')[1];
+            } else {
+                //多个参数参数的情况
+                for (var i = 0; i < ArrParam.length; i++) {
+                    if (ArrParam[i].split('=')[0] == pname) {
+                        return ArrParam[i].split('=')[1];
+                    }
+                }
+            }
+        }
+
+        function gomiao(str){
+            $(function() {
+                 var mao = $("#" + str); //获得锚点
+                 if (mao.length > 0) {//判断对象是否存在
+                     var pos = mao.offset().top;
+                     $("html,body").animate({ scrollTop: pos }, 28000);
+                 }
+                 var mao = $("#1F"); //获得锚点
+                 if (mao.length > 0) {//判断对象是否存在
+                     var pos = mao.offset().top;
+                     $("html,body").animate({ scrollTop: pos }, 2000);
+                 }
+             });
+        }
+        $(function() {
+             var mao = $("#" + getParam("m")); //获得锚点
+             if (mao.length > 0) {//判断对象是否存在
+                 var pos = mao.offset().top;
+                 var poshigh = mao.height();
+                 $("html,body").animate({ scrollTop: pos }, 2000);
+             }
+         });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,496 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link href="/static/css/toastr.css" rel="stylesheet">
+
+        <title>{{site_name}} -- 我的订单</title>
+
+        <style type="text/css">
+
+
+.navbar {
+    padding: 5px !important;
+}
+.navbar-brand, .navbar-brand a {
+    font-size: 12px;
+}
+
+        </style>
+    </head>
+    <body>
+
+        <nav class="navbar navbar-light bg-light" style="background: #5bc0de !important;">
+            <div class="container">
+                <a class="navbar-brand text-white" href="{% url 'app:index' %}">首页</a>
+                <div class="ustify-content-end">
+                    {% if user %}
+                        <a class="navbar-brand text-white" href={% url "home:index" %}>您好，{{user.username}}</a>
+                        <a class="navbar-brand text-white mr-2 mr-2" href={% url "auth:logout" %}>退出</a>
+                        <span class="text-white">|</span>
+                        <a class="navbar-brand text-white ml-2 mr-2" href={% url "home:index" %}>我的订单</a>
+                    {% else %}
+                        <a class="navbar-brand text-white ml-2 mr-2" href={% url "auth:oauth2:login_zycg" %}>央采登录</a>
+                        <a class="navbar-brand text-white ml-2 mr-2" href={% url "auth:login" %}>请登录</a>
+                        <a class="navbar-brand text-white ml-2 mr-2" href={% url "auth:register" %}>免费注册</a>
+                    {% endif %} {% if user.is_staff %}
+                        <span class="text-white">|</span>
+                        <a class="navbar-brand text-white ml-2 mr-2" target="lhwillAdmin" href={% url "admins:order" %}>管理后台</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img src="/static/images/logo/logo-left-1600x800.png" width="150" height="75" class="d-inline-block align-top" alt="">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active"> <!-- active -->
+                            <a class="nav-link" href="#">首页 <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                账户设置
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">个人信息</a>
+                                <a class="dropdown-item" href="#">收货地址</a>
+                                {% if user.usercode %}
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">电子合同</a>
+                                {% endif %}
+
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">消息</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                电子合同
+                            </a>
+                        </li> -->
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+          </div>
+        </nav>
+
+        <div class="container mt-3">
+            <div class="row">
+              <div class="col-2">
+                <div class="list-group" id="list-tab" role="tablist">
+                  <a class="list-group-item list-group-item-action active" id="list-orid-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">我的订单</a>
+                  <a class="list-group-item list-group-item-action" id="list-orid-success" data-toggle="list" href="#list-home-success" role="tab" aria-controls="orid">完成订单</a>
+                  {% if user.usercode %}
+                      <a class="list-group-item list-group-item-action" id="list-contracts-list" data-toggle="list" href="#list-contracts" role="tab" aria-controls="contracts">电子合同</a>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="col-10">
+                <div class="tab-content" id="nav-tabContent">
+
+                    <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-orid-list">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item active" aria-current="page">我的订单</li>
+                            </ol>
+                        </nav>
+
+                        <table class="table table-bordered">
+                          <tbody>
+                            {% for var1 in context %}
+                            <tr class="badge-light border">
+                                <th {% if user.usercode %}colspan="2"{% else %}colspan="3"{% endif %}>
+                                    <p class="small m-0">{{ var1.createtime }} <span class="m-0 ml-5 p-0">订单号：{{ var1.orderid }}</span></p>
+                                </th>
+                                {% if user.usercode %}
+                                <th class="text-center">
+                                    {% if not var1.contracts_set %}
+                                        <a href="javascript:;" class="text-white badge badge-primary create-contracts"
+                                        data-url="{% url 'api:CreateContractsViewSet-list' %}"
+                                        data-id="{{ var1.id }}">生成合同</a>
+                                    {% else %}
+                                        {% if var1.ordContract == -1 %}
+                                            <a href="" class="text-white badge badge-warning">审核中</a>
+                                        {% elif var1.ordContract == 1 %}
+                                            <a href="{% url 'home:ordercontract' var1.contracts_set.0.id %}" class="text-white badge badge-success">查看合同</a>
+                                        {% elif var1.ordContract == 2 %}
+                                            <a href="" class="text-white badge badge-secondary">以作废</a>
+                                        {% endif %}
+                                        <!-- <a href="" class="text-white badge badge-warning">合同需转正</a> -->
+                                        <!-- <a href="" class="text-white badge badge-success">查看合同</a> -->
+                                    {% endif %}
+                                </th>
+                                {% endif %}
+                                <th class="text-center">
+                                    {% if var1.state != 5 %}
+                                        {% if var1.ordtype != 1 %}
+                                            {% if var1.isgotuaddress %}
+                                                <span class="text-white badge-warning badge">正在审核</span>
+                                            {% else %}
+                                                <a href="javascript:;" data-url="{% url 'api:OrderViewSet-detail' var1.id %}" class="text-white badge badge-primary unorder">取消订单</a>
+                                            {% endif %}
+                                        {% elif var1.ordtype == 1 %}
+                                            <span class="text-white badge-success badge">以完成</span>
+                                        {% endif %}
+                                    {% else %}
+                                        <a class="text-white badge-secondary badge">已取消</a>
+                                    {% endif %}
+                                </th>
+                            </tr>
+                            <tr class="border">
+                                <th width="60%" class="pt-0 pb-0">
+                                    <div class="row ml-auto mr-auto">
+                                        <table class="table table-borderless mb-0 ml-1">
+                                            <tbody>
+                                                {% for var2 in var1.suborderlist_set %}
+                                                    {% for app in var2.goodslist_set %}
+                                                        <tr class="border-bottom">
+                                                            <th width="15%" class="pl-1">
+                                                                <img src="{{ app.imgurl }}" alt="{{ app.goodsname }}" class="img-thumbnail" width="100">
+                                                            </th>
+                                                            <th width="50%"><p class="small">{{ app.goodsname }}</p></th>
+                                                            <td width="10%"><p class="small">x{{ app.qty }}</p></td>
+                                                            <td width=""><p class="small">小计： ¥{{ app.total }}</p></td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </th>
+                                <td class="m-auto">
+                                    <p class="small text-center" data-toggle="tooltip" data-placement="bottom" data-html="true"
+                                    title="{{var1.province}}/{{var1.city}}/{{var1.deliveryaddress}}<br>电话：{{var1.linkmobile}}">
+                                    {{var1.linkman}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <p class="small text-center">
+                                        总额 ¥{{var1.total}}
+                                        {% if usercodes %}
+                                            <br>应付 ¥{{var3.yc_money}}
+                                        {% endif %}
+                                        <br>
+                                        {% if var1.paymethod == '1' %}
+                                            货到付款-公务卡
+                                        {% elif var1.paymethod == '2' %}
+                                            货到付款-支票
+                                        {% elif var1.paymethod == '3' %}
+                                            货到付款-转账汇款
+                                        {% elif var1.paymethod == '4' %}
+                                            货到付款-现金结算
+                                        {% elif var1.paymethod == '5' %}
+                                            在线支付
+                                        {% elif var1.paymethod == '9' %}
+                                            账期
+                                        {% endif %}
+                                    </p>
+                                </td>
+                                <td>
+                                    <p class="small text-center">
+                                    {% if var1.state != 5 %}
+                                        {% if var1.isgotuaddress %}
+                                            订单取消中
+                                        {% else %}
+                                            {% if var1.state == 0 %}
+                                                以完成
+                                            {% elif var1.state == 1 %}
+                                                待付款
+                                            {% elif var1.state == 2 %}
+                                                {% if var1.ordtype == 0 %}
+                                                    以发货
+                                                {% elif var1.ordtype == -1 %}
+                                                    待确认
+                                                {% elif var1.ordtype == 1 %}
+                                                    以完成
+                                                {% endif %}
+                                                <br>
+                                                <a href="javascript:;" onclick="getLogistics('{{var1.id}}');" data-toggle="modal" data-target="#modal-default">跟踪</a>
+                                            {% elif var1.state == 3 %}
+                                                待评价
+                                            {% elif var1.state == 4 %}
+                                                售后中
+                                            {% elif var1.state == 5 %}
+                                                以取消
+                                            {% endif %}
+                                        {% endif %}
+                                    {% else %}
+                                        [功能正在开发]<br />
+                                        <!-- <button type="button" disabled class="btn btn-sm">再次购买</button> -->
+                                    {% endif %}
+                                    </p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                    </div>
+
+                    <div class="tab-pane fade" id="list-home-success" role="tabpanel" aria-labelledby="list-profile-list">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item active" aria-current="page">完成订单</li>
+                            </ol>
+                        </nav>
+
+                        <table class="table table-bordered">
+                          <tbody>
+                            {% for var1 in context %}
+                            {% if var1.state == 0 %}
+                            <tr class="badge-light border">
+                                <th {% if user.usercode %}colspan="2"{% else %}colspan="3"{% endif %}>
+                                    <p class="small m-0">{{ var1.createtime }} <span class="m-0 ml-5 p-0">订单号：{{ var1.orderid }}</span></p>
+                                </th>
+                                {% if user.usercode %}
+                                <th class="text-center">
+                                    {% if not var1.contracts_set %}
+                                        <a href="javascript:;" class="text-white badge badge-primary create-contracts"
+                                        data-url="{% url 'api:CreateContractsViewSet-list' %}"
+                                        data-id="{{ var1.id }}">生成合同</a>
+                                    {% else %}
+                                        {% if var1.ordContract == -1 %}
+                                            <a href="" class="text-white badge badge-warning">审核中</a>
+                                        {% elif var1.ordContract == 1 %}
+                                            <a href="{% url 'home:ordercontract' var1.contracts_set.0.id %}" class="text-white badge badge-success">查看合同</a>
+                                        {% elif var1.ordContract == 2 %}
+                                            <a href="" class="text-white badge badge-secondary">以作废</a>
+                                        {% endif %}
+                                    {% endif %}
+                                    <!-- <a href="" class="text-white badge badge-warning">合同需转正</a> -->
+                                    <!-- <a href="" class="text-white badge badge-success">合同以生成</a> -->
+                                </th>
+                                {% endif %}
+                                <th class="text-center">
+                                    {% if var1.state != 5 %}
+                                        {% if var1.ordtype != 1 %}
+                                            {% if var1.isgotuaddress %}
+                                                <span class="text-white badge-warning badge">正在审核</span>
+                                            {% else %}
+                                                <a href="javascript:;" data-url="{% url 'api:OrderViewSet-detail' var1.id %}" class="text-white badge badge-primary unorder">取消订单</a>
+                                            {% endif %}
+                                        {% elif var1.ordtype == 1 %}
+                                            <span class="text-white badge-success badge">以完成</span>
+                                        {% endif %}
+                                    {% else %}
+                                        <a class="text-white badge-secondary badge">已取消</a>
+                                    {% endif %}
+                                </th>
+                            </tr>
+                            <tr class="border">
+                                <th width="60%" class="pt-0 pb-0">
+                                    <div class="row ml-auto mr-auto">
+                                        <table class="table table-borderless mb-0 ml-1">
+                                            <tbody>
+                                                {% for var2 in var1.suborderlist_set %}
+                                                    {% for app in var2.goodslist_set %}
+                                                        <tr class="border-bottom">
+                                                            <th width="15%" class="pl-1">
+                                                                <img src="{{ app.imgurl }}" alt="{{ app.goodsname }}" class="img-thumbnail" width="100">
+                                                            </th>
+                                                            <th width="50%"><p class="small">{{ app.goodsname }}</p></th>
+                                                            <td width="10%"><p class="small">x{{ app.qty }}</p></td>
+                                                            <td width=""><p class="small">小计： ¥{{ app.total }}</p></td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </th>
+                                <td class="m-auto">
+                                    <p class="small text-center" data-toggle="tooltip" data-placement="bottom" data-html="true"
+                                    title="{{var1.province}}/{{var1.city}}/{{var1.deliveryaddress}}<br>电话：{{var1.linkmobile}}">
+                                    {{var1.linkman}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <p class="small text-center">
+                                        总额 ¥{{var1.total}}
+                                        {% if usercodes %}
+                                            <br>应付 ¥{{var3.yc_money}}
+                                        {% endif %}
+                                        <br>
+                                        {% if var1.paymethod == '1' %}
+                                            货到付款-公务卡
+                                        {% elif var1.paymethod == '2' %}
+                                            货到付款-支票
+                                        {% elif var1.paymethod == '3' %}
+                                            货到付款-转账汇款
+                                        {% elif var1.paymethod == '4' %}
+                                            货到付款-现金结算
+                                        {% elif var1.paymethod == '5' %}
+                                            在线支付
+                                        {% elif var1.paymethod == '9' %}
+                                            账期
+                                        {% endif %}
+                                    </p>
+                                </td>
+                                <td>
+                                    <p class="small text-center">
+                                    {% if var1.state != 5 %}
+                                        {% if var1.isgotuaddress %}
+                                            订单取消中
+                                        {% else %}
+                                            {% if var1.state == 0 %}
+                                                以完成
+                                            {% elif var1.state == 1 %}
+                                                待付款
+                                            {% elif var1.state == 2 %}
+                                                {% if var1.gois > 1 %}
+                                                    待收货
+                                                {% else %}
+                                                    待商家系统确认
+                                                {% endif %}
+                                                <br>
+                                                <a href="javascript:;" onclick="getLogistics('{{var1.id}}');" data-toggle="modal" data-target="#modal-default">跟踪</a>
+                                            {% elif var1.state == 3 %}
+                                                待评价
+                                            {% elif var1.state == 4 %}
+                                                售后中
+                                            {% elif var1.state == 5 %}
+                                                以取消
+                                            {% endif %}
+                                        {% endif %}
+                                    {% else %}
+                                        [功能正在开发]<br />
+                                        <!-- <button type="button" disabled class="btn btn-sm">再次购买</button> -->
+                                    {% endif %}
+                                    </p>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                    </div>
+
+                    <div class="tab-pane fade" id="list-contracts" role="tabpanel" aria-labelledby="list-contracts-list">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item active" aria-current="page">电子合同</li>
+                            </ol>
+                        </nav>
+
+                        <table class="table table-bordered">
+                          <tbody>
+                            {% for var1 in context %}
+                            {% if var1.ordContract != 0 %}
+                            <tr>
+                                <th>
+                                    <p class="small text-center">{{ var1.id }}</p>
+                                </th>
+                                <td>
+                                    <p class="small text-center">
+                                    {{ var1.orderid }}
+                                    </p>
+                                </td>
+                                <td>
+                                    {% if var1.ordContract == -1 %}
+                                        <a href="" class="text-white badge badge-warning">审核中</a>
+                                    {% elif var1.ordContract == 1 %}
+                                        <a href="{% url 'home:ordercontract' var1.contracts_set.0.id %}" class="text-white badge badge-success">查看合同</a>
+                                    {% elif var1.ordContract == 2 %}
+                                        <a href="" class="text-white badge badge-secondary">以作废</a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <p class="small text-center">
+
+                                    </p>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                    </div>
+
+                </div>
+              </div>
+            </div>
+
+            {% csrf_token %}
+
+
+            <!-- Content here -->
+        </div>
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="/static/js/jquery.min-3.3.1.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script src="{% static '/js/csrf_token.js' %}"></script>
+        <script src="/static/js/toastr.min.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+
+                $('.unorder').on('click', function(event) {
+                    event.preventDefault();
+
+
+                    $.ajax({
+                        url: $(this).attr('data-url'),
+                        type: 'PATCH',
+                        dataType: 'json',
+                        data: {"isgotuaddress": true},
+                    })
+                    .done(function() {
+                        console.log("success");
+                        location.reload();
+
+                    })
+                    .fail(function() {
+                        console.log("error");
+                    })
+                    .always(function() {
+                        console.log("complete");
+                    });
+
+                });
+
+                $('.create-contracts').on('click', function(event) {
+                    event.preventDefault();
+                    $.ajax({
+                        url: $(this).attr('data-url'),
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            'key_order': $(this).attr('data-id')
+                        },
+                    })
+                    .done(function() {
+                        console.log("success");
+                        location.reload();
+                    })
+                    .fail(function(data) {
+                        toastr.error(data.responseJSON.detail);
+                    })
+                    .always(function() {
+                        console.log("complete");
+                    });
+
+                });
+            })
+        </script>
+    </body>
+</html>

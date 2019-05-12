@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="css/edslider.css">
+	<link rel="stylesheet" href="css/styles.css">
+	<link rel="stylesheet" href="css/animate-custom.css">
+
+</head>
+<body>
+
+
+
+<div class="container">
+	<ul class="mySlideshow">
+		<li>
+			<a href="#" target="_blank">
+				<img src="images/first.jpg">
+			</a>
+		</li>
+		<li>
+			<a href="#" target="_blank">
+				<img src="images/second.jpg">
+			</a>
+		</li>
+		<li>
+			<a href="#" target="_blank">
+				<img src="images/third.jpg">
+			</a>
+		</li>
+		<li>
+			<a href="#" target="_blank">
+				<img src="images/fourth.jpg">
+			</a>
+		</li>
+		<li>
+			<a href="#" target="_blank">
+				<img src="images/fifth.jpg">
+			</a>
+		</li>
+	</ul>
+</div>
+
+
+
+	<script src="js/jquery-1.11.0.min.js"></script>
+	<script src="js/jquery.edslider.js"></script>
+	<script>
+		$(document).ready(function(){
+			//Call plugin
+			$('.mySlideshow').edslider({
+				width : '100%',
+				height: 500
+			});
+		});
+	</script>
+
+</body>
+</html>

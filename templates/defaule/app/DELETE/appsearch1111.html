@@ -1,0 +1,556 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>XXXX - 商品搜索 - 领航</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+
+    <link rel="stylesheet" href="{% static 'dist/css/AdminLTE.min.css' %}">
+    <!-- Buttons 库的核心文件 -->
+    <link rel="stylesheet" type="text/css" href="{% static 'buttons/css/buttons.css' %}">
+    <link href="{% static 't/css/css/style.css' %}" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="{% static 'dist/css/skins/_all-skins.min.css' %}">
+    <link rel="stylesheet" href="{% static 'text1/css/thumbnail-gallery.css' %}">
+    <link rel="stylesheet" href="{% static 'text2/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'text3/css/style.css' %}" media="screen" type="text/css" />
+  <link rel="stylesheet" href="{% static 'Ionicons/css/ionicons.min.css' %}">
+
+
+
+
+    <style>
+
+        #hotwords {
+            float: left;
+            //width: 384px;
+            height: 20px;
+            line-height: 20px;
+            overflow: hidden;
+        }
+        #hotwords {
+            float: left;
+            //padding-left: 95px;
+            //width: 384px;
+            height: 20px;
+            line-height: 20px;
+            overflow: hidden;
+        }
+
+
+        #hotwords.haveline b {
+            display: block;
+            float: left;
+            width: 21px;
+            font: 12px/20px "Helvetica Neue","Hiragino Sans GB",SimSun,serif;
+            color: #ccc;
+            text-align: center;
+        }
+
+        #hotwords b {
+            display: none;
+        }
+
+        #hotwords a {
+            margin-right: 10px;
+            float: left;
+            white-space: nowrap;
+        }
+        #hotwords a {
+            margin-right: 10px;
+            color: #999;
+        }
+
+        .fff {
+            color: #fff;
+        }
+
+        a {
+            color: #666;
+            text-decoration: none;
+        }
+
+
+
+
+        .main{
+            border-radius: 20px;
+            margin:0 auto;
+            border:1px solid #000；
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="main-heade">
+        <div class="row">
+            <div class="container-fluid h">
+                <div class="navbar-header">
+                    <a class="navbar-brand fff" href="#">菜鸟教程</a>
+                </div>
+                <div>
+                    <ul class="nav navbar-nav navbar-left">
+                        <li class="">
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if username %}
+                            <li><a href="" title="" class="fff">您好！ {{username}}</a></li>
+                        {% else %}
+                            <li><a href="" title="" class="fff">登陆/注册</a></li>
+                        {% endif %}
+
+
+                        <li><a href="" title="" class="fff">|</a></li>
+                        <li><a href="{% url 'shop:shopping' %}" title="" class="fff">购物车</a></li>
+                        <li><a href="" title="" class="fff">我的订单</a></li>
+
+                        <li>
+                            <a href="#" class="dropdown-toggle fff" data-toggle="dropdown">个人中心<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="" title="" class="fff">待处理订单</a></li>
+                                <li><a href="" title="" class="fff">返修退换货</a></li>
+                                <li><a href="" title="" class="fff">我的消息</a></li>
+                                <li><a href="" title="" class="fff">我的关注</a></li>
+                            </ul>
+                        </li>
+
+                        <li><a href="" title="" class="fff">企业采购</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle fff" data-toggle="dropdown">
+                                客户服务<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="" title="" class="fff">帮助中心</a></li>
+                                <li><a href="" title="" class="fff">售后服务</a></li>
+                                <li><a href="" title="" class="fff">在线客服</a></li>
+                                <li><a href="" title="" class="fff">意见建议</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle fff" data-toggle="dropdown">
+                                网站导航<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>123</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="container box-body" style="margin-top: 20px;">
+                <div class="col-md-6 col-md-offset-3">
+
+                    <form action="{% url 'app:search' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="input-group input-group-sm">
+                            <input name="search" type="text" class="form-control">
+                            <span class="input-group-btn">
+                                <button class="btn btn-flat" style="background-color: #312b30; color: #fff;">搜索</button>
+                            </span>
+                        </div>
+                    </form>
+                    <div id="hotwords" class="haveline" style="margin-top: 2px;">
+                        <a>复合机一体机</a>
+                        <a>复印机</a>
+                        <a>打印机</a>
+                        <a>佳能复合机</a>
+                        <a>理光复合机</a>
+                        <a>复合机 京东自营</a>
+                        <a>夏普复合机</a>
+                        <a>投影仪</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="header">
+            <div class="zxr_nav">
+                <div class="nav_ten">
+                    <div class="quanbu_zxr">
+                        <div class="quanbu_zxr1"> 全部商品分类</div>
+                        <ul class="ul">
+                            <li ><a href="SteelSeries_zxr.html">免费维修</a></li>
+                            <li><a href="SteelSeries_zxr.html">免费维修</a></li>
+                            <li><a href="SteelSeries_zxr.html">免费试用</a></li>
+                            <li><a href="SteelSeries_zxr.html">免费兑换</a></li>
+                            <li><a href="SteelSeries_zxr.html">私人定制</a></li>
+                            <li><a href="SteelSeries_zxr.html">个人寄售</a></li>
+                        </ul>
+                        <div class="ab_nav">
+                            <div class="ab_nav_l">
+                                <ul class="ul1">
+                                    <li class="item" style="background-color: #ffffff">
+                                        <a href="SteelSeries_zxr.html">鼠标</a>
+                                    </li>
+                                    <li class="item">
+                                        <a href="SteelSeries_zxr.html">键盘</a>
+                                    </li>
+                                    <li class="item">
+                                        <a href="SteelSeries_zxr.html">音频</a>
+                                    </li>
+                                    <li class="item">
+                                        <a href="SteelSeries_zxr.html">鼠标垫</a>
+                                    <li class="item">
+                                        <a href="SteelSeries_zxr.html">游戏套装</a>
+                                    </li>
+                                    <li class="item">
+                                        <a href="SteelSeries_zxr.html">外设周边</a>
+                                    <li class="item">
+                                        <a href="SteelSeries_zxr.html">二手良品</a>
+                                    </li>
+                                    <li class="item">
+                                        <a href="SteelSeries_zxr.html">免费维修</a>
+                                    </li>
+                                </ul>
+                                <div class="ab_nav_2">
+                                    <div class="ab_nav_2_list1">
+                                        <ul>
+                                            <li><a>有线键鼠</a></li>
+                                            <li><a>无线键鼠</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="ab_nav_2_list2">
+                                        <ul>
+                                            <li><a>机械键盘</a></li>
+                                            <li><a>薄膜键盘</a></li>
+                                            <li><a>静电容键盘</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="ab_nav_2_list3">
+                                        <ul>
+                                            <li><a>头戴式耳机</a></li>
+                                            <li><a>音响/信箱</a></li>
+                                            <li><a>声卡</a></li>
+                                            <li><a>麦克风</a></li>
+                                            <li><a>入耳式耳塞</a></li>
+                                            <li><a>后挂式耳机</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="ab_nav_2_list4">
+                                        <ul>
+                                            <li><a>布垫</a></li>
+                                            <li><a>塑脂垫</a></li>
+                                            <li><a>硅胶垫</a></li>
+                                            <li><a>金属垫</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="ab_nav_2_list5">
+                                        <ul>
+                                            <li><a>键鼠套装</a></li>
+                                            <li><a>鼠标/鼠标垫</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="ab_nav_2_list6">
+                                        <ul>
+                                            <li><a>拔键器</a></li>
+                                            <li><a>耳机架</a></li>
+                                            <li><a>键盘手托</a></li>
+                                            <li><a>游戏手柄</a></li>
+                                            <li><a>鼠标角铁</a></li>
+                                            <li><a>游戏眼睛</a></li>
+                                            <li><a>键盘键帽</a></li>
+                                            <li><a>显示器</a></li>
+                                        </ul>
+
+                                    </div>
+                                    <div class="ab_nav_2_list7">
+                                        [9成新]，鼠标包退；
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="row ">
+        <div class="box box-body">
+            <div class="col-md-offset-1">
+                <ul class='tg-list'>
+                    <li class='tg-list-item'>
+                        <h4>选择</h4>
+                    </li>
+                    <li class='tg-list-item'>
+                        <input class='tgl tgl-skewed' name="ca1" id='ca1' type='radio' onclick="check();" value="购买">
+                        <label class='tgl-btn' data-tg-off='购买' data-tg-on='购买' for='ca1'></label>
+                    </li>
+                    <li class='tg-list-item'>
+                        <input class='tgl tgl-skewed' name="ca1" id='ca2' type='radio' onclick="check();" value="租赁">
+                        <label class='tgl-btn' data-tg-off='租赁' data-tg-on='租赁' for='ca2'></label>
+                    </li>
+                </ul>
+
+                <ul class='tg-list'>
+                    <li class='tg-list-item'>
+                        <h4>品牌</h4>
+                    </li>
+                    <li class='tg-list-item'>
+                        <input class='tgl tgl-skewed' name="cb1" id='cb1' type='radio' onclick="check();" value="联想">
+                        <label class='tgl-btn' data-tg-off='联想' data-tg-on='联想' for='cb1'></label>
+                    </li>
+                    <li class='tg-list-item'>
+                        <input class='tgl tgl-skewed' name="cb1" id='cb2' type='radio' onclick="check();" value="HP">
+                        <label class='tgl-btn' data-tg-off='HP' data-tg-on='HP' for='cb2'></label>
+                    </li>
+                    <li class='tg-list-item'>
+                        <input class='tgl tgl-skewed' name="cb1" id='cb3' type='radio' onclick="check();" value="HUC">
+                        <label class='tgl-btn' data-tg-off='HUC' data-tg-on='HUC' for='cb3'></label>
+                    </li>
+                    <li class='tg-list-item'>
+                        <input class='tgl tgl-skewed' name="cb1" id='cb4' type='radio' onclick="check();" value="红旗">
+                        <label class='tgl-btn' data-tg-off='红旗' data-tg-on='红旗' for='cb4'></label>
+                    </li>
+                </ul>
+
+                <ul class='tg-list'>
+                    <li class='tg-list-item'>
+                        <h4>配置</h4>
+                    </li>
+                    <li class='tg-list-item'>
+                        <input class='tgl tgl-skewed' name="cc1" id='cc1' type='radio' onclick="check();" value="128MB内存">
+                        <label class='tgl-btn' data-tg-off='128MB内存' data-tg-on='128MB内存' for='cc1'></label>
+                    </li>
+                    <li class='tg-list-item'>
+                        <input class='tgl tgl-skewed' name="cc1" id='cc2' type='radio' onclick="check();" value="512MB内存">
+                        <label class='tgl-btn' data-tg-off='512MB内存' data-tg-on='512MB内存' for='cc2'></label>
+                    </li>
+                    <li class='tg-list-item'>
+                        <input class='tgl tgl-skewed' name="cc1" id='cc3' type='radio' onclick="check();" value="1G内存">
+                        <label class='tgl-btn' data-tg-off='1G内存' data-tg-on='1G内存' for='cc3'></label>
+                    </li>
+                    <li class='tg-list-item'>
+                        <input class='tgl tgl-skewed' name="cc1" id='cc4' type='radio' onclick="check();" value="2G内存">
+                        <label class='tgl-btn' data-tg-off='2G内存' data-tg-on='2G内存' for='cc4'></label>
+                    </li>
+                </ul>
+
+                <ul class='tg-list'>
+                    <li class='tg-list-item'>
+
+                    </li>
+                </ul>
+            </div>
+
+
+        </div>
+        <div class="box box-body container main">
+            筛选条件： 无
+        </div>
+    </div>
+
+    <section class="content">
+        <div class="container">
+            <div class="tz-gallery">
+
+                <div class="row col-md-12">
+                    {% for var1 in ware %}
+                    <div class="col-sm-3 col-md-3">
+                        <div class="thumbnail">
+                            <div class="box-body">
+                                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                                    <div class="carousel-inner">
+                                        {% for var2 in var1.image %}
+                                            {% if var2.image == var1.defaule.image %}
+                                            <div class="item active">
+                                                <a href="{% url 'app:details' var1.id %}" title="{{var1.name}}"><img src="{{MEDIA_URL}}images/{{var1.unix}}/head/{{var1.defaule.image}}" class="img-thumbnail"></a>
+                                            </div>
+                                            {% else %}
+                                            <div class="item">
+                                                <a href="{% url 'app:details' var1.id %}" title="{{var1.name}}"><img src="{{MEDIA_URL}}images/{{var1.unix}}/head/{{var2.image}}" class="img-thumbnail" class="img-thumbnail"></a>
+                                            </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="caption">
+                                <small><h3><i class="fa fa-rmb"></i> {{var1.money}}</h3></small>
+                                <p><a href="{% url 'app:details' var1.id %}" title="{{var1.name}}">{{var1.name}}</a></p>
+                                <p><a href="" title="">7000+</a>条评论</p>
+                                <div class="modal-footer" style="padding: 1px;">
+                                    <button data-toggle="modal" data-target="#modal-default" class="button button-circle button-tiny pull-left"><i class="fa fa-eye"></i></button>
+                                    <button class="button button-circle button-tiny"><i class="fa fa-heart-o"></i></button>
+                                    <button class="button button-circle button-tiny"><i class="fa fa-shopping-cart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+
+        <div class="box box-body container main">
+            <div class="pull-right">
+                {% if leng >=  After %}
+                    {{Front}}-{{After}}/{{leng}}
+                {% else %}
+                    {{Front}}-{{leng}}/{{leng}}
+                {% endif %}
+
+                <div class="btn-group">
+                    {% if Front < 1 %}
+                        <button type="button" class="btn btn-default btn-sm disabled" disabled="disabled"><i class="fa fa-chevron-left"></i></button>
+                    {% else %}
+                        <a href={% url "applist" 1 %} type="button" class="btn btn-default btn-sm "><i class="fa fa-chevron-left"></i></a>
+                    {% endif %}
+                    {% if leng <= After %}
+                        <button type="button" class="btn btn-default btn-sm disabled" disabled="disabled"><i class="fa fa-chevron-right"></i></button>
+                    {% else %}
+                        <a href={% url "applist" 1 %} type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+    </section>
+
+
+
+
+
+<footer>
+    <div class="footer">
+        <div class="container">
+            <div class="footer-grids">
+                <div class="col-md-3 footer-grid">
+                    <h3 class="title">Services</h3>
+                    <ul>
+                        <li><a href="#">Rerum hic tenetur</a></li>
+                        <li><a href="#">Molestiae non recusandae</a></li>
+                        <li><a href="#">Voluptates repudiandae</a></li>
+                        <li><a href="#">Necessitatibus saepe</a></li>
+                        <li><a href="#">Debitis aut rerum</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 footer-grid">
+                    <h3 class="title">Information</h3>
+                     <ul>
+                        <li><a href="#">Quibusdam et aut</a></li>
+                        <li><a href="#">Testimonals</a></li>
+                        <li><a href="#">Archives</a></li>
+                        <li><a href="#">Our Staff</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 footer-grid">
+                    <h3 class="title">More details</h3>
+                    <ul>
+                        <li><a href="#">About us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms &amp; Conditions</a></li>
+                        <li><a href="#">Sitemap</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 footer-grid contact-grid">
+                        <h3 class="title">Contact us</h3>
+                        <ul>
+                            <li><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>Newyork Still Road.</li>
+                            <li class="adrs">756 gt globel Place</li>
+                            <li><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>+000 100 444 1111</li>
+                            <li><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><a href="mailto:example@mail.com">mail@example.com</a></li>
+                        </ul>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+    <div class="copy">
+        <div class="container">
+            <div class="copy-left">
+                <p>Copyright © 2018 <a href="http://www.lhwill.com/" target="_blank" title="lhwill">lhwill</a> All rights reserved.</p>
+            </div>
+            <div class="copy-left-right">
+                <ul>
+                    <li><a href="#" class="facebook"></a></li>
+                    <li><a href="#" class="twitter"></a></li>
+                    <li><a href="#" class="be"></a></li>
+                    <li><a href="#" class="p"></a></li>
+                </ul>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</footer>
+
+
+    <script src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'text2/js/base.js' %}"></script>
+
+
+
+    <script src="{% static 'text3/js/jquery-1.11.0.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'text3/js/bootsnav.js' %}"></script>
+
+
+<script src="{% static 'fastclick/lib/fastclick.js' %}"></script>
+<script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+
+
+
+<script type="text/javascript">
+    var input_number = 3;
+
+
+
+function check(){
+
+    var fors = [
+        ['ca1', 'ca2'],
+        ['cb1', 'cb2', 'cb3', 'cb4'],
+        ['cc1', 'cc2', 'cc3', 'cc4']
+    ]
+
+    var val = []
+    var dic = {}
+
+    for (var i=0;i<fors.length;i++){
+        for (var ix=0; ix<fors[i].length; ix++) {
+            var value = fors[i][ix]
+            if (document.getElementById(value).checked) {
+                val.push(value)
+                dic[value] = document.getElementById(value).value
+                if (val.length >= input_number) {
+                    post('posturl', dic, {{csrf_token}});
+                };
+            };
+        };
+    };
+}
+
+function post(URL, PARAMS, csrf_token) {
+    PARAMS['csrfmiddlewaretoken'] = csrf_token
+    $.ajax({
+        type: "POST",
+        url: URL,
+        data: PARAMS,
+        contentType : 'application/json; charset=utf-8',
+        dataType: "json",
+        success: function(json) {
+            alert('success');
+       }
+    });
+}
+</script>
+
+
+
+</body>
+
+</html>

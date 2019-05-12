@@ -1,0 +1,293 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>后台管理 | 添加商品</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href={% static "bootstrap/dist/css/bootstrap.min.css" %}>
+    <link rel="stylesheet" href={% static "font-awesome/css/font-awesome.min.css" %}>
+    <link rel="stylesheet" href={% static "Ionicons/css/ionicons.min.css" %}>
+    <link rel="stylesheet" href={% static "dist/css/AdminLTE.min.css" %}>
+    <link rel="stylesheet" href={% static "dist/css/skins/_all-skins.min.css" %}>
+    <link rel="stylesheet" href={% static "iCheck/flat/blue.css" %}>
+
+
+
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+
+<body class="hold-transition skin-red sidebar-mini">
+    <div class="wrapper">
+
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+
+            <!-- Main content -->
+            <section class="content">
+
+
+
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="box box-info col-md-12">
+            <div class="box-header with-border">
+                <h3 class="box-title">商品列表
+                                        <small>List</small>
+                                    </h3>
+                <div class="box-body" style="width=100%;">
+                    <!-- /.box-header -->
+                    <form action={% url "admins:deletles" %} method="POST">
+                        {% csrf_token %}
+                        <div class="box-body no-padding">
+                            <div class="mailbox-controls">
+                                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
+                                </button>
+                                <div class="btn-group">
+                                    <button type="" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                </div>
+                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-arrow-down"></i></button>
+                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-arrow-up"></i></button>
+                                <div class="pull-right">
+                                    {% if leng >= After %}
+                                        {{Front}}-{{After}}/{{leng}}
+                                    {% else %}
+                                        {{Front}}-{{leng}}/{{leng}}
+                                    {% endif %}
+                                    <div class="btn-group">
+                                        {% if Front < 1 %}
+                                            <button type="button" class="btn btn-default btn-sm disabled" disabled="disabled"><i class="fa fa-chevron-left"></i></button>
+                                        {% else %}
+                                            <a href={% url "admins:list" war.Jumpre %} type="button" class="btn btn-default btn-sm "><i class="fa fa-chevron-left"></i></a>
+                                        {% endif %}
+                                        {% if leng <= After %}
+                                            <button type="button" class="btn btn-default btn-sm disabled" disabled="disabled"><i class="fa fa-chevron-right"></i></button>
+                                        {% else %}
+                                            <a href={% url "admins:list" war.Jumpgo %} type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive mailbox-messages">
+                                <table class="table table-hover table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                选择
+                                            </td>
+                                            <td class="mailbox-name">商品</td>
+                                            <td class="mailbox-subject">金额</td>
+                                            <td class="mailbox-attachment">分类</td>
+                                            <td class="mailbox-date">定位</td>
+                                            <td class="mailbox-date">时间</td>
+                                            <td class="mailbox-date">操作</td>
+                                        </tr>
+                                        {% for var1 in war.war %}
+                                        <tr>
+                                            <td>
+                                                <input name="items" type="checkbox" value="{{var1.id}}">
+                                            </td>
+                                            <td class="mailbox-name"><a href={% url "admins:release" var1.unix var1.id %} title="">{{var1.name}}</a></td>
+                                            <td class="mailbox-subject" {{var1.money}}</td>
+                                                <td class="mailbox-attachment">{{var1.province}}|{{var1.city}}|{{var1.region}}</td>
+                                                <td class="mailbox-date">无</td>
+                                                <td class="mailbox-date">{{var1.time_now}}</td>
+                                                <td class="mailbox-date">
+                                                    <div class="btn-group">
+                                                        <div class="btn-group">
+                                                            <a href={% url "admins:editoer" var1.unix var1.id %} type="button" class="btn btn-info btn-xs">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </a>
+                                                            <button data-toggle="modal" data-target="#down" class="btn btn-warning btn-xs">
+                                                                <i class="fa fa-arrow-down"></i>
+                                                            </button>
+                                                            <a type="button" data-toggle="modal" data-target="#deletle{{var1.id}}" type="button" class="btn btn-danger btn-xs">
+                                                        <i class="fa fa-trash-o"></i>
+                                                    </a>
+                                                            <div class="modal modal-danger fade" id="deletle{{var1.id}}">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span></button>
+                                                                            <h4 class="modal-title">删除操作确认</h4>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <p>您即将删除本商品，删除后不可恢复！</p>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <a href="{% url 'admins:deletle' var1.id %}" class="btn btn-outline">确认</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+
+                            <div class="mailbox-controls">
+                                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
+                                </button>
+                                <div class="btn-group">
+                                    <button type="" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                </div>
+                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-arrow-down"></i></button>
+                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-arrow-up"></i></button>
+                                <div class="pull-right">
+                                    {% if leng >= After %}
+                                        {{Front}}-{{After}}/{{leng}}
+                                    {% else %}
+                                        {{Front}}-{{leng}}/{{leng}}
+                                    {% endif %}
+                                    <div class="btn-group">
+                                        {% if Front < 1 %}
+                                            <button type="button" class="btn btn-default btn-sm disabled" disabled="disabled"><i class="fa fa-chevron-left"></i></button>
+                                        {% else %}
+                                            <a href={% url "admins:list" war.Jumpre %} type="button" class="btn btn-default btn-sm "><i class="fa fa-chevron-left"></i></a>
+                                        {% endif %}
+                                        {% if leng <= After %}
+                                            <button type="button" class="btn btn-default btn-sm disabled" disabled="disabled"><i class="fa fa-chevron-right"></i></button>
+                                        {% else %}
+                                            <a href={% url "admins:list" war.Jumpgo %} type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+                <!-- /.row -->
+            </section>
+            <!-- /.content -->
+        </div>
+
+
+
+<div class="modal modal-warning fade" id="down">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">下线操作确认</h4>
+            </div>
+            <div class="modal-body">
+                <p>商品即将下架或停止本商品出售！</p>
+            </div>
+            <div class="modal-footer">
+                <a type="button" class="btn btn-outline">确认</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 2.4.0
+            </div>
+            <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights reserved.
+        </footer>
+        <!-- Control Sidebar -->
+
+        <!-- /.control-sidebar -->
+        <!-- Add the sidebar's background. This div must be placed
+           immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- jQuery 3 -->
+    <script src={% static "jquery/dist/jquery.min.js" %}></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src={% static "bootstrap/dist/js/bootstrap.min.js" %}></script>
+    <!-- Slimscroll -->
+    <script src={% static "jquery-slimscroll/jquery.slimscroll.min.js" %}></script>
+    <!-- FastClick -->
+    <script src={% static "fastclick/lib/fastclick.js" %}></script>
+    <!-- AdminLTE App -->
+    <script src={% static "dist/js/adminlte.min.js" %}></script>
+    <!-- AdminLTE for demo purposes -->
+    <!-- iCheck -->
+    <script src={% static "iCheck/icheck.min.js" %}></script>
+
+
+    <!-- Page Script -->
+    <script>
+    $(function() {
+        //Enable iCheck plugin for checkboxes
+        //iCheck for checkbox and radio inputs
+        $('.mailbox-messages input[type="checkbox"]').iCheck({
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass: 'iradio_flat-blue'
+        });
+
+        //Enable check and uncheck all functionality
+        $(".checkbox-toggle").click(function() {
+            var clicks = $(this).data('clicks');
+            if (clicks) {
+                //Uncheck all checkboxes
+                $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
+                $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+            } else {
+                //Check all checkboxes
+                $(".mailbox-messages input[type='checkbox']").iCheck("check");
+                $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+            }
+            $(this).data("clicks", !clicks);
+        });
+
+        //Handle starring for glyphicon and font awesome
+        $(".mailbox-star").click(function(e) {
+            e.preventDefault();
+            //detect type
+            var $this = $(this).find("a > i");
+            var glyph = $this.hasClass("glyphicon");
+            var fa = $this.hasClass("fa");
+
+            //Switch states
+            if (glyph) {
+                $this.toggleClass("glyphicon-star");
+                $this.toggleClass("glyphicon-star-empty");
+            }
+
+            if (fa) {
+                $this.toggleClass("fa-star");
+                $this.toggleClass("fa-star-o");
+            }
+        });
+    });
+    </script>
+    <!-- AdminLTE for demo purposes -->
+</body>
+
+</html>

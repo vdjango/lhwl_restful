@@ -1,0 +1,80 @@
+{% extends 'defaule/temp/top-nav.html' %}
+{% load thumbnail %}
+{% load staticfiles %}
+{% load tags %}
+
+{% block title %}
+    {% if site_name %}
+        {% if site_tags %}
+            <title>{{site_name}} - {{site_tags}}</title>
+        {% else %}
+            <title>{{site_name}}</title>
+        {% endif %}
+    {% else %}
+        {% if site_tags %}
+            <title>{{site_tags}}</title>
+        {% else %}
+            <title>你好粗心，怎么没有设置标题呢？</title>
+        {% endif %}
+    {% endif %}
+{% endblock title %}
+
+<!-- SEO优化 -->
+{% block seo %}
+{% endblock seo %}
+
+<!-- CSS样式 -->
+
+{% block css %}
+{% endblock css %}
+
+{% block content_wrapper %}
+    <div class="navs">
+        <div class="nav-tag">
+            <ul>
+                <li><a href="{% url 'app:index' %}">首页</a></li>
+                <li><span class="sep">></span></li>
+                <li><a href="{% url 'app:about' %}">关于领航</a></li>
+                <li><span class="sep">></span></li>
+                <li><a href="{% url 'app:about' %}">公司简介</a></li>
+            </ul>
+        </div>
+        <div class="nav-top">
+            <ul>
+                <li class="last cur">
+                    <a href="{% url 'app:about' %}" ">公司简介</a><span class="sep ">|</span></li>
+                <li><a href=" ">加入领航</a><span class="sep ">|</span></li>
+                <li><a href="{% url 'app:us' %} ">联系我们</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content contact index " style="margin-top: 55px;">
+        <div class="section-title ">
+            <!-- <img src="//i1.mifile.cn/f/i/18/about/about_1.JPG "  /> -->
+            <img src="{% static '/images/about/about_3.jpg' %} ">
+            <img src="//c1.mifile.cn/f/i/17/aispeaker/index/btn-play.png " alt=" " class="icon ">
+        </div>
+        <div class="contact_content">
+            <div class="boxc clearfix section last">
+                <h2>致力打造高效智慧办公一体化生态圈</h2>
+                <p>北京领航未来办公设备有限公司专注办公类产品销售与精致服务，在办公零售领域深耕细作二十年，拥有宽泛的产品资源和雄厚的技术实力。</p>
+                <p>公司秉承“用心沟通、诚心待客、精心服务”的理念，以快速而精准的服务模式，满足各界客户办公所需，使其成本最小化效率最高化，效益最优化。</p>
+                <p>步入互联网时代，公司与时俱进，传统门店销售和电子商务两翼齐飞，商品第一时间送达与精准到位服务并举，努力成为区域内客户最贴心的、最具影响力的办公服务提供商。</p>
+                <p>公司位于北京市昌平区高教园区沙河青年创业大厦，交通便利距离沙河地铁站100米，周边部属高校林立，北京航天航空大学、北京邮电大学、外交学院、北京师范大学、中央财经大学、中国矿业大学、国家检察官学院以及其他部属单位中国疾病预防控制中心路程10分钟距离，具有天然地理优势，且已经有过良好合作。</p>
+                <p>我们充分理解采购人的需求，第一位要产品稳定、第二位要价格低廉，第三是反映迅速；</p>
+                <p>以此为中心积极开展工作，学习先进办公设备服务理念，全包服务和驻场服务已经在国家及北京市属单位推广（中国科学院地质与地球物理研究所租赁项目和北京市水科学技术研究院驻场服务2年），极具行业特色电商平台～未来办公网已经获得软件注册权证书及ICP互联网信息服务类证。</p>
+                <p>公司客服热线4001815535实现签约客户7*24小时开通，为您每次咨询提供一站式服务！</p>
+                <p>超越客户期待是领航未来公司的企业愿景，商道 人道是我们尊崇的经营哲学！</p>
+                <p>领航未来愿与客户一道构建办公设备服务一体化生态圈而阔步前进！</p>
+            </div>
+        </div>
+    </div>
+{% endblock content_wrapper %}
+
+{% block script %}
+{% endblock script %}
+
+
+
+
+

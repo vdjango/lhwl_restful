@@ -1,0 +1,80 @@
+{
+    "CarouselName": "upfile",
+    "CarouselMaxSize": 204800000,
+    "CarouselAllowFiles": [".png", ".jpg", ".jpeg", ".gif", ".bmp"],
+    "CarouselPrefix": "/media/carousel/",
+    "CarouselUrl": "/media/carousel/",
+
+    "imageActionName": "uploadimage",
+    "imageFieldName": "upfile",
+    "imageMaxSize": 204800000,
+    "imageAllowFiles": [".png", ".jpg", ".jpeg", ".gif", ".bmp"],
+    "imageCompressEnable": true,
+    "imageCompressBorder": 800,
+    "imageInsertAlign": "none",
+    "imageUrlPrefix": "/media/images/{{tid_unix}}/",
+    "imagePathFormat": "image/{yyyy}{mm}{dd}/{time}{rand:6}",
+
+    "imageDelUrl": "/controller/",
+
+    "scrawlActionName": "uploadscrawl",
+    "scrawlFieldName": "upfile",
+    "scrawlPathFormat": "/images/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}",
+    "scrawlMaxSize": 204800000,
+    "scrawlUrlPrefix": "/media/images/",
+    "scrawlInsertAlign": "none",
+
+    "snapscreenActionName": "uploadimage",
+    "snapscreenPathFormat": "/images/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}",
+    "snapscreenUrlPrefix": "/media/images/",
+    "snapscreenInsertAlign": "none",
+
+    "catcherLocalDomain": ["127.0.0.1", "localhost", "img.baidu.com"],
+    "catcherActionName": "catchimage",
+    "catcherFieldName": "source",
+    "catcherPathFormat": "/images/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}",
+    "catcherUrlPrefix": "/media/images/",
+    "catcherMaxSize": 204800000,
+    "catcherAllowFiles": [".png", ".jpg", ".jpeg", ".gif", ".bmp"],
+
+    "videoActionName": "uploadvideo",
+    "videoFieldName": "upfile",
+    "videoPathFormat": "upload/video/{yyyy}{mm}{dd}/{time}{rand:6}",
+    "videoUrlPrefix": "/media/vedio/{{tid_unix}}/",
+    "videoMaxSize": 1024000000,
+    "videoAllowFiles": [
+        ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg", ".mpg",
+        ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid"],
+
+    "fileActionName": "uploadfile",
+    "fileFieldName": "upfile",
+    "filePathFormat": "/media/files/{{tid_unix}}/",
+    "fileUrlPrefix": "/media/files/{{tid_unix}}/",
+    "fileMaxSize": 512000000,
+    "fileAllowFiles": [
+        ".png", ".jpg", ".jpeg", ".gif", ".bmp",
+        ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg", ".mpg",
+        ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid",
+        ".rar", ".zip", ".tar", ".gz", ".7z", ".bz2", ".cab", ".iso",
+        ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".pdf", ".txt", ".md", ".xml"
+    ],
+
+    "imageManagerActionName": "listimage",
+    "imageManagerListPath": "/media/images/{{tid_unix}}/",
+    "imageManagerListSize": 20,
+    "imageManagerUrlPrefix": "/media/images/{{tid_unix}}/",
+    "imageManagerInsertAlign": "none",
+    "imageManagerAllowFiles": [".png", ".jpg", ".jpeg", ".gif", ".bmp"],
+
+    "fileManagerActionName": "listfile",
+    "fileManagerListPath": "/media/files/{{tid_unix}}/",
+    "fileManagerUrlPrefix": "/media/files/{{tid_unix}}/",
+    "fileManagerListSize": 20,
+    "fileManagerAllowFiles": [
+        ".png", ".jpg", ".jpeg", ".gif", ".bmp",
+        ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg", ".mpg",
+        ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid",
+        ".rar", ".zip", ".tar", ".gz", ".7z", ".bz2", ".cab", ".iso",
+        ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".pdf", ".txt", ".md", ".xml"
+    ]
+}

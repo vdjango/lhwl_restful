@@ -1,0 +1,830 @@
+{% extends 'defaule/admin/temp/index.ht' %}
+{% load staticfiles %}
+
+<!--网站标题-->
+{% block main_title %}
+   <title>后台管理 | 商品 - 商品管理 [添加详情]</title>
+{% endblock main_title %}
+
+<!--CSS样式-->
+{% block main_css %}
+    {% include 'defaule/admin/temp/css.ht' %}
+{% endblock main_css %}
+
+<!--网站头部导航栏-->
+{% block main_header %}
+    <a href="" class="logo">
+        <span class="logo-mini"><b>管理</b>Admin</span>
+        <span class="logo-lg"><b>后台管理</b>Admin</span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Admin</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'admins:index' %}">常用 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">创始人</a></li>
+                <li><a href="{% url 'admins:complete' %}">全局</a></li>
+                <li><a href="{% url 'admins:user' %}">用户</a></li>
+                <li class="active"><a href="{% url 'admins:commodity' %}">商品</a></li>
+                <li><a href="{% url 'admins:sector' %}">板块</a></li>
+                <li><a href="{% url 'admins:page' %}">页面</a></li>
+                <li><a href="#">移动APP</a></li>
+            </ul>
+
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src={% static "images/user/user2-160x160.jpg" %} class="user-image" alt="User Image">
+                        <span class="hidden-xs">
+                        {{username}}
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                Alexander Pierce - Web Developer
+                                <small>Member since Nov. 2012</small>
+                            </p>
+                        </li>
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endblock main_header %}
+
+<!--网站左侧项目栏-->
+{% block main_aside %}
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>{{username}}</p>
+            {% if username %}
+                <a href="#">
+                    <i class="fa fa-circle text-success"></i>
+                    Online
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="你想知道什么...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header"></li>
+        <li class="active">
+            <a href={% url "admins:commodity" %}>
+                <i class="fa fa-clone"></i>
+                <span>商品管理</span> <!-- 包含增删查改-->
+            </a>
+        </li>
+        <li>
+            <a href={% url "admins:stay" %}>
+                <i class="fa fa-hourglass-2"></i>
+                <span>待发布</span>
+            </a>
+        </li>
+    </ul>
+{% endblock main_aside %}
+
+<!--正文微标题，位置导航-->
+{% block main_content_header %}
+    <h1>添加参数<small>您可以在这里管理商品相关参数</small></h1>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'admins:index' %}"><i class="fa fa-dashboard"></i> 后台首页</a></li>
+        <li><a href="{% url 'admins:commodity' %}">添加商品</a></li>
+        <li><a href="{% url 'admins:commodity' %}">商品参数</a></li>
+        <li><a href="{% url 'admins:commodity' %}">商品管理</a></li>
+        <li class="active">当前位置</li>
+    </ol>
+{% endblock main_content_header %}
+
+<!--正文开始部分-->
+{% block main_content %}
+
+
+
+    <div class="row">
+
+        <!--添加商品-->
+
+        <form id="Parameter" class="form-horizontal col-md-12" action="{% url 'admins:createParameter' %}" method="POST" enctype="multipart/form-data">
+            {% if error %}
+            <div class="alert alert-warning alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <i class="icon fa fa-info"></i> 还有其他地方没有填写哦！
+            </div>
+            {% endif %}
+
+            <div id="error_0" >
+                <div class="form-horizontal box box-warning col-md-12 alert alert-info alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <i class="icon fa fa-info"></i>&nbsp;请注意特定语法格式： <code>;</code>表示换行或者起到分离的作用。 请按照语法规范填写参数信息，以达到最佳展示效果
+                </div>
+            </div>
+
+            <!--基本参数-->
+            <div class="col-md-4">
+                <div class="box box-info col-md-12">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">基本参数
+                            <small>Set</small>
+                        </h3>
+                    </div>
+                    <div class="box-body" style="width=100%;">
+                        <div class="form-horizontal col-md-12">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                商品型号
+                                {% if connet.0.model %}
+                                    <input name="model" type="text" class="form-control" placeholder="TK-6308" value="{{connet.0.model}}">
+                                {% else %}
+                                    <input name="model" type="text" class="form-control" placeholder="TK-6308">
+                                {% endif %}
+
+                                {% if error.model.0 %}
+                                    <span class="pull-right-container">
+                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                颜色类型
+                                {% if connet.0.colorType %}
+                                    <input name="colorType" type="text" class="form-control" placeholder="颜色类型" value="{{connet.0.colorType}}">
+                                {% else %}
+                                    <input name="colorType" type="text" class="form-control" placeholder="颜色类型">
+                                {% endif %}
+
+                                {% if error.colorType.0 %}
+                                    <span class="pull-right-container">
+                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                涵盖功能 {% if connet.0.coverFunction %}
+                                <input name="coverFunction" type="text" class="form-control" placeholder="复印/打印/扫描" value="{{connet.0.coverFunction}}"> {% else %}
+                                <input name="coverFunction" type="text" class="form-control" placeholder="复印/打印/扫描"> {% endif %} {% if error.coverFunction.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                速度类型 {% if connet.0.velocityType %}
+                                <input name="velocityType" type="text" class="form-control" placeholder="高速" value="{{connet.0.velocityType}}"> {% else %}
+                                <input name="velocityType" type="text" class="form-control" placeholder="高速"> {% endif %} {% if error.velocityType.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                最大原稿尺寸 {% if connet.0.maximumOriginalSize %}
+                                <input name="maximumOriginalSize" type="text" class="form-control" placeholder="A3" value="{{connet.0.maximumOriginalSize}}"> {% else %}
+                                <input name="maximumOriginalSize" type="text" class="form-control" placeholder="A3"> {% endif %} {% if error.maximumOriginalSize.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                内存容量 {% if connet.0.memory %}
+                                <input name="memory" type="text" class="form-control" placeholder="2G" value="{{connet.0.memory}}"> {% else %}
+                                <input name="memory" type="text" class="form-control" placeholder="2G"> {% endif %} {% if error.memory.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                硬盘容量 {% if connet.0.hardDisk %}
+                                <input name="hardDisk" type="text" class="form-control" placeholder="160G" value="{{connet.0.hardDisk}}"> {% else %}
+                                <input name="hardDisk" type="text" class="form-control" placeholder="160G"> {% endif %} {% if error.hardDisk.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                供纸容量 {% if connet.0.forPaperCapacity %}
+
+                                <textarea name="forPaperCapacity" class="form-control" rows="3" placeholder="Enter ..." value="{{connet.0.optionalAccessories}}">{{connet.0.forPaperCapacity}}</textarea>
+                                {% else %}
+
+                                <textarea name="forPaperCapacity" class="form-control" rows="3" placeholder="标配：500页(2个)+150页(手送纸盘);&#10;最大：7150页(2个500页纸盘+2个1500页纸盘+3000页纸盘+150页手送纸盘)"></textarea>
+                                {% endif %} {% if error.forPaperCapacity.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                介质重量 {% if connet.0.mediumWeight %}
+
+                                <textarea name="mediumWeight" class="form-control" rows="3" placeholder="Enter ..." value="{{connet.0.optionalAccessories}}">{{connet.0.mediumWeight}}</textarea>
+                                {% else %}
+                                <textarea name="mediumWeight" class="form-control" rows="3" placeholder="纸盒：60-220g/m²(标配);&#10;纸盒：60-256g/m²(选购);&#10;手送纸盘：60-300g/m²" value="{{connet.0.optionalAccessories}}"></textarea>
+                                {% endif %} {% if error.mediumWeight.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                材料描述 {% if connet.0.materialDescription %}
+                                <input name="materialDescription" type="text" class="form-control" placeholder="TK-6308碳粉：42000页" value="{{connet.0.materialDescription}}"> {% else %}
+                                <input name="materialDescription" type="text" class="form-control" placeholder="TK-6308碳粉：42000页"> {% endif %} {% if error.materialDescription.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                双面器 {% if connet.0.doubleSidedDevice %}
+                                <input name="doubleSidedDevice" type="text" class="form-control" placeholder="标配" value="{{connet.0.doubleSidedDevice}}"> {% else %}
+                                <input name="doubleSidedDevice" type="text" class="form-control" placeholder="标配"> {% endif %} {% if error.doubleSidedDevice.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                自动输稿器 {% if connet.0.automaticDrafts %}
+                                <input name="automaticDrafts" type="text" class="form-control" placeholder="选配，双面自动输稿器" value="{{connet.0.automaticDrafts}}"> {% else %}
+                                <input name="automaticDrafts" type="text" class="form-control" placeholder="选配，双面自动输稿器"> {% endif %} {% if error.automaticDrafts.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                网络功能 {% if connet.0.networkFunction %}
+                                <input name="networkFunction" type="text" class="form-control" placeholder="支持有线网络打印" value="{{connet.0.networkFunction}}"> {% else %}
+                                <input name="networkFunction" type="text" class="form-control" placeholder="支持有线网络打印"> {% endif %} {% if error.networkFunction.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                最高月印量 {% if connet.0.highestCv %}
+                                <input name="highestCv" type="text" class="form-control" placeholder="20万" value="{{connet.0.highestCv}}"> {% else %}
+                                <input name="highestCv" type="text" class="form-control" placeholder="20万"> {% endif %} {% if error.highestCv.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--商品参数-->
+                <div class="box box-info col-md-12">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">复印机附件
+                            <small>Print</small>
+                        </h3>
+                    </div>
+                    <div class="box-body" style="width=100%;">
+                        <div class="form-horizontal col-md-12">
+                            <div class="form-group">
+                                可选配件
+                                {% if connet.0.optionalAccessories %}
+                                <textarea name="optionalAccessories" class="form-control" rows="3" placeholder="Enter ..." value="{{connet.0.optionalAccessories}}"></textarea>
+                                {% else %}
+                                <textarea name="optionalAccessories" class="form-control" rows="4" placeholder="原稿台盖板;&#10;输稿器;&#10;作业分离器; &#10;..."></textarea>
+                                {% endif %}
+                                {% if error.optionalAccessories.0 %}
+                                <span class="pull-right-container">
+                                    <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                </span>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                <p>键入配件，分号隔开[用英文的分号] -- <code>;</code></p>
+                                例：
+                                <p><code>原稿台盖板;输稿器;作业分离器;</code></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--基本参数-->
+            <!--基本参数-->
+            <div class="col-md-4">
+                <div class="box box-info col-md-12">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">复印功能
+                                            <small>Copy</small>
+                                        </h3>
+                    </div>
+                    <div class="box-body" style="width=100%;">
+                        <div class="form-horizontal col-md-12">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                复印速度 {% if connet.0.photocopyingSpeed %}
+                                <input name="photocopyingSpeed" type="text" class="form-control" placeholder="55cpm" value="{{connet.0.photocopyingSpeed}}"> {% else %}
+                                <input name="photocopyingSpeed" type="text" class="form-control" placeholder="55cpm"> {% endif %} {% if error.photocopyingSpeed.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                复印分辨率 {% if connet.0.PhotocopyingResolution %}
+                                <input name="PhotocopyingResolution" type="text" class="form-control" placeholder="600x600dpi" value="{{connet.0.PhotocopyingResolution}}"> {% else %}
+                                <input name="PhotocopyingResolution" type="text" class="form-control" placeholder="600x600dpi"> {% endif %} {% if error.PhotocopyingResolution.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                复印尺寸 {% if connet.0.copySize %}
+                                <input name="copySize" type="text" class="form-control" placeholder="最大" value="{{connet.0.copySize}}"> {% else %}
+                                <input name="copySize" type="text" class="form-control" placeholder="最大"> {% endif %} {% if error.copySize.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                预热时间 {% if connet.0.preheatingTime %}
+                                <input name="preheatingTime" type="text" class="form-control" placeholder="23秒" value="{{connet.0.preheatingTime}}"> {% else %}
+                                <input name="preheatingTime" type="text" class="form-control" placeholder="23秒"> {% endif %} {% if error.preheatingTime.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                首页复印时间 {% if connet.0.copyPhotocopyingPage %}
+                                <input name="copyPhotocopyingPage" type="text" class="form-control" placeholder="3.2秒" value="{{connet.0.copyPhotocopyingPage}}"> {% else %}
+                                <input name="copyPhotocopyingPage" type="text" class="form-control" placeholder="3.2秒"> {% endif %} {% if error.copyPhotocopyingPage.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                连续复印页数 {% if connet.0.continuityXeroxPages %}
+                                <input name="continuityXeroxPages" type="text" class="form-control" placeholder="1-999页" value="{{connet.0.continuityXeroxPages}}"> {% else %}
+                                <input name="continuityXeroxPages" type="text" class="form-control" placeholder="1-999页"> {% endif %} {% if error.continuityXeroxPages.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                缩放范围 {% if connet.0.zoomRange %}
+                                <input name="zoomRange" type="text" class="form-control" placeholder="25-400%(以1%为单位)" value="{{connet.0.zoomRange}}"> {% else %}
+                                <input name="zoomRange" type="text" class="form-control" placeholder="25-400%(以1%为单位)"> {% endif %} {% if error.zoomRange.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                复印赔率 {% if connet.0.copyOdds %}
+                                <input name="copyOdds" type="text" class="form-control" placeholder="简易设置：4缩4放，详细设置：13级" value="{{connet.0.copyOdds}}"> {% else %}
+                                <input name="copyOdds" type="text" class="form-control" placeholder="简易设置：4缩4放，详细设置：13级"> {% endif %} {% if error.copyOdds.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--商品参数-->
+                <div class="box box-info col-md-12">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">扫描功能
+                                            <small>Print</small>
+                                        </h3>
+                    </div>
+                    <div class="box-body" style="width=100%;">
+                        <div class="form-horizontal col-md-12">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                扫描控制器 {% if connet.0.scanningController %}
+                                <input name="scanningController" type="text" class="form-control" placeholder="标准配置" value="{{connet.0.scanningController}}"> {% else %}
+                                <input name="scanningController" type="text" class="form-control" placeholder="标准配置"> {% endif %} {% if error.scanningController.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                扫描分辨率 {% if connet.0.scanningResolution %}
+                                <input name="scanningResolution" type="text" class="form-control" placeholder="600,400,300,200,200x100,200x400 dpi" value="{{connet.0.scanningResolution}}"> {% else %}
+                                <input name="scanningResolution" type="text" class="form-control" placeholder="600,400,300,200,200x100,200x400 dpi"> {% endif %} {% if error.scanningResolution.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                输出格式 {% if connet.0.outputFormat %}
+                                <input name="outputFormat" type="text" class="form-control" placeholder="TIFF,JPEG,XPS,PDF,(MMR/JPG/高压缩PDF),可搜索PDF(选购)" value="{{connet.0.outputFormat}}"> {% else %}
+                                <input name="outputFormat" type="text" class="form-control" placeholder="TIFF,JPEG,XPS,PDF,(MMR/JPG/高压缩PDF),可搜索PDF(选购)"> {% endif %} {% if error.outputFormat.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                扫描其他性能
+                                {% if connet.0.scanningOtherPerformance %}
+
+                                <textarea name="scanningOtherPerformance" class="form-control" rows="3" placeholder="Enter ..." value="{{connet.0.optionalAccessories}}">{{connet.0.scanningOtherPerformance}}</textarea>
+                                {% else %}
+
+                                <textarea name="scanningOtherPerformance" class="form-control" rows="5"
+                                placeholder="颜色选择：全彩,灰度,黑白;&#10;图像类型：文字,图片,文字+图片;&#10;传送类型：WAIN扫描,WSD扫描;&#10;地址存储：2000个地址,500个群组"
+                                ></textarea>
+                                {% endif %} {% if error.scanningOtherPerformance.0 %}
+                                <span class="pull-right-container">
+                                    <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                </span> {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box box-info col-md-12">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">保修信息
+                                            <small>Print</small>
+                                        </h3>
+                    </div>
+                    <div class="box-body" style="width=100%;">
+                        <div class="form-horizontal col-md-12">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                质保时间 {% if connet.0.warrantyTime %}
+                                <input name="warrantyTime" type="text" class="form-control" placeholder="1年" value="{{connet.0.warrantyTime}}"> {% else %}
+                                <input name="warrantyTime" type="text" class="form-control" placeholder="1年"> {% endif %} {% if error.warrantyTime.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                客服电话 {% if connet.0.customerService %}
+                                <input name="customerService" type="text" class="form-control" placeholder="400-650-6400" value="{{connet.0.customerService}}"> {% else %}
+                                <input name="customerService" type="text" class="form-control" placeholder="400-650-6400"> {% endif %} {% if error.customerService.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                详细内容 {% if connet.0.detailedContent %}
+                                <input name="detailedContent" type="text" class="form-control" placeholder="京瓷支持全国联保，可享有三包服务" value="{{connet.0.detailedContent}}"> {% else %}
+                                <input name="detailedContent" type="text" class="form-control" placeholder="京瓷支持全国联保，可享有三包服务"> {% endif %} {% if error.detailedContent.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--基本参数-->
+            <!--基本参数-->
+            <div class="col-md-4">
+                <div class="box box-info col-md-12">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">打印功能
+                                            <small>Print</small>
+                                        </h3>
+                    </div>
+                    <div class="box-body" style="width=100%;">
+                        <div class="form-horizontal col-md-12">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                打印控制器 {% if connet.0.printController %}
+                                <input name="printController" type="text" class="form-control" placeholder="标准配置" value="{{connet.0.printController}}"> {% else %}
+                                <input name="printController" type="text" class="form-control" placeholder="标准配置"> {% endif %} {% if error.printController.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                打印速度 {% if connet.0.printingSpeed %}
+                                <input name="printingSpeed" type="text" class="form-control" placeholder="55ppm" value="{{connet.0.printingSpeed}}"> {% else %}
+                                <input name="printingSpeed" type="text" class="form-control" placeholder="55ppm"> {% endif %} {% if error.printingSpeed.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                打印分辨率 {% if connet.0.printResolution %}
+                                <input name="printResolution" type="text" class="form-control" placeholder="600x600dpi，9600x600dpi" value="{{connet.0.printResolution}}"> {% else %}
+                                <input name="printResolution" type="text" class="form-control" placeholder="600x600dpi，9600x600dpi"> {% endif %} {% if error.printResolution.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                打印语言 {% if connet.0.printLanguage %}
+                                <input name="printLanguage" type="text" class="form-control" placeholder="PRESCRIBE，PCL6，KPDL3(PostScript3兼容)，XPS,PDF直接打印" value="{{connet.0.printLanguage}}"> {% else %}
+                                <input name="printLanguage" type="text" class="form-control" placeholder="PRESCRIBE，PCL6，KPDL3(PostScript3兼容)，XPS,PDF直接打印"> {% endif %} {% if error.printLanguage.0 %}
+                                <span class="pull-right-container">
+                                                    <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                打印其他性能 {% if connet.0.printingOtherPerformance %}
+
+                                <textarea name="printingOtherPerformance" class="form-control" rows="3" placeholder="Enter ..." value="{{connet.0.optionalAccessories}}">{{connet.0.printingOtherPerformance}}</textarea>
+                                {% else %}
+
+                                <textarea name="printingOtherPerformance" class="form-control" rows="3" placeholder="USB打印：文件格式为TIFF，JPEG;&#10;e-MPS打印：作业保留和文件夹功能" value="{{connet.0.optionalAccessories}}"></textarea>
+                                {% endif %} {% if error.printingOtherPerformance.0 %}
+                                <span class="pull-right-container">
+                                                    <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                </span> {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--商品参数-->
+                <div class="box box-info col-md-12">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">传真功能
+                                            <small>Print</small>
+                                        </h3>
+                    </div>
+                    <div class="box-body" style="width=100%;">
+                        <div class="form-horizontal col-md-12">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                传真控制器 {% if connet.0.facsimileController %}
+                                <input name="facsimileController" type="text" class="form-control" placeholder="选配" value="{{connet.0.facsimileController}}"> {% else %}
+                                <input name="facsimileController" type="text" class="form-control" placeholder="选配"> {% endif %} {% if error.facsimileController.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                调制解调器速度 {% if connet.0.modemSpeed %}
+                                <input name="modemSpeed" type="text" class="form-control" placeholder="33.6/31.2/28.8/26.4/24.0/21.6/19.2/16.8/14.4/12.0/9.6/7.2/4.8/2.4kbps" value="{{connet.0.modemSpeed}}"> {% else %}
+                                <input name="modemSpeed" type="text" class="form-control" placeholder="33.6/31.2/28.8/26.4/24.0/21.6/19.2/16.8/14.4/12.0/9.6/7.2/4.8/2.4kbps"> {% endif %} {% if error.modemSpeed.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                数据压缩方式 {% if connet.0.dataCompressionMethod %}
+                                <input name="dataCompressionMethod" type="text" class="form-control" placeholder="MMR,MR,MH,JBIG" value="{{connet.0.dataCompressionMethod}}"> {% else %}
+                                <input name="dataCompressionMethod" type="text" class="form-control" placeholder="MMR,MR,MH,JBIG"> {% endif %} {% if error.dataCompressionMethod.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                传真其他性能 {% if connet.0.faxOtherPerformance %}
+
+                                <textarea name="faxOtherPerformance" class="form-control" rows="3" placeholder="Enter ..." value="{{connet.0.optionalAccessories}}">{{connet.0.faxOtherPerformance}}</textarea>
+                                {% else %}
+                                <textarea name="faxOtherPerformance" class="form-control" rows="4" placeholder="内存：标准12MB,最大120MB;&#10;纸张尺寸：最大A3-最小A5;&#10;互联网传真：需选购XXX" value="{{connet.0.optionalAccessories}}"></textarea>
+                                {% endif %} {% if error.faxOtherPerformance.0 %}
+                                <span class="pull-right-container">
+                                    <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                </span> {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box box-info col-md-12">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">其他特性
+                                            <small>Print</small>
+                                        </h3>
+                    </div>
+                    <div class="box-body" style="width=100%;">
+                        <div class="form-horizontal col-md-12">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                液晶显示屏 {% if connet.0.display %}
+                                <input name="display" type="text" class="form-control" placeholder="滑动触摸式8.5英寸彩色液晶面板" value="{{connet.0.display}}"> {% else %}
+                                <input name="display" type="text" class="form-control" placeholder="滑动触摸式8.5英寸彩色液晶面板"> {% endif %} {% if error.display.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                主机尺寸 {% if connet.0.mainframeSize %}
+                                <input name="mainframeSize" type="text" class="form-control" placeholder="648x767x747mm(不带纸盒和输稿器)" value="{{connet.0.mainframeSize}}"> {% else %}
+                                <input name="mainframeSize" type="text" class="form-control" placeholder="648x767x747mm(不带纸盒和输稿器)"> {% endif %} {% if error.mainframeSize.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                重量 {% if connet.0.weight %}
+                                <input name="weight" type="text" class="form-control" placeholder="约86kg" value="{{connet.0.weight}}"> {% else %}
+                                <input name="weight" type="text" class="form-control" placeholder="约86kg"> {% endif %} {% if error.weight.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                其他特点 {% if connet.0.otherFeatures %}
+                                <input name="otherFeatures" type="text" class="form-control" placeholder="用户可通过操作其Apple和Android智能手机和平板电脑使用京瓷打印机和多功能数码复合机进行打印和扫描" value="{{connet.0.otherFeatures}}"> {% else %}
+                                <input name="otherFeatures" type="text" class="form-control" placeholder="用户可通过操作其Apple和Android智能手机和平板电脑使用京瓷打印机和多功能数码复合机进行打印和扫描"> {% endif %} {% if error.otherFeatures.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                            <div class="form-group">
+                                上市时间 {% if connet.0.timeMarket %}
+                                <input name="timeMarket" type="text" class="form-control" placeholder="2018-03-21" value="{{connet.0.timeMarket}}"> {% else %}
+                                <input name="timeMarket" type="text" class="form-control" placeholder="2018-03-21"> {% endif %} {% if error.timeMarket.0 %}
+                                <span class="pull-right-container">
+                                                        <small class="label pull-right bg-red"><i class="icon fa fa-info"></i></small>
+                                                    </span> {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--基本参数-->
+            <div class="box col-md-12">
+                <div class=" box-body">
+                    <button type="submit" class="btn btn-info pull-right">下一步</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+
+    <!--设置用户等级-->
+    <div class="modal fade" id="modal-set_level">
+        <form id="form_set_level">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">设置用户等级</h4>
+                    </div>
+                    <div class="modal-body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock main_content %}
+
+<!--位置底部Footer信息-->
+{% block main_footer %}
+    {% include 'defaule/admin/temp/footer.ht' %}
+{% endblock main_footer %}
+
+<!--网站Script脚本-->
+{% block main_script %}
+    {% include 'defaule/admin/temp/script.ht' %}
+    <script src="{% static 'js/csrf_token.js' %}"></script>
+
+    <script type="text/javascript">
+        function emailu(vid){
+            document.getElementById('email_email').value=document.getElementById(vid).getAttribute("value");
+            document.getElementById('email_username').value=document.getElementById(vid).getAttribute("user");
+        }
+    </script>
+
+    <script type="text/javascript">
+        var csrftoken = getCookie('csrftoken');
+        var Parameter = document.getElementById("Parameter")
+
+        function SetEmail(url, data, ids){
+            $.ajax({
+                url: url,
+                type:'POST',
+                dataType:'json',
+                token: csrftoken,
+                data: data,
+                success: function(callback){
+                    if (callback['code'] == 200) {
+                        //location.reload();
+                        window.location.href=callback['url']
+                        //console.log(callback['url'])
+                    } else{
+                        console.log(callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i>' + callback[callback['state']] + '</h4>' +
+                                    '</div> ';
+                        document.getElementById('error_'+ids).innerHTML = html;
+                    };
+                },
+                error: function (callback) {
+                    console.log(callback);
+                    console.log('ERROR ' + callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i> 请检查下面的信息，也许你忘记填写了</h4>' +
+                                    '</div> ';
+                        document.getElementById('error_0').innerHTML = html;
+                }
+            })
+        }
+        function submitFormcreateParameter(){
+            var Dat = new FormData(Parameter)
+            var url = "{% url 'admins:createParameter' %}"
+
+            var D = {
+                "stype": "{{stype}}",
+                "unix": "{{unix}}",
+                "id": "{{id}}",
+                "model": Dat.get('model'),
+                "productType": Dat.get('productType'),
+                "colorType": Dat.get('colorType'),
+                "coverFunction": Dat.get('coverFunction'),
+                "velocityType": Dat.get('velocityType'),
+                "maximumOriginalSize": Dat.get('maximumOriginalSize'),
+                "memory": Dat.get('memory'),
+                "hardDisk": Dat.get('hardDisk'),
+                "forPaperCapacity": Dat.get('forPaperCapacity'),
+                "mediumWeight": Dat.get('mediumWeight'),
+                "materialDescription": Dat.get('materialDescription'),
+                "doubleSidedDevice": Dat.get('doubleSidedDevice'),
+                "automaticDrafts": Dat.get('automaticDrafts'),
+                "networkFunction": Dat.get('networkFunction'),
+                "highestCv": Dat.get('highestCv'),
+
+                "photocopyingSpeed": Dat.get('photocopyingSpeed'),
+                "PhotocopyingResolution": Dat.get('PhotocopyingResolution'),
+                "copySize": Dat.get('copySize'),
+                "preheatingTime": Dat.get('preheatingTime'),
+                "copyPhotocopyingPage": Dat.get('copyPhotocopyingPage'),
+                "continuityXeroxPages": Dat.get('continuityXeroxPages'),
+                "zoomRange": Dat.get('zoomRange'),
+                "copyOdds": Dat.get('copyOdds'),
+
+                "printController": Dat.get('printController'),
+                "printingSpeed": Dat.get('printingSpeed'),
+                "printResolution": Dat.get('printResolution'),
+                "printLanguage": Dat.get('printLanguage'),
+                "printingOtherPerformance": Dat.get('printingOtherPerformance'),
+                "scanningController": Dat.get('scanningController'),
+                "scanningResolution": Dat.get('scanningResolution'),
+                "outputFormat": Dat.get('outputFormat'),
+                "scanningOtherPerformance": Dat.get('scanningOtherPerformance'),
+
+                "facsimileController": Dat.get('facsimileController'),
+                "modemSpeed": Dat.get('modemSpeed'),
+                "dataCompressionMethod": Dat.get('dataCompressionMethod'),
+                "faxOtherPerformance": Dat.get('faxOtherPerformance'),
+
+                "display": Dat.get('display'),
+                "mainframeSize": Dat.get('mainframeSize'),
+                "weight": Dat.get('weight'),
+                "otherFeatures": Dat.get('otherFeatures'),
+                "timeMarket": Dat.get('timeMarket'),
+
+                "optionalAccessories": Dat.get('optionalAccessories'),
+
+                "warrantyTime": Dat.get('warrantyTime'),
+                "customerService": Dat.get('customerService'),
+                "detailedContent": Dat.get('detailedContent')
+            }
+
+
+            SetEmail(url, D, 1);
+            console.log('修改邮箱'); //修改邮箱
+
+            console.log(D);
+        }
+
+
+        Parameter.addEventListener("submit", function (event) {
+            event.preventDefault();   // 取消按键的原始提交行为
+            submitFormcreateParameter();         //启动监听提交按钮
+        });
+    </script>
+{% endblock main_script %}
+

@@ -1,0 +1,289 @@
+{% extends 'defaule/temp/top-nav.ht' %}
+{% load staticfiles %}
+{% load tags %}
+
+{% block title %}
+    {% if site_name %}
+        {% if site_tags %}
+            <title>{{site_name}} - {{site_tags}}</title>
+        {% else %}
+            <title>{{site_name}}</title>
+        {% endif %}
+    {% else %}
+        {% if site_tags %}
+            <title>{{site_tags}}</title>
+        {% else %}
+            <title>你好粗心，怎么没有设置标题呢？</title>
+        {% endif %}
+    {% endif %}
+{% endblock title %}
+
+<!-- SEO优化 -->
+{% block seo %}
+{% endblock seo %}
+
+<!-- CSS样式 -->
+
+{% block css %}
+    {% include 'defaule/temp/css.ht' %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/htmleaf-demo.css' %}">
+    <link rel="stylesheet" href="{%static 'iCheck/square/blue.css'%}">
+    <style>
+            .users-list li:hover{
+                box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+                transform: translate3d(0,-2px,0);
+            }
+            .users-list li{
+                width: 22%;
+                height: 365px;
+                margin-bottom: 20px;
+                margin-right: 4%;
+                transition: all .2s linear;
+                background: white;
+            }
+            .users-list li:nth-of-type(4){
+                margin-right: 0;
+            }
+            .boxborder:hover{
+                color:#2489c5 ;
+            }
+            .addgoods{
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .addgoods-li{
+                width: 22%;
+                height: 100px;
+                float: left;
+                border-right: 1px solid #2489c5 ;
+            }
+            .addgoods-li-five{
+                width: 12%;
+                border: none;
+                text-align: center;
+                height: 100px;
+                float: right;
+                border-right:none ;
+            }
+            #tab_1{
+                height: 100px;
+            }
+            .alertwindow{
+                width: 1200px;
+                z-index: 1000;
+                position: fixed;
+                bottom: 0;
+                margin: 0 auto;
+                display: none;
+            }
+            .col-md-10{
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+            .contrastBox{
+            	width: 100%;
+            	height: 500px;
+            	background: #FFFFFF;
+            	margin-bottom: 20px;
+            }
+            .contrastBox tr{
+            	height: 50px;
+            }
+            .contrastBox tr td{
+            	text-align: center;
+            	border: 1px solid #e4e4e4;
+            }
+            .navbar-nav>.user-menu>.dropdown-menu>li.user-header{
+				height: 160px !important;
+			}
+    </style>
+{% endblock css %}
+
+<!-- 导航栏-->
+{% block navbar %}
+    <div class="container">
+        <div class="navbar-header">
+            <a href="{% url 'app:index' %}" class="navbar-brand"><b>{{site_name}}</b></a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="{% url 'app:index' %}">首页</a></li>
+                {% for var1 in navigation %}
+                    <li><a href="{{var1.url}}">{{var1.name}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    {% if username %}
+                        <a href="{% url 'home:index' %}">
+                            <span class="hidden-xs"> 我的订单 </span>
+                        </a>
+                    {% endif %}
+                </li>
+
+                {% if not username %}
+                <li class="dropdown user user-menu">
+                    <a href="{% url 'auth:oauth2:login_zycg' %}" class="dropdown-toggle">
+                        <img src="http://mall.zycg.gov.cn/home/images/yc.png" class="user-image" alt="User Image">
+                        <span class="hidden-xs">央采登录</span>
+                    </a>
+                </li>
+                {% endif %}
+                <li class="dropdown user user-menu">
+                    {% if username %}
+                        <a href="{% url 'auth:logout' %}" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="{% static 'images/user/user2-160x160.jpg' %}" class="user-image" alt="User Image">
+                            <span class="hidden-xs"> {{username}} </span>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'auth:login' %}" class="dropdown-toggle">
+                            <span class="hidden-xs">请登陆</span>
+                        </a>
+                    {% endif %}
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                <small>{{site_name}} 欢迎您 </small>
+                            </p>
+                        </li>
+                        <!-- <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li> -->
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="{% url 'home:index' %}" class="btn btn-default btn-flat">我的订单</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="{% url 'auth:logout' %}" class="btn btn-default btn-flat">退出登录</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+
+                {% if not username %}
+                <li class="dropdown user user-menu">
+                    <a href="{% url 'auth:register' %}" class="dropdown-toggle">
+                        <span class="hidden-xs">立即注册</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock navbar %}
+
+{% block content_wrapper %}
+    <div class="row">
+        <div class="container box-body" style="margin-top: 20px;">
+            <div class="col-md-6 col-md-offset-3">
+                <form action="{% url 'app:search' %}" method="GET">
+                    <div class="input-group">
+                        <input name="search" type="text" {% if error %}value="{{search}}"{% else %}{% if search %} placeholder="{{search}}" {% endif %}{% endif %} class="form-control">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-info btn-flat">搜索</button>
+                        </span>
+                    </div>
+                </form>
+
+                <div id="hotwords" class="haveline" style="margin-top: 2px;">
+                    {% for var1 in statistics %}
+                        <a>{{var1.name}}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+        <div class="zxr_nav">
+            <div class="nav_ten"  style="margin-top: 43px;">
+                <div id="logo" class="logo">
+                    <div class="logo_extend" clstag="h|keycount|head|logo_02" style="display: block;">
+                        <a href="" style="display: block; width: auto; height: 170px; background: #fff;" target="_blank">
+                            <img src="/static/Logosc_2000x1500.png" style="margin: auto; display: block; width: 170px; height: 150px;">
+                        </a>
+                    </div>
+                </div>
+                <div class="quanbu_zxr">
+                    <!--div class="quanbu_zxr1"> 全部商品分类</div-->
+                    <ul class="ul" style="margin-bottom: 0px; margin-left: 205px;">
+                        {% for var1 in navigation_two %}
+                        <li><a href={{var1.url}}>{{var1.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% if error %}
+                <div class="callout callout-warning" style="margin-top:50px; margin-bottom: 50px;">
+                    <h4 style="color: #fff; margin-top: 20px;">{{error}}, 推荐您搜索 {{search}}</h4>
+                </div>
+
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <!--对比框-->
+    <div class="container " style="padding: 0;">
+		<table class="contrastBox">
+			<tr style="height: 180px;">
+				<td style="width:12%;">商品信息</td>
+                {% for var1 in warelist %}
+				<td style="width:22% ;">
+					<img src="{{var1.image}}" width="160px" height="160px"/>
+					<p>{{var1.name}}</p>
+					<p style="color: red;margin: 0;">￥ {{var1.money}}</p>
+				</td>
+                {% endfor %}
+			</tr>
+			<tr>
+				<td style="width:12%;"><span>品牌</span></td>
+                {% for var1 in warelist %}
+				<td style="width:22% ;"><span>{{var1.brands}}</span></td>
+                {% endfor %}
+			</tr>
+			<tr>
+				<td style="width:12%;"><span>产品型号</span></td>
+				{% for var1 in warelist %}
+                <td style="width:22% ;"><span>{{var1.model}}</span></td>
+                {% endfor %}
+			</tr>
+			<tr>
+				<td style="width:12%;"><span>颜色类型</span></td>
+				{% for var1 in warelist %}
+                <td style="width:22% ;"><span>{{var1.colorType}}</span></td>
+                {% endfor %}
+			</tr>
+		</table>
+	</div>
+
+
+
+{% endblock content_wrapper %}
+
+{% block top_script %}
+{% endblock top_script %}
+
+
+
+{% block script %}
+    {% include 'defaule/temp/script.ht' %}
+
+{% endblock script %}
+

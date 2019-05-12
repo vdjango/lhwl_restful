@@ -1,0 +1,873 @@
+{% extends 'defaule/temp/top-nav.ht' %}
+{% load thumbnail %}
+{% load staticfiles %}
+{% load tags %}
+
+{% block title %}
+    {% if site_name %}
+        {% if site_tags %}
+            <title>{{site_name}} - {{site_tags}}</title>
+        {% else %}
+            <title>{{site_name}}</title>
+        {% endif %}
+    {% else %}
+        {% if site_tags %}
+            <title>{{site_tags}}</title>
+        {% else %}
+            <title>你好粗心，怎么没有设置标题呢？</title>
+        {% endif %}
+    {% endif %}
+{% endblock title %}
+
+<!-- SEO优化 -->
+{% block seo %}
+{% endblock seo %}
+
+<!-- CSS样式 -->
+
+{% block css %}
+    {% include 'defaule/temp/css.ht' %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/htmleaf-demo.css' %}">
+    <link rel="stylesheet" href="{%static 'iCheck/square/blue.css'%}">
+    <style>
+    		.users-list li:hover{
+				box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+				transform: translate3d(0,-2px,0);
+			}
+			.users-list li{
+				width: 22%;
+				height: 365px;
+				margin-bottom: 20px;
+				margin-right: 18px;
+                margin-left: 18px;
+				transition: all .2s linear;
+				background: white;
+			}
+
+            .users-list{
+                margin-right: -22px;
+                margin-left: -16px;
+            }
+
+
+
+    		.boxborder:hover{
+    			color:#2489c5 ;
+    		}
+    		.addgoods{
+    			width: 100%;
+    			box-sizing: border-box;
+    		}
+    		.addgoods-li{
+    			width: 22%;
+    			height: 100px;
+    			float: left;
+    			border-right: 1px solid #2489c5 ;
+    		}
+    		.addgoods-li-five{
+    			width: 12%;
+    			border: none;
+    			text-align: center;
+    			height: 100px;
+    			float: right;
+    			border-right:none ;
+    		}
+    		#tab_1{
+    			height: 100px;
+    		}
+    		.alertwindow{
+    			width: 1200px;
+    			z-index: 1000;
+    			position: fixed;
+    			bottom: 0;
+    			margin: 0 auto;
+    			display: none;
+    		}
+    		.col-md-10{
+    			padding-left: 0 !important;
+    			padding-right: 0 !important;
+    		}
+    		.navbar-nav>.user-menu>.dropdown-menu>li.user-header{
+				height: 160px !important;
+			}
+
+
+
+
+
+    /**/
+
+    .box-price > .box-price {
+            margin-left: 90px;
+        }
+
+
+        .box-price label {
+            float: left;
+            width: 85px;
+            color: #999;
+            text-indent: 10px;
+            line-height: 30px;
+        }
+
+        .box-price .box-price-info{
+            width: auto;
+            font-size: 18px;
+            line-height: 30px;
+        }
+
+        .box-property-list {
+            padding-bottom: 8px;
+        }
+
+
+        .box-price .box-price-info span {
+            color: #ca141d;
+            padding-right: 3px;
+        }
+
+        .box-price-top {
+            margin-top: 4px;
+            margin-bottom: 22px;
+        }
+
+        .f24 {
+            font-size: 22px;
+        }
+
+        .f14 {
+            font-size: 14px;
+            margin-top: 10px;
+            color: #666;
+            line-height: 18px;
+        }
+
+        .box-price-info > .pull-left {
+            margin-right: 5px;
+        }
+
+        .btns {
+            border: 1px solid #ccc;
+            color: #666;
+            background-color: #FFF;
+            margin-right: 7px;
+            margin-bottom: 4px;
+        }
+
+        .box-price > .box-price-info > .active {
+            border: 1px solid #ca141d;
+            border-radius: 1px;
+
+            color: #666;
+            background-color: #FFF;
+            margin-right: 7px;
+            margin-bottom: 4px;
+
+
+
+        }
+
+        .box-price-top > label {
+            margin-top: 5px;
+            margin-bottom: 3px;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        del {
+            text-decoration: line-through;
+            color: #a3a3a3;
+            font-size: 16px;
+            margin-left: 15px;
+            padding: 0;
+        }
+
+        .sku-name {
+            font: 700 16px Arial,"microsoft yahei";
+            color: #666;
+            padding-top: 10px;
+            line-height: 28px;
+            margin-bottom: 5px;
+        }
+
+        .money {
+            font-size: 16px;
+            color: #E4393C;
+            font-family: "microsoft yahei";
+        }
+
+        .label {
+            margin-left: 10px;
+            font-size: 12px;
+        }
+
+        .zxr_navs {
+                z-index: 1;
+                width: 100%;
+                height: 40px;
+                background-color: #eceff4;
+                position: relative;
+            }
+        .btn-ware {
+            color: #5bc0de;
+            font-weight: 550;
+            border: 1.5px solid #5bc0de;
+            background-color: #5bc0de14;
+        }
+        .btn-ware:hover {
+            color: #5bc0de;
+            font-weight: 550;
+            border: 1.5px solid #5bc0de;
+            background-color: #5bc0de14;
+        }
+
+        .btn-ware:active:hover {
+            color: #5bc0de;
+            font-weight: 550;
+            border: 1.5px solid #5bc0de;
+            background-color: #5bc0de14;
+        }
+
+        .btn-cart {
+            color: #3c8dbc;
+            font-weight: 550;
+            border: 1px solid #5bc0de;
+        }
+
+        .btn-cart:hover {
+            color: #3c8dbc;
+            font-weight: 550;
+            border: 1px solid #5bc0de;
+            background-color: #fff;
+        }
+
+        .btn-cart:active:hover {
+            color: #3c8dbc;
+            font-weight: 550;
+            border: 1px solid #5bc0de;
+            background-color: #fff;
+        }
+
+
+        .btn-cart-count {
+            position: absolute;
+            top: 8px;
+            left: 136px;
+            right: auto;
+            display: inline-block;
+            padding: 1px;
+            font-size: 12px;
+            line-height: 14px;
+            color: #fff;
+            background-color: #5bc0de;
+            -moz-border-radius: 7px;
+            border-radius: 7px;
+            min-width: 12px;
+            text-align: center;
+            font-style: normal;
+        }
+
+
+        .juz {
+            margin: auto;
+            left: 0;
+            right: 0;
+            margin-top: 24px;
+            position: absolute;
+        }
+
+
+        .cart {
+            right: 200px;
+            width: 200px;
+            margin-top: 24px;
+            position: absolute;
+        }
+
+        .box-cart {
+            width: 300px;
+            height:auto;
+            z-index: 5;
+            margin-left: -100px;
+            border-top: unset;
+        }
+
+        .box-cart-dis {
+            display: none;
+        }
+
+
+        .box-icon {
+            border-top-left-radius: 2px;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 2px;
+            margin-left: -15px;
+            display: block;
+            height: 40px;
+            width: 40px;
+            text-align: center;
+            font-size: 45px;
+        }
+
+        .box-cart-text {
+            width: 115px;
+            position: absolute;
+            margin-top: 2px;
+            margin-left: 35px;
+            font-size: 9px;
+        }
+
+        .box-cart-price {
+            margin-top: 2px;
+            margin-bottom: 10px;
+        }
+
+        .box-cart-price p{
+            margin-top: 0px;
+            margin-bottom: 0px;
+            margin-right: -14px;
+        }
+
+        .box-list {
+            margin-bottom: 5px;
+        }
+
+        .font-line-3 {
+            line-height: 13px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        .box-left-1 {
+            margin-left: 10%;
+        }
+
+        .zxr_nav {
+            top: 40px;
+        }
+    </style>
+{% endblock css %}
+
+<!-- 导航栏-->
+{% block navbar %}
+    <div class="container">
+        <div class="navbar-header">
+            <a href="{% url 'app:index' %}" class="navbar-brand"><b>{{site_name}}</b></a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="{% url 'app:index' %}">首页</a></li>
+                {% for var1 in navigation %}
+                    <li><a href="{{var1.url}}">{{var1.name}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    {% if username %}
+                        <a href="{% url 'home:index' %}">
+                            <span class="hidden-xs"> 我的订单 </span>
+                        </a>
+                    {% endif %}
+                </li>
+
+                {% if not username %}
+                <li class="dropdown user user-menu">
+                    <a href="{% url 'auth:oauth2:login_zycg' %}" class="dropdown-toggle">
+                        <img src="http://mall.zycg.gov.cn/home/images/yc.png" class="user-image" alt="User Image">
+                        <span class="hidden-xs">央采登录</span>
+                    </a>
+                </li>
+                {% endif %}
+                <li class="dropdown user user-menu">
+                    {% if username %}
+                        <a href="{% url 'auth:logout' %}" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="{% static 'images/user/user2-160x160.jpg' %}" class="user-image" alt="User Image">
+                            <span class="hidden-xs"> {{username}} </span>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'auth:login' %}" class="dropdown-toggle">
+                            <span class="hidden-xs">请登陆</span>
+                        </a>
+                    {% endif %}
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                <small>{{site_name}} 欢迎您 </small>
+                            </p>
+                        </li>
+                        <!-- <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li> -->
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="{% url 'home:index' %}" class="btn btn-default btn-flat">我的订单</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="{% url 'auth:logout' %}" class="btn btn-default btn-flat">退出登录</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+
+                {% if not username %}
+                <li class="dropdown user user-menu">
+                    <a href="{% url 'auth:register' %}" class="dropdown-toggle">
+                        <span class="hidden-xs">立即注册</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock navbar %}
+
+
+{% block content_wrapper %}
+     <div class="row">
+
+
+            <div class="container box-body" style="margin-top: 20px; width: 40%; margin-left: auto; margin-right: auto;">
+                <div class="col-md-4 juz">
+                    <form action="{% url 'app:search' %}" method="GET">
+                        <div class="input-group">
+                            <input name="q" type="text" class="form-control" style="border-radius: 0px;">
+                            <span class="input-group-btn">
+                                <button type="" class="btn btn-info btn-flat">搜索</button>
+                            </span>
+                        </div>
+                    </form>
+                    <div id="hotwords" class="haveline" style="margin-top: 2px;display: none;">
+                        {% for var1 in statistics %}
+                            <a >{{var1.name}}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="cart">
+                    <a href="{% url 'shop:shopping' %}" class="btn btn-block btn-default btn-cart" style="border-radius: 0px;">购物车<i class="btn-cart-count shopping">{{cart.number}}</i></a>
+
+                    <div class="box box-body  box-cart box-cart-dis">
+                            <div class="col-md-12" style="max-height: 20px;">
+                                <P>最新加入的商品</P>
+                            </div>
+                            <div id="CartList" class="col-md-12">
+                                <div class="pull-left box-left-1">
+                                    <div class="pull-left">
+                                        <span class="box-icon"><i class="ion ion-ios-cart-outline"></i></span>
+                                    </div>
+                                    <div class="box-cart-text">
+                                        <p>购物车中还没有商品，赶紧选购吧！</p>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-md-12 box-list">
+                                    <div class="pull-left">
+                                        <div class="pull-left">
+                                            <span class="box-icon">
+                                                <img alt="" src="{{var1.image}}">
+                                            </span>
+                                        </div>
+                                        <div class="box-cart-text">
+                                            <p class="font-line-3">{{var1.name}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="pull-right box-cart-price">
+                                        <p>¥{{var1.price}}×{{var1.numb}}</p>
+                                        <p style="float: right;">删除</p>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="col-md-12" style="margin-top: 10px;">
+                                <a href="{% url 'shop:shopping' %}" class="btn btn-info btn-sm btn-flat col-md-12">查看繁多</a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="zxr_nav" style="border-bottom: unset;">
+                <div class="nav_ten" style="margin-top: 26px;">
+                    <div id="logo" class="logo">
+                        <div class="logo_extend" clstag="h|keycount|head|logo_02" style="display: block;">
+                            <a href="" style="display: block; width: auto; height: 170px; background: #fff;" target="_blank">
+                                <img src="/static/Logosc_2000x1500.png" style="margin: auto; display: block; width: 190px; height: 170px;">
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="quanbu_zxr">
+                        <!--div class="quanbu_zxr1"> 全部商品分类</div-->
+
+                        <ul class="ul" style="margin-bottom: 0px; margin-left: 205px;">
+                            {% for var1 in navigation_two %}
+                                {% if var1.url %}
+                                    <li><a href="{{var1.url}}">{{var1.name}}</a></li>
+                                {% else %}
+                                    <li><a href="{{var1.url}}">{{var1.name}}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <!--轮播图开始-->
+                <div class="box">
+                    <div class="indexBox_content_lunBo" id="main">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <br>
+
+    {% if error %}
+        <p style="margin-top: 100px;"></p>
+    {% endif %}
+    <div class="content " style="width: 1230px; {% if not wareapp %} margin-top: 50px;{% endif %}">
+        <div class="box breadcrumbs" style="margin-top: 25px;">
+            <div class="clearfix pull-left">
+                <a href="" class="btn btn-sm btn-info btn-flat">综合</a>
+                <a href="" class="btn btn-sm btn-default btn-flat">销量</a>
+                <a href="" class="btn btn-sm btn-default btn-flat">新品</a>
+                <a href="" class="btn btn-sm btn-default btn-flat">价格</a>
+            </div>
+            <form>
+                <div class="clearfix pull-left" style="margin-left:60px;">
+                    <input class="form-control input-sm" type="text" placeholder="" style="width: 60px;">
+                </div>
+                <div class="clearfix pull-left" style="margin-left:5px; margin-top: 5px;">-</div>
+                <div class="clearfix pull-left" style="margin-left:5px;">
+                    <input class="form-control input-sm" type="text" placeholder="" style="width: 60px;">
+                </div>
+                <div class="clearfix pull-left" style="margin-left:5px;">
+                    <button type="submit" class="btn btn-sm btn-default btn-flat">确认</button>
+                </div>
+            </form>
+            <div class="clearfix pull-right" style="margin-left: 7px;"> 
+                <a {% if page.has_previous %} href="?search={{ search }}&amp;page={{ page.previous_page_number  }}" {% else %} disabled {% endif %} class="btn btn-sm btn-default btn-flat">&lt;</a>
+
+                <a {% if page.has_next %} href="?search={{ search }}&amp;page={{ page.next_page_number }}"{% else %} disabled {% endif %} class="btn btn-sm btn-default btn-flat">&gt;</a>
+    
+            </div>
+            <div class="clearfix pull-right" style="margin-top: 7px;">
+                商品数量 {{page.end_index}}/{{max_page}}
+            </div>
+        </div>
+
+
+ 
+    
+
+
+        <div class="box-body no-padding">
+            <ul class="users-list clearfix">
+
+
+
+{% for result in classify %}
+<li>
+    <a class="users-list-name" href="{% url 'app:details' result.wareApp_key.id %}">
+
+{% thumbnail result.wareApp_key.image "220x220" as im %}
+    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" style="border-radius: 5px;" onerror="javascript:this.src='/static/images/ware/404.png'">
+{% endthumbnail %}
+
+    </a>
+    <span class="users-list-date" style="
+                            font-size: 20px;
+                            margin-top: 10px;
+                            color: #e4393c;
+                            font-weight: 400;
+                            font-family: Verdana;
+                            position: relative;
+                            line-height: 22px;
+                            height: 22px;
+                            overflow: hidden;
+                            width: 100%;
+                            margin-bottom: 8px;
+                            text-align: left;
+    "><em style="text-align: center;">￥</em>{{result.wareApp_key.money}}</span>
+    <a class="users-list-name" href="{% url 'app:details' result.wareApp_key.id %}">
+                            <span style="text-align: left;
+                            margin-bottom: 8px;
+                            overflow: hidden;
+                            text-overflow:ellipsis;
+                            white-space: nowrap;
+    " class="users-list-date">{{result.wareApp_key.name}}</span>
+    </a>
+    <!--插件弹框-->
+    <div class="checkbox icheck">
+        <label  for="keep" style="padding: 5px 10px;position: relative; top: -13px;border:1px solid #d3cfc8;" class="boxborder">
+            <input id="keep_{{result.object.id}}" class="inp" type="checkbox" name="keepcheckbox" value="{{result.wareApp_key.id}}"> <span style="margin-left: 5px;" class="after">对比</span>
+        </label>
+    </div>
+</li>
+
+
+{% empty %}
+        <p>啥也没找到</p>
+{% endfor %}
+
+
+ 
+            </ul>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+		<!--对比框-->
+		<div class="col-md-10 alertwindow">
+          <!-- Custom Tabs -->
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">对比栏</a></li>
+              <li class="pull-right"><a href="#" class="text-muted hidewindow">隐藏</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="tab_1">
+              	<form method="get" action="{% url 'app:contrast' %}">
+              		{% csrf_token %}
+	                <ul class="addgoods">
+	                	<li class="addgoods-li-five">
+	                		<p style="margin-top: 20px;">
+	                			<button type="submit" class="contrastbtn" style="padding: 10px 30px;border: 0; background: #2196F3;color: white;border-radius: 5px;text-decoration: none;">对比</button>
+	                		</p>
+	                		<p><a href="javascript:;" style="cursor: pointer;" class="clearall">清空对比栏</a></p>
+	                	</li>
+	                </ul>
+	                <input type="hidden" name="ware_id" id="ware_id" value="" class="biography"/>
+
+                </form>
+              </div> 
+            </div> 
+          </div> 
+        </div>
+
+		<!--对比框结束-->
+        <!--div class="waterfalls row box-body">
+            {% for war_1 in wareapp %}
+
+            <ul class="list-groups pull-left" style="width: 20%;">
+
+                <li class="list-group-items" style="width: 100%;">
+                    <a href="{% url 'app:details' war_1.id %}">
+                        <img src="{{war_1.image}}" />
+                    </a>
+                </li>
+
+                <li class="list-group-items" style="width: 100%;">
+                    <div class="media">
+                        <div class="media-body">
+                            <a href="{% url 'app:details' war_1.id %}">
+                            <h5 class="media-heading" style="float: left;margin-right: 10px;color: #e4393c;font-size: 20px;">{{war_1.money}}</h5>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="media">
+                        <div class="media-body">
+                            <a href="{% url 'app:details' war_1.id %}">
+                            <h5 class="media-heading" style="display: block;line-height: 20px;overflow: hidden;transition: height .08s ease;">{{war_1.name}}</h5>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            {% endfor %}
+        </div-->
+        <div class="breadcrumbs">
+            <form>
+                <div class="clearfix pull-right" style="margin-left:5px;">
+                    <button type="submit" class="btn btn-sm btn-default btn-flat">确认</button>
+                </div>
+                <div class="clearfix pull-right" style="margin-left:5px; margin-top: 6px;">
+                    页
+                </div>
+                <div class="clearfix pull-right" style="margin-left:5px;">
+                    <input class="form-control input-sm" type="text" placeholder="" style="width: 40px;" value="1">
+                </div>
+                <div class="clearfix pull-right" style="margin-left:60px; margin-top: 6px;">
+                    到第
+                </div>
+            </form>
+            <div class="clearfix pull-right" style="margin-left:5px; margin-top: 7px;">
+                &nbsp;共100页
+            </div>
+            <div class="clearfix pull-right">
+                &nbsp;......
+                <a href="" class="btn btn-sm btn-default btn-flat">下一页</a>
+            </div>
+            <div class="clearfix pull-right">
+                <a href="" class="btn btn-sm btn-default btn-flat" style="cursor: pointer;">上一页</a>
+                <a href="" class="btn btn-sm btn-default btn-flat">1</a>
+                <a href="" class="btn btn-sm btn-default btn-flat">2</a>
+                <a href="" class="btn btn-sm btn-default btn-flat">3</a>
+                <a href="" class="btn btn-sm btn-default btn-flat">4</a>
+                <a href="" class="btn btn-sm btn-default btn-flat">5</a>
+                <a href="" class="btn btn-sm btn-default btn-flat">6</a>
+                <a href="" class="btn btn-sm btn-default btn-flat">7</a>
+                <a href="" class="btn btn-sm btn-default btn-flat">8</a>
+            </div>
+        </div>
+    </div>
+
+
+    <input type="hidden" id="search_ok" value="{{search_ok}}">
+{% endblock content_wrapper %}
+
+{% block top_script %}
+{% endblock top_script %}
+
+
+
+{% block script %}
+    {% include 'defaule/temp/script.ht' %}
+
+    <script type="text/javascript" src="{% static 'js/filter.js' %}"></script>
+    <script src="{% static 'iCheck/icheck.min.js' %}"></script>
+    <script src="{% static '/js/cart.js' %}"></script>
+    <script>
+    	var csrftoken = getCookie('csrftoken');
+    	function removeByValue(arr, val) {
+			  for(var i=0; i<arr.length; i++) {
+			  	console.log('arr '+ arr[i]);
+			    if(arr[i] == val) {
+			      arr.splice(i, 1);
+
+			      break;
+			    }
+			  }
+			}
+    	$(function () {
+    		//勾选状态
+    		var num = 1;
+    		var list = new Array();
+	    	$('.inp').on('ifChecked', function(event){
+	            //ifCreated 事件应该在插件初始化之前绑定
+	            $(".alertwindow").show(1000);
+				$.ajax({
+                    type: "get",
+                    url: "{% url 'api:getWare' %}",
+                    dataType: "json",
+                    data:{
+                    	'id': event.target.value
+                    },
+                    success: function (data) { 
+                       	var str=data.data;
+                       	console.log(str);
+                       	 $('.addgoods').append(
+		                    '<li class="addgoods-li" id="'+ str.id +'">'+
+		                      '<div style="float: left;">'+
+		                          	'<div style="float: left;margin-left: 4px;margin-top:10px;">'+
+		                              '<img src="'+str.image+'" width="100px"height="80px" />'+
+		                           	'</div>'+
+		                            '<div style="float: left;margin-top: 20px;">'+
+		                              '<p style="width: 129px; height: 33px;overflow: hidden;margin-bottom: 0px;">'+str.name+'</p>'+
+		                              '<p style="margin-top:5px !important;color: red;">￥ '+str.money+'</p>'+
+		                           '</div>'+
+		                       '</div>'+
+		                       '<input type="hidden" name="waid_' + str.id + '" id="waid_' + str.id + '" value="' + str.id + '" />' +
+		                    '</li>'
+		                  );
+
+		                num += 1;
+
+
+		                if (num >=5) {
+                            $('.inp').attr({
+                                disabled: 'disabled'
+                            });
+                        }else{
+                            $('.inp').removeAttr("disabled");
+                        };
+                          //获取li里的id
+                          $(".contrastbtn").on("click",function(){
+                          	var idd =[];
+                          	$(".addgoods-li").each(function(i,item){
+
+                          		idd.push($(item).attr("id"));
+                          	});
+					 		$(".biography").val(idd);
+
+                          })
+                    }
+              });
+	       	});
+	       	//非勾选状态
+	        $('.inp').on('ifUnchecked', function(event){
+	     		var list = event.target.value;
+	        	$("#" + list).remove();
+	        	num = num - 1;
+
+	        });
+	       //清空所有对比栏li
+	       	$(".clearall").on("click",function(){
+	       		$(".addgoods-li").hide();
+
+
+				$(".alertwindow").hide(1000);
+	        	$(".addgoods-li").hide();
+				window.location.reload();
+	       	});
+
+			//隐藏按钮
+	        $('.hidewindow').on('click', function(event){
+	        	$(".alertwindow").hide(1000);
+	        	$(".addgoods-li").hide();
+	        });
+
+	        $('input').iCheck({
+	          checkboxClass: 'icheckbox_square-blue',
+	          radioClass: 'iradio_square-blue',
+	          increaseArea: '20%' /* optional */
+	        });
+
+	        //改变边框
+	         $(".after").mouseover(function(){
+				$(this).parents(".boxborder").css({"border":"1px solid #2489c5"})
+	        })
+
+	         $(".after").mouseout(function(){
+				$(this).parents(".boxborder").css({"border":"1px solid #d3cfc8"})
+	        })
+	         $(".iCheck-helper").mouseover(function(){
+				$(this).parents(".boxborder").css({"border":"1px solid #2489c5"})
+	        })
+
+	         $(".iCheck-helper").mouseout(function(){
+				$(this).parents(".boxborder").css({"border":"1px solid #d3cfc8"})
+	        })
+
+      });
+    </script>
+{% endblock script %}
+

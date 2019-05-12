@@ -1,0 +1,1287 @@
+{% extends 'defaule/temp/top-nav.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% load cache %}
+{% load tags %}
+
+{% cache 84600 index_seo %}
+    {% block title %}
+        <title>订单结算页 - {{ site_name }}</title>
+    {% endblock title %}
+
+    <!-- SEO优化 -->
+    {% block seo %}
+        <meta name="description" content="{{ site_name }} - {{ site_tags }}"/>
+        <meta name="keywords"
+              content="{{ site_name }} - {{ site_tags }}，多功能一体机，碎纸机，投影仪，办公文具，办公耗材，办公设备，办公文具，数码设备，网络产品，电脑及配件，外设产品，办公电器，劳保用品，配件服务，员工福利，维修服务，企业团购，礼品定制，设备租赁，以旧换新"/>
+    {% endblock seo %}
+    <!-- CSS样式 -->
+
+    {% block css %}
+        <link rel="stylesheet" href="{% static 'slider/css/edslider.css' %}">
+        <link rel="stylesheet" href="{% static 'slider/css/animate-custom.css' %}">
+        <style type="text/css">
+            .skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side, .content-wrapper {
+                background-color: #ffffff !important;
+            }
+            body {
+                font: 12px/150% tahoma,arial,Microsoft YaHei,Hiragino Sans GB,"\u5b8b\u4f53",sans-serif;
+                -webkit-font-smoothing: antialiased;
+                color: #666;
+                background: #fff;
+            }
+
+            /* x下单页面 */
+            .navber-place {
+                margin:35px auto;
+            }
+
+            .navber-place > .row > .col-shallow {
+                border-top: 5px solid #a1ebfd;
+            }
+            .navber-place > .row > .col-shallow > .col-text {
+                color: #a1ebfd;
+            }
+            .navber-place > .row > .col-shallow > .col-first {
+                background-color: #a1ebfd;
+            }
+            .navber-place > .row > .col-shallow > .col-context {
+                background-color: #a1ebfd;
+            }
+
+            .navber-place > .row > .col-place {
+                border-top: 5px solid #00c0ef;
+            }
+            .navber-place > .row > .col-place > .col-text {
+                color: #00c0ef;
+            }
+            .navber-place > .row > .col-place > .col-first {
+                background-color: #00c0ef;
+            }
+            .navber-place > .row > .col-place > .col-ender {
+                background-color: #00c0ef;
+            }
+            .navber-place > .row > .col-place > .col-context {
+                width: 22px !important;
+                height: 22px !important;
+                background-color: #00c0ef;
+            }
+            .navber-place > .row > .col-place > .col-context > span {
+                margin: 1px 0 0 6.5px;
+            }
+
+            .navber-place > .row > .col-not {
+                border-top: 5px solid #d0d0d0;
+            }
+            .navber-place > .row > .col-not > .col-text {
+                color: #d0d0d0;
+            }
+            .navber-place > .row > .col-not > .col-ender {
+                background-color: #d0d0d0;
+            }
+            .navber-place > .row > .col-not > .col-context {
+                background-color: #d0d0d0;
+            }
+
+            .navber-place > .row > .col-xs-4 .col-first {
+                width: 8px;
+                height: 8px;
+                z-index: 1;
+                border-radius: 2px;
+                margin: -5px 0 -3px -15px;
+            }
+
+            .navber-place > .row > .col-xs-4 .col-context {
+                left: 0;
+                right: 0;
+                top: -12px;
+                width: 18px;
+                height: 18px;
+                margin: 0 auto;
+                position: absolute;
+                border-radius: 15px;
+            }
+
+            .navber-place > .row > .col-xs-4 .col-ender {
+                width: 8px;
+                height: 8px;
+                z-index: 1;
+                float: right;
+                border-radius: 2px;
+                margin: -5px -14.5px 0px 0px;
+            }
+
+            .col-context > span {
+                top: 0px;
+                color: #fff;
+                font-weight: 700;
+                position: absolute;
+                margin: 0px 0px 0px 4.5px;
+                -webkit-font-smoothing: antialiased;
+                font: 12px/150% tahoma,arial,Microsoft YaHei,Hiragino Sans GB,"\u5b8b\u4f53",sans-serif;
+            }
+
+            .col-text {
+                margin: 0 auto;
+                font-size: 12px;
+                margin-top: 10px;
+                text-align: center;
+                margin-bottom: -1px;
+                -webkit-font-smoothing: antialiased;
+                font: 12px/150% tahoma,arial,Microsoft YaHei,Hiragino Sans GB,"\u5b8b\u4f53",sans-serif;
+            }
+
+            .row-top {
+                margin-top: -15px;
+            }
+
+            .row-top  .box-title {
+                font-size: 16px;
+            }
+
+
+            /* 分割线 */
+            .shopping-context {
+                border-top: 1px solid #ccc;
+                width: 1160px;
+                text-align: center;
+                margin: 0 auto;
+            }
+
+
+            /* 收货人信息 */
+            .shopping {
+                margin-bottom: 10px;
+            }
+
+            .shopping:hover {
+                background-color: #5bc0de08;
+            }
+            .shopping:hover .col-shopping-editor{
+                display: inherit;
+            }
+
+            .col-shopping-button {
+                width: 145px;
+                height: 30px;
+                float: left;
+                margin: 0;
+                padding: 0;
+                color: #666;
+                text-align: center;
+                border: 2px solid #ddd;
+            }
+            .col-shopping-button > i {
+                display: none;
+            }
+
+            .col-shopping-button-selected {
+                border: 2px solid #00c0ef !important;
+            }
+            .col-shopping-button-selected > i {
+                display: inherit !important;
+            }
+            .col-shopping-button > i {
+                font-size: 11px;
+                color: #00c0ef;
+                margin: -10px 0 0 129px;
+                position: absolute;
+                font-weight: inherit;
+            }
+            .col-shopping-button > span {
+                margin: 0;
+                padding: 0;
+                color: #666;
+                line-height: 26px;
+            }
+            .col-shopping-button:hover {
+                border: 2px solid #00c0ef;
+            }
+
+            .col-md-12 > .col-shopping-text {
+                float: left;
+            }
+            .col-md-12 > .col-shopping-editor {
+                float: right;
+                display: none;
+            }
+
+            .col-shopping-text > span, .col-shopping-editor > a {
+                display: inline-block;
+                margin-left: 10px;
+                text-align: center;
+                line-height: 30px;
+            }
+
+            /* 更多地址 - 展开 */
+            .box-shopping-on {
+                overflow: hidden;
+                height: 35px;
+            }
+            /* 更多地址 - 收起 */
+            .box-shopping-info-off {
+                display: none;
+            }
+
+            /* 支付方式 */
+            .box-xs-2 {
+                width: 145px;
+                height: 30px;
+                float: left;
+                margin-right: 10px;
+                margin-bottom: 15px;
+            }
+
+            /* 送货清单 */
+            .table-responsive {
+                background-color: #00c0ef05;
+            }
+            .box-responsiv {
+                height: 100%;
+                background-color: #00c0ef05;
+            }
+
+            .modal-header {
+                padding: 0px;
+            }
+
+            .modal-header h4 {
+                position: relative;
+                padding: 0 10px;
+                height: 31px;
+                line-height: 31px;
+                font-size: 14px;
+                color: #666;
+                font-family: "Microsoft YaHei";
+            }
+
+            .modal-header .close {
+                margin-top: 5px;
+            }
+        </style>
+    {% endblock css %}
+{% endcache %}
+
+{% block nav-top %}
+    <div class="col-xs-3">
+        <div class="logo-left">
+            <a href={% url "app:index" %}>
+                <img alt="{{site_name}}" style="width: 200px; height: 100px;" src="/static/images/logo/logo-left-1600x800.png">
+            </a>
+        </div>
+    </div>
+
+    <div class="col-xs-6 pull-right navber-place">
+        <div class="row">
+            <div class="col-xs-4 col-shallow">
+                <p class="col-first"></p>
+                <p class="col-context"><span>1</span></p>
+                <p class="col-text">1.我的购物车</p>
+            </div>
+            <div class="col-xs-4 col-place">
+                <p class="col-first"></p>
+                <p class="col-context"><span>2</span></p>
+                <p class="col-ender"></p>
+                <p class="col-text">2.填写核对订单信息</p>
+            </div>
+            <div class="col-xs-4 col-not">
+                <p class="col-context"><span>3</span></p>
+                <p class="col-ender"></p>
+                <p class="col-text">3.成功提交订单</p>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock nav-top %}
+
+{% block content_nav %}
+{% endblock content_nav %}
+
+{% block content_wrapper %}
+
+<div class="content">
+    <div class="row row-top">
+        <div class=" with-border">
+            <h3 class="box-title">填写并核对订单信息</h3>
+        </div>
+
+        <div class="box box-solid">
+            <div class="box-body">
+                <div class="box-header">
+                    <h3 class="box-title">收货人信息</h3>
+                    <div class="pull-right">
+                        <a href="" data-toggle="modal" data-target="#modal-create" title="新增收货地址">新增收货地址</a>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="box-shopping-info box-shopping-on">
+
+                        {% if not address %}
+                            <div class="col-md-12 shopping">
+                                <div class="col-shopping-text">
+                                    <span class="adder-name" limit="6"><a href="" data-toggle="modal" data-target="#modal-create" title="新增收货地址">您还没有收货地址哦，点击我新增收货地址</a></span>
+                                </div>
+                            </div>
+                        {% else %}
+                            {% for var1 in address %}
+                                {% if var1.defaule %}
+                                    <div class="col-md-12 shopping">
+                                        <a href="javascript:;"
+                                        value-id="{{var1.id}}"
+                                        value-adder="{{var1.province}} {{var1.city}} {{var1.area}} {{var1.consigneeAddress}}"
+                                        value-name="{{var1.consigneeName}} {{var1.consigneeMobile}}"
+                                        class="shopping-button col-shopping-button col-shopping-button-selected"><span>{{var1.consigneeName}}</span><i class="fa fa-check"></i></a>
+                                        <div class="col-shopping-text">
+                                            <span class="adder-name" limit="6">{{var1.consigneeName}}</span>
+                                            <span class="adder-info" limit="45">{{var1.province}} {{var1.city}} {% if var1.area %} {{var1.area}} {% endif %} {{var1.consigneeAddress}}</span>
+                                            <span class="adder-tel">{{var1.consigneeMobile}}</span>
+                                            <span class="adder-default"><small class="label label-default">默认地址</small></span>
+                                        </div>
+                                        <div class="col-shopping-editor">
+                                            <a value-id="{{var1.id}}" class="modal-delete" href="javascript:;">删除</a>
+                                            <a href="javascript:;" class="modal-editoer" value-id="{{var1.id}}" data-toggle="modal" data-target="#modal-editoer">编辑</a>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                                {% if not var1.defaule %}
+                                    <div class="col-md-12 shopping">
+                                        <a href="javascript:;"
+                                        value-id="{{var1.id}}"
+                                        value-adder="{{var1.province}} {{var1.city}} {{var1.area}} {{var1.consigneeAddress}}"
+                                        value-name="{{var1.consigneeName}} {{var1.consigneeMobile}}"
+                                        class="shopping-button col-shopping-button"><span>{{var1.consigneeName}}</span><i class="fa fa-check"></i></a>
+                                        <div class="col-shopping-text">
+                                            <span class="adder-name" limit="6">{{var1.consigneeName}}</span>
+                                            <span class="adder-info" limit="45">{{var1.province}} {{var1.city}} {{var1.area}} {{var1.consigneeAddress}}</span>
+                                            <span class="adder-tel">{{var1.consigneeMobile}}</span>
+                                            <span class="adder-default"></span>
+                                        </div>
+                                        <div class="col-shopping-editor">
+                                            <a value-id="{{var1.id}}" class="modal-delete" href="javascript:;">删除</a>
+                                            <a href="javascript:;" class="modal-editoer" value-id="{{var1.id}}" data-toggle="modal" data-target="#modal-editoer">编辑</a>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                    </div>
+                    {% if address %}
+                        <div class="col-md-12 box-shopping-info-angle">
+                            <a href="javascript:;" class="box-shopping-info-on">更多地址 <i class="fa fa-angle-double-down"></i></a>
+                            <a href="javascript:;" class="box-shopping-info-off">收起地址 <i class="fa fa-angle-double-up"></i></a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <p class="shopping-context"></p>
+
+            <div class="box-body">
+                <div class="box-header">
+                    <h3 class="box-title">支付方式</h3>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-12">
+                        <div class="box-xs-2">
+                            <a href="javascript:;" class="col-shopping-button col-shopping-button-selected"><span>货到付款</span><i class="fa fa-check"></i></a>
+                        </div>
+
+                        <div class="box-xs-2">
+                            <button class="btn btn-block btn-default btn-ms btn-width col-shopping-button" disabled>在线支付</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="box-xs-2">
+                            <a href="javascript:;" class="col-shopping-button shopping-price-button ash col-shopping-button-selected" value="4"><span>现金结算</span><i class="fa fa-check"></i></a>
+                        </div>
+
+                        <div class="box-xs-2">
+                            <a href="javascript:;" class="col-shopping-button shopping-price-button" value="3"><span>转账汇款</span><i class="fa fa-check"></i></a>
+                        </div>
+
+                        <div class="box-xs-2">
+                            <a href="javascript:;" class="col-shopping-button shopping-price-button" value="1"><span>公务卡</span><i class="fa fa-check"></i></a>
+                        </div>
+
+                        <div class="box-xs-2">
+                            <a href="javascript:;" class="col-shopping-button shopping-price-button" value="2"><span>支票</span><i class="fa fa-check"></i></a>
+                        </div>
+
+                        <div class="box-xs-2">
+                            <a href="javascript:;" class="col-shopping-button shopping-price-button" value="9"><span>账期</span><i class="fa fa-check"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="shopping-context"></p>
+
+            <div class="box-body">
+                <div class="box-header">
+                    <h3 class="box-title">送货清单</h3>
+                </div>
+                <div class="box-body">
+                    <div class="col-xs-12">
+                        <small>商品目录</small>
+                        <div class="table-responsive">
+                            <table class="table no-margin">
+                                <tbody>
+                                    {% for var1 in cart %}
+                                    <tr>
+                                        <td style="width: 10%;">
+                                            <a target="wareapp" href="{{var1.key.get_absolute_url}}"><img style="width: 100%;" src="{{var1.image}}" alt="{{var1.name}}" class="margin"></a>
+                                        </td>
+                                        <td style="width: 50%; font-size: 12px;">
+                                            <p>
+                                            <a target="wareapp" href="{{var1.key.get_absolute_url}}">{{var1.name}}</a>
+                                            </p>
+                                            <p>
+                                            <a target="wareapp" href="{{var1.key.get_absolute_url}}">套餐规格： {{var1.key_meal.name}}</a>
+                                            </p>
+                                            <p>库存： {% if var1.key.release %}有货{% else %}无货{% endif %}</p>
+                                        </td>
+                                        <td style="width: 30%; font-size: 12px;">
+                                            {% if user.usercode %}
+                                                <p style="margin-bottom: 3px;">
+                                                    <span style="color: red; margin-bottom: 1px;">优惠<span class="money">￥ </span>{{var1.yc_money}}</span>
+                                                    <span class="label label-default">折扣 {{var1.rate}}%</span><br>
+
+                                                    <del style="color: #ddd;">原价￥ {{var1.money}}</del>
+                                                </p>
+                                            {% else %}
+                                                <p style="margin-bottom: 3px; font-size: 12px;">
+                                                    商品价钱：
+                                                    <span style="color: red;">{{var1.money}}</span>
+                                                </p>
+                                            {% endif %}
+                                        </td>
+                                        <td style="width: 10%; font-size: 12px;">
+                                            <p style="margin-bottom: 3px;">数量： x{{var1.numb}}</p>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="shopping-context"></p>
+            <div class="box-body">
+                <div class="box-header">
+                    <h3 class="box-title">发票信息</h3>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-12">
+                        <div class="box-xs-2">
+                            <a href="javascript:;" class="col-shopping-button shopping-inv-button shopping-inv-unset-button col-shopping-button-selected"><span>不开发票</span><i class="fa fa-check"></i></a>
+                        </div>
+                        <div class="box-xs-2">
+                            <a href="javascript:;" class="col-shopping-button shopping-inv-button shopping-inv-default-button"><span>普通发票</span><i class="fa fa-check"></i></a>
+                        </div>
+                        <div class="box-xs-2">
+                            <a href="javascript:;" class="col-shopping-button shopping-inv-button shopping-inv-special-button"><span>增值税专用发票</span><i class="fa fa-check"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- 普通发票 -->
+                    <div class="col-xs-4 inv-default" style="display: none; width: 484px;">
+                        <div class="box box-solid">
+                            <div class="box-body">
+                                <input type="hidden" name="actionid" id="actionid" value="1" class="actionid"/> <!--不开发票/普通发票/增值税专用发票[0/1/2]-->
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <label for="head" class="control-label">发票抬头</label>
+                                    <input id="head" value="{% if inv.head %} {{inv.head}} {% else %}个人{% endif %}" type="text" placeholder="发票抬头" class="form-control input-sm inp"/>
+                                </div>
+
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <label for="taxpayer" class="control-label">纳税人识别号</label>
+                                    <input id="taxpayer" value="{% if inv.taxpayer %} {{inv.taxpayer}} {% endif %}" type="text" placeholder="纳税人识别号" class="form-control input-sm inp"/>
+                                </div>
+
+
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <label for="content" class="control-label">发票内容</label>
+                                    <input id="content" value="{% if inv.content %} {{inv.content}} {% endif %}" type="hidden" name="wid" id="wid" value="0" class="changevalue"/> <!--商品明细/商品类别 [0/1]-->
+                                    <div class="col-xs-12 row">
+                                        <div class="box-xs-2">
+                                            <a href="javascript:;" class="col-shopping-button shopping-inv-piao-button a col-shopping-button-selected"><span>商品明细</span><i class="fa fa-check"></i></a>
+                                        </div>
+                                        <div class="box-xs-2">
+                                            <a href="javascript:;" class="col-shopping-button shopping-inv-piao-button b"><span>商品类别</span><i class="fa fa-check"></i></a>
+                                        </div>
+                                        <br>
+                                        <div class="box-xs-2 box-xs-text" style="width: unset;">发票内容将显示详细商品名称与价格信息</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <label for="phone" class="control-label">收票人手机</label>
+                                    <input id="phone" type="text" value="{% if inv.phone %} {{inv.phone}} {% endif %}" placeholder="收票人手机" class="form-control input-sm inp"/>
+                                </div>
+                                <div class="form-group" style="margin-bottom: 15px;">
+                                    <label for="email" class="control-label">收票人邮箱</label>
+                                    <input id="email" value="{% if inv.email %} {{inv.email}} {% endif %}" type="text" placeholder="收票人邮箱" class="form-control input-sm inp"/>
+                                </div>
+
+                                <p style="color: red;">请务必点击保存，方可出局发票</p>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-info btn-width btn-ms inv-default-save">保存</button>
+                                    <button type="button" class="btn btn-subscribe btn-width btn-ms cancelsub">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 增值税专用发票 -->
+                    <div class="col-xs-4 inv-special" style="display: none; width: 484px;">
+                        <div class="box box-solid">
+                            <div class="box-body">
+                                <input type="hidden" name="actionid" id="actionid" value="1" class="actionid"/> <!--不开发票/普通发票/增值税专用发票[0/1/2]-->
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <label for="unitName-special" class="control-label">单位名称</label>
+                                    <input id="unitName-special" value="{% if inv.unitName %} {{inv.unitName}} {% endif %}" type="text" placeholder="单位名称" class="form-control input-sm inp"/>
+                                </div>
+
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <label for="taxpayer-special" class="control-label">纳税人识别号</label>
+                                    <input id="taxpayer-special" value="{% if inv.taxpayer %} {{inv.taxpayer}} {% endif %}" type="text" placeholder="纳税人识别号" class="form-control input-sm inp"/>
+                                </div>
+
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <label for="registeredAddress-special" class="control-label">注册地址</label>
+                                    <input id="registeredAddress-special" value="{% if inv.registeredAddress %} {{inv.registeredAddress}} {% endif %}" type="text" placeholder="注册地址" class="form-control input-sm inp"/>
+                                </div>
+
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <label for="registeredTelephone-special" class="control-label">注册电话</label>
+                                    <input id="registeredTelephone-special" value="{% if inv.registeredTelephone %} {{inv.registeredTelephone}} {% endif %}" type="text" placeholder="注册电话" class="form-control input-sm inp"/>
+                                </div>
+
+                                <div class="form-group" style="margin-bottom: 5px;">
+                                    <label for="accountOpening-special" class="control-label">开户银行</label>
+                                    <input id="accountOpening-special" type="text" value="{% if inv.accountOpening %} {{inv.accountOpening}} {% endif %}" placeholder="开户银行" class="form-control input-sm inp"/>
+                                </div>
+
+                                <div class="form-group" style="margin-bottom: 15px;">
+                                    <label for="account-special" class="control-label">银行账户</label>
+                                    <input id="account-special" value="{% if inv.account %} {{inv.account}} {% endif %}" type="text" placeholder="银行账户" class="form-control input-sm inp"/>
+                                </div>
+
+                                <p style="color: red;">请务必点击保存，方可出局发票</p>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-info btn-width btn-ms inv-special-save">保存</button>
+                                    <button type="button" class="btn btn-subscribe btn-width btn-ms cancelsub">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-solid" style="margin-bottom: 100px;">
+            <div class="box-body" style="background-color: #cfcfcf1c;">
+                <div class="col-md-12" style="margin: 0 0 0 0;">
+                    <p class="pull-right">应付总额： <span style="font-size: 24px; color: #00c0ef;">￥{{ money_aggregate.total }}</span></p>
+                </div>
+                <div class="col-md-12" style="margin: -15px 0 0 0;">
+                    <p class="pull-right v-adder">寄送至：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收货人：</p>
+                </div>
+                {% if user.usercode %}
+                <div class="col-md-12" style="margin: -15px 0 0 0;">
+                    <p class="pull-right">
+                        <a href="javascript:;" data-toggle="modal" data-target="#modal-default" style="font-size: 18px; color: #00c0ef;">
+                            <i class="fa fa-hand-o-right"></i>【点击查看央采优惠率】<i class="fa fa-hand-o-left"></i>
+                        </a>
+                    </p>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="box-footer">
+                <div class="col-md-2 pull-right">
+                    <!-- 商品类型 -->
+                    <input type="hidden" id="inv-cbv-context" value="0">
+
+                    <form action="{% url 'shop:settleAccounts' %}" method="POST">
+                        {% csrf_token %}
+                        <!-- 收货地址 -->
+                        <input type="hidden" id="form-address" name="address">
+
+                        <!-- 商品ID -->
+                        <input type="hidden" name="ware_id" value="{{cartlist}}">
+
+                        <!-- 支付方式 -->
+                        <!-- <input type="hidden" name="paymethod" value="4" class="payval"> -->
+                        <!-- 央采支付方式 -->
+                        <input type="hidden" id="inv-cbv-play" name="paymethod" value="4">
+
+                        <!-- invoices 发票 -->
+                        <!-- <input type="hidden" name="invoices" id="invoices" value="0"> -->
+                        <!-- 普通发票 -->
+                        <input type="hidden" id="inv-cbv-id" name="invoices" value="0">
+
+                        <!-- 订单备注 -->
+                        <input type="hidden" name="remark" value="">
+
+                        <button type="submit" class="btn btn-block btn-info btn-ms" {% if defaules == False %} disabled {% endif %}>提交订单</button>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog" style="width: 1200px;">
+        <div class="modal-content">
+            <div style="width: 100%; height: 25px; padding: 5px; margin: -5px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <span style="padding: 2px; margin: 0 5px 5px 0; float: right;">点击窗体之外可以关闭窗口哦</span>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <tbody style="font-size: 12px;">
+                        <tr>
+                            <th style="width: 60%;text-align: center;" colspan="5">央采优惠率【阶梯报价优惠率】</th>
+                        </tr>
+                        <tr>
+                            <td style="width: 40%;text-align: center;">分类</td>
+                            <td style="width: 10%;text-align: center;">10万元(含)以下</td>
+                            <td style="width: 15%;text-align: center;">10万元至30万元(含)</td>
+                            <td style="width: 15%;text-align: center;">30万元至60万元(含)</td>
+                            <td style="width: 20%;text-align: center;">60万元至100万元(含)</td>
+                        </tr>
+                        {% for i in moneytable %}
+                            {% if i.get_uid_display != '其他' %}
+                            <tr>
+                                <td style="width: 40%;text-align: center;">{{i.get_uid_display}}</td>
+                                <td style="width: 10%;text-align: center;">{{i.a1}}%</td>
+                                <td style="width: 15%;text-align: center;">{{i.a2}}%</td>
+                                <td style="width: 15%;text-align: center;">{{i.a3}}%</td>
+                                <td style="width: 20%;text-align: center;">{{i.a4}}%</td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-create">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="h4-te">新增收货地址</h4>
+            </div>
+            <div class="modal-body">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="consigneeName">*收货人</label>
+                        <input name="consigneeName" type="text" class="form-control" id="create-consigneeName" placeholder="收货人">
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="city_china_val">*所在地区</label>
+                        <div class="row">
+                            <div class="box-body city_china_val">
+                                <div class="col-xs-4">
+                                    <select id="create-province" name="province" class="province other form-control select2" data-first-title="选择省">
+                                        <option value="北京市" selected>北京市</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-4">
+                                    <select id="create-city" name="city" class="city form-control select2 col-xs-4" data-first-title="选择市">
+                                        <option value="选择市" selected>选择市</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-4">
+                                    <select id="create-area" name="area" class="area form-control select2 col-xs-4" data-first-title="选择地区">
+                                        <option value="选择区" selected>选择区</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="consigneeAddress">*详细地址</label>
+                        <input name="consigneeAddress" type="text" class="form-control" id="create-consigneeAddress" placeholder="详细地址">
+                    </div>
+                    <div class="form-group">
+                        <label for="consigneeMobile">*手机号码</label>
+                        <input name="consigneeMobile" type="consigneeMobile" class="form-control" id="create-consigneeMobile" placeholder="手机号码">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">邮箱</label>
+                        <input name="email" type="email" class="form-control" id="create-email" placeholder="邮箱">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-info submit-create">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-editoer">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <input type="hidden" id="edit_id" name="edit_id" value=''>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="h4-te">编辑收货地址</h4>
+            </div>
+            <div class="modal-body">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="consigneeName">*收货人</label>
+                        <input name="consigneeName" type="text" class="form-control" id="consigneeName" placeholder="收货人">
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="city_china_val">*所在地区</label>
+                        <div class="row">
+                            <div class="box-body city_china_val">
+                                <div class="col-xs-4">
+                                    <select id="province" name="province" class="province other form-control select2" data-first-title="选择省">
+                                        <option value="北京市" selected>北京市</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-4">
+                                    <select id="city" name="city" class="city form-control select2 col-xs-4" data-first-title="选择市">
+                                        <option value="选择市" selected>选择市</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-4">
+                                    <select id="area" name="area" class="area form-control select2 col-xs-4" data-first-title="选择地区">
+                                        <option value="选择区" selected>选择区</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="consigneeAddress">*详细地址</label>
+                        <input name="consigneeAddress" type="text" class="form-control" id="consigneeAddress" placeholder="详细地址">
+                    </div>
+                    <div class="form-group">
+                        <label for="consigneeMobile">*手机号码</label>
+                        <input name="consigneeMobile" type="consigneeMobile" class="form-control" id="consigneeMobile" placeholder="手机号码">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">邮箱</label>
+                        <input name="email" type="email" class="form-control" id="email" placeholder="邮箱">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-info submit-save">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content_wrapper %}
+
+{% block script %}
+<script src="{% static 'js/jquery.cxselect.min.js' %}"></script>
+<script>
+    $(function() {
+        var urlChina = "{% static 'js/cityData.min.json' %}";
+        var urlGlobal = "{% static 'js/globalData.min.json' %}";
+        $.cxSelect.defaults.url = urlChina;
+
+        // 设置默认值及选项标题
+        $('.city_china_val').cxSelect({
+            selects: ['province', 'city', 'area'],
+            emptyStyle: 'none'
+        });
+
+        // API 接口
+        var apiBox = $('#api_data');
+        var cxSelectApi;
+
+        apiBox.cxSelect({
+            selects: ['province', 'city', 'area']
+        }, function(api) {
+            cxSelectApi = api;
+        });
+
+        $('body').on('click', 'button', function() {
+                var _name = this.name;
+                var _value = this.value;
+
+                switch (_name) {
+                    case 'attach':
+                        cxSelectApi.attach();
+                        break;
+                    case 'detach':
+                        cxSelectApi.detach();
+                        break;
+                    case 'clear':
+                        cxSelectApi.clear();
+                        break;
+                    case 'required':
+                        cxSelectApi.setOptions({
+                            required: _value == 1 ? false : true
+                        });
+                        this.value = _value == 1 ? 0 : 1;
+                        break;
+                    case 'emptyStyle':
+                        if (_value === 'none') {
+                            _value = 'hidden';
+                        } else if (_value === 'hidden') {
+                            _value = '';
+                        } else {
+                            _value = 'none';
+                        };
+                        cxSelectApi.setOptions({
+                            emptyStyle: _value
+                        });
+                        this.value = _value;
+                        break;
+                    case 'firstTitle':
+                        _value = _value === '请选择' ? '选择吧' : '请选择';
+                        cxSelectApi.setOptions({
+                            firstTitle: _value
+                        });
+                        this.value = _value;
+                        break;
+                    case 'setSelect':
+                        cxSelectApi.setOptions({
+                            selects: _value === 'a' ? ['province', 'city', 'area'] : ['first', 'second', 'third', 'fourth', 'fifth']
+                        });
+                        this.value = _value === 'a' ? 'b' : 'a';
+                        break;
+                    case 'setData':
+                        if (_value === 'china' || _value === 'global') {
+                            cxSelectApi.setOptions({
+                                url: this.value === 'china' ? urlChina : urlGlobal,
+                            });
+                        } else if (this.value === 'custom') {
+                            cxSelectApi.setOptions({
+                                data: dataCustom
+                            });
+                        };
+                        break;
+                };
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(function(){
+        toastr.options.positionClass = 'toast-top-right';
+
+        /* 收货人信息 - 更多地址 */
+        $('.box-shopping-info-on').on('click', function(){
+            $('.box-shopping-info').removeClass('box-shopping-on');
+            $(this).css({
+                'display': 'none'
+            });
+            $('.box-shopping-info-off').css({
+                'display': 'inherit'
+            });
+        });
+
+        /* 收货人信息 - 收起地址 */
+        $('.box-shopping-info-off').on('click', function(){
+            $('.box-shopping-info').addClass('box-shopping-on');
+            $(this).css({
+                'display': 'none'
+            });
+            $('.box-shopping-info-on').css({
+                'display': 'inherit'
+            });
+        });
+        /* 收货人信息 - 选择收货人 */
+        $('.shopping-button').on('click', function(){
+            $('.shopping-button').removeClass('col-shopping-button-selected');
+            $(this).addClass('col-shopping-button-selected');
+            $('.v-adder').html('寄送至：' + $(this).attr('value-adder') + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收货人：' + $(this).attr('value-name'));
+            $.ajax({
+                url: '/api/v1/AddressViewSet/' + $(this).attr('value-id') + '/',
+                type: 'PATCH',
+                dataType: 'json',
+                data: {"defaule": true},
+            })
+            .done(function() {
+                console.log("success");
+                location.reload();
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+
+
+        });
+        /* 设置默认收货地址 */
+        $('.v-adder').html('寄送至：' + $('.col-shopping-button.col-shopping-button-selected').attr('value-adder') +
+            '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收货人：' +
+            $('.col-shopping-button.col-shopping-button-selected').attr('value-name'));
+        $('#form-address').val($('.col-shopping-button.col-shopping-button-selected').attr('value-id'));
+
+        /* 修改收货地址 */
+        $('.modal-editoer').on('click', function(){
+            $('#edit_id').val($(this).attr('value-id'));
+        });
+        $('.submit-save').on('click', function(){
+            $.ajax({
+                url: '/api/v1/AddressViewSet/' + $('#edit_id').val() + '/',
+                type: 'PATCH',
+                dataType: 'json',
+                data: {
+                    "defaule": true,
+                    "consigneeName": $('#consigneeName').val(),
+                    "province": $('#province').val(),
+                    "city": $('#city').val(),
+                    "area": $('#area').val(),
+                    "consigneeAddress": $('#consigneeAddress').val(),
+                    "consigneeMobile": $('#consigneeMobile').val(),
+                    "email": $('#email').val(),
+                },
+            })
+            .done(function(data) {
+                console.log("success");
+                location.reload();
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+        });
+
+        /* 添加收货地址 */
+        $('.submit-create').on('click', function(){
+            $.ajax({
+                url: '/api/v1/AddressViewSet/',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    "defaule": true,
+                    "consigneeName": $('#create-consigneeName').val(),
+                    "province": $('#create-province').val(),
+                    "city": $('#create-city').val(),
+                    "area": $('#create-area').val(),
+                    "consigneeAddress": $('#create-consigneeAddress').val(),
+                    "consigneeMobile": $('#create-consigneeMobile').val(),
+                    "email": $('#create-email').val(),
+                    "key": {{ user.id }}
+                },
+            })
+            .done(function(data) {
+                console.log("success");
+                location.reload();
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+        });
+
+        $('.modal-delete').on('click', function(){
+            $.ajax({
+                url: '/api/v1/AddressViewSet/' + $(this).attr('value-id') + '/',
+                type: 'DELETE',
+                dataType: 'json',
+                data: {},
+            })
+            .done(function(data) {
+                console.log("success");
+                location.reload();
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+        });
+
+
+
+
+        /* 支付方式 */
+        $('.shopping-price-button').on('click', function(){
+            $('.shopping-price-button').removeClass('col-shopping-button-selected');
+            $(this).addClass('col-shopping-button-selected');
+
+            /* 央采支付方式 */
+            $('#inv-cbv-play').val($(this).attr('value'));
+        });
+
+        /* 送货清单 */
+
+        /* 发票信息 */
+        $('.shopping-inv-button').on('click', function(){
+            $('.shopping-inv-button').removeClass('col-shopping-button-selected');
+            $(this).addClass('col-shopping-button-selected');
+        });
+        $('.shopping-inv-button.shopping-inv-unset-button').on('click', function(){
+            /* 不开发票 */
+            $('.inv-default').css({
+                'display': 'none'
+            });
+            /* 增值税专用发票 */
+            $('.inv-special').css({
+                'display': 'none'
+            });
+
+            $('#inv-cbv-id').val(0);
+
+        });
+        $('.shopping-inv-button.shopping-inv-default-button').on('click', function(){
+            /* 普通发票 */
+            $('.inv-default').css({
+                'display': 'inherit'
+            });
+
+            /* 增值税专用发票 */
+            $('.inv-special').css({
+                'display': 'none'
+            });
+
+            //$('#inv-cbv-id').val(1);
+        });
+        $('.shopping-inv-button.shopping-inv-special-button').on('click', function(){
+            /* 增值税专用发票 */
+            $('.inv-special').css({
+                'display': 'inherit'
+            });
+
+            /* 普通发票 */
+            $('.inv-default').css({
+                'display': 'none'
+            });
+        });
+
+        /* 发票内容 */
+        $('.shopping-inv-piao-button').on('click', function(){
+            $('.shopping-inv-piao-button').removeClass('col-shopping-button-selected');
+            $(this).addClass('col-shopping-button-selected');
+        });
+        $('.shopping-inv-piao-button.a').on('click', function(){
+            $('.box-xs-text').html('发票内容将显示详细商品名称与价格信息');
+            $('#inv-cbv-context').val(0);
+
+        });
+        $('.shopping-inv-piao-button.b').on('click', function(){
+            $('.box-xs-text').html('发票内容将显示本单商品所属类别（电器电子产品及配件/日用品/服装鞋帽）及价格信息');
+            $('#inv-cbv-context').val(1);
+        });
+
+
+        {% if inv %}
+            /* 普通发票保存 */
+            $('.inv-default-save').on('click', function(){
+                $.ajax({
+                    url: '/api/v1/InvoicesViewSet/{{ inv.id }}/',
+                    type: 'PATCH',
+                    dataType: 'json',
+                    data: {
+                        "stype": 1,
+                        "content": $('#inv-cbv-context').val(),
+                        "taxpayer": $('#taxpayer').val(),
+                        "phone": $('#phone').val(),
+                        "email": $('#email').val(),
+                        "head": $('#head').val(),
+                        "unitName": $('#unitName').val(),
+                        "registeredAddress": $('#registeredAddress').val(),
+                        "registeredTelephone": $('#registeredTelephone').val(),
+                        "accountOpening": $('#accountOpening').val(),
+                        "account": $('#account').val()
+                    },
+                })
+                .done(function(data) {
+                    console.log(data);
+                    toastr.success('将为您开具普通发票');
+                    /* 不开发票 */
+                    $('.inv-default').css({
+                        'display': 'none'
+                    });
+                    /* 增值税专用发票 */
+                    $('.inv-special').css({
+                        'display': 'none'
+                    });
+
+                    $('#inv-cbv-id').val(1);
+                })
+                .fail(function() {
+                    console.log("error");
+                    toastr.error('发票信息保存失败');
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+            });
+             /* 增值税专用发票 */
+            $('.inv-special-save').on('click', function(){
+                $.ajax({
+                    url: '/api/v1/InvoicesViewSet/{{ inv.id }}/',
+                    type: 'PATCH',
+                    dataType: 'json',
+                    data: {
+                        "stype": 2,
+                        "taxpayer": $('#taxpayer-special').val(),
+                        "unitName": $('#unitName-special').val(),
+                        "registeredAddress": $('#registeredAddress-special').val(),
+                        "registeredTelephone": $('#registeredTelephone-special').val(),
+                        "accountOpening": $('#accountOpening-special').val(),
+                        "account": $('#account-special').val()
+                    },
+                })
+                .done(function(data) {
+                    console.log(data);
+                    toastr.success('将为您开具增值税专用发票');
+                    /* 不开发票 */
+                    $('.inv-default').css({
+                        'display': 'none'
+                    });
+                    /* 增值税专用发票 */
+                    $('.inv-special').css({
+                        'display': 'none'
+                    });
+                    $('#inv-cbv-id').val(2);
+                })
+                .fail(function() {
+                    console.log("error");
+                    toastr.error('发票信息保存失败');
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+            });
+        {% else %}
+            /* 普通发票保存 */
+            $('.inv-default-save').on('click', function(){
+                $.ajax({
+                    url: '/api/v1/InvoicesViewSet/',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        "stype": 1,
+                        "content": $('#inv-cbv-context').val(),
+                        "taxpayer": $('#taxpayer').val(),
+                        "phone": $('#phone').val(),
+                        "email": $('#email').val(),
+                        "head": $('#head').val(),
+                        "unitName": $('#unitName').val(),
+                        "registeredAddress": $('#registeredAddress').val(),
+                        "registeredTelephone": $('#registeredTelephone').val(),
+                        "accountOpening": $('#accountOpening').val(),
+                        "account": $('#account').val(),
+                        "key": {{ user.id }}
+                    },
+                })
+                .done(function(data) {
+                    console.log(data);
+                    toastr.success('将为您开具普通发票');
+                    /* 不开发票 */
+                    $('.inv-default').css({
+                        'display': 'none'
+                    });
+                    /* 增值税专用发票 */
+                    $('.inv-special').css({
+                        'display': 'none'
+                    });
+
+                    $('#inv-cbv-id').val(1);
+                })
+                .fail(function() {
+                    console.log("error");
+                    toastr.error('发票信息保存失败');
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+            });
+             /* 增值税专用发票 */
+            $('.inv-special-save').on('click', function(){
+                console.log({
+                        "stype": 2,
+                        "content": $('#inv-cbv-context-special').val(),
+                        "taxpayer": $('#taxpayer-special').val(),
+                        "phone": $('#phone-special').val(),
+                        "email": $('#email-special').val(),
+                        "head": $('#head-special').val(),
+                        "unitName": $('#unitName-special').val(),
+                        "registeredAddress": $('#registeredAddress-special').val(),
+                        "registeredTelephone": $('#registeredTelephone-special').val(),
+                        "accountOpening": $('#accountOpening-special').val(),
+                        "account": $('#account-special').val(),
+                        "key": {{ user.id }}
+                    });
+
+                $.ajax({
+                    url: '/api/v1/InvoicesViewSet/',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        "stype": 2,
+                        "content": $('#inv-cbv-context-special').val(),
+                        "taxpayer": $('#taxpayer-special').val(),
+                        "phone": $('#phone-special').val(),
+                        "email": $('#email-special').val(),
+                        "head": $('#head-special').val(),
+                        "unitName": $('#unitName-special').val(),
+                        "registeredAddress": $('#registeredAddress-special').val(),
+                        "registeredTelephone": $('#registeredTelephone-special').val(),
+                        "accountOpening": $('#accountOpening-special').val(),
+                        "account": $('#account-special').val(),
+                        "key": {{ user.id }}
+                    },
+                })
+                .done(function(data) {
+                    console.log(data);
+                    toastr.success('将为您开具增值税专用发票');
+                    /* 不开发票 */
+                    $('.inv-default').css({
+                        'display': 'none'
+                    });
+                    /* 增值税专用发票 */
+                    $('.inv-special').css({
+                        'display': 'none'
+                    });
+                    $('#inv-cbv-id').val(2);
+                })
+                .fail(function(data) {
+                    console.log(data);
+                    toastr.error('发票信息保存失败');
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+            });
+        {% endif %}
+
+
+    });
+</script>
+{% endblock script %}
+

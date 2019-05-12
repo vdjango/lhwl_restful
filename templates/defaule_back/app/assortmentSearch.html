@@ -1,0 +1,949 @@
+{% extends 'defaule/temp/top-nav.html' %}
+{% load thumbnail %}
+{% load staticfiles %}
+{% load tags %}
+
+{% block title %}
+    {% if site_name %}
+        {% if site_tags %}
+            <title>{{ site_name }} - {{ site_tags }}</title>
+        {% else %}
+            <title>{{ site_name }}</title>
+        {% endif %}
+    {% else %}
+        {% if site_tags %}
+            <title>{{ site_tags }}</title>
+        {% else %}
+            <title>你好粗心，怎么没有设置标题呢？</title>
+        {% endif %}
+    {% endif %}
+{% endblock title %}
+
+
+<!-- SEO优化 -->
+{% block seo %}
+{% endblock seo %}
+<!-- CSS样式 -->
+
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/assortmentSearch.css' %}">
+    <style type="text/css">
+        .subplate-ant:hover .subplate-ant-display {
+            display: unset;
+        }
+
+        .subplate-ant-display {
+            display: none;
+            margin: 10px 0 0 210px;
+            position: absolute;
+        }
+
+        .modal-title {
+            overflow: hidden;
+        }
+
+        .set-title {
+            overflow: hidden; /*超出部分隐藏*/
+            white-space: nowrap; /*不换行*/
+            text-overflow: ellipsis; /*超出部分文字以...显示*/
+        }
+
+        .modal-dialog {
+            overflow: hidden;
+        }
+    </style>
+{% endblock css %}
+
+
+
+{% block content_wrapper %}
+    <!-- 板块专区 -->
+
+    <div class="content pl m-auto">
+        <div class="row">
+            <div class="box-filter">
+
+                <div class="box-filter-header clearfix">
+                    <ul class="box-filter-header-ul ">
+                        <li><a href="{% url 'app:index' %}">首页</a></li>
+                        <li style="margin: 0 2px 0 0;"> &gt;</li>
+                        <li><a href="{% url 'app:index' %}">全部分类</a></li>
+                        <li style="margin: 0 2px 0 0;"> &gt;</li>
+                        <li>{{ search }}</li>
+                    </ul>
+                </div>
+                <div class="box-filter-body clearfix">
+                    <div>
+                        <span>{{ A1.name.PrefixKey.t1 }}</span>
+                        <ul class="box-filter-body-ul clearfix">
+                            <li class="filter filter-{{ A1.name.id }}">
+                                <a href="javascript:;" class="success A1" value="{{ A1.name.id }}" foo="A1=">全部</a>
+                            </li>
+                            {% for foo in A1.models %}
+                                <li class="filter filter-{{ A1.name.id }}">
+                                    <a href="javascript:;" class="A1{{ foo.id }} A1={{ foo.id }}"
+                                       value="{{ A1.name.id }}" foo="A1={{ foo.id }}">{{ foo.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div>
+                        <span>{{ A2.name.PrefixKey.t2 }}</span>
+                        <ul class="box-filter-body-ul clearfix">
+                            <li class="filter filter-{{ A2.name.id }}">
+                                <a href="javascript:;" class="success A2" value="{{ A2.name.id }}" foo="A2=">全部</a>
+                            </li>
+                            {% for foo in A2.models %}
+                                <li class="filter filter-{{ A2.name.id }}">
+                                    <a href="javascript:;" class="A2{{ foo.id }} A2={{ foo.id }}"
+                                       value="{{ A2.name.id }}" foo="A2={{ foo.id }}">{{ foo.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div>
+                        <span>{{ A3.name.PrefixKey.t3 }}</span>
+                        <ul class="box-filter-body-ul clearfix">
+                            <li class="filter filter-{{ A3.name.id }}">
+                                <a href="javascript:;" class="success A3" value="{{ A3.name.id }}" foo="A3=">全部</a>
+                            </li>
+                            {% for foo in A3.models %}
+                                <li class="filter filter-{{ A3.name.id }}">
+                                    <a href="javascript:;" class="A3{{ foo.id }} A3={{ foo.id }}"
+                                       value="{{ A3.name.id }}" foo="A3={{ foo.id }}">{{ foo.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div>
+                        <span>{{ A4.name.PrefixKey.t4 }}</span>
+                        <ul class="box-filter-body-ul clearfix">
+                            <li class="filter filter-{{ A4.name.id }}">
+                                <a href="javascript:;" class="success A4" value="{{ A4.name.id }}" foo="A4=">全部</a>
+                            </li>
+                            {% for foo in A4.models %}
+                                <li class="filter filter-{{ A4.name.id }}">
+                                    <a href="javascript:;" class="A4{{ foo.id }} A4={{ foo.id }}"
+                                       value="{{ A4.name.id }}" foo="A4={{ foo.id }}">{{ foo.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div>
+                        <span>{{ A5.name.PrefixKey.t5 }}</span>
+                        <ul class="box-filter-body-ul clearfix">
+                            <li class="filter filter-{{ A5.name.id }}">
+                                <a href="javascript:;" class="success A5" value="{{ A5.name.id }}" foo="A5=">全部</a>
+                            </li>
+                            {% for foo in A5.models %}
+                                <li class="filter filter-{{ A5.name.id }}">
+                                    <a href="javascript:;" class="A5{{ foo.id }} A5={{ foo.id }}"
+                                       value="{{ A5.name.id }}" foo="A5={{ foo.id }}">{{ foo.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="box-filter-body-ul-none">
+                        <input type="hidden" id="A1" value="">
+                        <input type="hidden" id="A2" value="">
+                        <input type="hidden" id="A3" value="">
+                        <input type="hidden" id="A4" value="">
+                        <input type="hidden" id="A5" value="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 展示5个商品 -->
+        <div class="plate plate-ant">
+            <div class="box breadcrumbs">
+                <div class="clearfix pull-left">
+                    <a href="" class="btn btn-sm btn-info btn-flat">最新</a>
+                    <a href="" class="btn btn-sm btn-default btn-flat">销量</a>
+                    <a href="" class="btn btn-sm btn-default btn-flat">评论</a>
+                    <a href="" class="btn btn-sm btn-default btn-flat form-input-price">价格</a>
+                </div>
+                <form>
+                    <div class="clearfix pull-left" style="margin-left:5px;">
+                        <input class="form-control input-sm" type="text" placeholder=""
+                               style="width: 60px; height: 25px; margin: 2px;">
+                    </div>
+                    <div class="clearfix pull-left" style="margin-left:5px; margin-top: 5px;">-</div>
+                    <div class="clearfix pull-left" style="margin-left:5px;">
+                        <input class="form-control input-sm" type="text" placeholder=""
+                               style="width: 60px; height: 25px; margin: 2px;">
+                    </div>
+                    <div class="clearfix pull-left" style="margin-left:5px;">
+                        <button type="submit" class="btn btn-sm btn-default btn-flat"
+                                style="height: 25px; margin: 2px; line-height: 1.5px">确认
+                        </button>
+                    </div>
+                </form>
+                <div class="clearfix pull-right" style="margin: -15px 0 0px 0">
+                    <a {% if page.has_previous %}
+                        href="?search={{ search }}&amp;page={{ page.previous_page_number }}" {% else %}
+                        disabled {% endif %} class="btn btn-sm btn-default btn-flat">&lt;</a>
+
+                    <a {% if page.has_next %} href="?search={{ search }}&amp;page={{ page.next_page_number }}"{% else %}
+                                              disabled {% endif %} class="btn btn-sm btn-default btn-flat">&gt;</a>
+                </div>
+                <div class="clearfix pull-right" style="margin: -10px 5px 0px 0px;">
+                    共{{ paginator.count }}件商品 {{ page.number }}/{{ paginator.num_pages }}
+                </div>
+            </div>
+
+            {% for result in classify %}
+                <div class="subplate-ant">
+                    {% if user.is_staff %}
+                        <div class="subplate-ant-display small-box">
+                            <a href="javacsript:;">
+                                <div class="icon">
+                                    <i class="set fa fa-wrench" data-toggle="modal" data-target="#setting-wrench"
+                                       value-id="{{ result.wareApp_key.id }}"
+                                       value-prefix-id="{{ result.id }}"
+                                       value-classify-id="{{ result.classifythere_key.id }}"
+                                       value-name="{{ result.wareApp_key.name }}"></i>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    <a target="wareApp" href="{% url 'app:details' result.wareApp_key.id %}">
+                        <img src="{{ result.wareApp_key.get_image_url_200x200 }}" width="220" height="220" style="border-radius: 5px;">
+                    </a>
+                    <div class="text-price">￥{{ result.wareApp_key.money }}</div>
+                    <div class="text-name">
+                        <a target="wareApp" href="{% url 'app:details' result.wareApp_key.id %}" title="">
+                            {{ result.wareApp_key.name }}
+                        </a>
+                    </div>
+                    <div class="ware-box">
+                        <div style="" class="mycheck ware-box-main">
+                            <input class="inp" id="keep_{{ result.wareApp_key.id }}" type="checkbox" name="keepcheckbox"
+                                   value="{{ result.wareApp_key.id }}">
+                            <label for="keep_{{ result.wareApp_key.id }}" class="boxborder">
+                                <span class="f5 after">对比</span>
+                            </label>
+                        </div>
+                        <div class="ware-box-bout warecart" id="{{ result.wareApp_key.id }}">
+                            <a href="javascript:;" title="">
+                                <i class="fa fa-cart-plus"></i>
+                                加入购物车
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="breadcrumbs" style="margin: 0 auto;">
+            <div class="clearfix pull-right" style="margin: -15px 0 0px 0">
+                <a {% if page.has_previous %}
+                    href="?search={{ search }}&amp;page={{ page.previous_page_number }}" {% else %} disabled {% endif %}
+                    class="btn btn-sm btn-default btn-flat">&lt;</a>
+                <a {% if page.has_next %} href="?search={{ search }}&amp;page={{ page.next_page_number }}"{% else %}
+                                          disabled {% endif %} class="btn btn-sm btn-default btn-flat">&gt;</a>
+            </div>
+            <div class="clearfix pull-right" style="margin: -10px 5px 0px 0px;">
+                共{{ paginator.count }}件商品 {{ page.number }}/{{ paginator.num_pages }}
+            </div>
+        </div>
+
+        <!--对比框-->
+        <div class="alertwindow">
+            <!-- Custom Tabs -->
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs" style="box-shadow: unset;">
+                    <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">对比栏</a></li>
+                    <li class="pull-right"><a href="#" class="text-muted hidewindow">隐藏</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_1">
+                        <form method="get" action="{% url 'app:contrast' %}">
+                            <ul class="addgoods">
+                                <li class="addgoods-li-five">
+                                    <p style="margin-top: 20px;">
+                                        <button type="submit" class="contrastbtn"
+                                                style="padding: 10px 30px;border: 0; background: #2196F3;color: white;border-radius: 5px;text-decoration: none;">
+                                            对比
+                                        </button>
+                                    </p>
+                                    <p><a href="javascript:;" style="cursor: pointer;" class="clearall">清空对比栏</a></p>
+                                </li>
+                            </ul>
+                            <input type="hidden" name="ware_id" id="ware_id" value="" class="biography"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- End 普通板块 展示10个商品 -->
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    {% if user.is_staff %}
+        <div class="modal fade" id="setting-wrench">
+                <div class="modal-dialog" style="width: 1200px; margin-top: 100px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title"><span class="set-title">AA</span>
+                                <small>设置</small>
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <input type="hidden" name="id" id="setting-wrench-id">
+                                <input type="hidden" name="value-prefix-id" id="value-prefix-id">
+
+
+                                <div class="col-md-3">
+                                    <div class="box box-solid">
+
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">内容</h3>
+                                            <div class="box-tools">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                                        class="fa fa-minus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="box-body no-padding" style="margin-top: 26px;">
+                                            <ul class="nav nav-stacked" style="box-shadow: unset;">
+                                                <li  class="active"><a href="#setting-tags-1" data-toggle="tab"><i class="fa fa-ticket"></i> 商品分类</a></li>
+                                                <li><a href="#setting-tags-2" data-toggle="tab"><i class="fa fa-align-center"></i> 筛选分类</a></li>
+                                                <li><a href="#setting-tags-3" data-toggle="tab"><i class="fa fa-map-signs"></i> 商品参数</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="box box-solid">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">更多</h3>
+                                            <div class="box-tools">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                                        class="fa fa-minus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="box-body no-padding" style="margin-top: 26px;">
+                                            <ul class="nav nav-stacked" style="box-shadow: unset;">
+                                                <li><a href="#"><i class="fa fa-circle-o text-red"></i> SEO优化</a></li>
+                                                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> 收录面板</a></li>
+                                                <li><a href="#"><i class="fa fa-circle-o text-light-blue"></i> 商品管理</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-9">
+                                    <div class="tab-content">
+
+                                        <div class="tab-pane active" id="setting-tags-1">
+                                            <div class="box box-solid">
+                                                <div class="box-header with-border">
+                                                    <h3 class="box-title">商品分类</h3>
+                                                </div>
+                                                <form id="Assortment-put">
+                                                    <div class="box-body">
+                                                        <div class="row">
+                                                            <div class="col-xs-4">
+                                                                <div class="form-group">
+                                                                    <label>一级分类</label>
+                                                                    <select name="classify-one" id="classify-one" class="form-control select2 classify-one" disabled style="width: 100%;">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <div class="form-group">
+                                                                    <label>二级 - [不可用]</label>
+                                                                    <select name="classify-two" class="form-control select2 classify-two" disabled style="width: 100%;">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <div class="form-group">
+                                                                    <label>三级</label>
+                                                                    <select name="classify-there" id="classify-there" class="form-control select2 classify-there" disabled style="width: 100%;">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                            <div class="box box-solid">
+                                                <div class="box-header with-border">
+                                                    <h3 class="box-title">筛选分类</h3>
+                                                </div>
+                                                <form id="Assortment-filter">
+                                                    <div class="box-body">
+                                                        <div class="row">
+                                                            <div class="col-xs-12"><p id="filter-body-info" style="color: red;"></p></div>
+                                                            <div class="col-xs-2">
+                                                                <div class="form-group">
+                                                                    <!-- brand_key -->
+                                                                    <label id="filter-title-t1">T1</label>
+                                                                    <select name="filter" id="filter-body-t1" class="form-control select2 filter" disabled style="width: 100%;">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-2">
+                                                                <div class="form-group">
+                                                                    <!-- producttype_key -->
+                                                                    <label id="filter-title-t2">T2</label>
+                                                                    <select name="Subfilter" id="filter-body-t2" class="form-control select2 Subfilter" disabled style="width: 100%;">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-2">
+                                                                <div class="form-group">
+                                                                    <!-- technology_key -->
+                                                                    <label id="filter-title-t3">T2</label>
+                                                                    <select name="Subfilter" id="filter-body-t3" class="form-control select2 Subfilter" disabled style="width: 100%;">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-2">
+                                                                <div class="form-group">
+                                                                    <!-- scene_key -->
+                                                                    <label id="filter-title-t4">T2</label>
+                                                                    <select name="Subfilter" id="filter-body-t4" class="form-control select2 Subfilter" disabled style="width: 100%;">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-2">
+                                                                <div class="form-group">
+                                                                    <!-- pricerange_key -->
+                                                                    <label id="filter-title-t5">T2</label>
+                                                                    <select name="Subfilter" id="filter-body-t5" class="form-control select2 Subfilter" disabled style="width: 100%;">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="tab-pane" id="setting-tags-2">
+                                            <div class="box box-solid">
+                                                <div class="box-header with-border">
+                                                    <h3 class="box-title">筛选</h3>
+                                                </div>
+                                                <div class="box-body">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="setting-tags-3">
+                                            <div class="box box-solid">
+                                                <div class="box-header with-border">
+                                                    <h3 class="box-title">参数</h3>
+                                                </div>
+                                                <div class="box-body">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+        </div>
+    {% endif %}
+{% endblock content_wrapper %}
+
+{% block script %}
+    <script src="{% static 'iCheck/icheck.min.js' %}"></script>
+    <script>
+        $(function () {
+
+
+            /* 点击商品打开商品管理页面 */
+            $('.set.fa.fa-wrench').on('click', function (event) {
+                event.preventDefault();
+                $('.set-title').text($(this).attr('value-name'));
+                $('#setting-wrench-id').val($(this).attr('value-id'));
+                $('#value-prefix-id').val($(this).attr('value-prefix-id'));
+
+
+                /* 商品全部分类 */
+                $.ajax({
+                    url: '/api/v1/classification/',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {},
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('.classify-one').removeAttr('disabled');
+                    $('.classify-one').empty();
+                    $('.classify-one').append('<option>--------</option>');
+                    for (var i=0; i<data.length; i++) {
+                        $('.classify-one').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+                    }
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+
+                /* 商品筛选器 */
+                $.ajax({
+                    url: '/api/v1/ScreeningResultsViewSet/?filter-id=' + $(this).attr('value-classify-id'),
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {},
+                })
+                .done(function(data) {
+                    console.log(data);
+                    for (var i=0; i<data.length; i++) {
+                        $('#filter-body-t' + (i+1)).removeAttr('disabled');
+                        $('#filter-body-t' + (i+1)).empty();
+                        $('#filter-body-t' + (i+1)).append('<option>--------</option>');
+                        $('#filter-title-t' + (i+1)).text(data[i].name);
+                        for (var x=0; x<data[i].data.length; x++) {
+                            $('#filter-body-t' + (i+1)).append('<option value="' + data[i].data[x].id + '">' + data[i].data[x].name + '</option>');
+                        }
+                    }
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+            });
+
+            /* 根据一级分类获取副分类 */
+            $("select.classify-one").change(function(){
+                $.ajax({
+                    url: '/api/v1/subclassification/',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { 'id': $(this).val() },
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $('.classify-there').removeAttr('disabled');
+                    $('.classify-there').empty();
+                    $('.classify-there').append('<option>--------</option>');
+                    for (var i=0; i<data.length; i++) {
+                        // code...
+                        $('.classify-there').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+                    }
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+            });
+
+            /* 提交数据 商品分类 */
+            $("select.classify-there").change(function(){
+                if ($('#Assortment-put').serializeArray()[1].value != '--------') {
+
+                    $.ajax({
+                        url: '/api/v1/goodsPrefix/' + $('#value-prefix-id').val() + '/',
+                        type: 'PUT',
+                        dataType: 'json',
+                        data: {
+                            "classify_key": $('#classify-one').val(),
+                            "classifythere_key": $('#classify-there').val()
+                        },
+                    })
+                    .done(function(data) {
+                        toastr.success("以分类");
+                        $('#filter-body-t1').attr('disabled', 'disabled');
+                        $('#filter-body-t2').attr('disabled', 'disabled');
+                        $('#filter-body-t3').attr('disabled', 'disabled');
+                        $('#filter-body-t4').attr('disabled', 'disabled');
+                        $('#filter-body-t5').attr('disabled', 'disabled');
+
+                        $('#filter-body-info').text('在以设置商品分类的情况下，如果直接设置筛选分类，会导致数据紊乱。请刷新页面，以便更新以分类商品数据！');
+
+                    })
+                    .fail(function() {
+                        console.log("error");
+                        toastr.error("error");
+                    })
+                    .always(function() {
+                        console.log("complete");
+                    });
+                }
+            });
+
+
+            $("select#filter-body-t1").change(function(){
+                if ($('#filter-body-t1').val() != '--------') {
+                    console.log('filter-body-t1 ' + $('#value-prefix-id').val());
+                    $.ajax({
+                        url: '/api/v1/goodsPrefix/' + $('#value-prefix-id').val() + '/',
+                        type: 'PUT',
+                        dataType: 'json',
+                        data: {
+                            "brand_key": $('#filter-body-t1').val()
+                        },
+                    })
+                    .done(function(data) {
+                        toastr.success("以分类" + data);
+                    })
+                    .fail(function() {
+                        console.log("error");
+                        toastr.error("error");
+                    })
+                    .always(function() {
+                        console.log("complete");
+                    });
+                }
+            });
+            $("select#filter-body-t2").change(function(){
+                console.log($('#filter-body-t2').val());
+                if ($('#filter-body-t2').val() != '--------') {
+                    $.ajax({
+                        url: '/api/v1/goodsPrefix/' + $('#value-prefix-id').val() + '/',
+                        type: 'PUT',
+                        dataType: 'json',
+                        data: {
+                            "producttype_key": $('#filter-body-t2').val()
+                        },
+                    })
+                    .done(function(data) {
+                        toastr.success("以分类");
+                    })
+                    .fail(function() {
+                        console.log("error");
+                        toastr.success("error");
+                    })
+                    .always(function() {
+                        console.log("complete");
+                    });
+                }
+            });
+            $("select#filter-body-t3").change(function(){
+                if ($('#filter-body-t3').val() != '--------') {
+
+                    $.ajax({
+                        url: '/api/v1/goodsPrefix/' + $('#value-prefix-id').val() + '/',
+                        type: 'PUT',
+                        dataType: 'json',
+                        data: {
+                            "technology_key": $('#filter-body-t3').val()
+                        },
+                    })
+                    .done(function(data) {
+                        toastr.success("以分类");
+                    })
+                    .fail(function() {
+                        console.log("error");
+                        toastr.success("error");
+                    })
+                    .always(function() {
+                        console.log("complete");
+                    });
+                }
+            });
+            $("select#filter-body-t4").change(function(){
+                if ($('#filter-body-t4').val() != '--------') {
+
+                    $.ajax({
+                        url: '/api/v1/goodsPrefix/' + $('#value-prefix-id').val() + '/',
+                        type: 'PUT',
+                        dataType: 'json',
+                        data: {
+                            "scene_key": $('#filter-body-t4').val()
+                        },
+                    })
+                    .done(function(data) {
+                        toastr.success("以分类");
+                    })
+                    .fail(function() {
+                        console.log("error");
+                        toastr.success("error");
+                    })
+                    .always(function() {
+                        console.log("complete");
+                    });
+                }
+            });
+            $("select#filter-body-t5").change(function(){
+                if ($('#filter-body-t5').val() != '--------') {
+                    $.ajax({
+                        url: '/api/v1/goodsPrefix/' + $('#value-prefix-id').val() + '/',
+                        type: 'PUT',
+                        dataType: 'json',
+                        data: {
+                            "pricerange_key": $('#filter-body-t5').val()
+                        },
+                    })
+                    .done(function(data) {
+                        toastr.success("以分类");
+                    })
+                    .fail(function() {
+                        console.log("error");
+                        toastr.success("error");
+                    })
+                    .always(function() {
+                        console.log("complete");
+                    });
+                }
+            });
+
+        });
+
+        $(function () {
+            var url = ''
+            //根据参数名获得该参数  pname等于想要的参数名
+            function getParam(pname) {
+                var params = location.search.substr(1); //  获取参数 平且去掉？
+                var ArrParam = params.split('&');
+                if (ArrParam.length == 1) {
+                    //只有一个参数的情况
+                    return params.split('=')[1];
+                } else {
+                    //多个参数参数的情况
+                    for (var i = 0; i < ArrParam.length; i++) {
+                        if (ArrParam[i].split('=')[0] == pname) {
+                            return ArrParam[i].split('=')[1];
+                        }
+                    }
+                }
+            }
+
+            $('.filter a').on('click', function (event) {
+                event.preventDefault();
+                /* Act on the event */
+                var value = $(this).attr('value');
+                $('.filter-' + value + ' a').removeClass("success");
+                $(this).attr("class", "success");
+
+                var foo = $(this).attr('foo');
+
+                $('#' + foo.split('=')[0]).val(foo);
+
+                if ($('#A1').val()) {
+                    url += '&' + $('#A1').val();
+                }
+                if ($('#A2').val()) {
+                    url += '&' + $('#A2').val();
+                }
+                if ($('#A3').val()) {
+                    url += '&' + $('#A3').val();
+                }
+                if ($('#A4').val()) {
+                    url += '&' + $('#A4').val();
+                }
+                if ($('#A5').val()) {
+                    url += '&' + $('#A5').val();
+                }
+
+                window.location.href = RetSelecteds(url);
+            });
+
+            var filters = location.search.substr(1).split('&')
+
+            for (var i = 1; i < filters.length; i++) {
+                $('#' + filters[i].split('=')[0]).val(filters[i])
+                $('.' + filters[i].split('=')[0]).removeClass("success");
+                $('.' + filters[i].split('=')[0] + filters[i].split('=')[1]).addClass("success");
+            }
+
+            function RetSelecteds(url) {
+                var result = "{% url 'app:assortment' 3 %}";
+                var paramss = location.search.substr(1); //  获取参数 平且去掉？
+
+                if (result.length > 1) {
+                    result += '?'
+                }
+
+                result += 'search=' + '{{search}}' + url;
+                return result;
+            }
+        });
+
+        function goLogin() {
+            window.location.href = '{% url "auth:login" %}'
+        }
+
+        $('.warecart').on('click', function (event) {
+            event.preventDefault();
+            /* Act on the event */
+
+            var data = {
+                "id": this.id,
+                "number": 1
+            }
+
+            $.ajax({
+                url: "{% url 'shop:shopping' %}",
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+            })
+                .done(function (data) {
+                    toastr.success("以添加到购物车");
+                    console.log("id  " + data.data.id);
+                    console.log("leas  " + data.data.leas);
+                    console.log("number  " + data.data.number);
+                    console.log("money  " + data.data.money);
+                })
+                .fail(function (data) {
+                    if (String(data.responseText).split(' - ')[1].split('</title>')[0] == '登录') {
+                        goLogin();
+                    } else {
+                        toastr.error('啊呀，发生错误了。请截图联系客服哦')
+                        toastr.error(data.responseText)
+                    }
+                    ;
+                })
+                .always(function () {
+                    console.log("complete");
+                });
+        });
+
+        function removeByValue(arr, val) {
+            for (var i = 0; i < arr.length; i++) {
+                console.log('arr ' + arr[i]);
+                if (arr[i] == val) {
+                    arr.splice(i, 1);
+
+                    break;
+                }
+            }
+        }
+
+        $(function () {
+            //勾选状态
+            var num = 1;
+            var list = new Array();
+            $('.inp').on('ifChecked', function (event) {
+                //ifCreated 事件应该在插件初始化之前绑定
+                $(".alertwindow").show(1000);
+                $.ajax({
+                    type: "get",
+                    url: "{% url 'api:getWare' %}",
+                    dataType: "json",
+                    data: {
+                        'id': event.target.value
+                    },
+                    success: function (data) {
+                        var str = data.data;
+                        console.log(str);
+                        $('.addgoods').append(
+                            '<li class="addgoods-li" id="Del' + str.id + '" data-value="' + str.id + '">' +
+                            '<div style="float: left;">' +
+                            '<div style="float: left;margin-left: 4px;margin-top:10px;">' +
+                            '<img src="' + str.image + '" width="100px"height="80px" />' +
+                            '</div>' +
+                            '<div style="float: left;margin-top: 20px;">' +
+                            '<p style="width: 129px; height: 40px;overflow: hidden;margin-bottom: 0px; margin: 0 auto;">' + str.name + '</p>' +
+                            '<p style="margin-top:5px !important;color: red;">￥ ' + str.money + '</p>' +
+                            '</div>' +
+                            '</div>' +
+                            '<input type="hidden" name="waid_' + str.id + '" id="waid_' + str.id + '" value="' + str.id + '" />' +
+                            '</li>'
+                        );
+
+                        num += 1;
+
+                        if (num >= 5) {
+                            $('.inp').attr({
+                                disabled: 'disabled'
+                            });
+                        } else {
+                            $('.inp').removeAttr("disabled");
+                        };
+                    }
+                });
+            });
+            //获取li里的id
+            $(".contrastbtn").on("click", function () {
+                var idd = [];
+                $(".addgoods-li").each(function (i, item) {
+                    idd.push($(item).attr("data-value"));
+                });
+                $(".biography").val(idd);
+            });
+
+            //非勾选状态
+            $('.inp').on('ifUnchecked', function (event) {
+                var list = event.target.value;
+
+
+                $("#Del" + list).remove();
+                console.log('ID  ', list)
+                num = num - 1;
+
+            });
+            //清空所有对比栏li
+            $(".clearall").on("click", function () {
+                $(".addgoods-li").hide();
+
+
+                $(".alertwindow").hide(1000);
+                $(".addgoods-li").hide();
+                window.location.reload();
+            });
+
+            //隐藏按钮
+            $('.hidewindow').on('click', function (event) {
+                $(".alertwindow").hide(1000);
+                $(".addgoods-li").hide();
+            });
+
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '10%' /* optional */
+
+            });
+
+            //改变边框
+            $(".after").mouseover(function () {
+                $(this).parents(".boxborder").css({"border": "1px solid #2489c5"})
+            })
+
+            $(".after").mouseout(function () {
+                $(this).parents(".boxborder").css({"border": "1px solid #d3cfc8"})
+            })
+            $(".iCheck-helper").mouseover(function () {
+                $(this).parents(".boxborder").css({"border": "1px solid #2489c5"})
+            })
+
+            $(".iCheck-helper").mouseout(function () {
+                $(this).parents(".boxborder").css({"border": "1px solid #d3cfc8"})
+            })
+        });
+    </script>
+{% endblock script %}
+
+
+

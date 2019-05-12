@@ -1,0 +1,906 @@
+{% extends 'defaule/admin/temp/index.ht' %}
+{% load staticfiles %}
+{% load tags %}
+
+<!--网站标题-->
+{% block main_title %}
+   <title>后台管理 | 板块 - 首页导航</title>
+{% endblock main_title %}
+
+<!--CSS样式-->
+{% block main_css %}
+    {% include 'defaule/admin/temp/css/select2.min.ht' %}
+    {% include 'defaule/admin/temp/css.ht' %}
+
+    <style type="text/css">
+        .plate-create-input {
+            height: 40px;
+            border-width: 1px 1px 1px 2px;
+            border-style: solid;
+            border-color: rgb(244, 244, 244) rgb(244, 244, 244) rgb(244, 244, 244) rgb(230, 231, 232);
+            border-image: initial;
+            display: none;
+        }
+        .input-group.input-group-sm {
+            width: 145px;
+            margin-left: 135px;
+        }
+
+        .plate-create-input > .input-group.input-group-sm {
+            display: inherit; top: 6.5px; left: 5px;
+        }
+
+        .plate-create-input > .input-group.input-group-sm > .form-control {
+            width: 100px; height: 25px; border-radius: 0;
+        }
+        .plate-create-input > .input-group.input-group-sm > .input-group-btn > .btn.btn-default.btn-flat {
+            height: 25px; line-height: 0.5; border-radius: 0;
+        }
+
+        .form-msg {
+            display: none;
+            font-family: serif;
+            position: absolute;
+            margin: -17px 0px 0px 35%;
+        }
+        .error {
+            display: inherit !important;
+            color: #f31212;
+        }
+        .warning {
+            display: inherit !important;
+            color: #f39c12;
+        }
+
+        .form-warning {
+            border-color: #f39c12;
+            box-shadow: none;
+        }
+        .form-error {
+            border-color: #f31212;
+            box-shadow: none;
+        }
+
+        .plate-select {
+            width: 130px;
+            position: absolute;
+            margin: -18px 0 0 5px;
+        }
+
+        .select2-container--default .select2-selection--single, .select2-selection .select2-selection--single {
+            border: 1px solid #d2d6de;
+            border-radius: 0;
+            padding: 6px 12px;
+            height: 25px;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 19px;
+            right: 3px;
+        }
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            margin-top: -9px;
+        }
+
+    </style>
+{% endblock main_css %}
+
+<!--网站头部导航栏-->
+{% block main_header %}
+    <a href="" class="logo">
+        <span class="logo-mini"><b>管理</b>Admin</span>
+        <span class="logo-lg"><b>后台管理</b>Admin</span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Admin</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'admins:index' %}">常用 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">创始人</a></li>
+                <li><a href="{% url 'admins:complete' %}">全局</a></li>
+                <li><a href="{% url 'admins:user' %}">用户</a></li>
+                <li><a href="{% url 'admins:commodity' %}">商品</a></li>
+                <li><a href="{% url 'admins:order' %}">订单</a></li>
+                <li class="active"><a href="{% url 'admins:sector' %}">板块</a></li>
+                <li><a href="{% url 'admins:AdmPlate' %}">导航</a></li>
+                <li><a href="#">移动APP</a></li>
+            </ul>
+
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src={% static "images/user/user2-160x160.jpg" %} class="user-image" alt="User Image">
+                        <span class="hidden-xs">
+                        {{username}}
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+                            <p>
+                                Alexander Pierce - Web Developer
+                                <small>Member since Nov. 2012</small>
+                            </p>
+                        </li>
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endblock main_header %}
+
+<!--网站左侧项目栏-->
+{% block main_aside %}
+    <div class="user-panel">
+        <div class="pull-left image">
+            <img src={% static "images/user/user2-160x160.jpg" %} class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>{{username}}</p>
+            {% if username %}
+                <a href="#">
+                    <i class="fa fa-circle text-success"></i>
+                    管理员
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="你想知道什么...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header"></li>
+        <li class="treeview active">
+            <a href="#">
+                <i class="fa fa-laptop"></i>
+                <span>首页管理</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href='{% url "admins:sector" %}'><i class="fa fa-circle-o"></i> 板块管理</a></li>
+                <li><a href='{% url "admins:classify" %}'><i class="fa fa-circle-o"></i> 全部分类</a></li>
+                <li class="active"><a href='{% url "admins:navigation" %}'><i class="fa fa-circle-o"></i> 导航管理</a></li>
+                <li><a href='{% url "admins:broadcast" %}'><i class="fa fa-circle-o"></i> 轮播/横幅</a></li>
+            </ul>
+        </li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-laptop"></i>
+                <span>预设管理</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href='{% url "admins:setupsearch" %}'><i class="fa fa-circle-o"></i> 商品筛选器</a></li>
+                <li><a href='{% url "admins:setupparameter" %}'><i class="fa fa-circle-o"></i> 品牌预设</a></li>
+                <li><a href='{% url "admins:discount" %}'><i class="fa fa-circle-o"></i> 优惠率</a></li>
+            </ul>
+        </li>
+    </ul>
+{% endblock main_aside %}
+
+<!--正文微标题，位置导航-->
+{% block main_content_header %}
+    <h1>首页导航<small>您可以在这里设置首页导航</small></h1>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'admins:index' %}"><i class="fa fa-dashboard"></i> 后台首页</a></li>
+        <li><a href="{% url 'admins:sector' %}">板块</a></li>
+        <li><a href="{% url 'admins:navigation' %}">首页导航</a></li>
+        <li class="active">当前位置</li>
+    </ol>
+{% endblock main_content_header %}
+
+<!--正文开始部分-->
+{% block main_content %}
+
+    <div class="box box-info">
+
+        <div class="box-header with-border">
+            <h3 class="box-title">导航管理</h3>
+        </div>
+        <div class="box-body">
+            {{Models}} {{context}}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">首页导航</h3>
+                </div>
+                <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#baradd_1" data-toggle="tab">从页面添加</a>
+                            </li>
+                            <li>
+                                <a href="#baradd_2" data-toggle="tab">自定义</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="baradd_1">
+                                <div class="box-body">
+                                    <form action="{% url 'admins:add_navigation' %}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="stype" value="default">
+                                        <div class="form-group">
+                                            <label for="name">导航名称</label>
+                                            <input type="text" class="form-control" name="name" id="name" placeholder="导航名称">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>链接到的页面</label> <small>创建页面请到 <a href="{% url 'admins:page_create' %}">页面</a></small>
+                                            <select name="page_id" class="form-control select2" style="width: 100%;">
+                                                {% for var1 in page %}
+                                                    <option value="{{var1.id}}">{{var1.site_navaid_name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="submit" class="btn btn-default">添加</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="baradd_2">
+                                <div class="box-body">
+                                    <form action="{% url 'admins:add_navigation' %}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="stype" value="url">
+                                        <div class="form-group">
+                                            <label for="name">导航名称</label>
+                                            <input type="text" class="form-control" name="name" id="name" placeholder="导航名称">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="url">URL地址</label>
+                                            <input type="text" class="form-control" name="url" id="url" placeholder="URL地址">
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="submit" class="btn btn-default">添加</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">二级导航</h3>
+                </div>
+                <div class="box-body">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#baradds_1" data-toggle="tab">从页面添加</a>
+                            </li>
+                            <li>
+                                <a href="#baradds_2" data-toggle="tab">自定义</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="baradds_1">
+                                <div class="box-body">
+                                    <form action="{% url 'admins:add_navigationtwo' %}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="stype" value="default">
+                                        <div class="form-group">
+                                            <label for="name">导航名称</label>
+                                            <input type="text" class="form-control" name="name" id="name" placeholder="导航名称">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>链接到的页面</label> <small>创建页面请到 <a href="{% url 'admins:page_create' %}">页面</a></small>
+                                            <select name="page_id" class="form-control select2" style="width: 100%;">
+                                                {% for var1 in page %}
+                                                    <option value="{{var1.id}}">{{var1.site_navaid_name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="submit" class="btn btn-default">添加</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="baradds_2">
+                                <div class="box-body">
+                                    <form action="{% url 'admins:add_navigationtwo' %}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="stype" value="url">
+                                        <div class="form-group">
+                                            <label for="name">导航名称</label>
+                                            <input type="text" class="form-control" name="name" id="name" placeholder="导航名称">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="url">URL地址</label>
+                                            <input type="text" class="form-control" name="url" id="url" placeholder="URL地址">
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="submit" class="btn btn-default">添加</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">导航管理</h3>
+                </div>
+                <div class="box-body">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#bar_1" data-toggle="tab">首页导航</a>
+                            </li>
+                            <li>
+                                <a href="#bar_2" data-toggle="tab">二级导航</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+
+                            <div class="tab-pane active" id="bar_1">
+                                <div class="box-body">
+                                    <form id="from_navigation_edit">
+
+                                        <div class="form-group">
+                                            <label>首页导航</label>
+                                            <select name="id" class="form-control select2" style="width: 100%;">
+                                                {% for var1 in naviga %}
+                                                    <option value="{{var1.id}}">{{var1.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </form>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                          操作&nbsp;<span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a onclick="navigation_edit('from_navigation_edit');" data-toggle="modal" data-target="#navigation_edit" href="">修改导航</a></li>
+                                            <li><a onclick="navigation_delete('from_navigation_edit');" data-toggle="modal" href="">删除导航</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="bar_2">
+                                <div class="box-body">
+                                    <form id="from_navigation_two_edit">
+                                        <div class="nav-tabs-custom">
+                                            <ul class="todo-list">
+                                                {% for var1 in naviga_two %}
+                                                    <li>
+                                                        <a onclick="plateModal('{{var1.id}}');" data-toggle="modal" data-target="#navigation_two_edit" href="javascript:;" class="text">{{var1.name}}</a>
+                                                        <div class="tools">
+                                                            <i nclick="navigation_two_edit('from_navigation_two_edit');" data-toggle="modal" data-target="#navigation_two_edit" class="fa fa-edit"></i>
+                                                            <i onclick="navigation_two_delete('from_navigation_two_edit');" class="fa fa-trash-o"></i>
+                                                        </div>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form id="from_nav">
+        <input type="hidden" id="from_nav_id" name="id" value="">
+    </form>
+
+    <!--导航修改-->
+    <div class="modal fade" id="navigation_edit">
+        <div class="modal-dialog">
+            <div class="nav-tabs-custom">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">导航修改</h4>
+                    </div>
+                    <div class="modal-body">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a onclick="a('from_nav', 'nav_1');" href="#barax_1" data-toggle="tab">从页面修改</a>
+                        </li>
+                        <li>
+                            <a onclick="a('from_nav', 'nav_2');" href="#barax_2" data-toggle="tab">自定义</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="barax_1">
+                            <div class="box-body">
+                                <form action="{% url 'admins:set_navigation' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="stype" value="default">
+                                    <input type="hidden" id="nav_1" name="id" value="">
+                                    <div class="form-group">
+                                        <label for="name">导航名称</label>
+                                        <input type="text" class="form-control" name="name" id="name" placeholder="默认为原始数据">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>链接到的页面</label> <small>创建页面请到 <a href="{% url 'admins:page_create' %}">页面</a></small>
+                                        <select name="page_id" class="form-control select2" style="width: 100%;">
+                                            {% for var1 in page %}
+                                                <option value="{{var1.id}}">{{var1.site_navaid_name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">保存</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="barax_2">
+                            <div class="box-body">
+                                <form action="{% url 'admins:set_navigation' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="stype" value="url">
+                                    <input type="hidden" id="nav_2" name="id" value="">
+                                    <div class="form-group">
+                                        <label for="name">导航名称</label>
+                                        <input type="text" class="form-control" name="name" id="name" placeholder="默认为原始数据">
+                                    </div>
+                                    <div class="form-group">
+                                            <label for="url">URL地址</label>
+                                            <input type="text" class="form-control" name="url" id="url" placeholder="URL地址">
+                                        </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">保存</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--二级导航管理-->
+    <div class="modal fade" id="navigation_two_edit">
+        <div class="modal-dialog" style="width: 1200px; margin-top: 100px;">
+            <div class="nav-tabs-custom">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">二级导航管理</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="box box-solid">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">页面管理</h3>
+                                        <div class="box-tools">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                                    class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="box-body no-padding" style="margin-top: 26px;">
+                                        <ul class="nav nav-stacked" style="box-shadow: unset;">
+                                            <li  class="active"><a href="#setting-tags-1" data-toggle="tab"><i class="fa fa-ticket"></i> 板块</a></li>
+                                            <li><a href="#setting-tags-2" data-toggle="tab"><i class="fa fa-align-center"></i> 内容</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="box box-solid">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">更多</h3>
+                                        <div class="box-tools">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="box-body no-padding" style="margin-top: 26px;">
+                                        <ul class="nav nav-stacked" style="box-shadow: unset;">
+                                            <li><a href="#"><i class="fa fa-circle-o text-red"></i> SEO优化</a></li>
+                                            <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> 收录面板</a></li>
+                                            <li><a href="#"><i class="fa fa-circle-o text-light-blue"></i> 商品管理</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                    <div class="tab-content">
+
+                                        <div class="tab-pane active" id="setting-tags-1">
+                                            <div class="box box-solid">
+                                                <div class="box-header with-border">
+                                                    <h3 class="box-title">板块管理 <small>管理导航所链接页面的板块</small></h3>
+                                                    <div class="pull-right">
+                                                        <a href="javascript:;" class="plate-create">创建</a>
+                                                    </div>
+                                                </div>
+                                                <form id="Assortment-put">
+                                                    <div class="box-body">
+
+                                                        <div class="plate-create-input">
+                                                            <div class="input-group input-group-sm">
+                                                                <input type="text" class="form-control form-plate-create" onkeydown="if(event.keyCode==13){return false;}">
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-default btn-flat create-input"><i class="fa fa-check"></i></button>
+                                                                </span>
+                                                            </div>
+                                                            <div class="plate-select">
+                                                                <select name="page_id" class="form-control select2 plate-select-all" style="width: 100%;">
+                                                                        <option value="">----------</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-msg"></div>
+                                                        </div>
+
+                                                        <br>
+
+                                                        <ul class="todo-list plate-add">
+                                                            <!-- <li>
+                                                                <a href="javascript:;" class="text">{{var1.name}}</a>
+                                                                <div class="tools">
+                                                                    <i class="fa fa-edit"></i>
+                                                                    <i class="fa fa-trash-o"></i>
+                                                                </div>
+                                                            </li> -->
+                                                        </ul>
+
+
+
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="tab-pane" id="setting-tags-2">
+                                            <div class="box box-solid">
+                                                <div class="box-header with-border">
+                                                    <h3 class="box-title">筛选</h3>
+                                                </div>
+                                                <div class="box-body">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+{% endblock main_content %}
+
+<!--位置底部Footer信息-->
+{% block main_footer %}
+    {% include 'defaule/admin/temp/footer.ht' %}
+{% endblock main_footer %}
+
+<!--网站Script脚本-->
+{% block main_script %}
+
+    {% include 'defaule/admin/temp/script.ht' %}
+    {% include 'defaule/admin/temp/js/select2.full.min.ht' %}
+    <script src="{% static 'js/csrf_token.js' %}"></script>
+
+    <script type="text/javascript">
+        $(function(){
+
+
+            $('.plate-create').on('click', function(event) {
+                event.preventDefault();
+                /* Act on the event */
+
+                if ($('.plate-create-input').css('display') == 'none') {
+                    $('.plate-create-input').css('display', 'inherit');
+                    $(this).text('收起');
+                } else {
+                    $('.plate-create-input').css('display', 'none');
+                    $('.plate-create-input').attr('class', 'plate-create-input');
+                    $('.form-msg').attr('class', 'form-msg');
+                    $(this).text('创建');
+                }
+
+                $.ajax({
+                    url: '/api/v1/subclassification/',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {},
+                })
+                .done(function(data) {
+                    console.log("success");
+                    for (var i=0; data.length > i; i++) {
+                        // code...
+                        $('.form-control.select2.plate-select-all').append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+                    }
+
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+
+            });
+
+            $('button.btn.btn-default.btn-flat.create-input').on('click', function(event) {
+                event.preventDefault();
+                /* Act on the event */
+                console.log('ON' + $('input.form-control.form-plate-create').val());
+                if ($('input.form-control.form-plate-create').val() == '') {
+                    $('.plate-create-input').attr('class', 'plate-create-input form-warning');
+                    $('.form-msg').text('您还没有填写哦！');
+                    $('.form-msg').attr('class', 'form-msg warning');
+                }else {
+                    $.ajax({
+                        url: '/api/v1/plateContentViewSet/',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            'name': $('input.form-control.form-plate-create').val(),
+                            'content': $('.form-control.select2.plate-select-all').val(),
+                            'key':''
+                        },
+                    })
+                    .done(function() {
+                        console.log("success" + $('.form-control.select2.plate-select-all').val());
+                        toastr.success('成功添加 ' + $('input.form-control.form-plate-create').val() + ' 板块');
+                        $('input.form-control.form-plate-create').val('');
+                        $('.plate-create-input').css('display', 'none');
+                        $('.plate-create').text('创建');
+                        $('.todo-list.plate-add').append('<li><a href="javascript:;" class="text">' + $('input.form-control.form-plate-create').val() +
+                        '</a><div class="tools"><i class="fa fa-edit"></i><i class="fa fa-trash-o"></i></div></li>');
+                    })
+                    .fail(function() {
+                        console.log("error");
+                        toastr.error('添加 ' + $('input.form-control.form-plate-create').val() + ' 板块失败！！！');
+                        $('.plate-create-input').attr('class', 'plate-create-input form-error');
+                        $('.form-msg').text('提交内容失败');
+                        $('.form-msg').attr('class', 'form-msg error');
+                    })
+                    .always(function() {
+                        console.log("complete");
+                    });
+
+
+
+
+                }
+
+
+            });
+        });
+    </script>
+
+
+    <script>
+        $('.select2').select2()
+
+        function a(vid, str){
+            var v = new FormData(document.getElementById(vid));
+            console.log(v.get('id'));
+            document.getElementById(str).value = v.get('id');
+        }
+
+        function navigation_edit(vid){
+            var v = new FormData(document.getElementById(vid));
+            console.log(v.get('id'));
+            document.getElementById('nav_1').value = v.get('id');
+            document.getElementById('from_nav_id').value = v.get('id');
+        }
+        function navigation_two_edit(vid){
+            var v = new FormData(document.getElementById(vid));
+            console.log(v.get('id'));
+            document.getElementById('navs_1').value = v.get('id');
+            document.getElementById('from_nav_id').value = v.get('id');
+        }
+
+        function navigation_delete(vid){
+            var Dat = new FormData(document.getElementById(vid));
+
+            var url = "{% url 'admins:del_navigation' %}"
+            var D = {
+                "id": Dat.get('id')
+            }
+            SetEmail(url, D, 1);
+
+            console.log(D);
+        }
+
+        function navigation_two_delete(vid){
+            var Dat = new FormData(document.getElementById(vid));
+
+            var url = "{% url 'admins:del_navigationtwo' %}"
+            var D = {
+                "id": Dat.get('id')
+            }
+            SetEmail(url, D, 1);
+
+            console.log(D);
+        }
+    </script>
+
+    <script type="text/javascript">
+        var csrftoken = getCookie('csrftoken');
+
+        var from_createNavigation = document.getElementById("from_createNavigation")
+        var from_createNavigationTwo = document.getElementById("from_createNavigationTwo")
+
+        var form_navigation_edit = document.getElementById("form_navigation_edit")
+        var form_navigation_two_edit = document.getElementById("form_navigation_two_edit")
+
+        function SetEmail(url, data, ids){
+            $.ajax({
+                url: url,
+                type:'POST',
+                dataType:'json',
+                token: csrftoken,
+                data: data,
+                success: function(callback){
+                    if (callback['code'] == 200) {
+                        location.reload();
+                    } else{
+                        console.log(callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i>' + callback[callback['state']] + '</h4>' +
+                                    '</div> ';
+                        document.getElementById('error_'+ids).innerHTML = html;
+                    };
+                },
+                error: function (callback) {
+                    console.log(callback);
+                    console.log(callback['code']);
+                        var html =  '<div class="alert alert-warning alert-dismissible">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                    '<h4><i class="icon fa fa-warning"></i> 啊偶，提交内容失败了！</h4>' +
+                                    '</div> ';
+                        document.getElementById('error_0').innerHTML = html;
+                }
+            })
+        }
+
+        function submitFormCreateNavigation(){
+            var Dat = new FormData(from_createNavigation)
+
+            var url = "{% url 'admins:add_navigation' %}"
+            var D = {
+                "id": Dat.get('id'),
+                "url": Dat.get("url"),
+                "name": Dat.get('name'),
+                "stype": Dat.get('stype'),
+                "page_id": Dat.get('page_id')
+            }
+            SetEmail(url, D, 1);
+            console.log(D);
+        }
+        function submitFormCreateNavigationTwo(){
+            var Dat = new FormData(from_createNavigationTwo)
+
+            var url = "{% url 'admins:add_navigationtwo' %}"
+            var D = {
+                "id": Dat.get('id'),
+                "url": Dat.get("url"),
+                "name": Dat.get('name'),
+                "stype": Dat.get('stype'),
+                "page_id": Dat.get('page_id')
+            }
+            SetEmail(url, D, 1);
+            console.log(D);
+        }
+
+        function submitFormNavigation_edit(){
+            var Dat = new FormData(form_navigation_edit)
+
+            var url = "{% url 'admins:set_navigation' %}"
+            var D = {
+                "id": Dat.get('id'),
+                "url": Dat.get("url"),
+                "name": Dat.get('name'),
+                "stype": Dat.get('stype'),
+                "page_id": Dat.get('page_id')
+            }
+            SetEmail(url, D, 1);
+            console.log(D);
+        }
+        function submitFormNavigation_two_edit(){
+            var Dat = new FormData(form_navigation_two_edit)
+
+            var url = "{% url 'admins:set_navigationtwo' %}"
+            var D = {
+                "id": Dat.get('id'),
+                "url": Dat.get("url"),
+                "name": Dat.get('name'),
+                "stype": Dat.get('stype'),
+                "page_id": Dat.get('page_id')
+            }
+            SetEmail(url, D, 1);
+            console.log(D);
+        }
+
+
+        // from_createNavigation.addEventListener("submit", function (event) {
+        //     event.preventDefault();   // 取消按键的原始提交行为
+        //     submitFormCreateNavigation();         //启动监听提交按钮
+        // });
+        // from_createNavigationTwo.addEventListener("submit", function (event) {
+        //     event.preventDefault();   // 取消按键的原始提交行为
+        //     submitFormCreateNavigationTwo();         //启动监听提交按钮
+        // });
+
+        // form_navigation_edit.addEventListener("submit", function (event) {
+        //     event.preventDefault();   // 取消按键的原始提交行为
+        //     submitFormNavigation_edit();         //启动监听提交按钮
+        // });
+        // form_navigation_two_edit.addEventListener("submit", function (event) {
+        //     event.preventDefault();   // 取消按键的原始提交行为
+        //     submitFormNavigation_two_edit();         //启动监听提交按钮
+        // });
+    </script>
+{% endblock main_script %}
+

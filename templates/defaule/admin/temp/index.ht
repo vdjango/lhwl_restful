@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--网站标题-->
+    {% block main_title %} {% endblock main_title %}
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+    <!--CSS样式-->
+    {% block main_css %} {% endblock main_css %}
+</head>
+
+<body class="hold-transition skin-red sidebar-mini">
+<div class="wrapper">
+<header class="main-header">
+<!--网站头部导航栏-->
+{% block main_header %} {% endblock main_header %}
+</header>
+
+<aside class="main-sidebar">
+<section class="sidebar">
+<!--网站左侧项目栏-->
+{% block main_aside %} {% endblock main_aside %}
+</section>
+</aside>
+<div class="content-wrapper">
+<section class="content-header">
+<!--正文微标题，位置导航-->
+{% block main_content_header %}
+{% endblock main_content_header %}
+</section>
+<section class="content">
+<!--正文开始部分-->
+{% block main_content %} {% endblock main_content %}
+</section>
+</div>
+<footer class="main-footer">
+<!--位置底部Footer信息-->
+{% block main_footer %} {% endblock main_footer %}
+</footer>
+</div>
+<!--网站Script脚本-->
+{% block main_script %}
+{% endblock main_script %}
+</body>
+</html>
+

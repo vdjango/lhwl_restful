@@ -1,0 +1,350 @@
+{% extends 'defaule/temp/top-nav.ht' %}
+{% load staticfiles %}
+{% load tags %}
+
+{% block title %}
+    {% if site_name %}
+        {% if site_tags %}
+            <title>{{site_name}} - {{site_tags}}</title>
+        {% else %}
+            <title>{{site_name}}</title>
+        {% endif %}
+    {% else %}
+        {% if site_tags %}
+            <title>{{site_tags}}</title>
+        {% else %}
+            <title>你好粗心，怎么没有设置标题呢？</title>
+        {% endif %}
+    {% endif %}
+{% endblock title %}
+
+<!-- SEO优化 -->
+{% block seo %}
+{% endblock seo %}
+
+<!-- CSS样式 -->
+
+{% block end_css %}
+
+    <link rel="stylesheet" href="{% static 'carousel/css/style.css' %}" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'waterfall/css/htmleaf-demo.css' %}">
+    <link rel="stylesheet" href="{% static 'waterfall/css/main.css' %}">
+
+    <style type="text/css" media="screen">
+        .a {
+            color: #818181;
+            margin-left: 7px;
+            font-size: 18px;
+
+        }
+        .top {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        #filter
+        {
+            height:auto;
+            margin-left:auto;
+            margin-right:auto;
+            font-size:12px;
+            letter-spacing:1px;
+
+
+        }
+        #filter dl
+        {
+            padding:0;
+            margin-top:0;
+            margin-bottom:0;
+            clear:both;
+            padding:4px 0;
+        }
+
+
+        #filter dt,dd
+        {
+            display:block;
+            float:left;
+            width:auto;
+            padding:0;
+            margin:3px 0;
+            margin-left:20px;
+        }
+
+        #filter dt
+        {
+            height:24px;
+            padding-bottom:4px;
+            font-weight:bold;
+            color:#333333;
+            margin-right:20px;
+        }
+
+        #filter dd
+        {
+            color:#005AA0;
+            margin-right:25px;
+        }
+
+        #filter a
+        {
+            cursor:pointer;
+
+        }
+
+
+        .seling
+        {
+            background-color:#005AA0;
+            color:#FFFFFF;
+        }
+
+        .seled
+        {
+            background-color:#3c8dbc;
+            color:#FFFFFF;
+        }
+
+        a:hover {
+            color: #3c8dbc;
+            background-color:#ecf0f5;
+        }
+
+        .sm {
+            height: 20px;
+            width: 50px;
+        }
+
+        .ism {
+            margin-left: 25px;
+        }
+    </style>
+
+    <link rel="stylesheet" href="{% static 'text2/css/base.css' %}">
+    <link href={% static 'css/index.css' %} type="text/css" rel="stylesheet">
+
+    <!--[if lte IE 6]>
+    <script type="text/javascript" src="js/belatedPNG.js"></script>
+    <script type="text/javascript">
+        var __IE6=true;
+        DD_belatedPNG.fix('.logo img,.prev img,.next img,img');
+    </script>
+    <![endif]-->
+{% endblock end_css %}
+
+<!-- 导航栏 -->
+{% block navbar %}
+    <div class="container">
+        <div class="navbar-header">
+            <a href="{% url 'app:index' %}" class="navbar-brand"><b>{{site_name}}</b></a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">首页</a></li>
+                {% for var1 in navigation %}
+                    <li><a href={{var1.url}}>{{var1.name}}</a></li>
+                {% endfor %}
+            </ul>
+
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    {% if username %}
+                        <a href="{% url 'auth:logout' %}" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="user-image" alt="User Image">
+                            <span class="hidden-xs"> {{username}} </span>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'auth:login' %}" class="dropdown-toggle">
+                            <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="user-image" alt="User Image">
+                            <span class="hidden-xs">请登陆</span>
+                        </a>
+                    {% endif %}
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle" alt="User Image">
+                            <p>
+                                Alexander Pierce - Web Developer
+                                <small>上次登陆时间 </small>
+                            </p>
+                        </li>
+                        <!-- Menu Body -->
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">购物车</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">订单</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">退修/保修</a>
+                                </div>
+                            </div>
+                            <!-- /.row -->
+                        </li>
+                        <!-- Menu Footer-->
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                {% if username %}
+                                    <a href="#" class="btn btn-default btn-flat">个人信息</a>
+                                {% endif %}
+                            </div>
+                            <div class="pull-right">
+                                {% if username %}
+                                    <a href="{% url 'auth:logout' %}" class="btn btn-default btn-flat">登出</a>
+                                {% endif %}
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock navbar %}
+
+
+{% block content_wrapper %}
+
+        <div class="row">
+            <div class="container box-body" style="margin-top: 20px;">
+                <div class="col-md-6 col-md-offset-3">
+                    <form action="{% url 'app:search' %}" method="GET">
+                        <div class="input-group input-group-sm">
+                            <input name="search" type="text"  class="form-control">
+                            <span class="input-group-btn">
+                                <button type="" class="btn btn-info btn-flat">Go!</button>
+                            </span>
+                        </div>
+                    </form>
+                    <div id="hotwords" class="haveline" style="margin-top: 2px;">
+                        <a>复合机一体机</a>
+                        <a>复印机</a>
+                        <a>打印机</a>
+                        <a>佳能复合机</a>
+                        <a>理光复合机</a>
+                        <a>复合机 京东自营</a>
+                        <a>夏普复合机</a>
+                        <a>投影仪</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="zxr_nav">
+                <div class="nav_ten">
+                    <div class="quanbu_zxr">
+                        <div class="quanbu_zxr1"> 全部商品分类</div>
+                        <ul class="ul">
+                            <li><a href={{var1.url}}>AAA</a></li>
+                            <li><a href={{var1.url}}>BBB</a></li>
+                            {% for var1 in navigation_two %}
+                                <li><a href={{var1.url}}>{{var1.name}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="box">
+                        <div class="box-body">
+                            <div id="filter">
+                                <dl>
+                                    <dt>品牌：</dt>
+                                    <dd><div><a id="evp_" url="evp=" value="" class="">全部</a></div></dd>
+                                    {% for var1 in brand %}
+                                        <dd><div><a id="evp_{{var1.id}}" url="evp=" value="{{var1.name}}" class="">{{var1.name}}</a></div></dd>
+                                    {% endfor %}
+                                </dl>
+                                <dl>
+                                    <dt>类型：</dt>
+                                    <dd><div><a id="evs_" url="evs=" value="" class="">全部</a></div></dd>
+                                    {% for var1 in productType %}
+                                        <dd><div><a id="evs_{{var1.id}}" url="evs=" value="{{var1.name}}" class="">{{var1.name}}</a></div></dd>
+                                    {% endfor %}
+                                </dl>
+                                <dl>
+                                    <dt>技术：</dt>
+                                    <dd><div><a id="evj_" url="evj=" value="" class="">全部</a></div></dd>
+                                    {% for var1 in technology %}
+                                        <dd><div><a id="evj_{{var1.id}}" url="evj=" value="{{var1.name}}" class="">{{var1.name}}</a></div></dd>
+                                    {% endfor %}
+                                </dl>
+                                <dl>
+                                    <dt>场景：</dt>
+                                    <dd><div><a id="evf_" url="evf=" value="" class="">全部</a></div></dd>
+                                    {% for var1 in scene %}
+                                        <dd><div><a id="evf_{{var1.id}}" url="evf=" value="{{var1.name}}" class="">{{var1.name}}</a></div></dd>
+                                    {% endfor %}
+                                </dl>
+                                <dl>
+                                    <dt>价格：</dt>
+                                    <dd><div><a id="evq_" url="evq=" value="">全部</a></div></dd>
+                                    {% for var1 in priceRange %}
+                                        <dd><div><a id="evq_{{var1.id}}" url="evq=" value="{{var1.name}}" class="">{{var1.name}}</a></div></dd>
+                                    {% endfor %}
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+<br>
+<div class="content" style="width: 1230px;">
+    <div class="waterfalls box">
+        <div class="box-body">
+
+        </div>
+        {% for war_1 in wareapp %}
+        <ul class="list-groups pull-left" style="width: 20%;">
+            <li class="list-group-item" style="width: 100%;">
+                <a href="{% url 'app:details' war_1.id %}">
+                    <img style="width: 100%;" src="{{MEDIA_URL}}images/{{war_1.unix}}/head/{{war_1.image}}" />
+                </a>
+            </li>
+            <li class="list-group-item" style="width: 100%;">
+                <div class="media">
+                    <div class="media-body">
+                        <h5 class="media-heading">{{war_1.money}}</h5>
+                    </div>
+                </div>
+                <div class="media">
+                    <div class="media-body">
+                        <h5 class="media-heading">{{war_1.name}}</h5>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        {% endfor %}
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+{% endblock content_wrapper %}
+
+
+
+
+
+{% block top_script %}
+{% endblock top_script %}
+
+{% block end_script %}
+
+    <script src="{% static 'js/main.js' %}"></script>
+
+
+    <script type="text/javascript" src="{% static 'carousel/js/main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/filter.js' %}"></script>
+
+
+
+{% endblock end_script %}
+
