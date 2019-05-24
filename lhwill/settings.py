@@ -25,7 +25,7 @@ SECRET_KEY: 站点密匙[建议定期更换]
 HTTP_HOST = 'http://127.0.0.1:8000'
 DATABASES_HOST = '127.0.0.1'
 HTTP_API_HOST = '{}/{}'.format(HTTP_HOST, 'api')
-SECRET_KEY = 's**$c1(vh@!d#q!o=l%ey0c59b$xth23-_@@%%lfj^x1&*-4y+'
+SECRET_KEY = '%%lfj...........'
 '''
 Email设置
 :
@@ -37,30 +37,30 @@ EMAIL_HOST_PASSWORD: 密码
 DEFAULT_FROM_EMAIL: 帐号
 '''
 EMAIL_USE_SSL = True
-EMAIL_HOST = 'smtp.lhwill.com'
+EMAIL_HOST = ''
 EMAIL_PORT = 465
-EMAIL_HOST_USER = 'customer_service@lhwill.com'  # 帐号
-EMAIL_HOST_PASSWORD = 'sad45s10asc4ad14.'  # 密码
+EMAIL_HOST_USER = ''  # 帐号
+EMAIL_HOST_PASSWORD = ''  # 密码
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 '''
 国采登录
 '''
 CLIENT_ID = '4a2ff26e5979427faa89670114e3ffed'
-CLIENT_SECRET = 'KP5SpvfuEBYnTQ1B2BShlwnFSLdz1zWo'
+CLIENT_SEC = ''
 REDIRECT_URI = 'https://www.lhwill.com/auth/login/oauth2/zycg/'
 
 '''
 配置QQ开放平台授权
 '''
-SOCIAL_AUTH_QQ_KEY = '101354807'
-SOCIAL_AUTH_QQ_SECRET = 'ef5ec3749009594b9662b6b31d4e66e3'
+SOCIAL_AUTH_QQ_KEY = ''
+SOCIAL_AUTH_QQ_SECRET = ''
 
 '''
 配置微信开放平台授权
 '''
-SOCIAL_AUTH_WEIXIN_KEY = 'foobar'
-SOCIAL_AUTH_WEIXIN_SECRET = 'bazqux'
+SOCIAL_AUTH_WEIXIN_KEY = ''
+SOCIAL_AUTH_WEIXIN_SECRET = ''
 ALIPAY_URL = 'https://openapi.alipay.com/gateway.do'
 
 '''
@@ -182,9 +182,9 @@ CART_SESSION_ID = 'shopping'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'lhwill',
+        'NAME': '',
         'USER': 'root',
-        'PASSWORD': '123.com',
+        'PASSWORD': '',
         'HOST': DATABASES_HOST,
         'PORT': '3306',
         'CHARSET': 'utf8',
