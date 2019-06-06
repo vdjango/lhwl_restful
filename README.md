@@ -1,8 +1,9 @@
 ## py环境
-<code>
+
+```
 rpm -ivh http://mirrors.ustc.edu.cn/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm
 rpm -ivh http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-.
+
 sudo yum install epel-release
 sudo yum makecache
 sudo yum groupinstall "Development Tools"
@@ -15,42 +16,46 @@ or
 sudo iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
 wget https://bootstrap.pypa.io/get-pip.py
 python<version> get-pip.py
-</code>
+```
 
 ## py扩展
-<code>
+
+```
 pip<version> install -r .\requirement.txt
 pip<version> install uwsgi
 uwsgi --ini /lhwil/uwsgi.ini
-</code>
+```
 
 
 ## 创建数据库
+
 CREATE DATABASE lhwill DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-
-
-
 ### [Bug 调试]： 关于数据迁移失败问题
+
 python manage.py makemigrations --merge
 
 
-
 ## uwsgi 部署问题
+
 导入 lhwill/__init__.py
-<code>
+
+```
 import sys
 sys.path.append('/usr/local/lib/python3.6/site-packages')
 sys.path.append('/usr/local/lib64/python3.6/site-packages')
 import pymysql
 pymysql.install_as_MySQLdb()
-</code>
+```
 
 ## 生成索引
+
 python manage.py rebuild_index
 
 创建 uwsgi.ini 配置文件
-<code>
+
+```
+
 [uwsgi]
 // 启动uwsgi的用户名和用户组
 uid=uwsgi
@@ -83,5 +88,5 @@ post-buffering=4096
 workers=5
 // 指定项目的application
 module=lhwill.wsgi:application
-</code>
+```
 
